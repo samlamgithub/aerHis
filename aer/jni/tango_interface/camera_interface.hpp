@@ -41,8 +41,8 @@ namespace tango_interface {
 
 //typedef std::function<void (const RawFrameEvent& event)> RawFrameCallBack;
 //typedef std::function<void (const MarkerEvent& event)> MarkerCallBack;
-typedef std::function<void (unsigned char* image, float* depth, double cameraTime, int depth_image_width, int depth_image_height, int depth_image_size)> RGBDCallBack;
-typedef std::function<void (const int width, const int height)> LoggerWHCallBack;
+typedef std::function<void (unsigned char* image, TangoPointCloud* pointcloud_buffer, double color_timestamp)> RGBDCallBack;
+typedef std::function<void (const int width, const int height, const double fx, const double fy, const double cx, const double cy)> LoggerWHCallBack;
 typedef std::function<void ()> WritingCallBack;
 
 
@@ -55,15 +55,10 @@ public:
   static void register_loggerWidthHeight_callback(LoggerWHCallBack function);
   static void register_writing_callback(WritingCallBack);
 
-  static glm::mat4 GetMatrixFromPose(const TangoPoseData* pose_data);
+
   static void onPointCloudAvailable2(const TangoPointCloud* point_cloud);
-  static TangoCameraIntrinsics TangoGetIntrinsics();
-  static int UpdateAndUpsampleDepth(
-  const glm::mat4& color_t1_T_depth_t0,
-  const TangoPointCloud* render_point_cloud_buffer,
-  std::vector<float> &depth_map_buffer_);
-  static void UpSampleDepthAroundPoint( float depth_value, int pixel_x, int pixel_y, std::vector<float>* depth_map_buffer, TangoCameraIntrinsics rgb_camera_intrinsics_);
-  static void OnDrawFrame(std::shared_ptr<unsigned char> frame);
+//  static TangoCameraIntrinsics TangoGetIntrinsics();
+//  static void OnDrawFrame(std::shared_ptr<unsigned char> frame);
   // These provide the frame size for RawFrame events
   static int get_frame_height();
   static int get_frame_width();
@@ -83,6 +78,14 @@ public:
   // DO NOT CALL: This must be public for the Tango API only
   static void process_frame_event(void*, TangoCameraId);
   static bool setup_tango_config();
+
+  static int myImageHeight;
+  static int myImageWidth;
+  static int myImageSize;
+  static double myFx;
+  static double myFy;
+  static double myCx;
+  static double myCy;
 
 private:
   static bool is_service_connected_;

@@ -21,10 +21,10 @@ Aer::Aer() {
 //  tango_interface::CameraInterface::register_marker_callback(
 //    std::bind(&Aer::marker_callback, this, std::placeholders::_1));
   tango_interface::CameraInterface::register_loggerWidthHeight_callback(
-       std::bind(&Aer::setLoggerWidthHeight_callback, this, std::placeholders::_1, std::placeholders::_2));
+       std::bind(&Aer::setLoggerWidthHeight_callback, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4,
+    		   std::placeholders::_5, std::placeholders::_6));
   tango_interface::CameraInterface::register_rgbd_callback(
-      std::bind(&Aer::rgbdCallback, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5,
-    		  std::placeholders::_6));
+      std::bind(&Aer::rgbdCallback, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
   tango_interface::CameraInterface::register_writing_callback(
       std::bind(&Aer::writing_callback, this));
 //  tango_interface::Mylogger logger;
@@ -53,12 +53,12 @@ Aer::~Aer() {
 //  // TODO later: do something...
 //}
 
-void Aer::setLoggerWidthHeight_callback(const int width, const int height) {
-	mylogger.setCamWidthAndheight(width, height);
+void Aer::setLoggerWidthHeight_callback(const int width, const int height,const double fx,const double fy,const double cx,const double cy) {
+	mylogger.setCamWidthAndheight(width, height, fx, fy, cx, cy);
 }
 
-void Aer::rgbdCallback(unsigned char* image, float* depth, double cameraTime, int depth_image_width, int depth_image_height, int depth_image_size) {
-	mylogger.rgbdCallback(image, depth, cameraTime, depth_image_width, depth_image_height, depth_image_size);
+void Aer::rgbdCallback(unsigned char* image, TangoPointCloud* pointcloud_buffer, double cameraTime) {
+	mylogger.rgbdCallback(image, pointcloud_buffer, cameraTime);
 }
 
 void Aer::writing_callback() {
