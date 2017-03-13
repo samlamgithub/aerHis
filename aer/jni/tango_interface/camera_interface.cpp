@@ -261,7 +261,7 @@ bool CameraInterface::connect() {
 //  LOGI("setCamWidthAndheight2:");
 //  mylogger = &logger;
    if (loggerWH_callback_) {
-       (*loggerWH_callback_)(myImageWidth, myImageWidth, myFx, myFy, myCx, myCy);
+       (*loggerWH_callback_)(myImageWidth, myImageWidth, myFx, myFy, myCx, myCy, max_vertex_count);
    }
 //  LOGI("setCamWidthAndheight3:");
     if (writing_callback_) {
