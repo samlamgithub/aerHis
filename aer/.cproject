@@ -21,13 +21,13 @@
 					<folderInfo id="com.android.toolchain.gcc.370063016.1809803312" name="/" resourcePath="">
 						<toolChain id="com.android.toolchain.gcc.1808914765" name="Android GCC" superClass="com.android.toolchain.gcc">
 							<targetPlatform binaryParser="org.eclipse.cdt.core.ELF" id="com.android.targetPlatform.210821415" isAbstract="false" superClass="com.android.targetPlatform"/>
-							<builder command="ndk-build" id="com.android.builder.1389744130" keepEnvironmentInBuildfile="false" managedBuildOn="false" name="Android Builder" superClass="com.android.builder"/>
+							<builder command="/Users/jiahaolin/Downloads/android-ndk-r13b/ndk-build" id="com.android.builder.1389744130" keepEnvironmentInBuildfile="false" managedBuildOn="false" name="Android Builder" superClass="com.android.builder"/>
 							<tool id="com.android.gcc.compiler.1475420391" name="Android GCC Compiler" superClass="com.android.gcc.compiler">
 								<option id="com.android.gcc.option.includePath.650061937" superClass="com.android.gcc.option.includePath" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${NDKROOT}/platforms/android-19/arch-arm/usr/include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${NDKROOT}/sources/cxx-stl/gnu-libstdc++/4.9/include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${NDKROOT}/sources/cxx-stl/gnu-libstdc++/4.9/libs/armeabi-v7a/include&quot;"/>
 									<listOptionValue builtIn="false" value="/Users/jiahaolin/Downloads/OpenCV-android-sdk/sdk/native/jni/include"/>
+									<listOptionValue builtIn="false" value="/Users/jiahaolin/Downloads/android-ndk-r13b/platforms/android-19/arch-arm/usr/include"/>
+									<listOptionValue builtIn="false" value="/Users/jiahaolin/Downloads/android-ndk-r13b/sources/cxx-stl/gnu-libstdc++/4.9/libs/armeabi-v7a/include"/>
+									<listOptionValue builtIn="false" value="/Users/jiahaolin/Downloads/android-ndk-r13b/sources/cxx-stl/gnu-libstdc++/4.9/include"/>
 								</option>
 								<inputType id="com.android.gcc.inputType.1914090663" superClass="com.android.gcc.inputType"/>
 							</tool>
@@ -42,8 +42,10 @@
 		<project id="aer.null.1545238271" name="aer"/>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
-	<storageModule moduleId="refreshScope" versionNumber="1">
-		<resource resourceType="PROJECT" workspacePath="/aer"/>
+	<storageModule moduleId="refreshScope" versionNumber="2">
+		<configuration configurationName="Default">
+			<resource resourceType="PROJECT" workspacePath="/aer"/>
+		</configuration>
 	</storageModule>
 	<storageModule moduleId="scannerConfiguration">
 		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>

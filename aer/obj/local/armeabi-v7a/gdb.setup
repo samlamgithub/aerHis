@@ -1,6 +1,0 @@
-set solib-search-path ./obj/local/armeabi-v7a
-source /vol/bitbucket/bjm113/android-ndk-r10e/prebuilt/common/gdb/common.setup
-directory /vol/bitbucket/bjm113/android-ndk-r10e/platforms/android-19/arch-arm/usr/include /vol/bitbucket/bjm113/android-ndk-r10e/sources/cxx-stl/gnu-libstdc++/4.8/include /vol/bitbucket/bjm113/android-ndk-r10e/sources/cxx-stl/gnu-libstdc++/4.8/libs/armeabi-v7a/include /vol/bitbucket/bjm113/android-ndk-r10e/sources/cxx-stl/gnu-libstdc++/4.8/include/backward jni/../../tango_client_api/include jni/../../ar_toolkit
-file ./obj/local/armeabi-v7a/app_process
-target remote :5039
-set breakpoint pending on

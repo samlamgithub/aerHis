@@ -1,8 +1,8 @@
 #ifndef __CAMERA_INTERFACE_HPP__
 #define __CAMERA_INTERFACE_HPP__
 
-#include <AR/ar.h>
-#include <AR/arMulti.h>
+//#include <AR/ar.h>
+//#include <AR/arMulti.h>
 #include <jni.h>
 #include <Eigen/Core>
 #include <mutex>
@@ -19,7 +19,7 @@
 
 #include "event_types/marker_event.hpp"
 #include "event_types/raw_frame_event.hpp"
-#include "event_types/depth_event.hpp"
+
 #include "gl_util.hpp"
 
 //#include <tango-gl/util.h>
@@ -28,10 +28,9 @@
 #include <memory>
 #include <string>
 
-//#include "mylogger.hpp"
+#include "mylogger.hpp"
 
 //#include <tango-gl/util.h>
-
 #include <tango_client_api.h>  // NOLINT
 //#include <tango-gl/tango-gl.h>
 //#include <tango-gl/util.h>
@@ -40,29 +39,29 @@
 
 namespace tango_interface {
 
-typedef std::function<void (const RawFrameEvent& event)> RawFrameCallBack;
-typedef std::function<void (const MarkerEvent& event)> MarkerCallBack;
-typedef std::function<void (const DepthEvent& event)> RGBDCallBack;
+//typedef std::function<void (const RawFrameEvent& event)> RawFrameCallBack;
+//typedef std::function<void (const MarkerEvent& event)> MarkerCallBack;
+typedef std::function<void (unsigned char* image, TangoPointCloud* pointcloud_buffer, double color_timestamp)> RGBDCallBack;
+typedef std::function<void (const int width, const int height, const double fx, const double fy, const double cx, const double cy)> LoggerWHCallBack;
+typedef std::function<void ()> WritingCallBack;
+
 
 class CameraInterface {
 public:
   // Main interface methods are via callbacks
-  static void register_raw_frame_callback(RawFrameCallBack function);
-  static void register_marker_callback(MarkerCallBack function);
+//  static void register_raw_frame_callback(RawFrameCallBack function);
+//  static void register_marker_callback(MarkerCallBack function);
   static void register_rgbd_callback(RGBDCallBack function);
-  static glm::mat4 GetMatrixFromPose(const TangoPoseData* pose_data);
+  static void register_loggerWidthHeight_callback(LoggerWHCallBack function);
+  static void register_writing_callback(WritingCallBack);
+
+
   static void onPointCloudAvailable2(const TangoPointCloud* point_cloud);
-  static TangoCameraIntrinsics TangoGetIntrinsics();
-  static int UpdateAndUpsampleDepth(
-  const glm::mat4& color_t1_T_depth_t0,
-  const TangoPointCloud* render_point_cloud_buffer,
-  std::vector<float> &depth_map_buffer_);
-  static void UpSampleDepthAroundPoint( float depth_value, int pixel_x, int pixel_y, std::vector<float>* depth_map_buffer, TangoCameraIntrinsics rgb_camera_intrinsics_);
-  static void OnDrawFrame(std::shared_ptr<unsigned char> frame);
+//  static TangoCameraIntrinsics TangoGetIntrinsics();
+//  static void OnDrawFrame(std::shared_ptr<unsigned char> frame);
   // These provide the frame size for RawFrame events
   static int get_frame_height();
   static int get_frame_width();
-//  static void setLogger(Mylogger* logger);
   // The gl initialisation are separated as they must be called from the gl thread
   static bool initialise(JNIEnv* env, jobject caller_activity, jobject asset_manager);
   static void destroy();
@@ -79,7 +78,14 @@ public:
   // DO NOT CALL: This must be public for the Tango API only
   static void process_frame_event(void*, TangoCameraId);
   static bool setup_tango_config();
-//  static Mylogger* mylogger;
+
+  static int myImageHeight;
+  static int myImageWidth;
+  static int myImageSize;
+  static double myFx;
+  static double myFy;
+  static double myCx;
+  static double myCy;
 
 private:
   static bool is_service_connected_;
@@ -94,9 +100,11 @@ private:
   static void destroy_gl_content();
 
   // These pointers store the functions for callbacks with event updates
-  static std::unique_ptr<RawFrameCallBack> raw_frame_callback_;
-  static std::unique_ptr<MarkerCallBack> marker_callback_;
+//  static std::unique_ptr<RawFrameCallBack> raw_frame_callback_;
+//  static std::unique_ptr<MarkerCallBack> marker_callback_;
   static std::unique_ptr<RGBDCallBack> rgbd_callback_;
+  static std::unique_ptr<LoggerWHCallBack> loggerWH_callback_;
+  static std::unique_ptr<WritingCallBack> writing_callback_;
 
   // These are used for accessing the render_gl request
   static JNIEnv* java_environment();
@@ -109,17 +117,17 @@ private:
   static TangoSupportPointCloudManager* point_cloud_manager_;
 
   // Private ARToolkit methods for marker detection
-  static bool initialise_artoolkit();
-  static void destroy_artoolkit();
-  static void load_ar_config(JNIEnv* env, jobject asset_manager);
-  static bool detect_markers(unsigned char* image_buffer, std::vector<MarkerData>& markers);
-
-  static bool ar_config_available_;
-  static ARParam ar_param_;
-  static ARParamLT* ar_param_lt_;
-  static ARHandle* ar_handle_;
-  static AR3DHandle* ar_3dhandle_;
-  static bool ar_initialised_;
+//  static bool initialise_artoolkit();
+//  static void destroy_artoolkit();
+//  static void load_ar_config(JNIEnv* env, jobject asset_manager);
+//  static bool detect_markers(unsigned char* image_buffer, std::vector<MarkerData>& markers);
+//
+//  static bool ar_config_available_;
+//  static ARParam ar_param_;
+//  static ARParamLT* ar_param_lt_;
+//  static ARHandle* ar_handle_;
+//  static AR3DHandle* ar_3dhandle_;
+//  static bool ar_initialised_;
 };
 
 }

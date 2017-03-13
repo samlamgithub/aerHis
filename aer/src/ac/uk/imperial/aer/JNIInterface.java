@@ -4,14 +4,8 @@ import android.app.Activity;
 import android.content.res.AssetManager;
 import android.util.Log;
 
-/**
- * JNI Interface
- * @author bjm113
- *
- */
-
 public class JNIInterface {
-    static {
+    static { 
         System.loadLibrary("aer");
       }
       
@@ -26,9 +20,13 @@ public class JNIInterface {
       public static native void cameraRender();
 
       // Imu interface
-      public static native void imuOnPause();
-      public static native void imuOnResume();
+//      public static native void imuOnPause();
+//      public static native void imuOnResume();
 
       // Gui interface
       public static native boolean guiInitialise(CameraOverlay gui);
+      
+      //Toogle writing button
+      public static native void setWriting(boolean startWriting);
+
 }
