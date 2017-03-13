@@ -1,0 +1,24 @@
+xsize                 640
+ysize                 480
+mat 0 0               263.82596 
+mat 0 1               0.0       
+mat 0 2               310.51453 
+mat 0 3               0.0
+mat 1 0               0.0
+mat 1 1               262.70715
+mat 1 2               234.78662
+mat 1 3               0.0
+mat 2 0               0.0
+mat 2 1               0.0
+mat 2 2               1.0
+mat 2 3               0.0
+dist_factor 0         -0.2493506372
+dist_factor 1         0.0438053198
+dist_factor 2         -0.0004876207
+dist_factor 3         -0.0013947296
+dist_factor 4         310.032104
+dist_factor 5         308.717346 
+dist_factor 6         310.514526
+dist_factor 7         234.786621
+dist_factor 8         1.175139
+dist_function_version 4
