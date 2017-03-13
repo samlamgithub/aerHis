@@ -25,7 +25,8 @@ Aer::Aer() {
   tango_interface::CameraInterface::register_rgbd_callback(
       std::bind(&Aer::rgbdCallback, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5,
     		  std::placeholders::_6));
-
+  tango_interface::CameraInterface::register_writing_callback(
+      std::bind(&Aer::writing_callback, this));
 //  tango_interface::Mylogger logger;
 //  tango_interface::CameraInterface::setLogger(&logger);
 
@@ -33,7 +34,10 @@ Aer::Aer() {
   file_logger.log(tango_interface::kInfo,"My first default informational log %.02f %i",0.05,42);
 }
 
-Aer::~Aer() {}
+Aer::~Aer() {
+	  LOGI("logger stop weriting in destruct");
+	mylogger.stopWriting();
+}
 
 void Aer::accelerometer_callback(const tango_interface::AccelerometerEvent& event) {
   // TODO: do something with the values...
@@ -55,10 +59,14 @@ void Aer::setLoggerWidthHeight_callback(const int width, const int height) {
 	mylogger.setCamWidthAndheight(width, height);
 }
 
-void Aer::rgbdCallback(std::shared_ptr<unsigned char> image, std::shared_ptr<float> depth, double cameraTime, int depth_image_width, int depth_image_height, int depth_image_size) {
+void Aer::rgbdCallback(unsigned char* image, float* depth, double cameraTime, int depth_image_width, int depth_image_height, int depth_image_size) {
   mylogger.rgbdCallback(image, depth, cameraTime, depth_image_width, depth_image_height, depth_image_size);
 }
 
+void Aer::writing_callback() {
+	 LOGI("logger start writing in callback");
+	 mylogger.startWriting();
+}
 
 void Aer::rgbd_callback(const tango_interface::DepthEvent& event) {
 //  LOGI("raw depth(t): %lld", event.timestamp_nanoseconds);

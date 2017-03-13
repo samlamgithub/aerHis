@@ -37,7 +37,7 @@ class Mylogger
 
         std::pair<std::pair<uint8_t *, uint8_t *>, int64_t> frameBuffers[10];
         ThreadMutexObject<int> latestDepthIndex;
-        void rgbdCallback(std::shared_ptr<unsigned char> image, std::shared_ptr<float> depth, double cameraTime, int depth_image_width, int depth_image_height, int depth_image_size);
+        void rgbdCallback(unsigned char* image, float* depth, double cameraTime, int depth_image_width, int depth_image_height, int depth_image_size);
         void sayHello();
         void setCamWidthAndheight(int width, int height);
     private:

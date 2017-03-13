@@ -41,8 +41,10 @@ namespace tango_interface {
 
 typedef std::function<void (const RawFrameEvent& event)> RawFrameCallBack;
 typedef std::function<void (const MarkerEvent& event)> MarkerCallBack;
-typedef std::function<void (std::shared_ptr<unsigned char> image, std::shared_ptr<float> depth, double cameraTime, int depth_image_width, int depth_image_height, int depth_image_size)> RGBDCallBack;
+typedef std::function<void (unsigned char* image, float* depth, double cameraTime, int depth_image_width, int depth_image_height, int depth_image_size)> RGBDCallBack;
 typedef std::function<void (const int width, const int height)> LoggerWHCallBack;
+typedef std::function<void ()> WritingCallBack;
+
 
 class CameraInterface {
 public:
@@ -51,6 +53,7 @@ public:
   static void register_marker_callback(MarkerCallBack function);
   static void register_rgbd_callback(RGBDCallBack function);
   static void register_loggerWidthHeight_callback(LoggerWHCallBack function);
+  static void register_writing_callback(WritingCallBack);
 
   static glm::mat4 GetMatrixFromPose(const TangoPoseData* pose_data);
   static void onPointCloudAvailable2(const TangoPointCloud* point_cloud);
@@ -98,6 +101,7 @@ private:
   static std::unique_ptr<MarkerCallBack> marker_callback_;
   static std::unique_ptr<RGBDCallBack> rgbd_callback_;
   static std::unique_ptr<LoggerWHCallBack> loggerWH_callback_;
+  static std::unique_ptr<WritingCallBack> writing_callback_;
 
   // These are used for accessing the render_gl request
   static JNIEnv* java_environment();

@@ -57,6 +57,7 @@ std::unique_ptr<RawFrameCallBack> CameraInterface::raw_frame_callback_;
 std::unique_ptr<MarkerCallBack> CameraInterface::marker_callback_;
 std::unique_ptr<RGBDCallBack> CameraInterface::rgbd_callback_;
 std::unique_ptr<LoggerWHCallBack> CameraInterface::loggerWH_callback_;
+std::unique_ptr<WritingCallBack> CameraInterface::writing_callback_;
 
 TangoSupportPointCloudManager* CameraInterface::point_cloud_manager_;
 
@@ -118,6 +119,10 @@ void CameraInterface::register_marker_callback(MarkerCallBack function) {
   if (ar_config_available_ && !ar_initialised_) {
     ar_initialised_ = initialise_artoolkit();
   }
+}
+
+void CameraInterface::register_writing_callback(WritingCallBack function) {
+  writing_callback_.reset(new WritingCallBack(function));
 }
 
 bool CameraInterface::initialise(JNIEnv* env, jobject caller_activity, jobject asset_manager) {
@@ -222,9 +227,9 @@ bool CameraInterface::connect() {
   int depth_image_width = rgb_camera_intrinsics_.width;
   int depth_image_height = rgb_camera_intrinsics_.height;
 //  mylogger = (new Mylogger(depth_image_width, depth_image_height));
-  LOGI("setCamWidthAndheight1:");
+  LOGI("setCamWidthAndheight1:width  %d", depth_image_width);
 //  Mylogger logger;
-  LOGI("setCamWidthAndheight1.5:");
+  LOGI("setCamWidthAndheight1.5:height  %d", depth_image_height);
 //  mylogger->setCamWidthAndheight(depth_image_width, depth_image_height);
   LOGI("setCamWidthAndheight2:");
 //  mylogger = &logger;
@@ -232,6 +237,9 @@ bool CameraInterface::connect() {
       (*loggerWH_callback_)(depth_image_width, depth_image_height);
   }
   LOGI("setCamWidthAndheight3:");
+  if (writing_callback_) {
+       (*writing_callback_)();
+   }
   return true;
 }
 //
@@ -323,7 +331,7 @@ void CameraInterface::OnDrawFrame(std::shared_ptr<unsigned char> frame) {
 		  color_timestamp, TANGO_COORDINATE_FRAME_CAMERA_COLOR, depth_timestamp,
           TANGO_COORDINATE_FRAME_CAMERA_DEPTH,
           &pose_color_image_t1_T_depth_image_t0);
-  if (err != TANGO_SUCCESS)  {
+  if (err == TANGO_SUCCESS)  {
 	 LOGI( "CameraInterface: success get valid relative pose at %f time for color and depth cameras :%f ", color_timestamp, depth_timestamp);
   } else {
     LOGE( "CameraInterface: Could not find a valid relative pose at %f time for color and depth cameras :%f ", color_timestamp, depth_timestamp);
@@ -339,11 +347,14 @@ void CameraInterface::OnDrawFrame(std::shared_ptr<unsigned char> frame) {
   		  pose_color_image_t1_T_depth_image_t0.translation[0], pose_color_image_t1_T_depth_image_t0.translation[1], pose_color_image_t1_T_depth_image_t0.translation[2],
             pose_color_image_t1_T_depth_image_t0.orientation[0], pose_color_image_t1_T_depth_image_t0.orientation[1], pose_color_image_t1_T_depth_image_t0.orientation[2],
             pose_color_image_t1_T_depth_image_t0.orientation[3]);
+  if (std::isnan(pose_color_image_t1_T_depth_image_t0.translation[0])) {
+	  LOGI("CameraInterface Position: is Nan");
+	  return;
+  }
   // The Color Camera frame at timestamp t0 with respect to Depth
   // Camera frame at timestamp t1.
   glm::mat4 color_image_t1_T_depth_image_t0 =
 		  CameraInterface::GetMatrixFromPose(&pose_color_image_t1_T_depth_image_t0);
-
 //  if (gpu_upsample_) {
 //    depth_image_.RenderDepthToTexture(color_image_t1_T_depth_image_t0,
 //                                      pointcloud_buffer, new_points);
@@ -356,13 +367,9 @@ void CameraInterface::OnDrawFrame(std::shared_ptr<unsigned char> frame) {
     int depth_image_height = rgb_camera_intrinsics_.height;
     int depth_image_size = depth_image_width * depth_image_height;
     if (rgbd_callback_) {
-    	float* d = &depth_map_buffer_[0];
-    	std::shared_ptr<float> my_float(d);
-          (*rgbd_callback_)(frame, my_float, color_timestamp, depth_image_width, depth_image_height, depth_image_size);
-      }
-  frame;
-  //std::shared_ptr<unsigned char> image, std::shared_ptr<float> depth, double cameraTime, int depth_image_width, int depth_image_height, int depth_image_size
-
+    	float* depth = &depth_map_buffer_[0];
+          (*rgbd_callback_)(frame.get(), depth, color_timestamp, depth_image_width, depth_image_height, depth_image_size);
+     }
   //  }
 //  main_scene_.Render(color_image_.GetTextureId(), depth_image_.GetTextureId(),
 //                     color_camera_to_display_rotation_);

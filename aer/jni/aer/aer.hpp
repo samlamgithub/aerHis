@@ -29,8 +29,9 @@ public:
   void raw_frame_callback(const tango_interface::RawFrameEvent& event);
   void rgbd_callback(const tango_interface::DepthEvent& event);
   void setLoggerWidthHeight_callback(const int width, const int height);
-  void rgbdCallback(std::shared_ptr<unsigned char> image, std::shared_ptr<float> depth, double cameraTime, int depth_image_width, int depth_image_height, int depth_image_size);
+  void rgbdCallback(unsigned char* image, float* depth, double cameraTime, int depth_image_width, int depth_image_height, int depth_image_size);
   void marker_callback(const tango_interface::MarkerEvent& event);
+  void writing_callback();
 
   tango_interface::Mylogger mylogger;
 };
