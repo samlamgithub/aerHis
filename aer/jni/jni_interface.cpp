@@ -72,6 +72,12 @@ Java_ac_uk_imperial_aer_JNIInterface_imuOnResume(JNIEnv*,
   tango_interface::ImuInterface::resume();
 }
 
+JNIEXPORT void JNICALL
+Java_ac_uk_imperial_aer_JNIInterface_setWriting(
+    JNIEnv*, jobject, jboolean startWriting) {
+ app.aerStartWriting(startWriting);
+}
+
 #ifdef __cplusplus
 }
 #endif

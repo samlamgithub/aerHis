@@ -32,7 +32,7 @@ public:
   void rgbdCallback(unsigned char* image, float* depth, double cameraTime, int depth_image_width, int depth_image_height, int depth_image_size);
   void marker_callback(const tango_interface::MarkerEvent& event);
   void writing_callback();
-
+  void aerStartWriting(bool startWriting);
   tango_interface::Mylogger mylogger;
 };
 

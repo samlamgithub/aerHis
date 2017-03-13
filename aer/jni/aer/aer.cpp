@@ -35,8 +35,7 @@ Aer::Aer() {
 }
 
 Aer::~Aer() {
-	  LOGI("logger stop weriting in destruct");
-	mylogger.stopWriting();
+
 }
 
 void Aer::accelerometer_callback(const tango_interface::AccelerometerEvent& event) {
@@ -64,8 +63,7 @@ void Aer::rgbdCallback(unsigned char* image, float* depth, double cameraTime, in
 }
 
 void Aer::writing_callback() {
-	 LOGI("logger start writing in callback");
-	 mylogger.startWriting();
+	 LOGI("logger start writing callback");
 }
 
 void Aer::rgbd_callback(const tango_interface::DepthEvent& event) {
@@ -74,6 +72,17 @@ void Aer::rgbd_callback(const tango_interface::DepthEvent& event) {
 
 void Aer::raw_frame_callback(const tango_interface::RawFrameEvent& event) {
   LOGI("raw frame(t): %lld", event.timestamp_nanoseconds);
+}
+
+void Aer::aerStartWriting(bool startWriting) {
+	LOGI("Aer hello start writing");
+	if (startWriting) {
+		 LOGI("logger start writing in aerStartWriting");
+			 mylogger.startWriting();
+	} else {
+		  LOGI("logger stop weriting in aerStartWriting");
+			mylogger.stopWriting();
+	}
 }
 
 } // namespace aer
