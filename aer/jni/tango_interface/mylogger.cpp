@@ -224,8 +224,8 @@ void Mylogger::writeData()
 
     size_t result1 = fwrite(&numFrames, sizeof(int32_t), 1, log_file_);
     LOGI("Logger fwrite: %d", result1);
-    int result = fputs("\n:testest     \n", log_file_);
-    LOGI("Logger puts: %d", result);
+//    int result = fputs("\n:testest     \n", log_file_);
+//    LOGI("Logger puts: %d", result);
     LOGI("Logger: good");
 
     while(writing.getValueWait(1))

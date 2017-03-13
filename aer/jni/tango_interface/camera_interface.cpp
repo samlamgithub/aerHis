@@ -174,6 +174,7 @@ bool CameraInterface::connect() {
   gl_camera_frame_.reset(new GlCameraFrame());
   TangoCameraIntrinsics camera_intrinsics;
   TangoService_getCameraIntrinsics(camera_type_, &camera_intrinsics);
+  LOGI("camera_intrinsics: %d", camera_intrinsics);
   set_frame_view_port(camera_intrinsics.width,camera_intrinsics.height);
   // Connect callbacks for new camera frames to the OpenGL GlCameraFrame class
   frame_timestamp_.reset(new double);

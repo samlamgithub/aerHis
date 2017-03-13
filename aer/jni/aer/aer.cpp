@@ -29,7 +29,6 @@ Aer::Aer() {
       std::bind(&Aer::writing_callback, this));
 //  tango_interface::Mylogger logger;
 //  tango_interface::CameraInterface::setLogger(&logger);
-
   tango_interface::Logger file_logger;
   file_logger.log(tango_interface::kInfo,"My first default informational log %.02f %i",0.05,42);
 }
@@ -59,7 +58,7 @@ void Aer::setLoggerWidthHeight_callback(const int width, const int height) {
 }
 
 void Aer::rgbdCallback(unsigned char* image, float* depth, double cameraTime, int depth_image_width, int depth_image_height, int depth_image_size) {
-  mylogger.rgbdCallback(image, depth, cameraTime, depth_image_width, depth_image_height, depth_image_size);
+	mylogger.rgbdCallback(image, depth, cameraTime, depth_image_width, depth_image_height, depth_image_size);
 }
 
 void Aer::writing_callback() {
