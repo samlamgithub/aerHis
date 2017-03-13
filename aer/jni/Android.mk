@@ -16,8 +16,7 @@ LOCAL_MODULE           := aer
 
 LOCAL_SHARED_LIBRARIES += tango_client_api \
                           tango_support_api \
-                          tango_3d_reconstruction \
-                          ar_toolkit
+                          tango_3d_reconstruction
   
 LOCAL_STATIC_LIBRARIES +=   opencv_calib3d opencv_features2d opencv_highgui \
 						    opencv_imgproc opencv_flann \
@@ -123,4 +122,3 @@ $(call import-module, boost_1_53_0)
 $(call import-module, tango_client_api)
 $(call import-module,tango_3d_reconstruction)
 $(call import-module, tango_support_api)
-$(call import-module, ar_toolkit)
