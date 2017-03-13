@@ -39,19 +39,18 @@ static void onPointCloudAvailable(void* context, const TangoPointCloud* point_cl
 	  // Log the number of points and average depth.
 //	LOGI("CameraInterface: Point count: %d. Average depth (m): %.3f",
 //	       point_cloud->num_points, average_depth);
-
-     tango_interface::CameraInterface* cam =
-	          static_cast<tango_interface::CameraInterface*>(context);
-     cam->onPointCloudAvailable2(point_cloud);
+    tango_interface::CameraInterface* cam =
+               static_cast<tango_interface::CameraInterface*>(context);
+    cam->onPointCloudAvailable2(point_cloud);
 }
 
 
 void onPoseAvailable(void* context, const TangoPoseData* pose) {
-	  LOGI("onPoseAvailable: Timstamp: %f, status code: %d, Position: %f, %f, %f. Orientation: %f, %f, %f, %f",
-	 		  pose->timestamp, pose->status_code,
-	     pose->translation[0], pose->translation[1], pose->translation[2],
-	     pose->orientation[0], pose->orientation[1], pose->orientation[2],
-	     pose->orientation[3]);
+  LOGI("onPoseAvailable: Timstamp: %f, status code: %d, Position: %f, %f, %f. Orientation: %f, %f, %f, %f",
+		  pose->timestamp, pose->status_code,
+       pose->translation[0], pose->translation[1], pose->translation[2],
+       pose->orientation[0], pose->orientation[1], pose->orientation[2],
+       pose->orientation[3]);
 }
 
 }
@@ -99,9 +98,9 @@ bool CameraInterface::is_service_connected_ = false;
 void CameraInterface::onPointCloudAvailable2(const TangoPointCloud* point_cloud) {
 	  // Allocate the depth buffer (Each point has four values: X, Y, Z and C)
 
-	 	TangoErrorType err = TangoSupport_updatePointCloud(point_cloud_manager_, point_cloud);
-	 if (err != TANGO_SUCCESS) {
-	 	LOGE("CameraInterface:TangoSupport_updatePointCloud failed");
+	TangoErrorType err = TangoSupport_updatePointCloud(point_cloud_manager_, point_cloud);
+	if (err != TANGO_SUCCESS) {
+		LOGE("CameraInterface:TangoSupport_updatePointCloud failed");
 //	}
 //	if (!point_cloud_manager_) {
 //		LOGE("CameraInterface:point_cloud_manager_ null");
@@ -119,7 +118,7 @@ void CameraInterface::onPointCloudAvailable2(const TangoPointCloud* point_cloud)
 //	     depth_event.timestamp_nanoseconds = static_cast<int64_t>((*frame_timestamp_) * 1000000000.0);
 //	     depth_event.data = depth_data_buffer;
 //	 	          (*depth_callback_)(depth_event);
-	 }
+}
 //
 //void CameraInterface::register_raw_frame_callback(RawFrameCallBack function) {
 //  raw_frame_callback_.reset(new RawFrameCallBack(function));
@@ -201,20 +200,21 @@ bool CameraInterface::connect() {
   myFy = camera_intrinsics.fy;
   myCx = camera_intrinsics.cx;
   myCy = camera_intrinsics.cy;
+	LOGI("CameraInterface TangoService_getCameraIntrinsics: %d, %d, %f, %f, %f, %f ", myImageWidth, myImageHeight, myFx, myFy, myCx, myCy);
   set_frame_view_port(myImageWidth, myImageHeight);
   // Connect callbacks for new camera frames to the OpenGL GlCameraFrame class
   frame_timestamp_.reset(new double);
   status = TangoService_connectTextureId(
-      camera_type_, gl_camera_frame_->texture_id(), nullptr,
-       &CameraInterface::process_frame_event);
+        camera_type_, gl_camera_frame_->texture_id(), nullptr, 
+        &CameraInterface::process_frame_event);
   if (status != TANGO_SUCCESS) {
     LOGE("CameraInterface: Failed to connect texture callbacks for the camera.");
     return false;
-   }
-    if (TangoService_connectOnPointCloudAvailable(onPointCloudAvailable) != TANGO_SUCCESS) {
-   	  LOGE("CameraInterface: Failed to TangoService_connectOnPointCloudAvailable");
-   	   return false;
-    }
+  }
+  if (TangoService_connectOnPointCloudAvailable(onPointCloudAvailable) != TANGO_SUCCESS) {
+	  LOGE("CameraInterface: Failed to TangoService_connectOnPointCloudAvailable");
+	   return false;
+  }
   // Connect color camera texture. The callback is ignored because the
 //  // color camera is polled.
 //  TangoErrorType ret = TangoService_connectOnTextureAvailable(TANGO_CAMERA_COLOR, nullptr,
@@ -228,45 +228,45 @@ bool CameraInterface::connect() {
 //  }
   // Use the tango_config to set up the PointCloudManager before we connect
   // the callbacks.
-    if (point_cloud_manager_ == nullptr) {
-     int32_t max_point_cloud_elements;
-      TangoErrorType ret = TangoConfig_getInt32(tango_config_, "max_point_cloud_elements",
-                                &max_point_cloud_elements);
-     if (ret != TANGO_SUCCESS) {
-       LOGE("Failed to query maximum number of point cloud elements.");
-       std::exit(EXIT_SUCCESS);
-     }
-     max_vertex_count = static_cast<uint32_t>(max_point_cloud_elements);
+  if (point_cloud_manager_ == nullptr) {
+    int32_t max_point_cloud_elements;
+    TangoErrorType ret = TangoConfig_getInt32(tango_config_, "max_point_cloud_elements",
+                               &max_point_cloud_elements);
+    if (ret != TANGO_SUCCESS) {
+      LOGE("Failed to query maximum number of point cloud elements.");
+      std::exit(EXIT_SUCCESS);
+    }
+    max_vertex_count = static_cast<uint32_t>(max_point_cloud_elements);
 //    std::string s = std::to_string(max_vertex_count);
 //    char const *pchar = s.c_str();
 //    LOGE(pchar);
-     __android_log_print(ANDROID_LOG_INFO, "MyTag", "The max_vertex_count is %d", max_vertex_count);
-     LOGI("max_vertex_count:");
-     ret = TangoSupport_createPointCloudManager(max_point_cloud_elements,
-                                                &point_cloud_manager_);
-     if (ret != TANGO_SUCCESS) {
-     	LOGE("Failed to TangoSupport_createPointCloudManager");
-       std::exit(EXIT_SUCCESS);
-     }
+    __android_log_print(ANDROID_LOG_INFO, "MyTag", "The max_vertex_count is %d", max_vertex_count);
+    LOGI("max_vertex_count:");
+    ret = TangoSupport_createPointCloudManager(max_point_cloud_elements,
+                                               &point_cloud_manager_);
+    if (ret != TANGO_SUCCESS) {
+    	LOGE("Failed to TangoSupport_createPointCloudManager");
+      std::exit(EXIT_SUCCESS);
     }
+  }
   is_service_connected_ = true;
 //  TangoCameraIntrinsics rgb_camera_intrinsics_ = CameraInterface::TangoGetIntrinsics();
 //  int depth_image_width = rgb_camera_intrinsics_.width;
 //  int depth_image_height = rgb_camera_intrinsics_.height;
 //  mylogger = (new Mylogger(depth_image_width, depth_image_height));
-   LOGI("setCamWidthAndheight1:width  %d", myImageWidth);
+  LOGI("setCamWidthAndheight1:width  %d", myImageWidth);
 //  Mylogger logger;
-   LOGI("setCamWidthAndheight1.5:height  %d", myImageHeight);
+  LOGI("setCamWidthAndheight1.5:height  %d", myImageHeight);
 //  mylogger->setCamWidthAndheight(depth_image_width, depth_image_height);
 //  LOGI("setCamWidthAndheight2:");
 //  mylogger = &logger;
-   if (loggerWH_callback_) {
-       (*loggerWH_callback_)(myImageWidth, myImageWidth, myFx, myFy, myCx, myCy, max_vertex_count);
-   }
+  if (loggerWH_callback_) {
+      (*loggerWH_callback_)(myImageWidth, myImageHeight, myFx, myFy, myCx, myCy);
+  }
 //  LOGI("setCamWidthAndheight3:");
-    if (writing_callback_) {
-        (*writing_callback_)();
-    }
+  if (writing_callback_) {
+       (*writing_callback_)();
+   }
   // TangoCoordinateFramePair is used to tell Tango Service about the frame of
 	  // references that the applicaion would like to listen to.
 //	  TangoCoordinateFramePair pair;
@@ -290,7 +290,7 @@ void CameraInterface::disconnect() {
     tango_config_ = nullptr;
     TangoService_disconnect();
     is_service_connected_ = false;
-       TangoSupport_freePointCloudManager(point_cloud_manager_);
+//    TangoSupport_freePointCloudManager(point_cloud_manager_);
   }
   LOGI("CameraInterface: Finished disconnecting.");
 }
@@ -300,8 +300,7 @@ void CameraInterface::render() {
   if (status == TANGO_SUCCESS && (*frame_timestamp_) > 0) {
     if (gl_camera_frame_) {
       gl_camera_frame_->render();
-//      return;
-         std::shared_ptr<unsigned char> frame = gl_camera_frame_->get_frame();
+      std::shared_ptr<unsigned char> frame = gl_camera_frame_->get_frame();
 //      CameraInterface::OnDrawFrame(frame);
 //      if (frame) {
 //        if (raw_frame_callback_) {
@@ -330,69 +329,70 @@ void CameraInterface::render() {
   // happen by rendering solid black as a fallback.
 //  main_scene_.Clear();
 //
-        if (!is_service_connected_) {
-          return;
-        }
+  if (!is_service_connected_) {
+    return;
+  }
 //  LOGI("chck1");
 //  mylogger->sayHello();
 //  LOGI("chck2");
-        double color_timestamp = 0.0;
+  double color_timestamp = 0.0;
 //  double depth_timestamp = 0.0;
-        bool new_points = false;
-        TangoPointCloud* pointcloud_buffer;
-        TangoErrorType err = TangoSupport_getLatestPointCloudAndNewDataFlag(
-           point_cloud_manager_, &pointcloud_buffer, &new_points);
-        if (err != TANGO_SUCCESS) {
-          LOGE("CameraInterface: Failed to TangoSupport_getLatestPointCloudAndNewDataFlag");
-          return;
-        }
-        if (!new_points) {
-        LOGI("CameraInterface: point could data is not new, return");
-        return;
-        } else {
-       	  LOGI("CameraInterface: point could data is new");
-        }
+  bool new_points = false;
+  TangoPointCloud* pointcloud_buffer;
+  TangoErrorType err = TangoSupport_getLatestPointCloudAndNewDataFlag(
+      point_cloud_manager_, &pointcloud_buffer, &new_points);
+  if (err != TANGO_SUCCESS) {
+    LOGE("CameraInterface: Failed to TangoSupport_getLatestPointCloudAndNewDataFlag");
+    return;
+  }
+  if (!new_points) {
+	 LOGI("CameraInterface: point could data is not new, return");
+	 return;
+  } else {
+	  LOGI("CameraInterface: point could data is new");
+  }
 //  depth_timestamp = pointcloud_buffer->timestamp;
 //  uint32_t num_points = pointcloud_buffer->num_points;
 //  LOGI( "depth_timestamp: %f , %d, %d", depth_timestamp, new_points, num_points);
   // We need to make sure that we update the texture associated with the color
   // image.
-        if (TangoService_updateTextureExternalOes(
-                TANGO_CAMERA_COLOR, gl_camera_frame_->texture_id(), &color_timestamp) !=
-           TANGO_SUCCESS) {
-         LOGE("CameraInterface: Failed to get a color image.");
-         return;
-        }
-        LOGI("color_timestamp: %f", color_timestamp);
-        LOGI("camera type %d", camera_type_);
+  if (TangoService_updateTextureExternalOes(
+          TANGO_CAMERA_COLOR, gl_camera_frame_->texture_id(), &color_timestamp) !=
+      TANGO_SUCCESS) {
+    LOGE("CameraInterface: Failed to get a color image.");
+    return;
+  }
+  LOGI("color_timestamp: %f", color_timestamp);
+  LOGI("camera type %d", camera_type_);
   // Define what motion is requested.
 //  TangoService_Experimental_getPoseAtTime2(double timestamp,
 //  TangoCoordinateFrameId base_frame_id, TangoCoordinateFrameId target_frame_id, TangoPoseData *return_pose)
   //
-        TangoCoordinateFramePair frames_of_reference;
-        frames_of_reference.base = TANGO_COORDINATE_FRAME_START_OF_SERVICE;
-       frames_of_reference.target = TANGO_COORDINATE_FRAME_DEVICE;
-        TangoPoseData pose;
-        TangoErrorType e =   TangoService_getPoseAtTime(0.0, frames_of_reference, &pose);
-        if (e == TANGO_SUCCESS) {
-       	LOGI("TangoService_getPoseAtTime success");
-        LOGI("onPoseAvailable: Timstamp: %f, status code: %d, Position: %f, %f, %f. Orientation: %f, %f, %f, %f",
-       		  pose.timestamp, pose.status_code,
-              pose.translation[0], pose.translation[1], pose.translation[2],
-              pose.orientation[0], pose.orientation[1], pose.orientation[2],
-              pose.orientation[3]);
-        } else {
-        	LOGI("TangoService_getPoseAtTime failed");
-        }
+  TangoCoordinateFramePair frames_of_reference;
+  frames_of_reference.base = TANGO_COORDINATE_FRAME_START_OF_SERVICE;
+  frames_of_reference.target = TANGO_COORDINATE_FRAME_DEVICE;
+  TangoPoseData pose;
+  TangoErrorType e =   TangoService_getPoseAtTime(0.0, frames_of_reference, &pose);
+  if (e == TANGO_SUCCESS) {
+	LOGI("TangoService_getPoseAtTime success");
+	 LOGI("onPoseAvailable: Timstamp: %f, status code: %d, Position: %f, %f, %f. Orientation: %f, %f, %f, %f",
+			  pose.timestamp, pose.status_code,
+	       pose.translation[0], pose.translation[1], pose.translation[2],
+	       pose.orientation[0], pose.orientation[1], pose.orientation[2],
+	       pose.orientation[3]);
+  } else {
+  	LOGI("TangoService_getPoseAtTime failed");
+  }
   //
-        if (rgbd_callback_) {
+  if (rgbd_callback_) {
 //    	float* depth = &depth_map_buffer_[0];
-                (*rgbd_callback_)(frame.get(), pointcloud_buffer, color_timestamp);
-        }
-       }
-  	  }
-	}
-//}
+          (*rgbd_callback_)(frame.get(), pointcloud_buffer, color_timestamp);
+     }
+    }
+  }
+}
+  //
+  //  }
 //  main_scene_.Render(color_image_.GetTextureId(), depth_image_.GetTextureId(),
 //                     color_camera_to_display_rotation_);
 //}
@@ -466,11 +466,12 @@ bool CameraInterface::setup_tango_config() {
     return false;
   }*/
   // Absolutely every other option is explicitly turned off here.
-  ret = TangoConfig_setBool(tango_config_, "config_enable_auto_recovery", false);
+  ret = TangoConfig_setBool(tango_config_, "config_enable_auto_recovery", true);
   if (ret != TANGO_SUCCESS) {
     LOGE("Failed to enable recovery from motion tracking.");
     return false;
   }
+
   ret = TangoConfig_setBool(tango_config_, "config_enable_depth", true);
   if (ret != TANGO_SUCCESS) {
     LOGE("Failed to enable depth.");

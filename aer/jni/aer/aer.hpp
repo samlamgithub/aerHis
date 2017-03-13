@@ -29,7 +29,7 @@ public:
   // Camera callback functions
 //  void raw_frame_callback(const tango_interface::RawFrameEvent& event);
 //  void rgbd_callback(const tango_interface::DepthEvent& event);
-  void setLoggerWidthHeight_callback(const int width, const int height, const double fx, const double fy, const double cx, const double cy, const int max_vertex_count);
+  void setLoggerWidthHeight_callback(const int width, const int height, const double fx, const double fy, const double cx, const double cy);
   void rgbdCallback(unsigned char* image, TangoPointCloud* pointcloud_buffer, double cameraTime);
 //  void marker_callback(const tango_interface::MarkerEvent& event);
   void writing_callback();

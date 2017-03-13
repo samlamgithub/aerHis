@@ -19,7 +19,7 @@
 
 #include "event_types/marker_event.hpp"
 #include "event_types/raw_frame_event.hpp"
-
+#include "event_types/depth_event.hpp"
 #include "gl_util.hpp"
 
 //#include <tango-gl/util.h>
@@ -42,7 +42,7 @@ namespace tango_interface {
 //typedef std::function<void (const RawFrameEvent& event)> RawFrameCallBack;
 //typedef std::function<void (const MarkerEvent& event)> MarkerCallBack;
 typedef std::function<void (unsigned char* image, TangoPointCloud* pointcloud_buffer, double color_timestamp)> RGBDCallBack;
-typedef std::function<void (const int width, const int height, const double fx, const double fy, const double cx, const double cy, const int maxVerCount)> LoggerWHCallBack;
+typedef std::function<void (const int width, const int height, const double fx, const double fy, const double cx, const double cy)> LoggerWHCallBack;
 typedef std::function<void ()> WritingCallBack;
 
 
