@@ -59,23 +59,17 @@ Java_ac_uk_imperial_aer_JNIInterface_cameraRender(JNIEnv*,
     jobject) {
   tango_interface::CameraInterface::render();
 }
-//
-//JNIEXPORT void JNICALL
-//Java_ac_uk_imperial_aer_JNIInterface_imuOnPause(JNIEnv*,
-//    jobject) {
-//  tango_interface::ImuInterface::pause();
-//}
-//
-//JNIEXPORT void JNICALL
-//Java_ac_uk_imperial_aer_JNIInterface_imuOnResume(JNIEnv*,
-//    jobject) {
-//  tango_interface::ImuInterface::resume();
-//}
 
 JNIEXPORT void JNICALL
-Java_ac_uk_imperial_aer_JNIInterface_setWriting(
-    JNIEnv*, jobject, jboolean startWriting) {
-  app.aerStartWriting(startWriting);
+Java_ac_uk_imperial_aer_JNIInterface_imuOnPause(JNIEnv*,
+    jobject) {
+  tango_interface::ImuInterface::pause();
+}
+
+JNIEXPORT void JNICALL
+Java_ac_uk_imperial_aer_JNIInterface_imuOnResume(JNIEnv*,
+    jobject) {
+  tango_interface::ImuInterface::resume();
 }
 
 #ifdef __cplusplus
