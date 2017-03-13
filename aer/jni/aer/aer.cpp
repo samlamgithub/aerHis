@@ -10,16 +10,16 @@
 namespace aer {
 
 Aer::Aer() {
-  if (tango_interface::ImuInterface::initialise()) {
-    tango_interface::ImuInterface::register_accelerometer_callback(
-      std::bind(&Aer::accelerometer_callback, this, std::placeholders::_1));
-    tango_interface::ImuInterface::register_gyroscope_callback(
-      std::bind(&Aer::gyroscope_callback, this, std::placeholders::_1));
-  }
-  tango_interface::CameraInterface::register_raw_frame_callback(
-    std::bind(&Aer::raw_frame_callback, this, std::placeholders::_1));
-  tango_interface::CameraInterface::register_marker_callback(
-    std::bind(&Aer::marker_callback, this, std::placeholders::_1));
+//  if (tango_interface::ImuInterface::initialise()) {
+//    tango_interface::ImuInterface::register_accelerometer_callback(
+//      std::bind(&Aer::accelerometer_callback, this, std::placeholders::_1));
+//    tango_interface::ImuInterface::register_gyroscope_callback(
+//      std::bind(&Aer::gyroscope_callback, this, std::placeholders::_1));
+//  }
+//  tango_interface::CameraInterface::register_raw_frame_callback(
+//    std::bind(&Aer::raw_frame_callback, this, std::placeholders::_1));
+//  tango_interface::CameraInterface::register_marker_callback(
+//    std::bind(&Aer::marker_callback, this, std::placeholders::_1));
   tango_interface::CameraInterface::register_loggerWidthHeight_callback(
        std::bind(&Aer::setLoggerWidthHeight_callback, this, std::placeholders::_1, std::placeholders::_2));
   tango_interface::CameraInterface::register_rgbd_callback(
@@ -29,29 +29,29 @@ Aer::Aer() {
       std::bind(&Aer::writing_callback, this));
 //  tango_interface::Mylogger logger;
 //  tango_interface::CameraInterface::setLogger(&logger);
-  tango_interface::Logger file_logger;
-  file_logger.log(tango_interface::kInfo,"My first default informational log %.02f %i",0.05,42);
+//  tango_interface::Logger file_logger;
+//  file_logger.log(tango_interface::kInfo,"My first default informational log %.02f %i",0.05,42);
 }
 
 Aer::~Aer() {
 
 }
-
-void Aer::accelerometer_callback(const tango_interface::AccelerometerEvent& event) {
-  // TODO: do something with the values...
-}
-
-void Aer::gyroscope_callback(const tango_interface::GyroscopeEvent& event) {
-  // TODO: do something with the values...
-}
-
-void Aer::marker_callback(const tango_interface::MarkerEvent& event) {
-  if (!event.marker_data.empty()) {
-    LOGI("Markers detected: %lld", event.timestamp_nanoseconds);
-    tango_interface::GuiInterface::display_marker_data(event.marker_data);
-  }
-  // TODO later: do something...
-}
+//
+//void Aer::accelerometer_callback(const tango_interface::AccelerometerEvent& event) {
+//  // TODO: do something with the values...
+//}
+//
+//void Aer::gyroscope_callback(const tango_interface::GyroscopeEvent& event) {
+//  // TODO: do something with the values...
+//}
+//
+//void Aer::marker_callback(const tango_interface::MarkerEvent& event) {
+//  if (!event.marker_data.empty()) {
+//    LOGI("Markers detected: %lld", event.timestamp_nanoseconds);
+//    tango_interface::GuiInterface::display_marker_data(event.marker_data);
+//  }
+//  // TODO later: do something...
+//}
 
 void Aer::setLoggerWidthHeight_callback(const int width, const int height) {
 	mylogger.setCamWidthAndheight(width, height);
@@ -65,13 +65,13 @@ void Aer::writing_callback() {
 	 LOGI("logger start writing callback");
 }
 
-void Aer::rgbd_callback(const tango_interface::DepthEvent& event) {
-//  LOGI("raw depth(t): %lld", event.timestamp_nanoseconds);
-}
-
-void Aer::raw_frame_callback(const tango_interface::RawFrameEvent& event) {
-  LOGI("raw frame(t): %lld", event.timestamp_nanoseconds);
-}
+//void Aer::rgbd_callback(const tango_interface::DepthEvent& event) {
+////  LOGI("raw depth(t): %lld", event.timestamp_nanoseconds);
+//}
+//
+//void Aer::raw_frame_callback(const tango_interface::RawFrameEvent& event) {
+//  LOGI("raw frame(t): %lld", event.timestamp_nanoseconds);
+//}
 
 void Aer::aerStartWriting(bool startWriting) {
 	LOGI("Aer hello start writing");

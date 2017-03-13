@@ -53,8 +53,8 @@ TangoConfig CameraInterface::tango_config_ = nullptr;
 std::unique_ptr<GlCameraFrame> CameraInterface::gl_camera_frame_;
 std::unique_ptr<double> CameraInterface::frame_timestamp_;
 
-std::unique_ptr<RawFrameCallBack> CameraInterface::raw_frame_callback_;
-std::unique_ptr<MarkerCallBack> CameraInterface::marker_callback_;
+//std::unique_ptr<RawFrameCallBack> CameraInterface::raw_frame_callback_;
+//std::unique_ptr<MarkerCallBack> CameraInterface::marker_callback_;
 std::unique_ptr<RGBDCallBack> CameraInterface::rgbd_callback_;
 std::unique_ptr<LoggerWHCallBack> CameraInterface::loggerWH_callback_;
 std::unique_ptr<WritingCallBack> CameraInterface::writing_callback_;
@@ -64,13 +64,13 @@ TangoSupportPointCloudManager* CameraInterface::point_cloud_manager_;
 JavaVM* CameraInterface::jvm_ = nullptr;
 jobject CameraInterface::activity_ref_;
 
-bool CameraInterface::ar_config_available_ = false;
-
-ARParam CameraInterface::ar_param_;
-ARParamLT* CameraInterface::ar_param_lt_ = nullptr;
-ARHandle* CameraInterface::ar_handle_ = nullptr;
-AR3DHandle* CameraInterface::ar_3dhandle_ = nullptr;
-bool CameraInterface::ar_initialised_ = false;
+//bool CameraInterface::ar_config_available_ = false;
+//
+//ARParam CameraInterface::ar_param_;
+//ARParamLT* CameraInterface::ar_param_lt_ = nullptr;
+//ARHandle* CameraInterface::ar_handle_ = nullptr;
+//AR3DHandle* CameraInterface::ar_3dhandle_ = nullptr;
+//bool CameraInterface::ar_initialised_ = false;
 uint32_t CameraInterface::max_vertex_count = 0;
 bool CameraInterface::is_service_connected_ = false;
 
@@ -100,11 +100,11 @@ void CameraInterface::onPointCloudAvailable2(const TangoPointCloud* point_cloud)
 //	     depth_event.data = depth_data_buffer;
 //	 	          (*depth_callback_)(depth_event);
 }
-
-void CameraInterface::register_raw_frame_callback(RawFrameCallBack function) {
-  raw_frame_callback_.reset(new RawFrameCallBack(function));
-}
-
+//
+//void CameraInterface::register_raw_frame_callback(RawFrameCallBack function) {
+//  raw_frame_callback_.reset(new RawFrameCallBack(function));
+//}
+//
 
 void CameraInterface::register_rgbd_callback(RGBDCallBack function) {
 	rgbd_callback_.reset(new RGBDCallBack(function));
@@ -113,30 +113,30 @@ void CameraInterface::register_rgbd_callback(RGBDCallBack function) {
 void CameraInterface::register_loggerWidthHeight_callback(LoggerWHCallBack function) {
 	loggerWH_callback_.reset(new LoggerWHCallBack(function));
 }
-
-void CameraInterface::register_marker_callback(MarkerCallBack function) {
-  marker_callback_.reset(new MarkerCallBack(function));
-  if (ar_config_available_ && !ar_initialised_) {
-    ar_initialised_ = initialise_artoolkit();
-  }
-}
+//
+//void CameraInterface::register_marker_callback(MarkerCallBack function) {
+//  marker_callback_.reset(new MarkerCallBack(function));
+//  if (ar_config_available_ && !ar_initialised_) {
+//    ar_initialised_ = initialise_artoolkit();
+//  }
+//}
 
 void CameraInterface::register_writing_callback(WritingCallBack function) {
   writing_callback_.reset(new WritingCallBack(function));
 }
 
 bool CameraInterface::initialise(JNIEnv* env, jobject caller_activity, jobject asset_manager) {
-  if (!ar_initialised_) {
+//  if (!ar_initialised_) {
     TangoErrorType ret = TangoService_initialize(env, caller_activity);
     if (ret != TANGO_SUCCESS) {
       LOGE("CameraInterface: Failed to initialise the tango service.");
       return false;
     }
-    load_ar_config(env,asset_manager);
-    if (!ar_initialised_ && ar_config_available_ && marker_callback_ != nullptr) {
-      ar_initialised_ = initialise_artoolkit();
-    }
-  }
+//    load_ar_config(env,asset_manager);
+//    if (!ar_initialised_ && ar_config_available_ && marker_callback_ != nullptr) {
+//      ar_initialised_ = initialise_artoolkit();
+//    }
+//  }
   JavaVM *jvm;
   jint rs = env->GetJavaVM(&jvm);
   jvm_ = jvm;
@@ -147,9 +147,9 @@ bool CameraInterface::initialise(JNIEnv* env, jobject caller_activity, jobject a
 
 void CameraInterface::destroy() {
   disconnect();
-  if (ar_initialised_) {
-    destroy_artoolkit();
-  }
+//  if (ar_initialised_) {
+//    destroy_artoolkit();
+//  }
   java_environment()->DeleteGlobalRef(activity_ref_);
   TangoSupport_freePointCloudManager(point_cloud_manager_);
    point_cloud_manager_ = nullptr;
@@ -174,7 +174,7 @@ bool CameraInterface::connect() {
   gl_camera_frame_.reset(new GlCameraFrame());
   TangoCameraIntrinsics camera_intrinsics;
   TangoService_getCameraIntrinsics(camera_type_, &camera_intrinsics);
-  LOGI("camera_intrinsics: %d", camera_intrinsics);
+//  LOGI("camera_intrinsics: %d", camera_intrinsics);
   set_frame_view_port(camera_intrinsics.width,camera_intrinsics.height);
   // Connect callbacks for new camera frames to the OpenGL GlCameraFrame class
   frame_timestamp_.reset(new double);
@@ -295,14 +295,13 @@ void CameraInterface::OnDrawFrame(std::shared_ptr<unsigned char> frame) {
   if (!is_service_connected_) {
     return;
   }
-  LOGI("chck1");
+//  LOGI("chck1");
 //  mylogger->sayHello();
-  LOGI("chck2");
+//  LOGI("chck2");
   double color_timestamp = 0.0;
   double depth_timestamp = 0.0;
   bool new_points = false;
   TangoPointCloud* pointcloud_buffer;
-
   TangoErrorType err = TangoSupport_getLatestPointCloudAndNewDataFlag(
       point_cloud_manager_, &pointcloud_buffer, &new_points);
   if (err != TANGO_SUCCESS) {
@@ -620,140 +619,140 @@ void CameraInterface::request_render() {
     env->DeleteLocalRef(activity_class);
   }
 }
-
-// ARToolkit internal functions
-bool CameraInterface::initialise_artoolkit() {
-  // Setup camera parameters and ar handles
-  ar_param_lt_ = arParamLTCreate(&ar_param_, 15);
-  if (ar_param_lt_ == nullptr) {
-    destroy_artoolkit();
-    LOGE("An error occurred creating the ar distortion lookup table");
-    return false;
-  }
-  ar_handle_ = arCreateHandle(ar_param_lt_);
-  if (ar_handle_ == nullptr) {
-    destroy_artoolkit();
-    LOGE("An error occurred creating the ar handle");
-    return false;
-  }
-  arSetPixelFormat(ar_handle_,AR_PIXEL_FORMAT_MONO);
-  arSetPatternDetectionMode(ar_handle_,AR_MATRIX_CODE_DETECTION);
-  arSetMatrixCodeType(ar_handle_,AR_MATRIX_CODE_3x3);
-  ar_3dhandle_ = ar3DCreateHandle(&ar_param_);
-  if (ar_3dhandle_ == nullptr) {
-    destroy_artoolkit();
-    LOGE("An error occurred creating the ar 3D handle");
-    return false;
-  }
-  LOGI("ARToolkit successfully initialised");
-  return true;
-}
-
-void CameraInterface::destroy_artoolkit() {
-  if (ar_3dhandle_ != nullptr) {
-    ar3DDeleteHandle(&ar_3dhandle_);
-  }
-  if (ar_handle_ != nullptr) {
-    arDeleteHandle(ar_handle_);
-  }
-  if (ar_param_lt_ != nullptr) {
-    arParamLTFree(&ar_param_lt_);
-  }
-  ar_config_available_ = false;
-  ar_initialised_ = false;
-}
-
-bool CameraInterface::detect_markers(unsigned char* image_buffer, 
-                                     std::vector<MarkerData>& markers) {
-  int result = arDetectMarker(ar_handle_, image_buffer);
-  if (result) {
-    LOGE("There was an error detecting markers");
-    return false;
-  }
-  int num_markers = arGetMarkerNum(ar_handle_);
-  ARMarkerInfo* detected_markers = arGetMarker(ar_handle_);
-  ARdouble marker_transformation_matrix[3][4];
-  for (int marker_idx = 0; marker_idx < num_markers; ++marker_idx) {
-    if (detected_markers[marker_idx].id >= 0) {
-      MarkerData marker_data;
-      marker_data.id = detected_markers[marker_idx].id;
-      for (int corner_idx = 0; corner_idx < 4; ++corner_idx) {
-        marker_data.estimated_raw_corners(0,corner_idx) = 
-          detected_markers[marker_idx].raw_vertex[corner_idx][0];
-        marker_data.estimated_raw_corners(1,corner_idx) = 
-          detected_markers[marker_idx].raw_vertex[corner_idx][1];
-        marker_data.estimated_idealised_corners(0,corner_idx) = 
-          detected_markers[marker_idx].vertex[corner_idx][0];
-        marker_data.estimated_idealised_corners(1,corner_idx) = 
-          detected_markers[marker_idx].vertex[corner_idx][1];
-      }
-      arGetTransMatSquare(ar_3dhandle_, &(ar_handle_->markerInfo[marker_idx]),80.0,
-                          marker_transformation_matrix);
-      marker_data.transformation_matrix = Eigen::Matrix4f::Identity();
-      for (int i = 0; i < 3; ++i) {
-        for (int j = 0; j < 4; ++j) {
-          marker_data.transformation_matrix(i,j) = 
-            marker_transformation_matrix[i][j];
-        }
-      }
-      markers.push_back(marker_data);
-    }
-  }
-  return true;
-}
-
-void CameraInterface::load_ar_config(JNIEnv* env, jobject java_asset_manager) {
-  std::string camera_filename;
-  if (camera_type_ == TANGO_CAMERA_FISHEYE) {
-    camera_filename = "fisheye_params.dat";
-  } else if (camera_type_ == TANGO_CAMERA_COLOR) {
-    camera_filename = "color_params.dat";
-  }
-  AAssetManager* mgr = AAssetManager_fromJava(env,java_asset_manager);
-  AAssetDir* assetDir = AAssetManager_openDir(mgr, "");
-  const char* filename = (const char*)nullptr;
-  char writable[4096];
-  while ((filename = AAssetDir_getNextFileName(assetDir)) != nullptr) {
-    std::string filename_str(filename);
-    AAsset* asset = AAssetManager_open(mgr, filename, AASSET_MODE_BUFFER);
-    if (filename_str == camera_filename) {
-      // Load the camera parameters into the ARParam struct
-      AAsset* asset = AAssetManager_open(mgr, filename, AASSET_MODE_BUFFER);
-      unsigned int size = AAsset_getLength(asset);
-      AAsset_read(asset,&writable,size);
-      writable[size] = '\0';
-      std::stringstream camera_param_ss(writable);
-      std::string parameter_line;
-      std::string parameter_name;
-      int parameter_int;
-      double parameter_double;
-      while(std::getline(camera_param_ss,parameter_line)) {
-        std::stringstream parameter_line_ss(parameter_line);
-        parameter_line_ss >> parameter_name;
-        if (parameter_name == std::string("xsize")) {
-          parameter_line_ss >> parameter_int;
-          ar_param_.xsize = parameter_int;
-        } else if (parameter_name == std::string("ysize")) {
-          parameter_line_ss >> parameter_int;
-          ar_param_.ysize = parameter_int;
-        } else if (parameter_name == std::string("mat")) {
-          int i, j;
-          parameter_line_ss >> i >> j >> parameter_double;
-          ar_param_.mat[i][j] = parameter_double;
-        } else if (parameter_name == std::string("dist_factor")) {
-          int i;
-          parameter_line_ss >> i >> parameter_double;
-          ar_param_.dist_factor[i] = parameter_double;
-        } else if (parameter_name == std::string("dist_function_version")) {
-          parameter_line_ss >> parameter_int;
-          ar_param_.dist_function_version = parameter_int;
-        }
-      }
-    }
-    AAsset_close(asset);
-  }
-  AAssetDir_close(assetDir);
-  ar_config_available_ = true;
-}
+//
+//// ARToolkit internal functions
+//bool CameraInterface::initialise_artoolkit() {
+//  // Setup camera parameters and ar handles
+//  ar_param_lt_ = arParamLTCreate(&ar_param_, 15);
+//  if (ar_param_lt_ == nullptr) {
+//    destroy_artoolkit();
+//    LOGE("An error occurred creating the ar distortion lookup table");
+//    return false;
+//  }
+//  ar_handle_ = arCreateHandle(ar_param_lt_);
+//  if (ar_handle_ == nullptr) {
+//    destroy_artoolkit();
+//    LOGE("An error occurred creating the ar handle");
+//    return false;
+//  }
+//  arSetPixelFormat(ar_handle_,AR_PIXEL_FORMAT_MONO);
+//  arSetPatternDetectionMode(ar_handle_,AR_MATRIX_CODE_DETECTION);
+//  arSetMatrixCodeType(ar_handle_,AR_MATRIX_CODE_3x3);
+//  ar_3dhandle_ = ar3DCreateHandle(&ar_param_);
+//  if (ar_3dhandle_ == nullptr) {
+//    destroy_artoolkit();
+//    LOGE("An error occurred creating the ar 3D handle");
+//    return false;
+//  }
+//  LOGI("ARToolkit successfully initialised");
+//  return true;
+//}
+//
+//void CameraInterface::destroy_artoolkit() {
+//  if (ar_3dhandle_ != nullptr) {
+//    ar3DDeleteHandle(&ar_3dhandle_);
+//  }
+//  if (ar_handle_ != nullptr) {
+//    arDeleteHandle(ar_handle_);
+//  }
+//  if (ar_param_lt_ != nullptr) {
+//    arParamLTFree(&ar_param_lt_);
+//  }
+//  ar_config_available_ = false;
+//  ar_initialised_ = false;
+//}
+//
+//bool CameraInterface::detect_markers(unsigned char* image_buffer,
+//                                     std::vector<MarkerData>& markers) {
+//  int result = arDetectMarker(ar_handle_, image_buffer);
+//  if (result) {
+//    LOGE("There was an error detecting markers");
+//    return false;
+//  }
+//  int num_markers = arGetMarkerNum(ar_handle_);
+//  ARMarkerInfo* detected_markers = arGetMarker(ar_handle_);
+//  ARdouble marker_transformation_matrix[3][4];
+//  for (int marker_idx = 0; marker_idx < num_markers; ++marker_idx) {
+//    if (detected_markers[marker_idx].id >= 0) {
+//      MarkerData marker_data;
+//      marker_data.id = detected_markers[marker_idx].id;
+//      for (int corner_idx = 0; corner_idx < 4; ++corner_idx) {
+//        marker_data.estimated_raw_corners(0,corner_idx) =
+//          detected_markers[marker_idx].raw_vertex[corner_idx][0];
+//        marker_data.estimated_raw_corners(1,corner_idx) =
+//          detected_markers[marker_idx].raw_vertex[corner_idx][1];
+//        marker_data.estimated_idealised_corners(0,corner_idx) =
+//          detected_markers[marker_idx].vertex[corner_idx][0];
+//        marker_data.estimated_idealised_corners(1,corner_idx) =
+//          detected_markers[marker_idx].vertex[corner_idx][1];
+//      }
+//      arGetTransMatSquare(ar_3dhandle_, &(ar_handle_->markerInfo[marker_idx]),80.0,
+//                          marker_transformation_matrix);
+//      marker_data.transformation_matrix = Eigen::Matrix4f::Identity();
+//      for (int i = 0; i < 3; ++i) {
+//        for (int j = 0; j < 4; ++j) {
+//          marker_data.transformation_matrix(i,j) =
+//            marker_transformation_matrix[i][j];
+//        }
+//      }
+//      markers.push_back(marker_data);
+//    }
+//  }
+//  return true;
+//}
+//
+//void CameraInterface::load_ar_config(JNIEnv* env, jobject java_asset_manager) {
+//  std::string camera_filename;
+//  if (camera_type_ == TANGO_CAMERA_FISHEYE) {
+//    camera_filename = "fisheye_params.dat";
+//  } else if (camera_type_ == TANGO_CAMERA_COLOR) {
+//    camera_filename = "color_params.dat";
+//  }
+//  AAssetManager* mgr = AAssetManager_fromJava(env,java_asset_manager);
+//  AAssetDir* assetDir = AAssetManager_openDir(mgr, "");
+//  const char* filename = (const char*)nullptr;
+//  char writable[4096];
+//  while ((filename = AAssetDir_getNextFileName(assetDir)) != nullptr) {
+//    std::string filename_str(filename);
+//    AAsset* asset = AAssetManager_open(mgr, filename, AASSET_MODE_BUFFER);
+//    if (filename_str == camera_filename) {
+//      // Load the camera parameters into the ARParam struct
+//      AAsset* asset = AAssetManager_open(mgr, filename, AASSET_MODE_BUFFER);
+//      unsigned int size = AAsset_getLength(asset);
+//      AAsset_read(asset,&writable,size);
+//      writable[size] = '\0';
+//      std::stringstream camera_param_ss(writable);
+//      std::string parameter_line;
+//      std::string parameter_name;
+//      int parameter_int;
+//      double parameter_double;
+//      while(std::getline(camera_param_ss,parameter_line)) {
+//        std::stringstream parameter_line_ss(parameter_line);
+//        parameter_line_ss >> parameter_name;
+//        if (parameter_name == std::string("xsize")) {
+//          parameter_line_ss >> parameter_int;
+//          ar_param_.xsize = parameter_int;
+//        } else if (parameter_name == std::string("ysize")) {
+//          parameter_line_ss >> parameter_int;
+//          ar_param_.ysize = parameter_int;
+//        } else if (parameter_name == std::string("mat")) {
+//          int i, j;
+//          parameter_line_ss >> i >> j >> parameter_double;
+//          ar_param_.mat[i][j] = parameter_double;
+//        } else if (parameter_name == std::string("dist_factor")) {
+//          int i;
+//          parameter_line_ss >> i >> parameter_double;
+//          ar_param_.dist_factor[i] = parameter_double;
+//        } else if (parameter_name == std::string("dist_function_version")) {
+//          parameter_line_ss >> parameter_int;
+//          ar_param_.dist_function_version = parameter_int;
+//        }
+//      }
+//    }
+//    AAsset_close(asset);
+//  }
+//  AAssetDir_close(assetDir);
+//  ar_config_available_ = true;
+//}
 
 }
