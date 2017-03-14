@@ -55,8 +55,8 @@ class Mylogger
         void UpdateAndUpsampleDepth(
          const glm::mat4& color_t1_T_depth_t0,
          const TangoPointCloud* render_point_cloud_buffer,
-         std::vector<float> &depth_map_buffer_);
-        void UpSampleDepthAroundPoint(float depth_value, int pixel_x, int pixel_y, std::vector<float>* depth_map_buffer);
+         std::vector<unsigned short> &depth_map_buffer_);
+        void UpSampleDepthAroundPoint(float depth_value, int pixel_x, int pixel_y, std::vector<unsigned short>* depth_map_buffer);
 //        std::pair<uint8_t *, int64_t> imageBuffers[10];
 //        ThreadMutexObject<int> latestImageIndex;
 

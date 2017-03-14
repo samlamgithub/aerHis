@@ -158,7 +158,7 @@ void Mylogger::rgbdCallback(unsigned char* image, TangoPointCloud* pointcloud_bu
 	//    depth_image_.RenderDepthToTexture(color_image_t1_T_depth_image_t0,
 	//                                      pointcloud_buffer, new_points);
 	//  } else {
-	  std::vector<float> depth_map_buffer_;
+	 std::vector<unsigned short> depth_map_buffer_;
 	  UpdateAndUpsampleDepth(color_image_t1_T_depth_image_t0,
 	                                        pointcloud_buffer, depth_map_buffer_);
 	//  TangoCameraIntrinsics rgb_camera_intrinsics_ = CameraInterface::TangoGetIntrinsics();
@@ -166,7 +166,7 @@ void Mylogger::rgbdCallback(unsigned char* image, TangoPointCloud* pointcloud_bu
 	//    int depth_image_height = rgb_camera_intrinsics_.height;
 	//    int depth_image_size = depth_image_width * depth_image_height;
 //	    if (rgbd_callback_) {
-	float* depth = &depth_map_buffer_[0];
+	  unsigned short* depth = &depth_map_buffer_[0];
 //	          (*rgbd_callback_)(frame.get(), depth, color_timestamp);
 //	     }
 	LOGI("Writing thread rgbdCallback Processing done ");
@@ -176,8 +176,8 @@ void Mylogger::rgbdCallback(unsigned char* image, TangoPointCloud* pointcloud_bu
     m_lastFrameTime = duration.total_microseconds();
     int bufferIndex = (latestBufferIndex.getValue() + 1) % 10;
 
-    memcpy(frameBuffers[bufferIndex].first.first, reinterpret_cast<uint8_t*>(depth), depth_image_width * depth_image_height * 2);
-    memcpy(frameBuffers[bufferIndex].first.second, reinterpret_cast<uint8_t*>(image), depth_image_width * depth_image_height * 3);
+    memcpy(frameBuffers[bufferIndex].first.first, reinterpret_cast<uint8_t*>(depth), myImageSize * 2);
+    memcpy(frameBuffers[bufferIndex].first.second, reinterpret_cast<uint8_t*>(image), myImageSize * 3);
     frameBuffers[bufferIndex].second = m_lastFrameTime;
 
     latestBufferIndex++;
@@ -198,7 +198,7 @@ glm::mat4 Mylogger::GetMatrixFromPose(const TangoPoseData* pose_data) {
 }
 
 
-void Mylogger::UpdateAndUpsampleDepth(const glm::mat4& color_t1_T_depth_t0, const TangoPointCloud* render_point_cloud_buffer, std::vector<float> &depth_map_buffer_) {
+void Mylogger::UpdateAndUpsampleDepth(const glm::mat4& color_t1_T_depth_t0, const TangoPointCloud* render_point_cloud_buffer, std::vector<unsigned short> &depth_map_buffer_) {
 //  TangoCameraIntrinsics rgb_camera_intrinsics_ = CameraInterface::TangoGetIntrinsics();
 //  int depth_image_width = rgb_camera_intrinsics_.width;
 //  int depth_image_height = rgb_camera_intrinsics_.height;
@@ -253,7 +253,7 @@ static const int kWindowSize = 7;
 
 void Mylogger::UpSampleDepthAroundPoint(
     float depth_value, int pixel_x, int pixel_y,
-    std::vector<float>* depth_map_buffer) {
+    std::vector<unsigned short>* depth_map_buffer) {
 //  int image_width = rgb_camera_intrinsics_.width;
 //  int image_height = rgb_camera_intrinsics_.height;
 //  int image_size = myImageHeight * myImageWidth;
@@ -267,7 +267,7 @@ void Mylogger::UpSampleDepthAroundPoint(
       int pixel_num = (pixel_x + a) + (pixel_y + b) * depth_image_width;
 
       if (pixel_num > 0 && pixel_num < myImageSize) {
-        (*depth_map_buffer)[pixel_num] = depth_value * 1000;
+        (*depth_map_buffer)[pixel_num] = (unsigned short)round(depth_value * 1000);
       }
     }
   }
@@ -398,15 +398,16 @@ void Mylogger::writeData()
          */
 
         size_t result = fwrite(&frameBuffers[bufferIndex].second, sizeof(int64_t), 1, log_file_);
-        LOGI("Logger fwrite: %d", result);
+        LOGI("Logger fwrite timestamp: %d", result);
         result =  fwrite(&depthSize, sizeof(int32_t), 1, log_file_);
-        LOGI("Logger fwrite: %d", result);
+        LOGI("Logger fwrite: depthSize : %d", result);
         result = fwrite(&imageSize, sizeof(int32_t), 1, log_file_);
-        LOGI("Logger fwrite: %d", result);
+        LOGI("Logger fwrite imageSize : %d", result);
         result = fwrite(depth_compress_buf, depthSize, 1, log_file_);
         LOGI("Logger fwrite: %d", result);
         result = fwrite(encodedImage->data.ptr, imageSize, 1, log_file_);
         LOGI("Logger fwrite: %d", result);
+        LOGI("Logger 2 timestamp: %lld, depthSize : %lld,  imageSize: %lld ", (long long)(frameBuffers[bufferIndex].second), (long long)depthSize,(long long)imageSize);
         LOGI("Logger: logging");
         numFrames++;
 
@@ -422,3 +423,24 @@ void Mylogger::writeData()
     LOGI("Logger close done:");
 }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
