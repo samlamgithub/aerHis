@@ -132,7 +132,8 @@ void Mylogger::rgbdCallback(unsigned char* image, TangoPointCloud* pointcloud_bu
 			  color_timestamp, TANGO_COORDINATE_FRAME_CAMERA_COLOR, depth_timestamp,
 	          TANGO_COORDINATE_FRAME_CAMERA_DEPTH, &pose_color_image_t1_T_depth_image_t0);
 	  if (err == TANGO_SUCCESS)  {
-		 LOGI( "CameraInterface: success get valid relative pose at %f time for color and depth cameras :%f ", color_timestamp, depth_timestamp);
+		 LOGI( "CameraInterface: success get valid relative pose at %f time for color and depth cameras :%f , color > depth: %d",
+				 color_timestamp, depth_timestamp, color_timestamp > depth_timestamp);
 	  } else {
 	    LOGE( "CameraInterface: Could not find a valid relative pose at %f time for color and depth cameras :%f ", color_timestamp, depth_timestamp);
 	    if (err == TANGO_INVALID) {
@@ -143,14 +144,29 @@ void Mylogger::rgbdCallback(unsigned char* image, TangoPointCloud* pointcloud_bu
 	    }
 	    return;
 	  }
-	  LOGI("CameraInterface Position: %f, %f, %f. Orientation: %f, %f, %f, %f",
+	  LOGI("CameraInterface 1 Position: %f, %f, %f. Orientation: %f, %f, %f, %f",
 	  		  pose_color_image_t1_T_depth_image_t0.translation[0], pose_color_image_t1_T_depth_image_t0.translation[1], pose_color_image_t1_T_depth_image_t0.translation[2],
 	            pose_color_image_t1_T_depth_image_t0.orientation[0], pose_color_image_t1_T_depth_image_t0.orientation[1], pose_color_image_t1_T_depth_image_t0.orientation[2],
 	            pose_color_image_t1_T_depth_image_t0.orientation[3]);
+//	  LOGI("CameraInterface 1 status code: %d", pose_color_image_t1_T_depth_image_t0.status_code);
+//	  LOGI("CameraInterface 1 accuracy : %f",   pose_color_image_t1_T_depth_image_t0.accuracy);
+//	LOGI("CameraInterface 1 confidence: %d",   pose_color_image_t1_T_depth_image_t0.confidence);
+//	return;
+
 	  if (std::isnan(pose_color_image_t1_T_depth_image_t0.translation[0])) {
 		  LOGI("CameraInterface Position: is Nan");
 		  return;
 	  }
+
+	  double x =  pose_color_image_t1_T_depth_image_t0.orientation[0];
+	  double y =  pose_color_image_t1_T_depth_image_t0.orientation[1];
+	  double z =  pose_color_image_t1_T_depth_image_t0.orientation[2];
+	  double w =  pose_color_image_t1_T_depth_image_t0.orientation[3];
+	  pose_color_image_t1_T_depth_image_t0.orientation[0] = w;
+	  pose_color_image_t1_T_depth_image_t0.orientation[1] = x;
+	  pose_color_image_t1_T_depth_image_t0.orientation[2] = y;
+	  pose_color_image_t1_T_depth_image_t0.orientation[3] = z;
+
 	  // The Color Camera frame at timestamp t0 with respect to Depth
 	  // Camera frame at timestamp t1.
 	  glm::mat4 color_image_t1_T_depth_image_t0 = GetMatrixFromPose(&pose_color_image_t1_T_depth_image_t0);
@@ -175,6 +191,17 @@ void Mylogger::rgbdCallback(unsigned char* image, TangoPointCloud* pointcloud_bu
     boost::posix_time::time_duration duration(time.time_of_day());
     m_lastFrameTime = duration.total_microseconds();
     int bufferIndex = (latestBufferIndex.getValue() + 1) % 10;
+//
+//    for (auto const& c : depth_map_buffer_) {
+//    	 LOGI("dep: %d", c);
+//    }
+//     std::string depStr(depth_map_buffer_.begin(), depth_map_buffer_.end());
+//     LOGI("dep: %s", depStr.c_str());
+//    LOGI("size of float: %d", sizeof(float));
+//    LOGI("size of uint8_t: %d", sizeof(uint8_t));
+//    LOGI("size of int16_t: %d", sizeof(int16_t));
+//    LOGI("size of unsigned char: %d", sizeof(unsigned char));
+//    LOGI("size of unsigned short: %d", sizeof(unsigned short));
 
     memcpy(frameBuffers[bufferIndex].first.first, reinterpret_cast<uint8_t*>(depth), myImageSize * 2);
     memcpy(frameBuffers[bufferIndex].first.second, reinterpret_cast<uint8_t*>(image), myImageSize * 3);
@@ -216,6 +243,7 @@ void Mylogger::UpdateAndUpsampleDepth(const glm::mat4& color_t1_T_depth_t0, cons
     float x = render_point_cloud_buffer->points[i][0];
     float y = render_point_cloud_buffer->points[i][1];
     float z = render_point_cloud_buffer->points[i][2];
+//    LOGI("UpdateAndUpsampleDepth 1: %f, %f ,%f ", x, y, z);
     // depth_t0_point is the point in depth camera frame on timestamp t0.
     // (depth image timestamp).
     glm::vec4 depth_t0_point = glm::vec4(x, y, z, 1.0);
@@ -223,9 +251,12 @@ void Mylogger::UpdateAndUpsampleDepth(const glm::mat4& color_t1_T_depth_t0, cons
     // (color image timestamp).
     glm::vec4 color_t1_point = color_t1_T_depth_t0 * depth_t0_point;
     int pixel_x, pixel_y;
+//    LOGI("UpdateAndUpsampleDepth 2: %f, %f ,%f ",color_t1_point.x, color_t1_point.y, color_t1_point.z);
+    LOGI("UpdateAndUpsampleDepth 2: %f, %f ,%f, | %f, %f ,%f ", x, y, z, color_t1_point.x, color_t1_point.y, color_t1_point.z);
     // get the coordinate on image plane.
     pixel_x = static_cast<int>((myFx) *(color_t1_point.x / color_t1_point.z) + myCx);
     pixel_y = static_cast<int>((myFy) *(color_t1_point.y / color_t1_point.z) + myCy);
+//    LOGI("UpdateAndUpsampleDepth 3: %d, %d ",pixel_x,pixel_y);
     // Color value is the GL_LUMINANCE value used for displaying the depth
     // image.
     // We can query for depth value in mm from grayscale image buffer by
@@ -258,16 +289,22 @@ void Mylogger::UpSampleDepthAroundPoint(
 //  int image_height = rgb_camera_intrinsics_.height;
 //  int image_size = myImageHeight * myImageWidth;
   // Set the neighbour pixels to same color.
+//    LOGI("UpSampleDepthAroundPoint ===: %d, %d ,%d , %d, %d, %f", pixel_x, pixel_y, depth_image_width, depth_image_height,
+//    		(unsigned short)round(depth_value * 1000), depth_value);
   for (int a = -kWindowSize; a <= kWindowSize; ++a) {
     for (int b = -kWindowSize; b <= kWindowSize; ++b) {
       if (pixel_x > depth_image_width || pixel_y > depth_image_height || pixel_x < 0 ||
           pixel_y < 0) {
+//    	  LOGI("UpSampleDepthAroundPoint failed: %d, %d ,%d , %d, %f", pixel_x, pixel_y, depth_image_width, depth_image_height, depth_value);
         continue;
       }
+
       int pixel_num = (pixel_x + a) + (pixel_y + b) * depth_image_width;
 
       if (pixel_num > 0 && pixel_num < myImageSize) {
         (*depth_map_buffer)[pixel_num] = (unsigned short)round(depth_value * 1000);
+//        LOGI("UpSampleDepthAroundPoint success: %d, %d ,%d , %d, %d, %f", pixel_x, pixel_y, depth_image_width, depth_image_height,
+//        		(*depth_map_buffer)[pixel_num], depth_value);
       }
     }
   }
