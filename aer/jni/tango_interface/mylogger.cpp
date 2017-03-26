@@ -144,10 +144,10 @@ void Mylogger::rgbdCallback(unsigned char* image, TangoPointCloud* pointcloud_bu
 	    }
 	    return;
 	  }
-	  LOGI("CameraInterface 1 Position: %f, %f, %f. Orientation: %f, %f, %f, %f",
-	  		  pose_color_image_t1_T_depth_image_t0.translation[0], pose_color_image_t1_T_depth_image_t0.translation[1], pose_color_image_t1_T_depth_image_t0.translation[2],
-	            pose_color_image_t1_T_depth_image_t0.orientation[0], pose_color_image_t1_T_depth_image_t0.orientation[1], pose_color_image_t1_T_depth_image_t0.orientation[2],
-	            pose_color_image_t1_T_depth_image_t0.orientation[3]);
+//	  LOGI("CameraInterface 1 Position: %f, %f, %f. Orientation: %f, %f, %f, %f",
+//	  		  pose_color_image_t1_T_depth_image_t0.translation[0], pose_color_image_t1_T_depth_image_t0.translation[1], pose_color_image_t1_T_depth_image_t0.translation[2],
+//	            pose_color_image_t1_T_depth_image_t0.orientation[0], pose_color_image_t1_T_depth_image_t0.orientation[1], pose_color_image_t1_T_depth_image_t0.orientation[2],
+//	            pose_color_image_t1_T_depth_image_t0.orientation[3]);
 //	  LOGI("CameraInterface 1 status code: %d", pose_color_image_t1_T_depth_image_t0.status_code);
 //	  LOGI("CameraInterface 1 accuracy : %f",   pose_color_image_t1_T_depth_image_t0.accuracy);
 //	LOGI("CameraInterface 1 confidence: %d",   pose_color_image_t1_T_depth_image_t0.confidence);

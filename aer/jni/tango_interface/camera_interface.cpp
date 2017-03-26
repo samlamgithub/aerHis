@@ -362,31 +362,31 @@ void CameraInterface::render() {
     LOGE("CameraInterface: Failed to get a color image.");
     return;
   }
-  LOGI("camera type %d", camera_type_);
+//  LOGI("camera type %d", camera_type_);
   //=============================
-  TangoPoseData pose_color_image_t1_T_depth_image_t0;
-   if (TangoSupport_calculateRelativePose(
-		   color_timestamp, TANGO_COORDINATE_FRAME_CAMERA_COLOR, depth_timestamp,
-           TANGO_COORDINATE_FRAME_CAMERA_DEPTH,
-           &pose_color_image_t1_T_depth_image_t0) != TANGO_SUCCESS) {
-     LOGE(
-         "SynchronizationApplication: Could not find a valid relative pose at "
-         "time for color and "
-         " depth cameras.");
-     return;
-   } else {
-	 LOGI("color_timestamp: %f", color_timestamp);
-	 LOGI("depth_timestamp: %f", depth_timestamp);
-     LOGI("CameraInterface Position: %f, %f, %f. Orientation: %f, %f, %f, %f",
-          pose_color_image_t1_T_depth_image_t0.translation[0], pose_color_image_t1_T_depth_image_t0.translation[1], pose_color_image_t1_T_depth_image_t0.translation[2],
-          pose_color_image_t1_T_depth_image_t0.orientation[0], pose_color_image_t1_T_depth_image_t0.orientation[1], pose_color_image_t1_T_depth_image_t0.orientation[2],
-          pose_color_image_t1_T_depth_image_t0.orientation[3]);
-   }
-
-
-
-
-   return;
+//  TangoPoseData pose_color_image_t1_T_depth_image_t0;
+//   if (TangoSupport_calculateRelativePose(
+//		   color_timestamp, TANGO_COORDINATE_FRAME_CAMERA_COLOR, depth_timestamp,
+//           TANGO_COORDINATE_FRAME_CAMERA_DEPTH,
+//           &pose_color_image_t1_T_depth_image_t0) != TANGO_SUCCESS) {
+//     LOGE(
+//         "SynchronizationApplication: Could not find a valid relative pose at "
+//         "time for color and "
+//         " depth cameras.");
+//     return;
+//   } else {
+//	 LOGI("color_timestamp: %f", color_timestamp);
+//	 LOGI("depth_timestamp: %f", depth_timestamp);
+//     LOGI("CameraInterface Position: %f, %f, %f. Orientation: %f, %f, %f, %f",
+//          pose_color_image_t1_T_depth_image_t0.translation[0], pose_color_image_t1_T_depth_image_t0.translation[1], pose_color_image_t1_T_depth_image_t0.translation[2],
+//          pose_color_image_t1_T_depth_image_t0.orientation[0], pose_color_image_t1_T_depth_image_t0.orientation[1], pose_color_image_t1_T_depth_image_t0.orientation[2],
+//          pose_color_image_t1_T_depth_image_t0.orientation[3]);
+//   }
+//
+//
+//
+//
+//   return;
   //===============================
 
   // Define what motion is requested.
@@ -400,11 +400,11 @@ void CameraInterface::render() {
   TangoErrorType e =   TangoService_getPoseAtTime(0.0, frames_of_reference, &pose);
   if (e == TANGO_SUCCESS) {
 	LOGI("TangoService_getPoseAtTime success");
-	 LOGI("onPoseAvailable: Timstamp: %f, status code: %d, Position: %f, %f, %f. Orientation: %f, %f, %f, %f",
-			  pose.timestamp, pose.status_code,
-	       pose.translation[0], pose.translation[1], pose.translation[2],
-	       pose.orientation[0], pose.orientation[1], pose.orientation[2],
-	       pose.orientation[3]);
+//	 LOGI("onPoseAvailable: Timstamp: %f, status code: %d, Position: %f, %f, %f. Orientation: %f, %f, %f, %f",
+//			  pose.timestamp, pose.status_code,
+//	       pose.translation[0], pose.translation[1], pose.translation[2],
+//	       pose.orientation[0], pose.orientation[1], pose.orientation[2],
+//	       pose.orientation[3]);
   } else {
   	LOGI("TangoService_getPoseAtTime failed");
   }
