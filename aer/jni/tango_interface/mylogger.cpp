@@ -68,10 +68,10 @@ void Mylogger::setCamWidthAndheight(int width, int height, double fx, double fy,
 	myFy = fy;
 	myCx = cx;
 	myCy = cy;
-	LOGI("setCamWidthAndheight intrinsic: %d, %d, %f, %f, %f, %f ", width, height, fx, fy, cx, cy);
-	int imageSize = width * height;
+	LOGI("setCamWidthAndheight intrinsic: %d, %d, %f, %f, %f, %f , myImageSize: %d", width, height, fx, fy, cx, cy, myImageSize);
+//	int imageSize = width * height;
 
-	    depth_compress_buf_size = imageSize * sizeof(int16_t) * 4;
+	    depth_compress_buf_size = myImageSize * sizeof(int16_t) * 4;
 	    depth_compress_buf = (uint8_t*)malloc(depth_compress_buf_size);
 
 	    encodedImage = 0;
@@ -89,15 +89,15 @@ void Mylogger::setCamWidthAndheight(int width, int height, double fx, double fy,
 
 	    for(int i = 0; i < 10; i++)
 	    {
-	        uint8_t * newDepth = (uint8_t *)calloc(imageSize * 2, sizeof(uint8_t));
-	        uint8_t * newImage = (uint8_t *)calloc(imageSize * 3, sizeof(uint8_t));
+	        uint8_t * newDepth = (uint8_t *)calloc(myImageSize * 2, sizeof(uint8_t));
+	        uint8_t * newImage = (uint8_t *)calloc(myImageSize * 3, sizeof(uint8_t));
 	        frameBuffers[i] = std::pair<std::pair<uint8_t *, uint8_t *>, int64_t>(std::pair<uint8_t *, uint8_t *>(newDepth, newImage), 0);
 	    }
 }
 
 void Mylogger::encodeJpeg(cv::Vec<unsigned char, 3> * rgb_data)
 {
-	LOGI("Logger Encoding start");
+	LOGI("Logger Encoding start: %d, %d : wocao", depth_image_height, depth_image_width);
     cv::Mat3b rgb(depth_image_height, depth_image_width, rgb_data, depth_image_width*3);
 
     IplImage * img = new IplImage(rgb);
@@ -202,6 +202,7 @@ void Mylogger::rgbdCallback(unsigned char* image, TangoPointCloud* pointcloud_bu
 //    LOGI("size of int16_t: %d", sizeof(int16_t));
 //    LOGI("size of unsigned char: %d", sizeof(unsigned char));
 //    LOGI("size of unsigned short: %d", sizeof(unsigned short));
+    LOGI("size of short: %d", sizeof(short));
 
     memcpy(frameBuffers[bufferIndex].first.first, reinterpret_cast<uint8_t*>(depth), myImageSize * 2);
     memcpy(frameBuffers[bufferIndex].first.second, reinterpret_cast<uint8_t*>(image), myImageSize * 3);
@@ -418,6 +419,15 @@ void Mylogger::writeData()
                                              depth_image_width * depth_image_height * sizeof(short),
                                              Z_BEST_SPEED));
 
+
+       //========== not compress
+
+//        depthSize = width * height * sizeof(short);
+//                  rgbSize = width * height * sizeof(unsigned char) * 3;
+//
+//                  depthData = (unsigned char *)openNI2Interface->frameBuffers[bufferIndex].first.first;
+//                  rgbData = (unsigned char *)openNI2Interface->frameBuffers[bufferIndex].first.second;
+        //===============
         threads.add_thread(new boost::thread(boost::bind(&Mylogger::encodeJpeg,
                                                          this,
                                                          (cv::Vec<unsigned char, 3> *)frameBuffers[bufferIndex].first.second)));
@@ -441,7 +451,7 @@ void Mylogger::writeData()
         result =  fwrite(&depthSize, sizeof(int32_t), 1, log_file_);
         LOGI("Logger fwrite: depthSize : %d", result);
         result = fwrite(&imageSize, sizeof(int32_t), 1, log_file_);
-        LOGI("Logger fwrite imageSize : %d", result);
+        LOGI("Logger fwrite imageSize : %d", imageSize);
         result = fwrite(depth_compress_buf, depthSize, 1, log_file_);
         LOGI("Logger fwrite: %d", result);
         result = fwrite(encodedImage->data.ptr, imageSize, 1, log_file_);
