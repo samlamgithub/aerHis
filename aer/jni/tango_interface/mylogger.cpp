@@ -158,14 +158,14 @@ void Mylogger::rgbdCallback(unsigned char* image, TangoPointCloud* pointcloud_bu
 		  return;
 	  }
 
-	  double x =  pose_color_image_t1_T_depth_image_t0.orientation[0];
-	  double y =  pose_color_image_t1_T_depth_image_t0.orientation[1];
-	  double z =  pose_color_image_t1_T_depth_image_t0.orientation[2];
-	  double w =  pose_color_image_t1_T_depth_image_t0.orientation[3];
-	  pose_color_image_t1_T_depth_image_t0.orientation[0] = w;
-	  pose_color_image_t1_T_depth_image_t0.orientation[1] = x;
-	  pose_color_image_t1_T_depth_image_t0.orientation[2] = y;
-	  pose_color_image_t1_T_depth_image_t0.orientation[3] = z;
+//	  double x =  pose_color_image_t1_T_depth_image_t0.orientation[0];
+//	  double y =  pose_color_image_t1_T_depth_image_t0.orientation[1];
+//	  double z =  pose_color_image_t1_T_depth_image_t0.orientation[2];
+//	  double w =  pose_color_image_t1_T_depth_image_t0.orientation[3];
+//	  pose_color_image_t1_T_depth_image_t0.orientation[0] = w;
+//	  pose_color_image_t1_T_depth_image_t0.orientation[1] = x;
+//	  pose_color_image_t1_T_depth_image_t0.orientation[2] = y;
+//	  pose_color_image_t1_T_depth_image_t0.orientation[3] = z;
 
 	  // The Color Camera frame at timestamp t0 with respect to Depth
 	  // Camera frame at timestamp t1.
@@ -230,9 +230,9 @@ void Mylogger::UpdateAndUpsampleDepth(const glm::mat4& color_t1_T_depth_t0, cons
 //  int depth_image_width = rgb_camera_intrinsics_.width;
 //  int depth_image_height = rgb_camera_intrinsics_.height;
 //  int depth_image_size = myImageHeight * myImageWidth;
-//  std::vector<float> depth_map_buffer_;
-	LOGI("UpdateAndUpsampleDepth intrinsic: %d, %d, %d,  %f, %f, %f, %f ",depth_image_width , depth_image_height,
-			myImageSize, myFx, myFy, myCx, myCy);
+////  std::vector<float> depth_map_buffer_;
+//	LOGI("UpdateAndUpsampleDepth intrinsic: %d, %d, %d,  %f, %f, %f, %f ",depth_image_width , depth_image_height,
+//			myImageSize, myFx, myFy, myCx, myCy);
   depth_map_buffer_.resize(myImageSize);
 //  grayscale_display_buffer_.resize(depth_image_size);
   std::fill(depth_map_buffer_.begin(), depth_map_buffer_.end(), 0);
@@ -252,7 +252,7 @@ void Mylogger::UpdateAndUpsampleDepth(const glm::mat4& color_t1_T_depth_t0, cons
     glm::vec4 color_t1_point = color_t1_T_depth_t0 * depth_t0_point;
     int pixel_x, pixel_y;
 //    LOGI("UpdateAndUpsampleDepth 2: %f, %f ,%f ",color_t1_point.x, color_t1_point.y, color_t1_point.z);
-    LOGI("UpdateAndUpsampleDepth 2: %f, %f ,%f, | %f, %f ,%f ", x, y, z, color_t1_point.x, color_t1_point.y, color_t1_point.z);
+//    LOGI("UpdateAndUpsampleDepth 2: %f, %f ,%f, | %f, %f ,%f ", x, y, z, color_t1_point.x, color_t1_point.y, color_t1_point.z);
     // get the coordinate on image plane.
     pixel_x = static_cast<int>((myFx) *(color_t1_point.x / color_t1_point.z) + myCx);
     pixel_y = static_cast<int>((myFy) *(color_t1_point.y / color_t1_point.z) + myCy);
@@ -295,6 +295,7 @@ void Mylogger::UpSampleDepthAroundPoint(
     for (int b = -kWindowSize; b <= kWindowSize; ++b) {
       if (pixel_x > depth_image_width || pixel_y > depth_image_height || pixel_x < 0 ||
           pixel_y < 0) {
+//    	  LOGI("UpSampleDepthAroundPoint failed");
 //    	  LOGI("UpSampleDepthAroundPoint failed: %d, %d ,%d , %d, %f", pixel_x, pixel_y, depth_image_width, depth_image_height, depth_value);
         continue;
       }
@@ -303,6 +304,7 @@ void Mylogger::UpSampleDepthAroundPoint(
 
       if (pixel_num > 0 && pixel_num < myImageSize) {
         (*depth_map_buffer)[pixel_num] = (unsigned short)round(depth_value * 1000);
+//        LOGI("UpSampleDepthAroundPoint success");
 //        LOGI("UpSampleDepthAroundPoint success: %d, %d ,%d , %d, %d, %f", pixel_x, pixel_y, depth_image_width, depth_image_height,
 //        		(*depth_map_buffer)[pixel_num], depth_value);
       }
@@ -460,24 +462,3 @@ void Mylogger::writeData()
     LOGI("Logger close done:");
 }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

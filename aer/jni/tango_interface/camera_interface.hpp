@@ -19,7 +19,7 @@
 
 #include "event_types/marker_event.hpp"
 #include "event_types/raw_frame_event.hpp"
-#include "event_types/depth_event.hpp"
+//#include "event_types/depth_event.hpp"
 #include "gl_util.hpp"
 
 //#include <tango-gl/util.h>

@@ -205,7 +205,7 @@ bool CameraInterface::connect() {
   // Connect callbacks for new camera frames to the OpenGL GlCameraFrame class
   frame_timestamp_.reset(new double);
   status = TangoService_connectTextureId(
-        camera_type_, gl_camera_frame_->texture_id(), nullptr, 
+        camera_type_, gl_camera_frame_->texture_id(), nullptr,
         &CameraInterface::process_frame_event);
   if (status != TANGO_SUCCESS) {
     LOGE("CameraInterface: Failed to connect texture callbacks for the camera.");
@@ -336,7 +336,7 @@ void CameraInterface::render() {
 //  mylogger->sayHello();
 //  LOGI("chck2");
   double color_timestamp = 0.0;
-//  double depth_timestamp = 0.0;
+  double depth_timestamp = 0.0;
   bool new_points = false;
   TangoPointCloud* pointcloud_buffer;
   TangoErrorType err = TangoSupport_getLatestPointCloudAndNewDataFlag(
@@ -351,7 +351,7 @@ void CameraInterface::render() {
   } else {
 	  LOGI("CameraInterface: point could data is new");
   }
-//  depth_timestamp = pointcloud_buffer->timestamp;
+  depth_timestamp = pointcloud_buffer->timestamp;
 //  uint32_t num_points = pointcloud_buffer->num_points;
 //  LOGI( "depth_timestamp: %f , %d, %d", depth_timestamp, new_points, num_points);
   // We need to make sure that we update the texture associated with the color
@@ -362,8 +362,33 @@ void CameraInterface::render() {
     LOGE("CameraInterface: Failed to get a color image.");
     return;
   }
-  LOGI("color_timestamp: %f", color_timestamp);
   LOGI("camera type %d", camera_type_);
+  //=============================
+  TangoPoseData pose_color_image_t1_T_depth_image_t0;
+   if (TangoSupport_calculateRelativePose(
+		   color_timestamp, TANGO_COORDINATE_FRAME_CAMERA_COLOR, depth_timestamp,
+           TANGO_COORDINATE_FRAME_CAMERA_DEPTH,
+           &pose_color_image_t1_T_depth_image_t0) != TANGO_SUCCESS) {
+     LOGE(
+         "SynchronizationApplication: Could not find a valid relative pose at "
+         "time for color and "
+         " depth cameras.");
+     return;
+   } else {
+	 LOGI("color_timestamp: %f", color_timestamp);
+	 LOGI("depth_timestamp: %f", depth_timestamp);
+     LOGI("CameraInterface Position: %f, %f, %f. Orientation: %f, %f, %f, %f",
+          pose_color_image_t1_T_depth_image_t0.translation[0], pose_color_image_t1_T_depth_image_t0.translation[1], pose_color_image_t1_T_depth_image_t0.translation[2],
+          pose_color_image_t1_T_depth_image_t0.orientation[0], pose_color_image_t1_T_depth_image_t0.orientation[1], pose_color_image_t1_T_depth_image_t0.orientation[2],
+          pose_color_image_t1_T_depth_image_t0.orientation[3]);
+   }
+
+
+
+
+   return;
+  //===============================
+
   // Define what motion is requested.
 //  TangoService_Experimental_getPoseAtTime2(double timestamp,
 //  TangoCoordinateFrameId base_frame_id, TangoCoordinateFrameId target_frame_id, TangoPoseData *return_pose)
@@ -477,9 +502,9 @@ bool CameraInterface::setup_tango_config() {
     LOGE("Failed to enable depth.");
     return false;
   }
-  ret = TangoConfig_setBool(tango_config_, "config_enable_low_latency_imu_integration", false);
+  ret = TangoConfig_setBool(tango_config_, "config_enable_low_latency_imu_integration", true);
   if (ret != TANGO_SUCCESS) {
-    LOGE("Failed to disable low latency imu integration.");
+    LOGE("Failed to enable low latency imu integration.");
     return false;
   }
   ret = TangoConfig_setBool(tango_config_, "config_enable_motion_tracking", true);
@@ -509,21 +534,22 @@ bool CameraInterface::setup_tango_config() {
     LOGE("Failed to disable experimental high accuracy small scale ADF.");
     return false;
   }*/
-  ret = TangoConfig_setBool(tango_config_, "config_high_rate_pose", false);
-  if (ret != TANGO_SUCCESS) {
-    LOGE("Failed to disable high rate pose.");
-    return false;
-  }
-  ret = TangoConfig_setBool(tango_config_, "config_smooth_pose", false);
-  if (ret != TANGO_SUCCESS) {
-    LOGE("Failed to disable smooth pose.");
-    return false;
-  }
-  ret = TangoConfig_setBool(tango_config_, "config_experimental_enable_scene_reconstruction", false);
-  if (ret != TANGO_SUCCESS) {
-    LOGE("Failed to disable experimental scene reconstruction.");
-    return false;
-  }
+  //======
+//  ret = TangoConfig_setBool(tango_config_, "config_high_rate_pose", false);
+//  if (ret != TANGO_SUCCESS) {
+//    LOGE("Failed to disable high rate pose.");
+//    return false;
+//  }
+//  ret = TangoConfig_setBool(tango_config_, "config_smooth_pose", false);
+//  if (ret != TANGO_SUCCESS) {
+//    LOGE("Failed to disable smooth pose.");
+//    return false;
+//  }
+//  ret = TangoConfig_setBool(tango_config_, "config_experimental_enable_scene_reconstruction", false);
+//  if (ret != TANGO_SUCCESS) {
+//    LOGE("Failed to disable experimental scene reconstruction.");
+//    return false;
+//  }
   return true;
 }
 
