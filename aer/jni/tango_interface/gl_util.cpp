@@ -201,7 +201,8 @@ GlCameraFrame::GlCameraFrame()
   glGenFramebuffers(1,&frame_buffer_object_);
   glGenTextures(1,&frame_texture_buffer_);
   glBindTexture(GL_TEXTURE_2D,frame_texture_buffer_);
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE, 1280, 720, 0, GL_LUMINANCE, GL_UNSIGNED_BYTE, NULL);
+//  glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE, 1280, 720, 0, GL_LUMINANCE, GL_UNSIGNED_BYTE, NULL);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 1280, 720, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
   glBindFramebuffer(GL_FRAMEBUFFER,frame_buffer_object_);
   glFramebufferTexture2D(GL_FRAMEBUFFER,GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, frame_texture_buffer_,0);
   GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
@@ -228,7 +229,8 @@ void GlCameraFrame::render() {
   // This is used to allow on the fly updating of camera resolution within the GL context
   if (frame_texture_size_dirty_) {
     glBindTexture(GL_TEXTURE_2D,frame_texture_buffer_);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE, frame_width_, frame_height_, 0, GL_LUMINANCE, GL_UNSIGNED_BYTE, NULL);
+//    glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE, frame_width_, frame_height_, 0, GL_LUMINANCE, GL_UNSIGNED_BYTE, NULL);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, frame_width_, frame_height_, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
     glBindTexture(GL_TEXTURE_2D, 0);
     frame_texture_size_dirty_ = false;
   }
@@ -293,7 +295,33 @@ std::shared_ptr<unsigned char> GlCameraFrame::get_frame() {
   if (frame_buffer_ && frame_width_ && frame_height_) {
     if (frame_buffer_dirty_) {
       glBindFramebuffer(GL_FRAMEBUFFER,frame_buffer_object_);
+      LOGI("  frame_height_, frame_width: %d, %d ", frame_height_, frame_width_);
+//#define GL_DEPTH_COMPONENT                0x1902
+//#define GL_ALPHA                          0x1906
+//#define GL_RGB                            0x1907
+//#define GL_RGBA                           0x1908
+//#define GL_LUMINANCE                      0x1909
+//#define GL_LUMINANCE_ALPHA                0x190A
       glReadPixels(0,0,frame_width_,frame_height_,GL_RGB,GL_UNSIGNED_BYTE,frame_buffer_.get());
+//      NSLog(@"%d", (int)pixels[0]);
+//      LOGI("1: %d, 2: %d, 3: %d, 4: %d, 5:%d, 6: %d, === 1: %d, 2: %d, 3: %d, 4: %d, 5:%d, 6: %d, === 1: %d, 2: %d, 3: %d, 4: %d, 5:%d, 6: %d", (int)frame_buffer_.get()[0],
+//    		  (int)frame_buffer_.get()[1],
+//    		  (int)frame_buffer_.get()[2],
+//    		  (int)frame_buffer_.get()[3],
+//    		  (int)frame_buffer_.get()[4],
+//    		  (int)frame_buffer_.get()[5],
+//    		  (int)frame_buffer_.get()[921598],
+//    		     		  (int)frame_buffer_.get()[921599],
+//    		     		  (int)frame_buffer_.get()[921600],
+//    		     		  (int)frame_buffer_.get()[921601],
+//    		     		  (int)frame_buffer_.get()[921602],
+//    		     		  (int)frame_buffer_.get()[921603],
+//    		  (int)frame_buffer_.get()[2764000],
+//    		     		  (int)frame_buffer_.get()[2764001],
+//    		     		  (int)frame_buffer_.get()[2764002],
+//    		     		  (int)frame_buffer_.get()[2764003],
+//    		     		  (int)frame_buffer_.get()[2764004],
+//    		     		  (int)frame_buffer_.get()[2764005]);
       glBindFramebuffer(GL_FRAMEBUFFER,0);
       frame_buffer_dirty_ = false;
     }

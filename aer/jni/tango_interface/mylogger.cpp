@@ -68,7 +68,7 @@ void Mylogger::setCamWidthAndheight(int width, int height, double fx, double fy,
 	myFy = fy;
 	myCx = cx;
 	myCy = cy;
-	LOGI("setCamWidthAndheight intrinsic: %d, %d, %f, %f, %f, %f , myImageSize: %d", width, height, fx, fy, cx, cy, myImageSize);
+//	LOGI("setCamWidthAndheight intrinsic: %d, %d, %f, %f, %f, %f , myImageSize: %d", width, height, fx, fy, cx, cy, myImageSize);
 //	int imageSize = width * height;
 
 	    depth_compress_buf_size = myImageSize * sizeof(int16_t) * 4;
@@ -97,9 +97,16 @@ void Mylogger::setCamWidthAndheight(int width, int height, double fx, double fy,
 
 void Mylogger::encodeJpeg(cv::Vec<unsigned char, 3> * rgb_data)
 {
-	LOGI("Logger Encoding start: %d, %d : wocao", depth_image_height, depth_image_width);
-    cv::Mat3b rgb(depth_image_height, depth_image_width, rgb_data, depth_image_width*3);
-
+//	LOGI("Logger Encoding start: %d, %d : wocao", depth_image_height, depth_image_width);
+	int step = depth_image_width*3*sizeof(unsigned char);
+//	LOGI("step: %d", step);
+    cv::Mat3b rgb(depth_image_height, depth_image_width, rgb_data, step);
+//    LOGI("depth: %d, channels: %d, row: %d, cols : %d", rgb.depth(),  rgb.channels(),rgb.rows, rgb.cols);
+//    if (rgb.isContinuous())  {
+//    	LOGI("is continuous");
+//    } else {
+//    	LOGI("is not continuous");
+//    }
     IplImage * img = new IplImage(rgb);
 
     int jpeg_params[] = {CV_IMWRITE_JPEG_QUALITY, 90, 0};
@@ -118,7 +125,7 @@ void Mylogger::encodeJpeg(cv::Vec<unsigned char, 3> * rgb_data)
 void Mylogger::rgbdCallback(unsigned char* image, TangoPointCloud* pointcloud_buffer, double color_timestamp)
 {
 	LOGI("Writing thread rgbdCallback start ");
-	LOGI("Writing thread rgbdCallback Processing start ");
+//	LOGI("Writing thread rgbdCallback Processing start ");
 	double depth_timestamp = 0.0;
 	depth_timestamp = pointcloud_buffer->timestamp;
 	uint32_t num_points = pointcloud_buffer->num_points;
@@ -202,10 +209,12 @@ void Mylogger::rgbdCallback(unsigned char* image, TangoPointCloud* pointcloud_bu
 //    LOGI("size of int16_t: %d", sizeof(int16_t));
 //    LOGI("size of unsigned char: %d", sizeof(unsigned char));
 //    LOGI("size of unsigned short: %d", sizeof(unsigned short));
-    LOGI("size of short: %d", sizeof(short));
+//    LOGI("size of short: %d", sizeof(short));
 
     memcpy(frameBuffers[bufferIndex].first.first, reinterpret_cast<uint8_t*>(depth), myImageSize * 2);
-    memcpy(frameBuffers[bufferIndex].first.second, reinterpret_cast<uint8_t*>(image), myImageSize * 3);
+    int rgbPixeldatacount = myImageSize * 3;
+//    LOGI("rgbPixeldatacount %d", rgbPixeldatacount);
+    memcpy(frameBuffers[bufferIndex].first.second, reinterpret_cast<uint8_t*>(image), rgbPixeldatacount);
     frameBuffers[bufferIndex].second = m_lastFrameTime;
 
     latestBufferIndex++;
@@ -436,7 +445,8 @@ void Mylogger::writeData()
         LOGI("logger threads.join_all(); done ");
         int32_t depthSize = compressed_size;
         int32_t imageSize = encodedImage->width;
-
+//        int32_t imageSize = myImageSize * sizeof(unsigned char) * 3;
+//        unsigned char * rgbData = (unsigned char *)frameBuffers[bufferIndex].first.second;
         /**
          * Format is:
          * int64_t: timestamp
@@ -453,9 +463,12 @@ void Mylogger::writeData()
         result = fwrite(&imageSize, sizeof(int32_t), 1, log_file_);
         LOGI("Logger fwrite imageSize : %d", imageSize);
         result = fwrite(depth_compress_buf, depthSize, 1, log_file_);
-        LOGI("Logger fwrite: %d", result);
+        LOGI("Logger fwrite:depth_compress_buf : %d", result);
         result = fwrite(encodedImage->data.ptr, imageSize, 1, log_file_);
-        LOGI("Logger fwrite: %d", result);
+//        result = fwrite(rgbData, imageSize, 1, log_file_);
+//        int cols = encodedImage->cols;
+//        LOGI("encodedImage cols %d ", cols);
+        LOGI("Logger fwrite rgbData: %d", result);
         LOGI("Logger 2 timestamp: %lld, depthSize : %lld,  imageSize: %lld ", (long long)(frameBuffers[bufferIndex].second), (long long)depthSize,(long long)imageSize);
         LOGI("Logger: logging");
         numFrames++;

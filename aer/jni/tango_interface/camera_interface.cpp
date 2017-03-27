@@ -46,11 +46,11 @@ static void onPointCloudAvailable(void* context, const TangoPointCloud* point_cl
 
 
 void onPoseAvailable(void* context, const TangoPoseData* pose) {
-  LOGI("onPoseAvailable: Timstamp: %f, status code: %d, Position: %f, %f, %f. Orientation: %f, %f, %f, %f",
-		  pose->timestamp, pose->status_code,
-       pose->translation[0], pose->translation[1], pose->translation[2],
-       pose->orientation[0], pose->orientation[1], pose->orientation[2],
-       pose->orientation[3]);
+//  LOGI("onPoseAvailable: Timstamp: %f, status code: %d, Position: %f, %f, %f. Orientation: %f, %f, %f, %f",
+//		  pose->timestamp, pose->status_code,
+//       pose->translation[0], pose->translation[1], pose->translation[2],
+//       pose->orientation[0], pose->orientation[1], pose->orientation[2],
+//       pose->orientation[3]);
 }
 
 }
@@ -200,7 +200,7 @@ bool CameraInterface::connect() {
   myFy = camera_intrinsics.fy;
   myCx = camera_intrinsics.cx;
   myCy = camera_intrinsics.cy;
-	LOGI("CameraInterface TangoService_getCameraIntrinsics: %d, %d, %f, %f, %f, %f ", myImageWidth, myImageHeight, myFx, myFy, myCx, myCy);
+//	LOGI("CameraInterface TangoService_getCameraIntrinsics: %d, %d, %f, %f, %f, %f ", myImageWidth, myImageHeight, myFx, myFy, myCx, myCy);
   set_frame_view_port(myImageWidth, myImageHeight);
   // Connect callbacks for new camera frames to the OpenGL GlCameraFrame class
   frame_timestamp_.reset(new double);
@@ -241,7 +241,7 @@ bool CameraInterface::connect() {
 //    char const *pchar = s.c_str();
 //    LOGE(pchar);
     __android_log_print(ANDROID_LOG_INFO, "MyTag", "The max_vertex_count is %d", max_vertex_count);
-    LOGI("max_vertex_count:");
+//    LOGI("max_vertex_count:");
     ret = TangoSupport_createPointCloudManager(max_point_cloud_elements,
                                                &point_cloud_manager_);
     if (ret != TANGO_SUCCESS) {
@@ -254,9 +254,9 @@ bool CameraInterface::connect() {
 //  int depth_image_width = rgb_camera_intrinsics_.width;
 //  int depth_image_height = rgb_camera_intrinsics_.height;
 //  mylogger = (new Mylogger(depth_image_width, depth_image_height));
-  LOGI("setCamWidthAndheight1:width  %d", myImageWidth);
+//  LOGI("setCamWidthAndheight1:width  %d", myImageWidth);
 //  Mylogger logger;
-  LOGI("setCamWidthAndheight1.5:height  %d", myImageHeight);
+//  LOGI("setCamWidthAndheight1.5:height  %d", myImageHeight);
 //  mylogger->setCamWidthAndheight(depth_image_width, depth_image_height);
 //  LOGI("setCamWidthAndheight2:");
 //  mylogger = &logger;
