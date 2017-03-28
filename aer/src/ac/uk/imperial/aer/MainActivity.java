@@ -1,6 +1,7 @@
 package ac.uk.imperial.aer;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.view.View;
@@ -16,7 +17,7 @@ public class MainActivity extends Activity implements OnClickListener{
   private static final String TAG = "Aer";
 
   private FrameLayout mFrameLayout;
-  private ToggleButton writingSwitcher;
+ private ToggleButton writingSwitcher;
   private boolean mIsCameraConnected = false;
   private GLSurfaceRenderer mRenderer;
   private GLSurfaceView mGLView;
@@ -28,7 +29,7 @@ public class MainActivity extends Activity implements OnClickListener{
     getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
         WindowManager.LayoutParams.FLAG_FULLSCREEN);
     JNIInterface.cameraInitialise(this,getAssets());
-    mFrameLayout = new FrameLayout(this); 
+    mFrameLayout = new FrameLayout(this);
     mOverlay = new CameraOverlay(this);
     addContentView(mOverlay, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
     mGLView = new GLSurfaceView(this);
@@ -38,15 +39,17 @@ public class MainActivity extends Activity implements OnClickListener{
     addContentView(mGLView, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
     // add Toggle button
     writingSwitcher = new ToggleButton(this);
-    writingSwitcher.setTextOn("Start writing");
+   writingSwitcher.setTextOn("Start writing");
+   writingSwitcher.setBackgroundColor(Color.WHITE);
+   writingSwitcher.setTextColor(Color.BLACK);
     writingSwitcher.setId(9000);
     writingSwitcher.setTextOff("Stop writing");
     writingSwitcher.setChecked(false);
-    writingSwitcher.setWidth(150);
-    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-    		RelativeLayout.ALIGN_PARENT_LEFT,
-    		RelativeLayout.ALIGN_PARENT_TOP);
-    writingSwitcher.setLayoutParams(params);
+   writingSwitcher.setWidth(150);
+  //...    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+   //  	RelativeLayout.ALIGN_PARENT_LEFT,
+   //  		RelativeLayout.ALIGN_PARENT_TOP);
+   //    writingSwitcher.setLayoutParams(params);
 //    writingSwitcher.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
     writingSwitcher.setOnClickListener(this);
 //    <ToggleButton
@@ -55,7 +58,7 @@ public class MainActivity extends Activity implements OnClickListener{
 //    android:layout_height="wrap_content"
 //    android:text="Start writing"
 //    android:onClick="writingClicked" />
-    addContentView(writingSwitcher, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+    addContentView(writingSwitcher, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 //    writingSwitcher = (ToggleButton) findViewById(R.id.log_writer);
   }
 
@@ -63,24 +66,24 @@ public class MainActivity extends Activity implements OnClickListener{
   protected void onDestroy() {
     super.onDestroy();
   }
-  
+
   @Override
   protected void onPause() {
     super.onPause();
     mGLView.onPause();
     if (mIsCameraConnected) {
       JNIInterface.cameraDisconnect();
-      JNIInterface.imuOnPause();
+//      JNIInterface.imuOnPause();
     }
   }
-  
+
   /**
    * The writing button was pressed.
    */
   public void onClick(View view) {
 	  switch (view.getId()) {
 	  case 9000:
-		  JNIInterface.setWriting(writingSwitcher.isChecked());
+		    JNIInterface.setWriting(writingSwitcher.isChecked());
 		  break;
 	  }
   }
@@ -90,9 +93,9 @@ public class MainActivity extends Activity implements OnClickListener{
   protected void onResume() {
     super.onResume();
     mGLView.onResume();
-    JNIInterface.imuOnResume();
+//    JNIInterface.imuOnResume();
   }
-  
+
   public void surfaceCreated() {
     mIsCameraConnected = JNIInterface.cameraConnect();
     if (!mIsCameraConnected) {
@@ -100,9 +103,9 @@ public class MainActivity extends Activity implements OnClickListener{
         finish();
     }
   }
-  
+
   public void requestRender() {
     mGLView.requestRender();
   }
-  
+
 }

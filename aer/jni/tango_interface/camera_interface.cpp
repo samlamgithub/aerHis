@@ -261,7 +261,8 @@ bool CameraInterface::connect() {
 //  LOGI("setCamWidthAndheight2:");
 //  mylogger = &logger;
   if (loggerWH_callback_) {
-      (*loggerWH_callback_)(myImageWidth, myImageHeight, myFx, myFy, myCx, myCy);
+	  (*loggerWH_callback_)(myImageWidth, myImageHeight, myFx, myFy, myCx, myCy, max_vertex_count);
+//      (*loggerWH_callback_)(myImageWidth, myImageHeight, myFx, myFy, myCx, myCy);
   }
 //  LOGI("setCamWidthAndheight3:");
   if (writing_callback_) {
@@ -300,6 +301,7 @@ void CameraInterface::render() {
   if (status == TANGO_SUCCESS && (*frame_timestamp_) > 0) {
     if (gl_camera_frame_) {
       gl_camera_frame_->render();
+//      return;
       std::shared_ptr<unsigned char> frame = gl_camera_frame_->get_frame();
 //      CameraInterface::OnDrawFrame(frame);
 //      if (frame) {
@@ -485,15 +487,15 @@ bool CameraInterface::setup_tango_config() {
     LOGE("Failed to enable color camera.");
     return false;
   }
-  /*ret = TangoConfig_setBool(tango_config_, "config_color_mode_auto", false);
-  if (ret != TANGO_SUCCESS) {
-    LOGE("Failed to enable auto-exposure.");
-    return false;
-  }*/
+//  ret = TangoConfig_setBool(tango_config_, "config_color_mode_auto", false);
+//  if (ret != TANGO_SUCCESS) {
+//    LOGE("Failed to disable auto-exposure.");
+//    return false;
+//  }
   // Absolutely every other option is explicitly turned off here.
-  ret = TangoConfig_setBool(tango_config_, "config_enable_auto_recovery", true);
+  ret = TangoConfig_setBool(tango_config_, "config_enable_auto_recovery", false);
   if (ret != TANGO_SUCCESS) {
-    LOGE("Failed to enable recovery from motion tracking.");
+    LOGE("Failed to disable recovery from motion tracking.");
     return false;
   }
 
