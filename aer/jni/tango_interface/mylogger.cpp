@@ -109,6 +109,7 @@ void Mylogger::setCamWidthAndheight(int width, int height, double fx, double fy,
 	       rgbdData.pointCloudNumpoints = 0;
 	       rgbdData.pointCloudPoints = newDepth;
 	       rgbdData.m_lastTimestamp = 0;
+//	       rgbdData.pose = NULL;
 	       frameBuffers[i] = rgbdData;
 	   }
 	   LOGI("setCamWidthAndheight done");
@@ -116,7 +117,7 @@ void Mylogger::setCamWidthAndheight(int width, int height, double fx, double fy,
 
 void Mylogger::encodeJpeg(cv::Vec<unsigned char, 3> * rgb_data)
 {
-	LOGI("Logger Encoding start: %d, %d : wocao", depth_image_height, depth_image_width);
+	LOGI("Logger Encoding start: %d, %d", depth_image_height, depth_image_width);
 	int step = depth_image_width*3*sizeof(unsigned char);
 //	LOGI("step: %d", step);
     cv::Mat3b rgb(depth_image_height, depth_image_width, rgb_data, step);
@@ -141,7 +142,7 @@ void Mylogger::encodeJpeg(cv::Vec<unsigned char, 3> * rgb_data)
     LOGI("Logger Encoding done");
 }
 
-void Mylogger::rgbdCallback(unsigned char* image, TangoPointCloud* pointcloud_buffer, double color_timestamp)
+void Mylogger::rgbdCallback(unsigned char* image, TangoPointCloud* pointcloud_buffer, double color_timestamp, TangoPoseData pose)
 {
 	LOGI("Writing thread rgbdCallback start ");
 	//===========================================================
@@ -150,7 +151,6 @@ void Mylogger::rgbdCallback(unsigned char* image, TangoPointCloud* pointcloud_bu
     m_lastFrameTime = duration.total_microseconds();
 //    int bufferIndex = (latestBufferIndex.getValue() + 1) % 10;
     int bufferIndex = (latestBufferIndex.getValue() + 1) % 50;
-//
 //    for (auto const& c : depth_map_buffer_) {
 //    	 LOGI("dep: %d", c);
 //    }
@@ -170,11 +170,12 @@ void Mylogger::rgbdCallback(unsigned char* image, TangoPointCloud* pointcloud_bu
 //      int64_t m_lastTimestamp;
     frameBuffers[bufferIndex].pointCloudTimestamp = pointcloud_buffer->timestamp;
     frameBuffers[bufferIndex].pointCloudNumpoints = pointcloud_buffer->num_points;
-   memcpy(frameBuffers[bufferIndex].pointCloudPoints, pointcloud_buffer->points, (pointcloud_buffer->num_points) * 4 * sizeof(float));
+    memcpy(frameBuffers[bufferIndex].pointCloudPoints, pointcloud_buffer->points, (pointcloud_buffer->num_points) * 4 * sizeof(float));
     int rgbPixeldatacount = myImageSize * 3;
     memcpy(frameBuffers[bufferIndex].image,reinterpret_cast<uint8_t*>(image), rgbPixeldatacount);
     frameBuffers[bufferIndex].colorTimeStamp = color_timestamp;
     frameBuffers[bufferIndex].m_lastTimestamp = m_lastFrameTime;
+    frameBuffers[bufferIndex].pose = pose;
 //    memcpy(frameBuffers[bufferIndex].first.first, reinterpret_cast<uint8_t*>(depth), myImageSize * 2);
 //    int rgbPixeldatacount = myImageSize * 3;
 //    LOGI("rgbPixeldatacount %d", rgbPixeldatacount);
@@ -183,7 +184,6 @@ void Mylogger::rgbdCallback(unsigned char* image, TangoPointCloud* pointcloud_bu
     latestBufferIndex++;
     LOGI("Writing thread rgbdCallback done ");
 }
-
 
 glm::mat4 Mylogger::GetMatrixFromPose(const TangoPoseData* pose_data) {
   glm::vec3 translation =
@@ -195,7 +195,6 @@ glm::mat4 Mylogger::GetMatrixFromPose(const TangoPoseData* pose_data) {
   return glm::translate(glm::mat4(1.0f), translation) *
          glm::mat4_cast(rotation);
 }
-
 
 //void Mylogger::UpdateAndUpsampleDepth(const glm::mat4& color_t1_T_depth_t0,
 //		const TangoPointCloud* render_point_cloud_buffer,
@@ -219,8 +218,8 @@ void Mylogger::UpdateAndUpsampleDepth(const glm::mat4& color_t1_T_depth_t0, cons
 //    float y = render_point_cloud_buffer->points[i][1];
 //    float z = render_point_cloud_buffer->points[i][2];
     float x = render_point_cloud_buffer[3*i];
-   float y = render_point_cloud_buffer[3*i+1];
-  float z = render_point_cloud_buffer[3*i+2];
+    float y = render_point_cloud_buffer[3*i+1];
+    float z = render_point_cloud_buffer[3*i+2];
 //    LOGI("UpdateAndUpsampleDepth 1: %f, %f ,%f ", x, y, z);
     // depth_t0_point is the point in depth camera frame on timestamp t0.
     // (depth image timestamp).
@@ -344,46 +343,55 @@ void Mylogger::sayHello() {
 //   LOGI("I am saying Hello");
 }
 
-void Mylogger::writeData()
-{
+void Mylogger::writeData() {
     /**
      * int32_t at file beginning for frame count
      */
-	std::string filename("/sdcard/mymy_imperial_tango_" + current_date_time());
-	 int version = 0;
-	  std::string version_suffix(".klg");
-	  while (file_exists(filename + version_suffix)) {
-	    version_suffix = "_" + to_string(++version) + ".klg";
+	std::string RGBfilename("/sdcard/mymy_imperial_tango_RGB" + current_date_time());
+	 int RGBversion = 0;
+	  std::string RGBversion_suffix(".klg");
+	  while (file_exists(RGBfilename + RGBversion_suffix)) {
+	    RGBversion_suffix = "_" + to_string(++RGBversion) + ".klg";
 	  }
 	  // Finish opening the file
-	  filename += version_suffix;
-	  log_file_ = fopen(filename.c_str(),"wb+");
-	  if (log_file_ == NULL) {
-	    LOGE("Logger: There was a problem opening the log file:%s",filename.c_str());
+	  RGBfilename += RGBversion_suffix;
+	  RGBlog_file_ = fopen(RGBfilename.c_str(),"wb+");
+	  if (RGBlog_file_ == NULL) {
+	    LOGE("Logger: There was a problem opening the RGB log file:%s",RGBfilename.c_str());
 	  }
+
+	  std::string Depthfilename("/sdcard/mymy_imperial_tango_Depth" + current_date_time());
+	  	 int Depthversion = 0;
+	  	  std::string Depthversion_suffix(".klg");
+	  	  while (file_exists(Depthfilename + Depthversion_suffix)) {
+	  		Depthversion_suffix = "_" + to_string(++Depthversion) + ".klg";
+	  	  }
+	  	  // Finish opening the file
+	  	Depthfilename += Depthversion_suffix;
+	  	Depthlog_file_ = fopen(Depthfilename.c_str(),"wb+");
+	  	  if (Depthlog_file_ == NULL) {
+	  	    LOGE("Logger: There was a problem opening the Depth log file:%s",Depthfilename.c_str());
+	  	  }
 
     int32_t numFrames = 0;
 
-    size_t result1 = fwrite(&numFrames, sizeof(int32_t), 1, log_file_);
+    size_t result1 = fwrite(&numFrames, sizeof(int32_t), 1, RGBlog_file_);
     LOGI("Logger fwrite: %d", result1);
 //    int result = fputs("\n:testest     \n", log_file_);
 //    LOGI("Logger puts: %d", result);
     LOGI("Logger: good");
 
-    while(writing.getValueWait(1))
-    {
+    while(writing.getValueWait(1)) {
         int bufferIndex = latestBufferIndex.getValue();
 
-        if(bufferIndex == -1)
-        {
+        if(bufferIndex == -1) {
             continue;
         }
 
 //        bufferIndex = bufferIndex % 10;
         bufferIndex = bufferIndex % 50;
 
-        if(bufferIndex == lastWritten)
-        {
+        if(bufferIndex == lastWritten) {
             continue;
         }
         //==============================================
@@ -494,31 +502,54 @@ void Mylogger::writeData()
          * depthSize * unsigned char: depth_compress_buf
          * imageSize * unsigned char: encodedImage->data.ptr
          */
-        size_t result = fwrite(&frameBuffers[bufferIndex].m_lastTimestamp, sizeof(int64_t), 1, log_file_);
+        size_t result = fwrite(&frameBuffers[bufferIndex].m_lastTimestamp, sizeof(int64_t), 1, RGBlog_file_);
         LOGI("Logger fwrite timestamp: %d", result);
-        result =  fwrite(&depthSize, sizeof(int32_t), 1, log_file_);
+        result =  fwrite(&depthSize, sizeof(int32_t), 1, RGBlog_file_);
         LOGI("Logger fwrite: depthSize : %d", result);
-        result = fwrite(&imageSize, sizeof(int32_t), 1, log_file_);
+        result = fwrite(&imageSize, sizeof(int32_t), 1, RGBlog_file_);
         LOGI("Logger fwrite imageSize : %d", imageSize);
-        result = fwrite(depth_compress_buf, depthSize, 1, log_file_);
+        result = fwrite(depth_compress_buf, depthSize, 1, RGBlog_file_);
         LOGI("Logger fwrite:depth_compress_buf : %d", result);
-        result = fwrite(encodedImage->data.ptr, imageSize, 1, log_file_);
+        result = fwrite(encodedImage->data.ptr, imageSize, 1, RGBlog_file_);
 //        result = fwrite(rgbData, imageSize, 1, log_file_);
 //        int cols = encodedImage->cols;
 //        LOGI("encodedImage cols %d ", cols);
         LOGI("Logger fwrite rgbData: %d", result);
         LOGI("Logger 2 timestamp: %lld, depthSize : %lld,  imageSize: %lld ", (long long)(frameBuffers[bufferIndex].m_lastTimestamp), (long long)depthSize,(long long)imageSize);
+
+        TangoPoseData pose = frameBuffers[bufferIndex].pose;
+        unsigned long long int utime = frameBuffers[bufferIndex].m_lastTimestamp;
+        float x = (float)pose.translation[0];
+        float y = (float)pose.translation[1];
+        float z =(float) pose.translation[2];
+        float qx = (float)pose.orientation[0];
+        float qy = (float)pose.orientation[1];
+        float qz = (float)pose.orientation[2];
+        float qw = (float)pose.orientation[3];
+        char buffer [100];
+        int n;
+        n = sprintf(buffer, "%llu,%f,%f,%f,%f,%f,%f,%f", utime, x, y, z, qx, qy, qz, qw);
+        LOGI("depth log: n: %d, s: %s", n, buffer);
+//        printf ("[%s] is a string %d chars long\n",buffer,n);
+//        int n = sscanf(line.c_str(), "%llu,%f,%f,%f,%f,%f,%f,%f", );
+        result = fwrite(&buffer, sizeof(char), n, Depthlog_file_);
+        LOGI("Logger fwrite depth1: %d", result);
+        result = fwrite("\n", sizeof(char), 1, Depthlog_file_);
+        LOGI("Logger fwrite depth2: %d", result);
+
         LOGI("Logger: logging");
         numFrames++;
         lastWritten = bufferIndex;
         LOGI("Logger: logged one frame, total: %d", numFrames);
     }
-    fseek(log_file_, 0, SEEK_SET);
-    fwrite(&numFrames, sizeof(int32_t), 1, log_file_);
+    fseek(RGBlog_file_, 0, SEEK_SET);
+    fwrite(&numFrames, sizeof(int32_t), 1, RGBlog_file_);
     LOGI("Logger flush: numFrames: %d ", numFrames);
-    fflush(log_file_);
+    fflush(RGBlog_file_);
+    fflush(Depthlog_file_);
     LOGI("Logger close:");
-    fclose(log_file_);
+    fclose(RGBlog_file_);
+    fclose(Depthlog_file_);
     LOGI("Logger close done:");
 }
 }

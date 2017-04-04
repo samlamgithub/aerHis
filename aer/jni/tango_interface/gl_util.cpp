@@ -295,7 +295,7 @@ std::shared_ptr<unsigned char> GlCameraFrame::get_frame() {
   if (frame_buffer_ && frame_width_ && frame_height_) {
     if (frame_buffer_dirty_) {
       glBindFramebuffer(GL_FRAMEBUFFER,frame_buffer_object_);
-      LOGI("  frame_height_, frame_width: %d, %d ", frame_height_, frame_width_);
+//      LOGI("  frame_height_, frame_width: %d, %d ", frame_height_, frame_width_);
 //#define GL_DEPTH_COMPONENT                0x1902
 //#define GL_ALPHA                          0x1906
 //#define GL_RGB                            0x1907

@@ -41,7 +41,7 @@ namespace tango_interface {
 
 //typedef std::function<void (const RawFrameEvent& event)> RawFrameCallBack;
 //typedef std::function<void (const MarkerEvent& event)> MarkerCallBack;
-typedef std::function<void (unsigned char* image, TangoPointCloud* pointcloud_buffer, double color_timestamp)> RGBDCallBack;
+typedef std::function<void (unsigned char* image, TangoPointCloud* pointcloud_buffer, double color_timestamp, TangoPoseData pose)> RGBDCallBack;
 //typedef std::function<void (const int width, const int height, const double fx, const double fy, const double cx, const double cy)> LoggerWHCallBack;
 typedef std::function<void (const int width, const int height, const double fx, const double fy, const double cx, const double cy, const int maxVerCount)> LoggerWHCallBack;
 typedef std::function<void ()> WritingCallBack;

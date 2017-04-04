@@ -43,6 +43,7 @@ struct RGBDdata {
    uint8_t *   image;
    double colorTimeStamp;
    int64_t m_lastTimestamp;
+   TangoPoseData pose;
 };
 
 class Mylogger
@@ -58,7 +59,7 @@ class Mylogger
 //        std::pair<std::pair<uint8_t *, uint8_t *>, int64_t> frameBuffers[10];
         RGBDdata frameBuffers[50];
         ThreadMutexObject<int> latestBufferIndex;
-        void rgbdCallback(unsigned char* image, TangoPointCloud* pointcloud_buffer, double color_timestamp);
+        void rgbdCallback(unsigned char* image, TangoPointCloud* pointcloud_buffer, double color_timestamp, TangoPoseData pose);
         void sayHello();
         void setCamWidthAndheight(int width, int height, double fx, double fy, double cx, double cy, int maxVerCount);
 //        void setCamWidthAndheight(int width, int height, double fx, double fy, double cx, double cy);
@@ -70,7 +71,6 @@ class Mylogger
         void UpSampleDepthAroundPoint(float depth_value, int pixel_x, int pixel_y, std::vector<unsigned short>* depth_map_buffer);
 //        std::pair<uint8_t *, int64_t> imageBuffers[10];
 //        ThreadMutexObject<int> latestImageIndex;
-
         int depth_image_width;
         int depth_image_height;
         int myImageSize;
@@ -78,7 +78,6 @@ class Mylogger
         double myFy;
         double myCx;
         double myCy;
-
 
         bool file_exists(const std::string& filename) const;
         std::string to_string(int) const;
@@ -95,7 +94,8 @@ class Mylogger
         std::string filename;
 
         void encodeJpeg(cv::Vec<unsigned char, 3> * rgb_data);
-        FILE* log_file_;
+        FILE* RGBlog_file_;
+        FILE* Depthlog_file_;
         void writeData();
 };
 }

@@ -413,7 +413,7 @@ void CameraInterface::render() {
   //
   if (rgbd_callback_) {
 //    	float* depth = &depth_map_buffer_[0];
-          (*rgbd_callback_)(frame.get(), pointcloud_buffer, color_timestamp);
+          (*rgbd_callback_)(frame.get(), pointcloud_buffer, color_timestamp, pose);
      }
     }
   }

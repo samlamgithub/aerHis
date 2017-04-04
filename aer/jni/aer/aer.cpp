@@ -28,7 +28,7 @@ Aer::Aer() {
 		  std::placeholders::_5, std::placeholders::_6,  std::placeholders::_7));
 
   tango_interface::CameraInterface::register_rgbd_callback(
-      std::bind(&Aer::rgbdCallback, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+      std::bind(&Aer::rgbdCallback, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
   tango_interface::CameraInterface::register_writing_callback(
       std::bind(&Aer::writing_callback, this));
 //  tango_interface::Mylogger logger;
@@ -66,8 +66,8 @@ void Aer::setLoggerWidthHeight_callback(const int width, const int height, const
 mylogger.setCamWidthAndheight(width, height, fx, fy, cx, cy, max_vertex_count);
 }
 
-void Aer::rgbdCallback(unsigned char* image, TangoPointCloud* pointcloud_buffer, double cameraTime) {
-	mylogger.rgbdCallback(image, pointcloud_buffer, cameraTime);
+void Aer::rgbdCallback(unsigned char* image, TangoPointCloud* pointcloud_buffer, double cameraTime, TangoPoseData pose) {
+	mylogger.rgbdCallback(image, pointcloud_buffer, cameraTime, pose);
 }
 
 void Aer::writing_callback() {

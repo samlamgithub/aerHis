@@ -32,7 +32,7 @@ public:
 //  void setLoggerWidthHeight_callback(const int width, const int height, const double fx, const double fy, const double cx, const double cy);
   void setLoggerWidthHeight_callback(const int width, const int height, const double fx, const double fy, const double cx, const double cy, const int max_vertex_count);
 
-  void rgbdCallback(unsigned char* image, TangoPointCloud* pointcloud_buffer, double cameraTime);
+  void rgbdCallback(unsigned char* image, TangoPointCloud* pointcloud_buffer, double cameraTime, TangoPoseData pose);
 //  void marker_callback(const tango_interface::MarkerEvent& event);
   void writing_callback();
   void aerStartWriting(bool startWriting);
