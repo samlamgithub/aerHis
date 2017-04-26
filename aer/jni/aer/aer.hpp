@@ -9,6 +9,13 @@
 #include <tango_interface/event_types/raw_frame_event.hpp>
 #include <tango_interface/mylogger.hpp>
 #include <tango_client_api.h>
+//#include <pangolin/gl/gl.h>
+//#include <pangolin/pangolin.h>
+#include <cholmod.h>
+#include <cholmod_core.h>
+//#include <Eigen/CholmodSupport>
+//#include <Eigen/Core>
+//#include <suitesparse/cholmod.h>
 
 namespace aer {
 
@@ -37,6 +44,17 @@ public:
   void writing_callback();
   void aerStartWriting(bool startWriting);
   tango_interface::Mylogger mylogger;
+
+
+
+  //test
+  cholmod_common Common;
+  cholmod_sparse * L;
+  cholmod_factor *factor;
+  cholmod_dense * d;
+
+//  Eigen::VectorXd &residual;
+//  pangolin::GlTexture * depth;
 };
 
 } // namespace aer

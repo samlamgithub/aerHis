@@ -9,14 +9,37 @@ OPENCV_LIB_TYPE:=STATIC
 OPENCV_INSTALL_MODULES:=on
 OPENCV_CAMERA_MODULES:=off
 include $(OPENCV_MK_PATH)
-include /Users/jiahaolin/Downloads/OpenCV-android-sdk/sdk/native/jni/OpenCV.mk 
+include /home/sam/Downloads/OpenCV-android-sdk/sdk/native/jni/OpenCV.mk 
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := libcudart_static
+LOCAL_SRC_FILES  := $(CUDA_TOOLKIT_ROOT)/targets/armv7-linux-androideabi/lib/libcudart_static.a 
+LOCAL_EXPORT_C_INCLUDES := $(CUDA_TOOLKIT_ROOT)/targets/armv7-linux-androideabi/include
+include $(PREBUILT_STATIC_LIBRARY)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := pangolin
+LOCAL_SRC_FILES := /home/sam/pangolin_android/build/libs/armeabi-v7a/libpangolin.so
+LOCAL_EXPORT_C_INCLUDES := /home/sam/pangolin_android/Pangolin/include
+LOCAL_EXPORT_C_INCLUDES += /home/sam/pangolin_android/build/src/include
+include $(PREBUILT_SHARED_LIBRARY)
+
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := cholmod
+LOCAL_SRC_FILES := /home/sam/suitesparse/CHOLMOD/obj/local/armeabi-v7a/libcholmod.a
+LOCAL_EXPORT_C_INCLUDES += /home/sam/suitesparse/CHOLMOD/Include
+LOCAL_EXPORT_C_INCLUDES += /home/sam/suitesparse/include
+include $(PREBUILT_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE           := aer
 
 LOCAL_SHARED_LIBRARIES += tango_client_api \
                           tango_support_api \
-                          tango_3d_reconstruction
+                          tango_3d_reconstruction \
+                          pangolin \
+			  cholmod
   
 LOCAL_STATIC_LIBRARIES +=   opencv_calib3d opencv_features2d opencv_highgui \
 						    opencv_imgproc opencv_flann \
@@ -26,7 +49,9 @@ LOCAL_STATIC_LIBRARIES +=   opencv_calib3d opencv_features2d opencv_highgui \
 						  boost_thread \
 						  boost_filesystem \
 						  boost_date_time \
-						  boost_chrono 
+						  boost_chrono  \
+						  CudatestLib  \
+						  cudart_static
 						                           
 LOCAL_CFLAGS           += -std=c++11 -O3 -g -D__ANDROID__ -pthread 
 
@@ -39,20 +64,30 @@ LOCAL_SRC_FILES        += jni_interface.cpp \
                           aer/aer.cpp \
                           tango_interface/gl_util.cpp 
       
+EIGEN_PATH := /usr/local/include/eigen3 /usr/local/include/eigen3/unsupported/ 
         
 LOCAL_C_INCLUDES += $(PROJECT_ROOT)/third_party/glm/ \
-		/Users/jiahaolin/Downloads/OpenCV-android-sdk/sdk/native/jni/include   \
+		/home/sam/Downloads/OpenCV-android-sdk/sdk/native/jni/include   \
 		$(PROJECT_ROOT)/boost_1_53_0/include \
        $(LOCAL_PATH)/include \
-		 $(LOCAL_PATH)
-
+		 $(LOCAL_PATH) 
+		
+		 
+LOCAL_C_INCLUDES += $(EIGEN_PATH)
+		 
 LOCAL_LDLIBS           += -lstdc++ -L$(SYSROOT)/usr/lib -llog -lm -lc -ldl -landroid -lGLESv3 -lz \
--LUsers/jiahaolin/Downloads/OpenCV-android-sdk/sdk/native/jni/3rdparty/libs/armeabi-v7a \
+-L/home/sam/Downloads/OpenCV-android-sdk/sdk/native/jni/3rdparty/libs/armeabi-v7a \
                -L$(PROJECT_ROOT)/boost_1_53_0/armeabi-v7a/lib
 
-LOCAL_CC	             :=   /usr/bin/gcc-4.8
+LOCAL_CC	             :=   /usr/bin/gcc-5
+
+LOCAL_ARM_NEON := true
+	
+LOCAL_NEON_CFLAGS := -mfloat-abi=softfp -mfpu=neon -march=armv7
 
 include $(BUILD_SHARED_LIBRARY)
+
+include  $(LOCAL_PATH)/cudatest/Android.mk
 
 include $(CLEAR_VARS)
 LOCAL_MODULE           := IlmImf

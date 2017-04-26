@@ -299,10 +299,16 @@ void CameraInterface::disconnect() {
 void CameraInterface::render() {
   TangoErrorType status = TangoService_updateTexture(camera_type_, frame_timestamp_.get());
   if (status == TANGO_SUCCESS && (*frame_timestamp_) > 0) {
-    if (gl_camera_frame_) {
+  if (gl_camera_frame_) {
       gl_camera_frame_->render();
-//      return;
+      int n = 0;
+      float a[] = {1,2,3,4,5,6,7,8,9};
+      float b[] = {9,8,7,6,5,4,3,2,1};
+      float * c = CUDA_addVectors(a, b, 9);
+      LOGI("CUDA result is %f, %f, %f, %f, %f, %f, %f, %f, %f", c[0], c[1], c[2], c[3],c[4] ,c[5] ,c[6] ,c[7], c[8]);
+      return;
       std::shared_ptr<unsigned char> frame = gl_camera_frame_->get_frame();
+
 //      CameraInterface::OnDrawFrame(frame);
 //      if (frame) {
 //        if (raw_frame_callback_) {

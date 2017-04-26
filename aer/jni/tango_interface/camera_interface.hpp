@@ -30,6 +30,8 @@
 
 #include "mylogger.hpp"
 
+#include "../cudatest/nativeCUDA.cuh"
+
 //#include <tango-gl/util.h>
 #include <tango_client_api.h>  // NOLINT
 //#include <tango-gl/tango-gl.h>

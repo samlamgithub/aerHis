@@ -20,8 +20,8 @@ public class JNIInterface {
       public static native void cameraRender();
 
       // Imu interface
-      public static native void imuOnPause();
-      public static native void imuOnResume();
+//      public static native void imuOnPause();
+//      public static native void imuOnResume();
 
       // Gui interface
       public static native boolean guiInitialise(CameraOverlay gui);
