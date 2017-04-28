@@ -2,16 +2,16 @@
  * This file is part of ElasticFusion.
  *
  * Copyright (C) 2015 Imperial College London
- * 
- * The use of the code within this file and all code within files that 
- * make up the software that is ElasticFusion is permitted for 
- * non-commercial purposes only.  The full terms and conditions that 
- * apply to the code within this file are detailed within the LICENSE.txt 
- * file and at <http://www.imperial.ac.uk/dyson-robotics-lab/downloads/elastic-fusion/elastic-fusion-license/> 
- * unless explicitly stated.  By downloading this file you agree to 
+ *
+ * The use of the code within this file and all code within files that
+ * make up the software that is ElasticFusion is permitted for
+ * non-commercial purposes only.  The full terms and conditions that
+ * apply to the code within this file are detailed within the LICENSE.txt
+ * file and at <http://www.imperial.ac.uk/dyson-robotics-lab/downloads/elastic-fusion/elastic-fusion-license/>
+ * unless explicitly stated.  By downloading this file you agree to
  * comply with these terms.
  *
- * If you wish to use any of this code for commercial purposes then 
+ * If you wish to use any of this code for commercial purposes then
  * please email researchcontracts.engineering@imperial.ac.uk.
  *
  */
@@ -25,7 +25,8 @@
 #include "GPUTexture.h"
 #include "Utils/Resolution.h"
 #include "Utils/Intrinsics.h"
-#include <pangolin/gl/gl.h>
+// #include <pangolin/gl/gl.h>
+#include <Shaders/glFrameBuffer.h>
 
 class IndexMap
 {
@@ -158,40 +159,52 @@ class IndexMap
 
     private:
         std::shared_ptr<Shader> indexProgram;
-        pangolin::GlFramebuffer indexFrameBuffer;
-        pangolin::GlRenderBuffer indexRenderBuffer;
+        // pangolin::GlFramebuffer indexFrameBuffer;
+        // pangolin::GlRenderBuffer indexRenderBuffer;
+        GlFramebuffer indexFrameBuffer;
+        GlRenderBuffer indexRenderBuffer;
         GPUTexture indexTexture;
         GPUTexture vertConfTexture;
         GPUTexture colorTimeTexture;
         GPUTexture normalRadTexture;
 
         std::shared_ptr<Shader> drawDepthProgram;
-        pangolin::GlFramebuffer drawFrameBuffer;
-        pangolin::GlRenderBuffer drawRenderBuffer;
+        // pangolin::GlFramebuffer drawFrameBuffer;
+        // pangolin::GlRenderBuffer drawRenderBuffer;
+        GlFramebuffer drawFrameBuffer;
+        GlRenderBuffer drawRenderBuffer;
         GPUTexture drawTexture;
 
         std::shared_ptr<Shader> depthProgram;
-        pangolin::GlFramebuffer depthFrameBuffer;
-        pangolin::GlRenderBuffer depthRenderBuffer;
+        // pangolin::GlFramebuffer depthFrameBuffer;
+        // pangolin::GlRenderBuffer depthRenderBuffer;
+        GlFramebuffer depthFrameBuffer;
+        GlRenderBuffer depthRenderBuffer;
         GPUTexture depthTexture;
 
         std::shared_ptr<Shader> combinedProgram;
-        pangolin::GlFramebuffer combinedFrameBuffer;
-        pangolin::GlRenderBuffer combinedRenderBuffer;
+        // pangolin::GlFramebuffer combinedFrameBuffer;
+        // pangolin::GlRenderBuffer combinedRenderBuffer;
+        GlFramebuffer combinedFrameBuffer;
+        GlRenderBuffer combinedRenderBuffer;
         GPUTexture imageTexture;
         GPUTexture vertexTexture;
         GPUTexture normalTexture;
         GPUTexture timeTexture;
 
-        pangolin::GlFramebuffer oldFrameBuffer;
-        pangolin::GlRenderBuffer oldRenderBuffer;
+        // pangolin::GlFramebuffer oldFrameBuffer;
+        // pangolin::GlRenderBuffer oldRenderBuffer;
+        GlFramebuffer oldFrameBuffer;
+        GlRenderBuffer oldRenderBuffer;
         GPUTexture oldImageTexture;
         GPUTexture oldVertexTexture;
         GPUTexture oldNormalTexture;
         GPUTexture oldTimeTexture;
 
-        pangolin::GlFramebuffer infoFrameBuffer;
-        pangolin::GlRenderBuffer infoRenderBuffer;
+        // pangolin::GlFramebuffer infoFrameBuffer;
+        // pangolin::GlRenderBuffer infoRenderBuffer;
+        GlFramebuffer infoFrameBuffer;
+        GlRenderBuffer infoRenderBuffer;
         GPUTexture colorInfoTexture;
         GPUTexture vertexInfoTexture;
         GPUTexture normalInfoTexture;

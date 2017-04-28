@@ -249,60 +249,60 @@ void GlobalModel::initialise(const FeedbackBuffer & rawFeedback,
 
     glFinish();
 }
-
-void GlobalModel::renderPointCloud(pangolin::OpenGlMatrix mvp,
-                                   const float threshold,
-                                   const bool drawUnstable,
-                                   const bool drawNormals,
-                                   const bool drawColors,
-                                   const bool drawPoints,
-                                   const bool drawWindow,
-                                   const bool drawTimes,
-                                   const int time,
-                                   const int timeDelta)
-{
-    std::shared_ptr<Shader> program = drawPoints ? drawProgram : drawSurfelProgram;
-
-    program->Bind();
-
-    program->setUniform(Uniform("MVP", mvp));
-
-    program->setUniform(Uniform("threshold", threshold));
-
-    program->setUniform(Uniform("colorType", (drawNormals ? 1 : drawColors ? 2 : drawTimes ? 3 : 0)));
-
-    program->setUniform(Uniform("unstable", drawUnstable));
-
-    program->setUniform(Uniform("drawWindow", drawWindow));
-
-    program->setUniform(Uniform("time", time));
-
-    program->setUniform(Uniform("timeDelta", timeDelta));
-
-    Eigen::Matrix4f pose = Eigen::Matrix4f::Identity();
-    //This is for the point shader
-    program->setUniform(Uniform("pose", pose));
-
-    glBindBuffer(GL_ARRAY_BUFFER, vbos[target].first);
-
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, Vertex::SIZE, 0);
-
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, Vertex::SIZE, reinterpret_cast<GLvoid*>(sizeof(Eigen::Vector4f) * 1));
-
-    glEnableVertexAttribArray(2);
-    glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, Vertex::SIZE, reinterpret_cast<GLvoid*>(sizeof(Eigen::Vector4f) * 2));
-
-    glDrawTransformFeedback(GL_POINTS, vbos[target].second);
-
-    glDisableVertexAttribArray(0);
-    glDisableVertexAttribArray(1);
-    glDisableVertexAttribArray(2);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-    program->Unbind();
-}
+//
+// void GlobalModel::renderPointCloud(pangolin::OpenGlMatrix mvp,
+//                                    const float threshold,
+//                                    const bool drawUnstable,
+//                                    const bool drawNormals,
+//                                    const bool drawColors,
+//                                    const bool drawPoints,
+//                                    const bool drawWindow,
+//                                    const bool drawTimes,
+//                                    const int time,
+//                                    const int timeDelta)
+// {
+//     std::shared_ptr<Shader> program = drawPoints ? drawProgram : drawSurfelProgram;
+//
+//     program->Bind();
+//
+//     program->setUniform(Uniform("MVP", mvp));
+//
+//     program->setUniform(Uniform("threshold", threshold));
+//
+//     program->setUniform(Uniform("colorType", (drawNormals ? 1 : drawColors ? 2 : drawTimes ? 3 : 0)));
+//
+//     program->setUniform(Uniform("unstable", drawUnstable));
+//
+//     program->setUniform(Uniform("drawWindow", drawWindow));
+//
+//     program->setUniform(Uniform("time", time));
+//
+//     program->setUniform(Uniform("timeDelta", timeDelta));
+//
+//     Eigen::Matrix4f pose = Eigen::Matrix4f::Identity();
+//     //This is for the point shader
+//     program->setUniform(Uniform("pose", pose));
+//
+//     glBindBuffer(GL_ARRAY_BUFFER, vbos[target].first);
+//
+//     glEnableVertexAttribArray(0);
+//     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, Vertex::SIZE, 0);
+//
+//     glEnableVertexAttribArray(1);
+//     glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, Vertex::SIZE, reinterpret_cast<GLvoid*>(sizeof(Eigen::Vector4f) * 1));
+//
+//     glEnableVertexAttribArray(2);
+//     glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, Vertex::SIZE, reinterpret_cast<GLvoid*>(sizeof(Eigen::Vector4f) * 2));
+//
+//     glDrawTransformFeedback(GL_POINTS, vbos[target].second);
+//
+//     glDisableVertexAttribArray(0);
+//     glDisableVertexAttribArray(1);
+//     glDisableVertexAttribArray(2);
+//     glBindBuffer(GL_ARRAY_BUFFER, 0);
+//
+//     program->Unbind();
+// }
 
 const std::pair<GLuint, GLuint> & GlobalModel::model()
 {

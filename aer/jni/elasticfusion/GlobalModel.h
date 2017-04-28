@@ -2,16 +2,16 @@
  * This file is part of ElasticFusion.
  *
  * Copyright (C) 2015 Imperial College London
- * 
- * The use of the code within this file and all code within files that 
- * make up the software that is ElasticFusion is permitted for 
- * non-commercial purposes only.  The full terms and conditions that 
- * apply to the code within this file are detailed within the LICENSE.txt 
- * file and at <http://www.imperial.ac.uk/dyson-robotics-lab/downloads/elastic-fusion/elastic-fusion-license/> 
- * unless explicitly stated.  By downloading this file you agree to 
+ *
+ * The use of the code within this file and all code within files that
+ * make up the software that is ElasticFusion is permitted for
+ * non-commercial purposes only.  The full terms and conditions that
+ * apply to the code within this file are detailed within the LICENSE.txt
+ * file and at <http://www.imperial.ac.uk/dyson-robotics-lab/downloads/elastic-fusion/elastic-fusion-license/>
+ * unless explicitly stated.  By downloading this file you agree to
  * comply with these terms.
  *
- * If you wish to use any of this code for commercial purposes then 
+ * If you wish to use any of this code for commercial purposes then
  * please email researchcontracts.engineering@imperial.ac.uk.
  *
  */
@@ -27,7 +27,8 @@
 #include "IndexMap.h"
 #include "Utils/Stopwatch.h"
 #include "Utils/Intrinsics.h"
-#include <pangolin/gl/gl.h>
+#include <glRenderBuffer.h>
+// #include <pangolin/gl/gl.h>
 
 class GlobalModel
 {
@@ -43,16 +44,16 @@ class GlobalModel
         static const int NODE_TEXTURE_DIMENSION;
         static const int MAX_NODES;
 
-        void renderPointCloud(pangolin::OpenGlMatrix mvp,
-                              const float threshold,
-                              const bool drawUnstable,
-                              const bool drawNormals,
-                              const bool drawColors,
-                              const bool drawPoints,
-                              const bool drawWindow,
-                              const bool drawTimes,
-                              const int time,
-                              const int timeDelta);
+        // void renderPointCloud(pangolin::OpenGlMatrix mvp,
+        //                       const float threshold,
+        //                       const bool drawUnstable,
+        //                       const bool drawNormals,
+        //                       const bool drawColors,
+        //                       const bool drawPoints,
+        //                       const bool drawWindow,
+        //                       const bool drawTimes,
+        //                       const int time,
+        //                       const int timeDelta);
 
         const std::pair<GLuint, GLuint> & model();
 
@@ -104,7 +105,8 @@ class GlobalModel
         std::shared_ptr<Shader> dataProgram;
         std::shared_ptr<Shader> updateProgram;
         std::shared_ptr<Shader> unstableProgram;
-        pangolin::GlRenderBuffer renderBuffer;
+        // pangolin::GlRenderBuffer renderBuffer;
+        GlRenderBuffer renderBuffer
 
         //We render updated vertices vec3 + confidences to one texture
         GPUTexture updateMapVertsConfs;

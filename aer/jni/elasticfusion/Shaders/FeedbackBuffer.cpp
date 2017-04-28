@@ -79,8 +79,8 @@ FeedbackBuffer::~FeedbackBuffer()
     glDeleteQueries(1, &countQuery);
 }
 
-void FeedbackBuffer::compute(pangolin::GlTexture * color,
-                             pangolin::GlTexture * depth,
+// void FeedbackBuffer::compute(pangolin::GlTexture * color, pangolin::GlTexture * depth,
+void FeedbackBuffer::compute(GlTexture * color, GlTexture * depth,
                              const int & time,
                              const float depthCutoff)
 {
@@ -136,35 +136,35 @@ void FeedbackBuffer::compute(pangolin::GlTexture * color,
 
     glFinish();
 }
-
-void FeedbackBuffer::render(pangolin::OpenGlMatrix mvp,
-                            const Eigen::Matrix4f & pose,
-                            const bool drawNormals,
-                            const bool drawColors)
-{
-    drawProgram->Bind();
-
-    drawProgram->setUniform(Uniform("MVP", mvp));
-    drawProgram->setUniform(Uniform("pose", pose));
-    drawProgram->setUniform(Uniform("colorType", (drawNormals ? 1 : drawColors ? 2 : 0)));
-
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, Vertex::SIZE, 0);
-
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, Vertex::SIZE, reinterpret_cast<GLvoid*>(sizeof(Eigen::Vector4f) * 1));
-
-    glEnableVertexAttribArray(2);
-    glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, Vertex::SIZE, reinterpret_cast<GLvoid*>(sizeof(Eigen::Vector4f) * 2));
-
-    glDrawTransformFeedback(GL_POINTS, fid);
-
-    glDisableVertexAttribArray(0);
-    glDisableVertexAttribArray(1);
-    glDisableVertexAttribArray(2);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-    drawProgram->Unbind();
-}
+//
+// void FeedbackBuffer::render(pangolin::OpenGlMatrix mvp,
+//                             const Eigen::Matrix4f & pose,
+//                             const bool drawNormals,
+//                             const bool drawColors)
+// {
+//     drawProgram->Bind();
+//
+//     drawProgram->setUniform(Uniform("MVP", mvp));
+//     drawProgram->setUniform(Uniform("pose", pose));
+//     drawProgram->setUniform(Uniform("colorType", (drawNormals ? 1 : drawColors ? 2 : 0)));
+//
+//     glBindBuffer(GL_ARRAY_BUFFER, vbo);
+//
+//     glEnableVertexAttribArray(0);
+//     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, Vertex::SIZE, 0);
+//
+//     glEnableVertexAttribArray(1);
+//     glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, Vertex::SIZE, reinterpret_cast<GLvoid*>(sizeof(Eigen::Vector4f) * 1));
+//
+//     glEnableVertexAttribArray(2);
+//     glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, Vertex::SIZE, reinterpret_cast<GLvoid*>(sizeof(Eigen::Vector4f) * 2));
+//
+//     glDrawTransformFeedback(GL_POINTS, fid);
+//
+//     glDisableVertexAttribArray(0);
+//     glDisableVertexAttribArray(1);
+//     glDisableVertexAttribArray(2);
+//     glBindBuffer(GL_ARRAY_BUFFER, 0);
+//
+//     drawProgram->Unbind();
+// }

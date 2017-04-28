@@ -31,7 +31,7 @@
 class Shader //: public pangolin::GlSlProgram
 {
     public:
-        Shader()
+        Shader(): linked(false), prog(0), prev_prog(0)
         {}
 
         GLuint programId()
@@ -68,47 +68,115 @@ class Shader //: public pangolin::GlSlProgram
                     break;
             }
         }
+
+   bool AddShader(GLenum shader_type, const char* source_code) {
+    if(!prog) {
+        prog = glCreateProgram();
+    }
+    GLuint shader = glCreateShader(shader_type);
+    glShaderSource(shader, 1, &source_code, NULL);
+    glCompileShader(shader);
+    GLint compiled = 0;
+    glGetShaderiv(shader, GL_COMPILE_STATUS, &compiled);
+    if (!compiled) {
+      GLint info_len = 0;
+      glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &info_len);
+      if (info_len) {
+        char* buf = (char*) malloc(info_len);
+        if (buf) {
+          glGetShaderInfoLog(shader, info_len, NULL, buf);
+          LOGE("GlCameraFrame: Could not compile shader %d:\n%s\n", shader_type, buf);
+          free(buf);
+        }
+        glDeleteShader(shader);
+        shader = 0;
+      }
+      return false;
+    } else {
+      glAttachShader(prog, shader);
+      shaders.push_back(shader);
+      linked = false;
+      return true;
+    }
+  }
+
+  bool Link() {
+      glLinkProgram(prog);
+      GLint link_status = GL_FALSE;
+      glGetProgramiv(prog, GL_LINK_STATUS, &link_status);
+      if (link_status != GL_TRUE) {
+        GLint buf_length = 0;
+        glGetProgramiv(prog, GL_INFO_LOG_LENGTH, &buf_length);
+        if (buf_length) {
+          char* buf = (char*) malloc(buf_length);
+          if (buf) {
+            glGetProgramInfoLog(prog, buf_length, NULL, buf);
+            LOGE("Shaders: Could not link program:\n%s\n", buf);
+            free(buf);
+          }
+        }
+        glDeleteProgram(prog);
+        prog = 0;
+        return false;
+    }
+   return true;
+}
+
+ void Bind() {
+    prev_prog = 0;
+    glUseProgram(prog);
+ }
+
+ void Unbind() {
+    glUseProgram(prev_prog);
+ }
+
+  protected:
+    bool linked;
+    std::vector<GLhandleARB> shaders;
+    GLenum prog;
+    GLint prev_prog;
 };
 
-static inline std::shared_ptr<Shader> loadProgramGeom(const std::string& vertex_shader_file, const std::string& geometry_shader_file)
+static inline std::shared_ptr<Shader> loadProgramGeom(const char* vertex_shader_file, const char* geometry_shader_file)
 {
     std::shared_ptr<Shader> program = std::make_shared<Shader>();
 
-    program->AddShader(pangolin::GlSlVertexShader,  vertex_shader_file, {}, {});
-    program->AddShader(pangolin::GlSlGeometryShader,  geometry_shader_file, {}, {});
+    program->AddShader(GL_VERTEX_SHADER,  vertex_shader_file);
+    program->AddShader(GL_GEOMETRY_SHADER,  geometry_shader_file);
     program->Link();
 
     return program;
 }
 
-static inline std::shared_ptr<Shader> loadProgram(const std::string& vertex_shader_file)
+static inline std::shared_ptr<Shader> loadProgram(const char* vertex_shader_file)
 {
     std::shared_ptr<Shader> program = std::make_shared<Shader>();
 
-    program->AddShader(pangolin::GlSlVertexShader,  vertex_shader_file, {}, {});
+    program->AddShader(GL_VERTEX_SHADER,  vertex_shader_file);
     program->Link();
 
     return program;
 }
 
-static inline std::shared_ptr<Shader> loadProgram(const std::string& vertex_shader_file, const std::string& fragment_shader_file)
+static inline std::shared_ptr<Shader> loadProgram(const char* vertex_shader_file, const char* fragment_shader_file)
 {
     std::shared_ptr<Shader> program = std::make_shared<Shader>();
 
-    program->AddShader(pangolin::GlSlVertexShader,  vertex_shader_file, {}, {});
-    program->AddShader(pangolin::GlSlFragmentShader,  fragment_shader_file, {}, {});
+    program->AddShader(GL_VERTEX_SHADER,  vertex_shader_file);
+    program->AddShader(GL_FRAGMENT_SHADER,  fragment_shader_file);
     program->Link();
 
     return program;
 }
 
-static inline std::shared_ptr<Shader> loadProgram(const std::string& vertex_shader_file, const std::string& fragment_shader_file, const std::string& geometry_shader_file)
+static inline std::shared_ptr<Shader> loadProgram(const char* vertex_shader_file, const char* fragment_shader_file, const char* geometry_shader_file)
 {
     std::shared_ptr<Shader> program = std::make_shared<Shader>();
 
-    program->AddShader(pangolin::GlSlVertexShader,  vertex_shader_file, {}, {});
-    program->AddShader(pangolin::GlSlGeometryShader,  geometry_shader_file, {}, {});
-    program->AddShader(pangolin::GlSlFragmentShader,  fragment_shader_file, {}, {});
+    program->AddShader(GL_VERTEX_SHADER,  vertex_shader_file);
+    program->AddShader(GL_GEOMETRY_SHADER,  geometry_shader_file);
+    program->AddShader(GL_FRAGMENT_SHADER,  fragment_shader_file);
     program->Link();
 
     return program;
