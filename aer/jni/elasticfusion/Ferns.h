@@ -24,6 +24,16 @@
 #include <vector>
 #include <limits>
 
+//#include <pangolin/pangolin.h>
+//#include <pangolin/gl/gl.h>
+//#include <pangolin/gl/gl.hpp>
+//#include <pangolin/gl/glpixformat.h>
+//#include <pangolin/gl/gldraw.h>
+//#include <pangolin/gl/glsl.h>
+
+//#include <GLES2/gl2ext.h>
+//#include <GLES3/gl3.h>
+
 #include "Utils/Resolution.h"
 #include "Utils/Intrinsics.h"
 #include "Utils/RGBDOdometry.h"

@@ -20,6 +20,9 @@
 #define GPUTEXTURE_H_
 
 #include <pangolin/pangolin.h>
+#include <pangolin/gl/gl.h>
+#include <pangolin/gl/gldraw.h>
+#include <pangolin/gl/glsl.h>
 #include <driver_types.h>
 #include <cuda_gl_interop.h>
 #include <cuda_runtime_api.h>

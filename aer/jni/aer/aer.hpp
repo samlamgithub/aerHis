@@ -9,10 +9,12 @@
 #include <tango_interface/event_types/raw_frame_event.hpp>
 #include <tango_interface/mylogger.hpp>
 #include <tango_client_api.h>
+
+//test
 //#include <pangolin/gl/gl.h>
 //#include <pangolin/pangolin.h>
 #include <cholmod.h>
-#include <cholmod_core.h>
+//#include <cholmod_core.h>
 //#include <Eigen/CholmodSupport>
 //#include <Eigen/Core>
 //#include <suitesparse/cholmod.h>

@@ -32,6 +32,7 @@
 #include <unistd.h>
 #include <iostream>
 #include <map>
+#include <memory>
 
 #define SEND_INTERVAL_MS 10000
 
@@ -191,7 +192,7 @@ class Stopwatch
 
             for(std::map<std::string, float>::const_iterator it = timings.begin(); it != timings.end(); it++)
             {
-                valuePointer = (float *)mempcpy(valuePointer, it->first.c_str(), it->first.length() + 1);
+                valuePointer = (float *)memcpy(valuePointer, it->first.c_str(), it->first.length() + 1);
                 *valuePointer++ = it->second;
             }
 

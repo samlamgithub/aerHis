@@ -21,6 +21,7 @@
 
 #include <Eigen/Core>
 #include <float.h>
+#include <Eigen/Geometry>
 
 class OdometryProvider
 {

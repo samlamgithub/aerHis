@@ -55,7 +55,7 @@ static const char combo_splatfrag[]=
 "    normal = normRad;\n"
 "    time = uint(colTime.z);\n"
 "    gl_FragDepth = (corrected_pos.z / (2 * maxDepth)) + 0.5f;\n"
-"}\n"
+"}\n";
 
 static const char copy_unstablegeom[]=
 "#version 330 core\n"
@@ -94,8 +94,7 @@ static const char copy_unstablegeom[]=
 "    vertex = vec4((gl_FragCoord.x - cam.x) * z * (1.f / cam.z), (gl_FragCoord.y - cam.y) * z * (1.f / cam.w), z, position.w);\n"
 "    normal = normRad;\n"
 "    time = uint(colTime.z);\n"
-"    gl_FragDepth = (corrected_pos.z / (2 * maxDepth)) + 0.5f;}\n"
-
+"    gl_FragDepth = (corrected_pos.z / (2 * maxDepth)) + 0.5f;}\n";
 
 static const char copy_unstablevert[]=
 "#version 330 core\n"
@@ -335,7 +334,7 @@ static const char copy_unstablevert[]=
 "            }\n"
 "        }\n"
 "    }\n"
-"}\n"
+"}\n";
 
 static const char datafrag[]=
 "#version 330 core\n"
@@ -355,7 +354,7 @@ static const char datafrag[]=
 "        vColor1 = vColor0;\n"
 "        vNormRad1 = vNormRad0;\n"
 "    }\n"
-"}\n"
+"}\n";
 
 static const char datageom[]=
 "#version 330 core\n"
@@ -384,7 +383,7 @@ static const char datageom[]=
 "        EmitVertex();\n"
 "        EndPrimitive(); \n"
 "    }\n"
-"}\n"
+"}\n";
 
 static const char datavert[]=
 "#version 330 core\n"
@@ -590,7 +589,7 @@ static const char datavert[]=
 "        //Either don't render anything, or output a new unstable vertex offscreen\n"
 "        gl_Position = vec4(-10, -10, 0, 1);\n"
 "    }\n"
-"}\n"
+"}\n";
 
 static const char depth_bilateralfrag[]=
 "#version 330 core\n"
@@ -641,7 +640,7 @@ static const char depth_bilateralfrag[]=
 "    else\n"
 "      FragColor = 0U;\n"
 "    }\n"
-"}\n"
+"}\n";
 
 static const char depth_metricfrag[]=
 "#version 330 core\n"
@@ -660,7 +659,7 @@ static const char depth_metricfrag[]=
 "    {\n"
 "      FragColor = float(value) / 1000.0f;\n"
 "    }\n"
-"}\n"
+"}\n";
 
 static const char depth_normfrag[]=
 "#version 330 core\n"
@@ -676,7 +675,7 @@ static const char depth_normfrag[]=
 "        FragColor = 1.0f - (value / maxVal);\n"
 "    else \n"
 "        FragColor = 0;\n"
-"}\n"
+"}\n";
 
 static const char depth_splatfrag[]=
 "#version 330 core\n"
@@ -698,7 +697,7 @@ static const char depth_splatfrag[]=
 "    }\n"
 "    FragColor = corrected_pos.z;\n"
 "    gl_FragDepth = (corrected_pos.z / (2 * maxDepth)) + 0.5f;\n"
-"}\n"
+"}\n";
 
 static const char draw_feedbackfrag[]=
 "#version 330 core\n"
@@ -707,7 +706,7 @@ static const char draw_feedbackfrag[]=
 "void main()\n"
 "{\n"
 "    FragColor = vColor;\n"
-"}\n"
+"}\n";
 
 static const char draw_feedbackvert[]=
 "#version 330 core\n"
@@ -752,7 +751,7 @@ static const char draw_feedbackvert[]=
 "    {\n"
 "        gl_Position = vec4(-10, -10, 0, 1);\n"
 "    }\n"
-"}\n"
+"}\n";
 
 static const char draw_global_surfacefrag[]=
 "#version 330 core\n"
@@ -764,7 +763,7 @@ static const char draw_global_surfacefrag[]=
 "    if(dot(texcoord, texcoord) > 1.0)\n"
 "        discard;\n"
 "    FragColor = vec4(vColor0, 1.0f);\n"
-"}\n"
+"}\n";
 
 static const char draw_global_surfacegeom []=
 "#version 330 core\n"
@@ -847,9 +846,9 @@ static const char draw_global_surfacegeom []=
 "        EmitVertex();\n"
 "        EndPrimitive();\n"
 "    }\n"
-"}\n"
+"}\n";
 
-static const chat draw_global_surfacevert[] =
+static const char draw_global_surfacevert[] =
 "#version 330 core\n"
 "layout (location = 0) in vec4 position;\n"
 "layout (location = 1) in vec4 color;\n"
@@ -887,7 +886,7 @@ static const chat draw_global_surfacevert[] =
 "    {\n"
 "        colorType0 = -1;\n"
 "    }\n"
-"}\n"
+"}\n";
 
 static const char draw_global_surface_phongfrag[] =
 "#version 330 core\n"
@@ -921,11 +920,11 @@ static const char draw_global_surface_phongfrag[] =
 "    if (RdotV > 0.0)\n"
 "        specular = ks * pow(RdotV, 32);\n"
 "    FragColor = ambient + diffuse + specular;\n"
-"}\n"
+"}\n";
 
 static const char emptyvert[]=
 "#version 330\n"
-"void main() {}\n"
+"void main() {}\n";
 
 static const char fill_normalfrag[]=
 "#version 330 core\n"
@@ -990,7 +989,7 @@ static const char fill_normalfrag[]=
 "    {\n"
 "        FragColor = sample;\n"
 "    }\n"
-"}\n"
+"}\n";
 
 static const char fill_rgbfrag[] =
 "#version 330 core\n"
@@ -1006,7 +1005,7 @@ static const char fill_rgbfrag[] =
 "        FragColor = texture2D(rSampler, texcoord.xy);\n"
 "    else\n"
 "        FragColor = sample;\n"
-"}\n"
+"}\n";
 
 static const char fill_vertexfrag[] =
 "#version 330 core\n"
@@ -1036,7 +1035,7 @@ static const char fill_vertexfrag[] =
 "    {\n"
 "        FragColor = sample;\n"
 "    }\n"
-"}\n"
+"}\n";
 
 static const char fxaafrag[] =
 "#version 330 core\n"
@@ -1090,7 +1089,7 @@ static const char fxaafrag[] =
 "        FragColor = vec4(rgbA, 1);\n"
 "    else\n"
 "        FragColor = vec4(rgbB, 1);\n"
-"}\n"
+"}\n";
 
 static const char index_mapfrag[] =
 "#version 330 core\n"
@@ -1108,7 +1107,7 @@ static const char index_mapfrag[] =
 "    vColorTime1 = vColorTime0;\n"
 "    vNormRad1 = vNormRad0; \n"
 "    FragColor = vertexId;\n"
-"}\n"
+"}\n";
 
 static const char index_mapvert[] =
 "#version 330 core\n"
@@ -1147,7 +1146,7 @@ static const char index_mapvert[] =
 "    vPosition0 = vec4(vPosHome.xyz, vPosition.w);\n"
 "    vColorTime0 = vColorTime;\n"
 "    vNormRad0 = vec4(normalize(mat3(t_inv) * vNormRad.xyz), vNormRad.w);\n"
-"}\n"
+"}\n";
 
 static const char init_unstablevert[] =
 "#version 330 core\n"
@@ -1164,7 +1163,7 @@ static const char init_unstablevert[] =
 "    vColor0.y = 0; //Unused\n"
 "    vColor0.z = 1; //This sets the vertex's initialisation time\n"
 "    vNormRad0 = vNormRad;\n"
-"}\n"
+"}\n";
 
 static const char quadgeom[] =
 "#version 330 core\n"
@@ -1186,7 +1185,7 @@ static const char quadgeom[] =
 "    texcoord = vec2(0.0, 0.0); \n"
 "    EmitVertex();\n"
 "    EndPrimitive(); \n"
-"}\n"
+"}\n";
 
 static const char resizefrag[] =
 "#version 330 core\n"
@@ -1196,7 +1195,7 @@ static const char resizefrag[] =
 "void main()\n"
 "{\n"
 "    FragColor = texture2D(eSampler, texcoord.xy);\n"
-"}\n"
+"}\n";
 
 static const char samplegeom[] =
 "#version 330 core\n"
@@ -1216,7 +1215,7 @@ static const char samplegeom[] =
 "        EmitVertex();\n"
 "        EndPrimitive(); \n"
 "    }\n"
-"}\n"
+"}\n";
 
 static const char samplevert[] =
 "#version 330 core\n"
@@ -1233,7 +1232,7 @@ static const char samplevert[] =
 "    vColorTime0 = vColorTime;\n"
 "    vNormRad0 = vNormRad;\n"
 "    id = gl_VertexID;    \n"
-"}\n"
+"}\n";
 
 static const char splatvert[] =
 "#version 330 core\n"
@@ -1290,7 +1289,7 @@ static const char splatvert[] =
 "        float yDiff = abs(ys.y - ys.x);\n"
 "        gl_PointSize = max(0, max(xDiff, yDiff));\n"
 "    }\n"
-"}\n"
+"}\n";
 
 static const char updatevert[] =
 "#version 330 core\n"
@@ -1359,7 +1358,7 @@ static const char updatevert[] =
 "        vColor0 = vColor;\n"
 "        vNormRad0 = vNormRad;\n"
 "    }\n"
-"}\n"
+"}\n";
 
 static const char vertex_feedbackgeom[] =
 "#version 330 core\n"
@@ -1382,7 +1381,7 @@ static const char vertex_feedbackgeom[] =
 "        EmitVertex();\n"
 "        EndPrimitive(); \n"
 "    }\n"
-"}\n"
+"}\n";
 
 static const char vertex_feedbackvert[] =
 "#version 330 core\n"
@@ -1490,7 +1489,7 @@ static const char vertex_feedbackvert[] =
 "    vColor.y = 0;\n"
 "    //Timestamp\n"
 "    vColor.w = float(time);\n"
-"}\n"
+"}\n";
 
 static const char visualise_texturesfrag[] =
 "#version 330 core\n"
@@ -1509,6 +1508,6 @@ static const char visualise_texturesfrag[] =
 "    {\n"
 "        FragColor = 1.0f - vec4(vertex.z / maxDepth);\n"
 "    }\n"
-"}\n"
+"}\n";
 
 #endif /* SHADERS_SHADERSSOURCE_H_ */

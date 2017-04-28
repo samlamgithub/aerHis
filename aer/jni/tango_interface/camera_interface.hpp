@@ -30,6 +30,7 @@
 
 #include "mylogger.hpp"
 
+//test
 #include "../cudatest/nativeCUDA.cuh"
 
 //#include <tango-gl/util.h>
