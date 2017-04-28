@@ -16,13 +16,13 @@ LOCAL_MODULE := libcudart_static
 LOCAL_SRC_FILES  := $(CUDA_TOOLKIT_ROOT)/targets/armv7-linux-androideabi/lib/libcudart_static.a
 LOCAL_EXPORT_C_INCLUDES := $(CUDA_TOOLKIT_ROOT)/targets/armv7-linux-androideabi/include
 include $(PREBUILT_STATIC_LIBRARY)
-
-include $(CLEAR_VARS)
-LOCAL_MODULE := pangolin
-LOCAL_SRC_FILES := /home/sam/pangolin_android/build/libs/armeabi-v7a/libpangolin.so
-LOCAL_EXPORT_C_INCLUDES := /home/sam/pangolin_android/Pangolin/include
-LOCAL_EXPORT_C_INCLUDES += /home/sam/pangolin_android/build/src/include
-include $(PREBUILT_SHARED_LIBRARY)
+#
+# include $(CLEAR_VARS)
+# LOCAL_MODULE := pangolin
+# LOCAL_SRC_FILES := /home/sam/pangolin_android/build/libs/armeabi-v7a/libpangolin.so
+# LOCAL_EXPORT_C_INCLUDES := /home/sam/pangolin_android/Pangolin/include
+# LOCAL_EXPORT_C_INCLUDES += /home/sam/pangolin_android/build/src/include
+# include $(PREBUILT_SHARED_LIBRARY)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := cholmod
@@ -37,7 +37,7 @@ LOCAL_MODULE := aer
 LOCAL_SHARED_LIBRARIES += tango_client_api \
                           tango_support_api \
                           tango_3d_reconstruction \
-                          pangolin \
+                          # pangolin \
 			                    cholmod
 
 LOCAL_STATIC_LIBRARIES += opencv_calib3d opencv_features2d opencv_highgui \

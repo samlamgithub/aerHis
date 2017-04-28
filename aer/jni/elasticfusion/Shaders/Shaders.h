@@ -19,13 +19,16 @@
 #ifndef SHADERS_SHADERS_H_
 #define SHADERS_SHADERS_H_
 
-#include <pangolin/gl/glsl.h>
+// #include <pangolin/gl/glsl.h>
+#include <GLES2/gl2ext.h>
+#include <GLES3/gl3.h>
+
 #include <ShaderSource.h>
 #include <memory>
 // #include "../Utils/Parse.h"
 #include "Uniform.h"
 
-class Shader : public pangolin::GlSlProgram
+class Shader //: public pangolin::GlSlProgram
 {
     public:
         Shader()
