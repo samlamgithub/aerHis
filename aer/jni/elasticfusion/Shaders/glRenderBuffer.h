@@ -23,24 +23,17 @@
 #include <GLES3/gl3.h>
 
 struct GlRenderBuffer {
-    GlRenderBuffer();
-    GlRenderBuffer(GLint width, GLint height, GLint internal_format = GL_DEPTH_COMPONENT24);
-
-    void Reinitialise(GLint width, GLint height, GLint internal_format = GL_DEPTH_COMPONENT24);
-
     //! Move Constructor
     GlRenderBuffer(GlRenderBuffer&& tex);
 
-    ~GlRenderBuffer();
+   GlRenderBuffer() : width(0), height(0), rbid(0) {}
 
-   GlRenderBuffer::GlRenderBuffer() : width(0), height(0), rbid(0) {}
-
-   GlRenderBuffer::GlRenderBuffer(GLint width, GLint height, GLint internal_format )
+   GlRenderBuffer(GLint width, GLint height, GLint internal_format )
     : width(0), height(0), rbid(0){
         Reinitialise(width,height,internal_format);
   }
 
-  void GlRenderBuffer::Reinitialise(GLint width, GLint height, GLint internal_format) {
+  GlRenderBuffer(GLint width, GLint height, GLint internal_format = GL_DEPTH_COMPONENT24) {
         if( this->width != 0 ) {
             glDeleteRenderbuffersEXT(1, &rbid);
         }
@@ -53,22 +46,25 @@ struct GlRenderBuffer {
         glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
     }
 
-    GlRenderBuffer::~GlRenderBuffer()  {
+    ~GlRenderBuffer()  {
         // We have no GL context whilst exiting.
         if( width!=0 && !pangolin::ShouldQuit() ) {
             glDeleteRenderbuffersEXT(1, &rbid);
         }
     }
+    GlRenderBuffer(GlRenderBuffer&& tex)
+        : width(tex.width), height(tex.height), rbid(tex.rbid) {
+        tex.rbid = tex.width = tex.height = 0;
+    }
+
     GLint width;
     GLint height;
     GLuint rbid;
 
   private:
-      // Private copy constructor
-    GlRenderBuffer::GlRenderBuffer(GlRenderBuffer&& tex)
-        : width(tex.width), height(tex.height), rbid(tex.rbid) {
-        tex.rbid = tex.width = tex.height = 0;
-    }
+    // Private copy constructor
+        GlRenderBuffer(const GlRenderBuffer&) {}
+
 };
 
 #endif /* GLRENDERBUFFER_H_ */

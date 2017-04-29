@@ -28,16 +28,13 @@ public:
         // Not a texture constructor
     }
 
-    GlTexture(GLint width, GLint height, GLint internal_format, bool sampling_linear, int border, GLenum glformat, GLenum gltype, GLvoid* data )
+    GlTexture(GLint width, GLint height, GLint internal_format = GL_RGBA8,
+      bool sampling_linear = true, int border = 0, GLenum glformat = GL_RGBA, GLenum gltype = GL_UNSIGNED_BYTE, GLvoid* data = NULL)
     : internal_format(0), tid(0) {
         Reinitialise(width,height,internal_format,sampling_linear,border,glformat,gltype,data);
     }
 
-     GlTexture(GlTexture&& tex) {
-        *this = std::move(tex);
-    }
-
-     void operator=(GlTexture&& tex) {
+    void operator=(GlTexture&& tex) {
         internal_format = tex.internal_format;
         tid = tex.tid;
 
@@ -48,32 +45,33 @@ public:
      void Delete() {
         // We have no GL context whilst exiting.
         // if(internal_format!=0 && !pangolin::ShouldQuit() ) {
-            if(internal_format!=0  ) {
-            glDeleteTextures(1,&tid);
-            internal_format = 0;
-            tid = 0;
-            width = 0;
-            height = 0;
+        if(internal_format !=  0) {
+              glDeleteTextures(1,&tid);
+              internal_format = 0;
+              tid = 0;
+              width = 0;
+              height = 0;
         }
     }
 
      ~GlTexture() {
         // We have no GL context whilst exiting.
         // if(internal_format!=0 && !pangolin::ShouldQuit() ) {
-          if(internal_format!=0 ) {
+        if(internal_format!=0 ) {
             glDeleteTextures(1,&tid);
         }
     }
 
-     void Bind() const {
+    void Bind() const {
         glBindTexture(GL_TEXTURE_2D, tid);
     }
 
-     void Unbind() const {
+    void Unbind() const {
         glBindTexture(GL_TEXTURE_2D, 0);
     }
 
-     void Reinitialise(GLsizei w, GLsizei h, GLint int_format, bool sampling_linear, int border, GLenum glformat, GLenum gltype, GLvoid* data ) {
+    virtual void Reinitialise(GLsizei width, GLsizei height, GLint internal_format = GL_RGBA8,
+      bool sampling_linear = true, int border = 0, GLenum glformat = GL_RGBA, GLenum gltype = GL_UNSIGNED_BYTE, GLvoid* data = NULL ) {
         if(tid!=0) {
             glDeleteTextures(1,&tid);
         }
@@ -103,7 +101,7 @@ public:
         //CheckGlDieOnError
     }
 
-     void Upload(const void* data, GLenum data_format, GLenum data_type) {
+    void Upload(const void* image, GLenum data_format = GL_LUMINANCE, GLenum data_type = GL_FLOAT) {
         Bind();
         glTexSubImage2D(GL_TEXTURE_2D,0,0,0,width,height,data_format,data_type,data);
         //CheckGlDieOnError
@@ -337,7 +335,9 @@ public:
 
 private:
     // Private copy constructor
-    GlTexture(const GlTexture&) {}
+    GlTexture(GlTexture&& tex) {
+      *this = std::move(tex);
+    }
 };
 
 #endif /* GLTEXTURE_H_ */

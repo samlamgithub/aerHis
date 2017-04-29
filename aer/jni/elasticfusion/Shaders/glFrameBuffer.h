@@ -26,22 +26,22 @@
 
 struct GlFramebuffer {
 
-    GlFramebuffer::GlFramebuffer(): fbid(0), attachments(0){}
+    GlFramebuffer(): fbid(0), attachments(0){}
 
-    GlFramebuffer::~GlFramebuffer() {
+    ~GlFramebuffer() {
         if(fbid) {
             glDeleteFramebuffersEXT(1, &fbid);
         }
     }
 
-    GlFramebuffer::GlFramebuffer(GlTexture& colour, GlRenderBuffer& depth) : attachments(0) {
+    GlFramebuffer(GlTexture& colour, GlRenderBuffer& depth) : attachments(0) {
         glGenFramebuffersEXT(1, &fbid);
         AttachColour(colour);
         AttachDepth(depth);
         //CheckGlDieOnError();
     }
 
-     GlFramebuffer::GlFramebuffer(GlTexture& colour0, GlTexture& colour1, GlRenderBuffer& depth)
+    GlFramebuffer(GlTexture& colour0, GlTexture& colour1, GlRenderBuffer& depth)
         : attachments(0)  {
         glGenFramebuffersEXT(1, &fbid);
         AttachColour(colour0);
@@ -50,24 +50,24 @@ struct GlFramebuffer {
         //CheckGlDieOnError();
     }
 
-    void GlFramebuffer::Bind() const {
+    void Bind() const {
         glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fbid);
         glDrawBuffers( attachments, attachment_buffers );
     }
 
-     void GlFramebuffer::Reinitialise() {
+    void Reinitialise() {
         if(fbid) {
             glDeleteFramebuffersEXT(1, &fbid);
         }
         glGenFramebuffersEXT(1, &fbid);
     }
 
-     void GlFramebuffer::Unbind() const {
+     void Unbind() const {
         glDrawBuffers( 1, attachment_buffers );
         glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
     }
 
-     GLenum GlFramebuffer::AttachColour(GlTexture& tex ){
+     GLenum AttachColour(GlTexture& tex ){
         if(!fbid) Reinitialise();
 
         const GLenum color_attachment = GL_COLOR_ATTACHMENT0_EXT + attachments;
@@ -79,7 +79,7 @@ struct GlFramebuffer {
         return color_attachment;
     }
 
-    void GlFramebuffer::AttachDepth(GlRenderBuffer& rb ) {
+    void AttachDepth(GlRenderBuffer& rb ) {
         if(!fbid) Reinitialise();
 
         glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fbid);
