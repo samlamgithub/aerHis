@@ -18,11 +18,14 @@
 
 #ifndef GPUTEXTURE_H_
 #define GPUTEXTURE_H_
+
+//#include <GLES2/gl2ext.h>
+//#include <GLES3/gl3.h>
+#include <Shaders/glTexture.h>
 #include <driver_types.h>
 #include <cuda_gl_interop.h>
 #include <cuda_runtime_api.h>
-#include <GLES2/gl2ext.h>
-#include <GLES3/gl3.h>
+#include <string>
 
 class GPUTexture
 {
@@ -45,11 +48,6 @@ class GPUTexture
         cudaGraphicsResource * cudaRes;
 
         const bool draw;
-
-        GLint internal_format;
-        GLuint tid;
-        GLint width;
-        GLint height;
 
     private:
         GPUTexture() : texture(0), cudaRes(0), draw(false), width(0), height(0), internalFormat(0), format(0), dataType(0) {}

@@ -31,7 +31,7 @@
 //#include <pangolin/gl/gldraw.h>
 //#include <pangolin/gl/glsl.h>
 
-#include <GLES2/gl2ext.h>
+#include <GLES3/gl3ext.h>
 #include <GLES3/gl3.h>
 
 #include "Utils/Resolution.h"

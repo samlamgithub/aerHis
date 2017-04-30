@@ -20,11 +20,15 @@
 #define SHADERS_SHADERS_H_
 
 // #include <pangolin/gl/glsl.h>
-#include <GLES2/gl2ext.h>
+//#include <GLES2/gl2ext.h>
 #include <GLES3/gl3.h>
+#define __gl2_h_                 // what the f***
+#include <GLES2/gl2ext.h>
+#include <GLES3/gl3platform.h>
 
 #include <ShaderSource.h>
 #include <memory>
+#include <../../tango_interface/util.hpp>
 // #include "../Utils/Parse.h"
 #include "Uniform.h"
 
@@ -73,7 +77,7 @@ class Shader //: public pangolin::GlSlProgram
     if(!prog) {
         prog = glCreateProgram();
     }
-    GLuint shader = glCreateShader(shader_type);
+    GLhandleARB shader = glCreateShader(shader_type);
     glShaderSource(shader, 1, &source_code, NULL);
     glCompileShader(shader);
     GLint compiled = 0;
@@ -133,7 +137,7 @@ class Shader //: public pangolin::GlSlProgram
 
   protected:
     bool linked;
-    std::vector<GLhandleARB> shaders;
+	std::vector<GLhandleARB> shaders;
     GLenum prog;
     GLint prev_prog;
 };

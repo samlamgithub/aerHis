@@ -37,8 +37,9 @@ LOCAL_MODULE := aer
 LOCAL_SHARED_LIBRARIES += tango_client_api \
                           tango_support_api \
                           tango_3d_reconstruction \
+                           cholmod
                           # pangolin \
-			                    cholmod
+			                   
 
 LOCAL_STATIC_LIBRARIES += opencv_calib3d opencv_features2d opencv_highgui \
 						    opencv_imgproc opencv_flann \

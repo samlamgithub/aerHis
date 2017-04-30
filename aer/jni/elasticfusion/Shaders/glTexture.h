@@ -19,8 +19,13 @@
 #ifndef GLTEXTURE_H_
 #define GLTEXTURE_H_
 
-#include <GLES2/gl2ext.h>
 #include <GLES3/gl3.h>
+#define __gl2_h_                 // what the f***
+#include <GLES2/gl2ext.h>
+#include <GLES3/gl3platform.h>
+
+#include <utility>
+
 
 class GlTexture {
 public:
@@ -70,7 +75,7 @@ public:
         glBindTexture(GL_TEXTURE_2D, 0);
     }
 
-    virtual void Reinitialise(GLsizei width, GLsizei height, GLint internal_format = GL_RGBA8,
+    virtual void Reinitialise(GLsizei w, GLsizei h, GLint int_format = GL_RGBA8,
       bool sampling_linear = true, int border = 0, GLenum glformat = GL_RGBA, GLenum gltype = GL_UNSIGNED_BYTE, GLvoid* data = NULL ) {
         if(tid!=0) {
             glDeleteTextures(1,&tid);
@@ -101,11 +106,13 @@ public:
         //CheckGlDieOnError
     }
 
-    void Upload(const void* image, GLenum data_format = GL_LUMINANCE, GLenum data_type = GL_FLOAT) {
+    void Upload(const void* data, GLenum data_format = GL_LUMINANCE, GLenum data_type = GL_FLOAT) {
         Bind();
         glTexSubImage2D(GL_TEXTURE_2D,0,0,0,width,height,data_format,data_type,data);
         //CheckGlDieOnError
     }
+
+
 
     //  void Upload(
     //     const void* data,
