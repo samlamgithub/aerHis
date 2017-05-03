@@ -28,7 +28,8 @@
 #include <memory>
 #include <string>
 
-#include "mylogger.hpp"
+// #include "mylogger.hpp"
+#include "myElasticFusion.hpp"
 
 //test
 #include "../cudatest/nativeCUDA.cuh"
@@ -47,8 +48,7 @@ namespace tango_interface {
 typedef std::function<void (unsigned char* image, TangoPointCloud* pointcloud_buffer, double color_timestamp, TangoPoseData pose)> RGBDCallBack;
 //typedef std::function<void (const int width, const int height, const double fx, const double fy, const double cx, const double cy)> LoggerWHCallBack;
 typedef std::function<void (const int width, const int height, const double fx, const double fy, const double cx, const double cy, const int maxVerCount)> LoggerWHCallBack;
-typedef std::function<void ()> WritingCallBack;
-
+// typedef std::function<void ()> WritingCallBack;
 
 class CameraInterface {
 public:
@@ -57,7 +57,8 @@ public:
 //  static void register_marker_callback(MarkerCallBack function);
   static void register_rgbd_callback(RGBDCallBack function);
   static void register_loggerWidthHeight_callback(LoggerWHCallBack function);
-  static void register_writing_callback(WritingCallBack);
+  // static void register_writing_callback(WritingCallBack);
+  // register_elasticfusion_callback
 
 
   static void onPointCloudAvailable2(const TangoPointCloud* point_cloud);
@@ -108,7 +109,7 @@ private:
 //  static std::unique_ptr<MarkerCallBack> marker_callback_;
   static std::unique_ptr<RGBDCallBack> rgbd_callback_;
   static std::unique_ptr<LoggerWHCallBack> loggerWH_callback_;
-  static std::unique_ptr<WritingCallBack> writing_callback_;
+  // static std::unique_ptr<WritingCallBack> writing_callback_;
 
   // These are used for accessing the render_gl request
   static JNIEnv* java_environment();

@@ -67,7 +67,7 @@ std::unique_ptr<double> CameraInterface::frame_timestamp_;
 //std::unique_ptr<MarkerCallBack> CameraInterface::marker_callback_;
 std::unique_ptr<RGBDCallBack> CameraInterface::rgbd_callback_;
 std::unique_ptr<LoggerWHCallBack> CameraInterface::loggerWH_callback_;
-std::unique_ptr<WritingCallBack> CameraInterface::writing_callback_;
+// std::unique_ptr<WritingCallBack> CameraInterface::writing_callback_;
 
 TangoSupportPointCloudManager* CameraInterface::point_cloud_manager_;
 
@@ -138,10 +138,10 @@ void CameraInterface::register_loggerWidthHeight_callback(LoggerWHCallBack funct
 //    ar_initialised_ = initialise_artoolkit();
 //  }
 //}
-
-void CameraInterface::register_writing_callback(WritingCallBack function) {
-  writing_callback_.reset(new WritingCallBack(function));
-}
+//
+// void CameraInterface::register_writing_callback(WritingCallBack function) {
+//   writing_callback_.reset(new WritingCallBack(function));
+// }
 
 bool CameraInterface::initialise(JNIEnv* env, jobject caller_activity, jobject asset_manager) {
 //  if (!ar_initialised_) {
@@ -265,9 +265,9 @@ bool CameraInterface::connect() {
 //      (*loggerWH_callback_)(myImageWidth, myImageHeight, myFx, myFy, myCx, myCy);
   }
 //  LOGI("setCamWidthAndheight3:");
-  if (writing_callback_) {
-       (*writing_callback_)();
-   }
+  // if (writing_callback_) {
+  //      (*writing_callback_)();
+  //  }
   // TangoCoordinateFramePair is used to tell Tango Service about the frame of
 	  // references that the applicaion would like to listen to.
 //	  TangoCoordinateFramePair pair;
@@ -301,12 +301,12 @@ void CameraInterface::render() {
   if (status == TANGO_SUCCESS && (*frame_timestamp_) > 0) {
   if (gl_camera_frame_) {
       gl_camera_frame_->render();
-      int n = 0;
-      float a[] = {1,2,3,4,5,6,7,8,9};
-      float b[] = {9,8,7,6,5,4,3,2,1};
-      float * c = CUDA_addVectors(a, b, 9);
-      LOGI("CUDA result is %f, %f, %f, %f, %f, %f, %f, %f, %f", c[0], c[1], c[2], c[3],c[4] ,c[5] ,c[6] ,c[7], c[8]);
-      return;
+      // int n = 0;
+      // float a[] = {1,2,3,4,5,6,7,8,9};
+      // float b[] = {9,8,7,6,5,4,3,2,1};
+      // float * c = CUDA_addVectors(a, b, 9);
+      // LOGI("CUDA result is %f, %f, %f, %f, %f, %f, %f, %f, %f", c[0], c[1], c[2], c[3],c[4] ,c[5] ,c[6] ,c[7], c[8]);
+      // return;
       std::shared_ptr<unsigned char> frame = gl_camera_frame_->get_frame();
 
 //      CameraInterface::OnDrawFrame(frame);
@@ -405,7 +405,7 @@ void CameraInterface::render() {
   frames_of_reference.base = TANGO_COORDINATE_FRAME_START_OF_SERVICE;
   frames_of_reference.target = TANGO_COORDINATE_FRAME_DEVICE;
   TangoPoseData pose;
-  TangoErrorType e =   TangoService_getPoseAtTime(0.0, frames_of_reference, &pose);
+  TangoErrorType e = TangoService_getPoseAtTime(0.0, frames_of_reference, &pose);
   if (e == TANGO_SUCCESS) {
 	LOGI("TangoService_getPoseAtTime success");
 //	 LOGI("onPoseAvailable: Timstamp: %f, status code: %d, Position: %f, %f, %f. Orientation: %f, %f, %f, %f",
@@ -417,10 +417,10 @@ void CameraInterface::render() {
   	LOGI("TangoService_getPoseAtTime failed");
   }
   //
-  if (rgbd_callback_) {
-//    	float* depth = &depth_map_buffer_[0];
-          (*rgbd_callback_)(frame.get(), pointcloud_buffer, color_timestamp, pose);
-     }
+      if (rgbd_callback_) {
+        //float* depth = &depth_map_buffer_[0];
+        (*rgbd_callback_)(frame.get(), pointcloud_buffer, color_timestamp, pose);
+      }
     }
   }
 }

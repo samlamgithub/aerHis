@@ -38,8 +38,10 @@ Resize::Resize(int srcWidth,
                 true),
   timeTexture(destWidth,
               destHeight,
-              GL_LUMINANCE16UI_EXT,
-              GL_LUMINANCE_INTEGER_EXT,
+              // GL_LUMINANCE16UI_EXT,
+              // GL_LUMINANCE_INTEGER_EXT,
+              GL_LUMINANCE16F_EXT,
+            GL_LUMINANCE,
               GL_UNSIGNED_SHORT,
               false,
               true),
@@ -154,7 +156,8 @@ void Resize::time(GPUTexture * source, Img<unsigned short> & dest)
 
     glDrawArrays(GL_POINTS, 0, 1);
 
-    glReadPixels(0, 0, timeRenderBuffer.width, timeRenderBuffer.height, GL_LUMINANCE_INTEGER_EXT, GL_UNSIGNED_SHORT, dest.data);
+    // glReadPixels(0, 0, timeRenderBuffer.width, timeRenderBuffer.height, GL_LUMINANCE_INTEGER_EXT, GL_UNSIGNED_SHORT, dest.data);
+    glReadPixels(0, 0, timeRenderBuffer.width, timeRenderBuffer.height, GL_LUMINANCE, GL_UNSIGNED_SHORT, dest.data);
 
     timeFrameBuffer.Unbind();
 

@@ -21,6 +21,11 @@
 
 //#include <GLES2/gl2ext.h>
 //#include <GLES3/gl3.h>
+#include <GLES3/gl3.h>
+#define __gl2_h_                 // what the f***
+#include <GLES2/gl2ext.h>
+#include <GLES3/gl3platform.h>
+
 #include <Shaders/glTexture.h>
 #include <driver_types.h>
 #include <cuda_gl_interop.h>

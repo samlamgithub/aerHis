@@ -31,8 +31,10 @@
 //#include <pangolin/gl/gldraw.h>
 //#include <pangolin/gl/glsl.h>
 
-#include <GLES3/gl3ext.h>
 #include <GLES3/gl3.h>
+#define __gl2_h_                 // what the f***
+#include <GLES2/gl2ext.h>
+#include <GLES3/gl3platform.h>
 
 #include "Utils/Resolution.h"
 #include "Utils/Intrinsics.h"

@@ -20,9 +20,8 @@
 #define GLFRAMEBUFFER_H_
 
 #include <GLES3/gl3.h>
-//#define __gl2_h_                 // what the f***
-//#include <GLES2/gl2ext.h>
-#include <GLES3/gl3ext.h>
+#define __gl2_h_                 // what the f***
+#include <GLES2/gl2ext.h>
 #include <GLES3/gl3platform.h>
 
 #include <glTexture.h>
@@ -34,20 +33,22 @@ struct GlFramebuffer {
 
     ~GlFramebuffer() {
         if(fbid) {
-            glDeleteFramebuffersEXT(1, &fbid);
+            // glDeleteFramebuffersEXT(1, &fbid);
+            glDeleteFramebuffers(1, &fbid);
         }
     }
 
     GlFramebuffer(GlTexture& colour, GlRenderBuffer& depth) : attachments(0) {
-        glGenFramebuffersEXT(1, &fbid);
+        // glGenFramebuffersEXT(1, &fbid);
+        glGenFramebuffers(1, &fbid);
         AttachColour(colour);
         AttachDepth(depth);
         //CheckGlDieOnError();
     }
 
-    GlFramebuffer(GlTexture& colour0, GlTexture& colour1, GlRenderBuffer& depth)
-        : attachments(0)  {
-        glGenFramebuffersEXT(1, &fbid);
+    GlFramebuffer(GlTexture& colour0, GlTexture& colour1, GlRenderBuffer& depth) : attachments(0)  {
+        // glGenFramebuffersEXT(1, &fbid);
+        glGenFramebuffers(1, &fbid);
         AttachColour(colour0);
         AttachColour(colour1);
         AttachDepth(depth);
@@ -55,29 +56,37 @@ struct GlFramebuffer {
     }
 
     void Bind() const {
-        glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fbid);
-        glDrawBuffers( attachments, attachment_buffers );
+        // glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fbid);
+        glBindFramebuffers(GL_FRAMEBUFFER, fbid);
+        // glDrawBuffers( attachments, attachment_buffers );
     }
 
     void Reinitialise() {
         if(fbid) {
-            glDeleteFramebuffersEXT(1, &fbid);
+            // glDeleteFramebuffersEXT(1, &fbid);
+            glDeleteFramebuffers(1, &fbid);
         }
-        glGenFramebuffersEXT(1, &fbid);
+        // glGenFramebuffersEXT(1, &fbid);
+         glGenFramebuffers(1, &fbid);
     }
 
      void Unbind() const {
-        glDrawBuffers( 1, attachment_buffers );
-        glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+        // glDrawBuffers( 1, attachment_buffers );
+        // glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }
 
      GLenum AttachColour(GlTexture& tex ){
         if(!fbid) Reinitialise();
 
-        const GLenum color_attachment = GL_COLOR_ATTACHMENT0_EXT + attachments;
-        glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fbid);
-        glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, color_attachment, GL_TEXTURE_2D, tex.tid, 0);
-        glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+        // const GLenum color_attachment = GL_COLOR_ATTACHMENT0_EXT + attachments;
+        // glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fbid);
+        // glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, color_attachment, GL_TEXTURE_2D, tex.tid, 0);
+        // glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+        const GLenum color_attachment = GL_COLOR_ATTACHMENT0 + attachments;
+        glBindFramebuffer(GL_FRAMEBUFFER, fbid);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, color_attachment, GL_TEXTURE_2D, tex.tid, 0);
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
         attachments++;
         //CheckGlDieOnError();
         return color_attachment;
@@ -86,9 +95,14 @@ struct GlFramebuffer {
     void AttachDepth(GlRenderBuffer& rb ) {
         if(!fbid) Reinitialise();
 
-        glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fbid);
-        glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_TEXTURE_2D, rb.rbid, 0);
-        glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+        // glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fbid);
+        // glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_TEXTURE_2D, rb.rbid, 0);
+        // glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+
+        glBindFramebuffer(GL_FRAMEBUFFER, fbid);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, rb.rbid, 0);
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
         ////CheckGlDieOnError();
     }
 

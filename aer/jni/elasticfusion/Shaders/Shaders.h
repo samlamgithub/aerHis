@@ -77,7 +77,8 @@ class Shader //: public pangolin::GlSlProgram
     if(!prog) {
         prog = glCreateProgram();
     }
-    GLhandleARB shader = glCreateShader(shader_type);
+    // GLhandleARB shader = glCreateShader(shader_type);
+    GLuint shader = glCreateShader(shader_type);
     glShaderSource(shader, 1, &source_code, NULL);
     glCompileShader(shader);
     GLint compiled = 0;
@@ -137,7 +138,8 @@ class Shader //: public pangolin::GlSlProgram
 
   protected:
     bool linked;
-	std::vector<GLhandleARB> shaders;
+	  // std::vector<GLhandleARB> shaders;
+    std::vector<GLuint> shaders;
     GLenum prog;
     GLint prev_prog;
 };

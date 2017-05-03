@@ -78,6 +78,18 @@ Java_ac_uk_imperial_aer_JNIInterface_setWriting(
   app.aerStartWriting(startWriting);
 }
 
+JNIEXPORT void JNICALL
+Java_ac_uk_imperial_aer_JNIInterface_setElasticFusion(
+  JNIEnv*, jobject, jboolean startElasticFusion) {
+  app.aerStartElasticFusion(startElasticFusion);
+}
+
+JNIEXPORT void JNICALL
+Java_ac_uk_imperial_aer_JNIInterface_savePly(
+  JNIEnv*, jobject) {
+  app.savePlyFile();
+}
+
 #ifdef __cplusplus
 }
 #endif

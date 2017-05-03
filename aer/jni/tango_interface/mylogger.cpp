@@ -1,7 +1,7 @@
-#include "mylogger.hpp"
+// #include "mylogger.hpp"
 
 #include <tango_interface/util.hpp>
-#include "logger.hpp"
+// #include "logger.hpp"
 #include "util.hpp"
 #include <ctime>
 #include <cstdarg>
@@ -26,24 +26,19 @@ Mylogger::Mylogger()
  : lastWritten(-1),
    writeThread(0),
    depth_image_width(0),
-   depth_image_height(0)
-{
+   depth_image_height(0) {
 //    std::string deviceId = "#1";
-
-
 //    setupDevice(deviceId);
 }
 
-Mylogger::~Mylogger()
-{
+Mylogger::~Mylogger() {
     free(depth_compress_buf);
 
     writing.assignValue(false);
 
     writeThread->join();
 
-    if(encodedImage != 0)
-    {
+    if(encodedImage != 0) {
         cvReleaseMat(&encodedImage);
     }
 //
@@ -57,7 +52,6 @@ Mylogger::~Mylogger()
 //        free(frameBuffers[i].first.first);
 //        free(frameBuffers[i].first.second);
 //    }
-
     for(int i = 0; i < 50; i++) {
             free(frameBuffers[i].image);
             free(frameBuffers[i].pointCloudPoints);
@@ -66,12 +60,11 @@ Mylogger::~Mylogger()
     }
 }
 
-
 void Mylogger::setCamWidthAndheight(int width, int height, double fx, double fy, double cx, double cy,
 	int	maxVerCount) {
 	LOGI("setCamWidthAndheight start");
 	depth_image_width = width,
-    depth_image_height = height;
+  depth_image_height = height;
 	myImageSize = width * height;
 	myFx = fx;
 	myFy = fy;
@@ -79,23 +72,19 @@ void Mylogger::setCamWidthAndheight(int width, int height, double fx, double fy,
 	myCy = cy;
 	LOGI("setCamWidthAndheight intrinsic: %d, %d, %f, %f, %f, %f , myImageSize: %d", depth_image_width, depth_image_height, fx, fy, cx, cy, myImageSize);
 //	int imageSize = width * height;
-
 	    depth_compress_buf_size = myImageSize * sizeof(int16_t) * 4;
 	    depth_compress_buf = (uint8_t*)malloc(depth_compress_buf_size);
 
 	    encodedImage = 0;
 
 	    writing.assignValue(false);
-
 //	    latestDepthIndex.assignValue(-1);
 	    latestBufferIndex.assignValue(-1);
-
 //	    for(int i = 0; i < 10; i++)
 //	    {
 //	        uint8_t * newImage = (uint8_t *)calloc(imageSize * 3, sizeof(uint8_t));
 //	        imageBuffers[i] = std::pair<uint8_t *, int64_t>(newImage, 0);
 //	    }
-
 //	    for(int i = 0; i < 10; i++) {
 	   for(int i = 0; i < 50; i++) {
 //	        uint8_t * newDepth = (uint8_t *)calloc(myImageSize * 2, sizeof(uint8_t));
@@ -115,8 +104,7 @@ void Mylogger::setCamWidthAndheight(int width, int height, double fx, double fy,
 	   LOGI("setCamWidthAndheight done");
 }
 
-void Mylogger::encodeJpeg(cv::Vec<unsigned char, 3> * rgb_data)
-{
+void Mylogger::encodeJpeg(cv::Vec<unsigned char, 3> * rgb_data) {
 	LOGI("Logger Encoding start: %d, %d", depth_image_height, depth_image_width);
 	int step = depth_image_width*3*sizeof(unsigned char);
 //	LOGI("step: %d", step);
@@ -142,8 +130,7 @@ void Mylogger::encodeJpeg(cv::Vec<unsigned char, 3> * rgb_data)
     LOGI("Logger Encoding done");
 }
 
-void Mylogger::rgbdCallback(unsigned char* image, TangoPointCloud* pointcloud_buffer, double color_timestamp, TangoPoseData pose)
-{
+void Mylogger::rgbdCallback(unsigned char* image, TangoPointCloud* pointcloud_buffer, double color_timestamp, TangoPoseData pose) {
 	LOGI("Writing thread rgbdCallback start ");
 	//===========================================================
 	boost::posix_time::ptime time = boost::posix_time::microsec_clock::local_time();
@@ -276,9 +263,7 @@ void Mylogger::UpSampleDepthAroundPoint(
 //    	  LOGI("UpSampleDepthAroundPoint failed: %d, %d ,%d , %d, %f", pixel_x, pixel_y, depth_image_width, depth_image_height, depth_value);
         continue;
       }
-
       int pixel_num = (pixel_x + a) + (pixel_y + b) * depth_image_width;
-
       if (pixel_num > 0 && pixel_num < myImageSize) {
         (*depth_map_buffer)[pixel_num] = (unsigned short)round(depth_value * 1000);
 //        LOGI("UpSampleDepthAroundPoint success");
@@ -289,21 +274,15 @@ void Mylogger::UpSampleDepthAroundPoint(
   }
 }
 
-void Mylogger::startWriting()
-{
+void Mylogger::startWriting() {
     assert(!writeThread && !writing.getValue());
-
     LOGI("logger start logging");
 //    this->filename = filename;
-
     writing.assignValue(true);
-
-    writeThread = new boost::thread(boost::bind(&Mylogger::writeData,
-                                               this));
+    writeThread = new boost::thread(boost::bind(&Mylogger::writeData, this));
 }
 
-void Mylogger::stopWriting()
-{
+void Mylogger::stopWriting() {
     assert(writeThread && writing.getValue());
 
     LOGI("logger stop logging2");
@@ -315,13 +294,11 @@ void Mylogger::stopWriting()
     LOGI("logger stop logging3");
 }
 
-
 bool Mylogger::file_exists(const std::string& filename) const {
   struct stat st;
   int result = stat(filename.c_str(), &st);
   return (result == 0);
 }
-
 
 std::string Mylogger::to_string(int value) const {
   char buf[128];
@@ -337,7 +314,6 @@ std::string Mylogger::current_date_time() const {
     strftime(buf, sizeof(buf), "%Y-%m-%d_%H-%M-%S", &tstruct);
     return std::string(buf);
 }
-
 
 void Mylogger::sayHello() {
 //   LOGI("I am saying Hello");
@@ -383,18 +359,16 @@ void Mylogger::writeData() {
 
     while(writing.getValueWait(1)) {
         int bufferIndex = latestBufferIndex.getValue();
-
         if(bufferIndex == -1) {
             continue;
-        }
+    }
 
-//        bufferIndex = bufferIndex % 10;
-        bufferIndex = bufferIndex % 50;
-
-        if(bufferIndex == lastWritten) {
+//   bufferIndex = bufferIndex % 10;
+  bufferIndex = bufferIndex % 50;
+  if(bufferIndex == lastWritten) {
             continue;
-        }
-        //==============================================
+  }
+//==============================================
         	LOGI("Writing thread rgbdCallback Processing start ");
 //        	double depth_timestamp = 0.0;
 //        	depth_timestamp = pointcloud_buffer->timestamp;
@@ -432,12 +406,10 @@ void Mylogger::writeData() {
         //	  LOGI("CameraInterface 1 accuracy : %f",   pose_color_image_t1_T_depth_image_t0.accuracy);
         //	LOGI("CameraInterface 1 confidence: %d",   pose_color_image_t1_T_depth_image_t0.confidence);
         //	return;
-
         	  if (std::isnan(pose_color_image_t1_T_depth_image_t0.translation[0])) {
         		  LOGI("CameraInterface Position: is Nan");
         		  return;
         	  }
-
         //	  double x =  pose_color_image_t1_T_depth_image_t0.orientation[0];
         //	  double y =  pose_color_image_t1_T_depth_image_t0.orientation[1];
         //	  double z =  pose_color_image_t1_T_depth_image_t0.orientation[2];
@@ -446,31 +418,30 @@ void Mylogger::writeData() {
         //	  pose_color_image_t1_T_depth_image_t0.orientation[1] = x;
         //	  pose_color_image_t1_T_depth_image_t0.orientation[2] = y;
         //	  pose_color_image_t1_T_depth_image_t0.orientation[3] = z;
-
         	  // The Color Camera frame at timestamp t0 with respect to Depth
         	  // Camera frame at timestamp t1.
-        	  glm::mat4 color_image_t1_T_depth_image_t0 = GetMatrixFromPose(&pose_color_image_t1_T_depth_image_t0);
+    glm::mat4 color_image_t1_T_depth_image_t0 = GetMatrixFromPose(&pose_color_image_t1_T_depth_image_t0);
         	//  if (gpu_upsample_) {
         	//    depth_image_.RenderDepthToTexture(color_image_t1_T_depth_image_t0,
         	//                                      pointcloud_buffer, new_points);
         	//  } else {
-        	 std::vector<unsigned short> depth_map_buffer_;
+    std::vector<unsigned short> depth_map_buffer_;
 //        	  UpdateAndUpsampleDepth(color_image_t1_T_depth_image_t0,
 //        	                                        pointcloud_buffer, depth_map_buffer_);
-        	 UpdateAndUpsampleDepth(color_image_t1_T_depth_image_t0, frameBuffers[bufferIndex].pointCloudPoints, depth_map_buffer_, num_points);
+UpdateAndUpsampleDepth(color_image_t1_T_depth_image_t0, frameBuffers[bufferIndex].pointCloudPoints, depth_map_buffer_, num_points);
         	//  TangoCameraIntrinsics rgb_camera_intrinsics_ = CameraInterface::TangoGetIntrinsics();
         	//    int depth_image_width = rgb_camera_intrinsics_.width;
         	//    int depth_image_height = rgb_camera_intrinsics_.height;
         	//    int depth_image_size = depth_image_width * depth_image_height;
         //	    if (rgbd_callback_) {
-        	  unsigned short* depth = &depth_map_buffer_[0];
+      unsigned short* depth = &depth_map_buffer_[0];
         //	          (*rgbd_callback_)(frame.get(), depth, color_timestamp);
         //	     }
-        	LOGI("Writing thread rgbdCallback Processing done ");
+    LOGI("Writing thread rgbdCallback Processing done ");
         //==============================================
-        unsigned long compressed_size = depth_compress_buf_size;
-        boost::thread_group threads;
-        threads.add_thread(new boost::thread(compress2,
+    unsigned long compressed_size = depth_compress_buf_size;
+    boost::thread_group threads;
+    threads.add_thread(new boost::thread(compress2,
                                              depth_compress_buf,
                                              &compressed_size,
 //                                             (const Bytef*)frameBuffers[bufferIndex].first.first,

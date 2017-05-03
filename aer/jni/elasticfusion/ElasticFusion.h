@@ -244,7 +244,8 @@ class ElasticFusion
         /**
          * Saves out a .ply mesh file of the current model
          */
-        void savePly();
+        // void savePly();
+        void savePly(Eigen::Vector4f myMapData, unsigned int &myLastCount, float &myConfidenceThreshold);
 
         /**
          * Renders a normalised view of the input raw depth for displaying as an OpenGL texture
