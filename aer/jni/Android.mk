@@ -39,7 +39,7 @@ LOCAL_SHARED_LIBRARIES += tango_client_api \
                           tango_3d_reconstruction \
                            cholmod
                           # pangolin \
-			                   
+
 
 LOCAL_STATIC_LIBRARIES += opencv_calib3d opencv_features2d opencv_highgui \
 						    opencv_imgproc opencv_flann \
@@ -92,7 +92,7 @@ LOCAL_C_INCLUDES += $(PROJECT_ROOT)/third_party/glm/ \
 
 LOCAL_C_INCLUDES += $(EIGEN_PATH)
 
-LOCAL_LDLIBS += -lstdc++ -L$(SYSROOT)/usr/lib -llog -lm -lc -ldl -landroid -lGLESv3 -lz \
+LOCAL_LDLIBS += -lstdc++ -L$(SYSROOT)/usr/lib -llog -lm -lc -ldl -landroid -lGLESv3 -lz -lEGL  \
 -L/home/sam/Downloads/OpenCV-android-sdk/sdk/native/jni/3rdparty/libs/armeabi-v7a \
                -L$(PROJECT_ROOT)/boost_1_53_0/armeabi-v7a/lib
 
