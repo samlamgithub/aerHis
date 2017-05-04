@@ -1,4 +1,4 @@
-//#include "stdafx.h"
+// #include "stdafx.h"
 #include "GLExtensions.h"
 
 #ifdef LOAD__GL_KHR_debug
@@ -40,20 +40,27 @@
 	PFNGLTEXTUREVIEWPROC glTextureView;
 #endif
 
+PFNGLGETVARYINGLOCATIONNVPROC glGetVaryingLocationNV;
+
+PFNGLTRANSFORMFEEDBACKVARYINGSNVPROC glTransformFeedbackVaryingsNV;
+
+PFNGLDRAWTRANSFORMFEEDBACKNVPROC glDrawTransformFeedback;
+
+PFNGLDRAWTRANSFORMFEEDBACKNVPROC glGetBufferSubData;
+
 void* Load(const char* extension, bool& success)
 {
 	void* ptr = nullptr;
 #ifdef ANDROID
 	ptr = (void*)eglGetProcAddress(extension);
 #endif
-//#ifdef WINDOWS
-//
-//	ptr = glfwGetProcAddress(extension);
-//#endif
+// #ifdef WINDOWS
+// 	ptr = glfwGetProcAddress(extension);
+// #endif
 
 	char buffer[255];
 	sprintf(buffer, "Loaded '%s' %p", extension, ptr);
-	Log::Verbose("[GLExtensions]", buffer);
+	// Log::Verbose("[GLExtensions]", buffer);
 
 	success &= true;
 	return ptr;
@@ -101,6 +108,12 @@ bool LoadOpenGLExtensionsManually()
 #if defined(LOAD__EXT_texture_view)
 	glTextureView = (PFNGLTEXTUREVIEWPROC)Load("glTextureView", success);
 #endif
+
+glGetVaryingLocationNV = (PFNGLGETVARYINGLOCATIONNVPROC)Load("glGetVaryingLocationNV", success);
+glTransformFeedbackVaryingsNV = (PFNGLTRANSFORMFEEDBACKVARYINGSNVPROC)Load("glTransformFeedbackVaryingsNV", success);
+glDrawTransformFeedback = (PFNGLDRAWTRANSFORMFEEDBACKNVPROC)Load("glDrawTransformFeedback", success);
+glGetBufferSubData = (PFNGLDRAWTRANSFORMFEEDBACKNVPROC)Load("glGetBufferSubData", success);
+
 
 	return success;
 }

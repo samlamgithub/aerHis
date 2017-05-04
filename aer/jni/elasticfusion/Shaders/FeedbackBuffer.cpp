@@ -58,13 +58,13 @@ FeedbackBuffer::FeedbackBuffer(std::shared_ptr<Shader> program)
     program->Bind();
 
     int loc[3] =
-    {
-        glGetVaryingLocationNV(program->programId(), "vPosition0"),
-        glGetVaryingLocationNV(program->programId(), "vColor0"),
-        glGetVaryingLocationNV(program->programId(), "vNormRad0"),
-    };
+   {
+       glGetVaryingLocationNV(program->programId(), "vPosition0"),
+       glGetVaryingLocationNV(program->programId(), "vColor0"),
+       glGetVaryingLocationNV(program->programId(), "vNormRad0"),
+   };
 
-    glTransformFeedbackVaryings(program->programId(), 3, loc, GL_INTERLEAVED_ATTRIBS);
+   glTransformFeedbackVaryingsNV(program->programId(), 3, loc, GL_INTERLEAVED_ATTRIBS);
 
     program->Unbind();
 

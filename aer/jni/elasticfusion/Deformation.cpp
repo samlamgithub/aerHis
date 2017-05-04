@@ -41,11 +41,11 @@ Deformation::Deformation()
     sampleProgram->Bind();
 
     int loc[1] =
-    {
-        glGetVaryingLocationNV(sampleProgram->programId(), "vData"),
-    };
+     {
+         glGetVaryingLocationNV(sampleProgram->programId(), "vData"),
+     };
 
-    glTransformFeedbackVaryings(sampleProgram->programId(), 1, loc, GL_INTERLEAVED_ATTRIBS);
+     glTransformFeedbackVaryingsNV(sampleProgram->programId(), 1, loc, GL_INTERLEAVED_ATTRIBS);
 
     sampleProgram->Unbind();
 
@@ -307,10 +307,10 @@ void Deformation::sampleGraphModel(const std::pair<GLuint, GLuint> & model)
     {
         glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
-        // glGetBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(Eigen::Vector4f) * count, vertices);
-        Eigen::Vector4f * ver = (Eigen::Vector4f * )glMapBufferRange(GL_ARRAY_BUFFER, 0, sizeof(Eigen::Vector4f) * count, GL_MAP_READ_BIT);
-        vertices = ver;
-        glUnmapBuffer(GL_ARRAY_BUFFER);
+        glGetBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(Eigen::Vector4f) * count, vertices);
+        // Eigen::Vector4f * ver = (Eigen::Vector4f * )glMapBufferRange(GL_ARRAY_BUFFER, 0, sizeof(Eigen::Vector4f) * count, GL_MAP_READ_BIT);
+        // vertices = ver;
+        // glUnmapBuffer(GL_ARRAY_BUFFER);
 
         glBindBuffer(GL_ARRAY_BUFFER, 0);
 

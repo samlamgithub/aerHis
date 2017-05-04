@@ -8,9 +8,9 @@
 	#ifdef ANDROID
 		#define GL_API_CALL
 	#endif
-//	#ifdef WINDOWS
-//		#define GL_API_CALL __stdcall
-//	#endif
+	// #ifdef WINDOWS
+	// 	#define GL_API_CALL __stdcall
+	// #endif
 #endif
 
 #ifndef GL_API_CALL_P
@@ -18,7 +18,7 @@
 #endif
 
 #ifdef ANDROID
-	typedef void (GL_API_CALL *GLDEBUGPROCKHR)(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam); 
+	typedef void (GL_API_CALL *GLDEBUGPROCKHR)(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam);
 #endif
 
 bool LoadOpenGLExtensionsManually();
@@ -51,30 +51,42 @@ bool LoadOpenGLExtensionsManually();
 	#define GL_DEBUG_TYPE_MARKER                                0x8268
 
 
-	#ifndef GL_BUFFER          	
+	#ifndef GL_BUFFER
 		#define GL_BUFFER                                       0x82E0
 	#endif
 	#ifndef GL_SHADER
 		#define GL_SHADER                                       0x82E1
 	#endif
-	#ifndef GL_PROGRAM         	
+	#ifndef GL_PROGRAM
 		#define GL_PROGRAM                                      0x82E2
 	#endif
 	// GL_VERTEX_ARRAY
-	#ifndef QUERY   	
+	#ifndef QUERY
 		#define QUERY                                           0x82E3
 	#endif
-	#ifndef GL_PROGRAM_PIPELINE	 
+	#ifndef GL_PROGRAM_PIPELINE
 		#define GL_PROGRAM_PIPELINE                             0x82E4
 	#endif
 	//TRANSFORM_FEEDBACK
-	#ifndef GL_SAMPLER	 
+	#ifndef GL_SAMPLER
 		#define GL_SAMPLER                                      0x82E6
 	#endif
 	//TEXTURE
 	//RENDERBUFFER
 	//FRAMEBUFFER
 
+
+	typedef GLint (GL_API_CALL_P PFNGLGETVARYINGLOCATIONNVPROC) (GLuint program, const GLchar *name);
+	extern PFNGLGETVARYINGLOCATIONNVPROC glGetVaryingLocationNV;
+
+	typedef void (GL_API_CALL_P PFNGLTRANSFORMFEEDBACKVARYINGSNVPROC) (GLuint program, GLsizei count, const GLint *locations, GLenum bufferMode);
+	extern PFNGLTRANSFORMFEEDBACKVARYINGSNVPROC glTransformFeedbackVaryingsNV;
+
+	typedef void (GL_API_CALL_P PFNGLDRAWTRANSFORMFEEDBACKNVPROC) (GLenum mode, GLuint id);
+	extern PFNGLDRAWTRANSFORMFEEDBACKNVPROC glDrawTransformFeedback;
+
+	typedef void (GL_API_CALL_P PFNGLGETBUFFERSUBDATAPROC) (GLenum target, GLintptr offset, GLsizeiptr size, void *data);
+	extern PFNGLDRAWTRANSFORMFEEDBACKNVPROC glGetBufferSubData;
 
 	typedef void (GL_API_CALL_P PFNGLDEBUGMESSAGECONTROLPROCKHR)(GLenum source, GLenum type, GLenum severity, GLsizei count, const GLuint* ids, GLboolean enabled);
 	extern PFNGLDEBUGMESSAGECONTROLPROCKHR glDebugMessageControl;
@@ -101,7 +113,7 @@ bool LoadOpenGLExtensionsManually();
 #endif
 // OES_texture_buffer
 // https://www.khronos.org/registry/gles/extensions/OES/OES_texture_buffer.txt
-#ifdef LOAD__OES_texture_buffer	
+#ifdef LOAD__OES_texture_buffer
 	#define GL_TEXTURE_BUFFER_OES							   0x8C2A
 	#define GL_TEXTURE_BUFFER_BINDING_OES                      0x8C2A
 	#define GL_MAX_TEXTURE_BUFFER_SIZE_OES                     0x8C2B
