@@ -105,7 +105,7 @@ GlobalModel::GlobalModel()
         glGetVaryingLocationNV(updateProgram->programId(), "vNormRad0"),
     };
 
-    glTransformFeedbackVaryingsNV(updateProgram->programId(), 3, locUpdate, GL_INTERLEAVED_ATTRIBS);
+    glTransformFeedbackVaryings(updateProgram->programId(), 3, locUpdate, GL_INTERLEAVED_ATTRIBS);
 
     updateProgram->Unbind();
 
@@ -118,7 +118,7 @@ GlobalModel::GlobalModel()
         glGetVaryingLocationNV(dataProgram->programId(), "vNormRad0"),
     };
 
-    glTransformFeedbackVaryingsNV(dataProgram->programId(), 3, dataUpdate, GL_INTERLEAVED_ATTRIBS);
+    glTransformFeedbackVaryings(dataProgram->programId(), 3, dataUpdate, GL_INTERLEAVED_ATTRIBS);
 
     dataProgram->Unbind();
 
@@ -131,7 +131,7 @@ GlobalModel::GlobalModel()
         glGetVaryingLocationNV(unstableProgram->programId(), "vNormRad0"),
     };
 
-    glTransformFeedbackVaryingsNV(unstableProgram->programId(), 3, unstableUpdate, GL_INTERLEAVED_ATTRIBS);
+    glTransformFeedbackVaryings(unstableProgram->programId(), 3, unstableUpdate, GL_INTERLEAVED_ATTRIBS);
 
     unstableProgram->Unbind();
 
@@ -144,7 +144,7 @@ GlobalModel::GlobalModel()
         glGetVaryingLocationNV(initProgram->programId(), "vNormRad0"),
     };
 
-    glTransformFeedbackVaryingsNV(initProgram->programId(), 3, locInit, GL_INTERLEAVED_ATTRIBS);
+    glTransformFeedbackVaryings(initProgram->programId(), 3, locInit, GL_INTERLEAVED_ATTRIBS);
 
     glGenQueries(1, &countQuery);
 
@@ -628,7 +628,10 @@ Eigen::Vector4f * GlobalModel::downloadMap()
 
     glBindBuffer(GL_ARRAY_BUFFER, vbos[renderSource].first);
 
-    glGetBufferSubData(GL_ARRAY_BUFFER, 0, count * Vertex::SIZE, vertices);
+    // glGetBufferSubData(GL_ARRAY_BUFFER, 0, count * Vertex::SIZE, vertices);
+    Eigen::Vector4f * ver = glMapBufferRange(GL_ARRAY_BUFFER, 0, count * Vertex::SIZE, GL_MAP_READ_BIT);
+    vertices = ver;
+    glUnmapBuffer(GL_ARRAY_BUFFER);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 

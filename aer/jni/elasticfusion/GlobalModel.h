@@ -106,7 +106,7 @@ class GlobalModel
         std::shared_ptr<Shader> updateProgram;
         std::shared_ptr<Shader> unstableProgram;
         // pangolin::GlRenderBuffer renderBuffer;
-        GlRenderBuffer renderBuffer
+        GlRenderBuffer renderBuffer;
 
         //We render updated vertices vec3 + confidences to one texture
         GPUTexture updateMapVertsConfs;
@@ -122,7 +122,7 @@ class GlobalModel
 
         GLuint newUnstableVbo, newUnstableFid;
 
-        pangolin::GlFramebuffer frameBuffer;
+        GlFramebuffer frameBuffer;
         GLuint uvo;
         int uvSize;
 };

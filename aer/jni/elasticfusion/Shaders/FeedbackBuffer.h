@@ -24,8 +24,8 @@
 #include "Vertex.h"
 #include "../Utils/Resolution.h"
 #include "../Utils/Intrinsics.h"
-#include <pangolin/gl/gl.h>
-#include <pangolin/display/opengl_render_state.h>
+//#include <pangolin/gl/gl.h>
+//#include <pangolin/display/opengl_render_state.h>
 #include <glTexture.h>
 
 class FeedbackBuffer

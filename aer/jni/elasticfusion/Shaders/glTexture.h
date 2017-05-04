@@ -24,6 +24,9 @@
 #include <GLES2/gl2ext.h>
 #include <GLES3/gl3platform.h>
 
+#include <EGL/egl.h>
+#include <EGL/eglext.h>
+
 #include <utility>
 
 

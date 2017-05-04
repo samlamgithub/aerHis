@@ -42,8 +42,8 @@ Aer::Aer() {
       std::bind(&Aer::rgbdCallback, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
   // tango_interface::CameraInterface::register_writing_callback(
   //   std::bind(&Aer::writing_callback, this));
-    tango_interface::CameraInterface::register_elasticfusion_callback(
-      std::bind(&Aer::elasticfusion_callback, this));
+//    tango_interface::CameraInterface::register_elasticfusion_callback(
+//      std::bind(&Aer::elasticfusion_callback, this));
 
   //  tango_interface::Mylogger logger;
   //  tango_interface::CameraInterface::setLogger(&logger);
@@ -74,73 +74,73 @@ Aer::~Aer() {
 
 
 void Aer::elasticFusion() {
-  	LOGI("ElasticFusion Initializing ...");
-  	Resolution::getInstance(tangoCamWidth, tangoCamHeight);
-  	Intrinsics::getInstance(tangoCamFx, tangoCamFy, tangoCamCx, tangoCamCy);
-  	LOGI("ElasticFusion Initializing done ...");
-
-  	LOGI("ElasticFusion Setting parameters...");
-  	float confidence = 10.0f; //fusion的confidence阈值
-  	float depth = 3.0f; //去掉depth大于某个阈值的帧
-  	float icp = 10.0f; //icp的阈值
-  	float icpErrThresh = 5e-05; //icp错误阈值
-  	float covThresh = 1e-05;
-  	float photoThresh = 115;
-  	float fernThresh = 0.3095f; //新fern的阈值
-  	int timeDelta = 200;
-  	int icpCountThresh = 35000;
-  	//int start = 1;
-  	//int end = std::numeric_limits<unsigned short>::max(); //Funny bound, since we predict times in this format really!
-  	// bool openLoop = 0; //open loop模式：不开启
-    bool openLoop = 1; //open loop模式：开启
-  	bool iclnuim = 0; //使用icl dataset:不使用
-  	bool reloc = 0; //重定位模式：先做重建，不开启重定位
-  	// bool fastOdom = 0; //Fast odometry (single level pyramid) mode :不开启
-    bool fastOdom = 1; //Fast odometry (single level pyramid) mode :开启
-  	// bool so3 = 1; //SO(3) pre-alignment in tracking：开启
-    bool so3 = 0; //SO(3) pre-alignment in tracking：不开启
-  	bool frameToFrameRGB = 0; //只做rgb图像的tracking：不开启
-  	int timestamp = 0;
-  	std::string savefilename = "testElasticFusion";
-  	LOGI("ElasticFusion Setting parameters done.");
-
-  	LOGI("ElasticFusion Building eFusion..." );
-  	// pangolin::Params windowParams;
-  	// windowParams.Set("SAMPLE_BUFFERS", 0);
-  	// windowParams.Set("SAMPLES", 0);
-  	// pangolin::CreateWindowAndBind("Main", width, height, windowParams);
-  	// glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-  	// glPixelStorei(GL_PACK_ALIGNMENT, 1);
-  	ElasticFusion eFusion(
-  			openLoop ? std::numeric_limits<int>::max() / 2 : timeDelta,
-  			icpCountThresh, icpErrThresh, covThresh, !openLoop, iclnuim, reloc,
-  			photoThresh, confidence, depth, icp, fastOdom, fernThresh, so3,
-  			frameToFrameRGB, savefilename);
-  	LOGI("ElasticFusion Building eFusion done" );
-
-  	//待处理文件的位置和下标
-  	// std::string filedir = "../pic/";
-  	// int file_start = 1;
-  	// int file_end = 782;
-
-  	vector<Eigen::Matrix4f> pose;
-  		//三位重建
-  		// for (int file_ptr = file_start; file_ptr <= file_end; file_ptr = file_ptr +1) {
-  			// LOGI("Processing frame : "<<file_ptr << " ...");
-  			// FRAME f = readFrame(file_ptr, filedir);
-  			// unsigned char * rgb = f.rgb;
-  			// unsigned short * dep = f.dep;
-        Eigen::Matrix4f * currentPose;//当前的位姿
-           currentPose = new Eigen::Matrix4f;
-           currentPose->setIdentity();
-          //  *currentPose = groundTruthOdometry->getTransformation(timestamp); }
-           eFusion.processFrame(rgb, depth, timestamp, currentPose);
-           delete currentPose;
-  			// eFusion.processFrame(rgb, dep, timestamp);
-  			Eigen::Matrix4f currPose = eFusion.getCurrPose();
-  			pose.push_back(currPose);
-  			LOGI("current pose is : " <<currPose);
-  		// }
+//  	LOGI("ElasticFusion Initializing ...");
+//  	Resolution::getInstance(tangoCamWidth, tangoCamHeight);
+//  	Intrinsics::getInstance(tangoCamFx, tangoCamFy, tangoCamCx, tangoCamCy);
+//  	LOGI("ElasticFusion Initializing done ...");
+//
+//  	LOGI("ElasticFusion Setting parameters...");
+//  	float confidence = 10.0f; //fusion的confidence阈值
+//  	float depth = 3.0f; //去掉depth大于某个阈值的帧
+//  	float icp = 10.0f; //icp的阈值
+//  	float icpErrThresh = 5e-05; //icp错误阈值
+//  	float covThresh = 1e-05;
+//  	float photoThresh = 115;
+//  	float fernThresh = 0.3095f; //新fern的阈值
+//  	int timeDelta = 200;
+//  	int icpCountThresh = 35000;
+//  	//int start = 1;
+//  	//int end = std::numeric_limits<unsigned short>::max(); //Funny bound, since we predict times in this format really!
+//  	// bool openLoop = 0; //open loop模式：不开启
+//    bool openLoop = 1; //open loop模式：开启
+//  	bool iclnuim = 0; //使用icl dataset:不使用
+//  	bool reloc = 0; //重定位模式：先做重建，不开启重定位
+//  	// bool fastOdom = 0; //Fast odometry (single level pyramid) mode :不开启
+//    bool fastOdom = 1; //Fast odometry (single level pyramid) mode :开启
+//  	// bool so3 = 1; //SO(3) pre-alignment in tracking：开启
+//    bool so3 = 0; //SO(3) pre-alignment in tracking：不开启
+//  	bool frameToFrameRGB = 0; //只做rgb图像的tracking：不开启
+//  	int timestamp = 0;
+//  	std::string savefilename = "testElasticFusion";
+//  	LOGI("ElasticFusion Setting parameters done.");
+//
+//  	LOGI("ElasticFusion Building eFusion..." );
+//  	// pangolin::Params windowParams;
+//  	// windowParams.Set("SAMPLE_BUFFERS", 0);
+//  	// windowParams.Set("SAMPLES", 0);
+//  	// pangolin::CreateWindowAndBind("Main", width, height, windowParams);
+//  	// glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+//  	// glPixelStorei(GL_PACK_ALIGNMENT, 1);
+//  	ElasticFusion eFusion(
+//  			openLoop ? std::numeric_limits<int>::max() / 2 : timeDelta,
+//  			icpCountThresh, icpErrThresh, covThresh, !openLoop, iclnuim, reloc,
+//  			photoThresh, confidence, depth, icp, fastOdom, fernThresh, so3,
+//  			frameToFrameRGB, savefilename);
+//  	LOGI("ElasticFusion Building eFusion done" );
+//
+//  	//待处理文件的位置和下标
+//  	// std::string filedir = "../pic/";
+//  	// int file_start = 1;
+//  	// int file_end = 782;
+//
+////  	vector<Eigen::Matrix4f> pose;
+//  		//三位重建
+//  		// for (int file_ptr = file_start; file_ptr <= file_end; file_ptr = file_ptr +1) {
+//  			// LOGI("Processing frame : "<<file_ptr << " ...");
+//  			// FRAME f = readFrame(file_ptr, filedir);
+//  			// unsigned char * rgb = f.rgb;
+//  			// unsigned short * dep = f.dep;
+//        Eigen::Matrix4f * currentPose;//当前的位姿
+//           currentPose = new Eigen::Matrix4f;
+//           currentPose->setIdentity();
+//          //  *currentPose = groundTruthOdometry->getTransformation(timestamp); }
+//           eFusion.processFrame(rgb, depth, timestamp, currentPose);
+//           delete currentPose;
+//  			// eFusion.processFrame(rgb, dep, timestamp);
+//  			Eigen::Matrix4f currPose = eFusion.getCurrPose();
+//  			pose.push_back(currPose);
+//  			LOGI("current pose is : " <<currPose);
+//  		// }
   		LOGI("Processing frames done." );
   		LOGI("Saving Elastic-Fusion model...");
   		LOGI("Saving Elastic-Fusion model done");
@@ -404,7 +404,7 @@ void Aer::aerStartElasticFusion(bool startElasticFusion) {
     // TODO: make use of startElasticFusion to stop
     // elasticFusion_thread = std::thread(&Aer::elasticFusion, this);
     LOGI("ElasticFusion aer called");
-  	if (startWriting) {
+  	if (startElasticFusion) {
   	   LOGI("ElasticFusion starting in aer");
   	   myElasticFusion.startElasticFusion();
   	} else {

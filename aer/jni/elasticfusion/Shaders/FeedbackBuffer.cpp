@@ -64,7 +64,7 @@ FeedbackBuffer::FeedbackBuffer(std::shared_ptr<Shader> program)
         glGetVaryingLocationNV(program->programId(), "vNormRad0"),
     };
 
-    glTransformFeedbackVaryingsNV(program->programId(), 3, loc, GL_INTERLEAVED_ATTRIBS);
+    glTransformFeedbackVaryings(program->programId(), 3, loc, GL_INTERLEAVED_ATTRIBS);
 
     program->Unbind();
 

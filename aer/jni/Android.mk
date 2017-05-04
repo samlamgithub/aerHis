@@ -54,7 +54,7 @@ LOCAL_STATIC_LIBRARIES += opencv_calib3d opencv_features2d opencv_highgui \
 							CudaLib  \
 						  cudart_static
 
-LOCAL_CFLAGS += -std=c++11 -O3 -g -D__ANDROID__ -pthread
+LOCAL_CFLAGS += -std=c++11 -O3 -g -D__ANDROID__ -DANDROID -pthread -DLOAD__EXT_geometry_shader
 
 LOCAL_SRC_FILES += jni_interface.cpp \
                           tango_interface/logger.cpp \
@@ -73,6 +73,7 @@ LOCAL_SRC_FILES += jni_interface.cpp \
 													elasticfusion/IndexMap.cpp \
 													elasticfusion/GlobalModel.cpp \
 													elasticfusion/ElasticFusion.cpp \
+													elasticfusion/Shaders/GLExtension.cpp \
 													elasticfusion/Shaders/FeedbackBuffer.cpp \
 													elasticfusion/Shaders/FillIn.cpp \
 													elasticfusion/Shaders/ComputePack.cpp \

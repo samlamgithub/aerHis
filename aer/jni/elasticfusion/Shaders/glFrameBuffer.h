@@ -24,8 +24,12 @@
 #include <GLES2/gl2ext.h>
 #include <GLES3/gl3platform.h>
 
+#include <EGL/egl.h>
+#include <EGL/eglext.h>
+
 #include <glTexture.h>
 #include <glRenderBuffer.h>
+#include <GLExtensions.h>
 
 struct GlFramebuffer {
 
@@ -57,7 +61,7 @@ struct GlFramebuffer {
 
     void Bind() const {
         // glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fbid);
-        glBindFramebuffers(GL_FRAMEBUFFER, fbid);
+        glBindFramebuffer(GL_FRAMEBUFFER, fbid);
         // glDrawBuffers( attachments, attachment_buffers );
     }
 

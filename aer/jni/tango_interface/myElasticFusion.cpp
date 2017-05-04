@@ -20,6 +20,7 @@
 
 //using namespace cv;
 #include <../elasticfusion/ElasticFusion.h>
+#include <../elasticfusion/Shaders/GLExtensions.h>
 
 namespace tango_interface {
 
@@ -276,6 +277,10 @@ void MyElasticFusion::UpSampleDepthAroundPoint(
 void MyElasticFusion::startElasticFusion() {
     assert(!elasticFusionThread && !runningElasticFusion.getValue());
     LOGI("MyElasticFusion start running");
+    bool success = LoadOpenGLExtensionsManually();
+    if (!success) {
+    	LOGE("MyElasticFusion LoadOpenGLExtensionsManually failed");
+    }
 //    this->filename = filename;
     runningElasticFusion.assignValue(true);
     elasticFusionThread = new boost::thread(boost::bind(&MyElasticFusion::runEF, this));
@@ -630,6 +635,7 @@ UpdateAndUpsampleDepth(color_image_t1_T_depth_image_t0, frameBuffers[bufferIndex
           fs.close();
 
           delete [] mapData;
+          shouldSavePly.assignValue(false);
           LOGI("ElasticFusion save frame done." );
       }
       // LOGI("Saving Elastic-Fusion model...");

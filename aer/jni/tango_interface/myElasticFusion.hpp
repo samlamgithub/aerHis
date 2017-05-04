@@ -57,7 +57,7 @@ class MyElasticFusion
         void stopElasticFusion();
 
 //        std::pair<std::pair<unsigned char *, unsigned char *>, int64_t> frameBuffers[10];
-        RGBDdata frameBuffers[50];
+        ElasticFusionData frameBuffers[50];
         ThreadMutexObject<int> latestBufferIndex;
         void rgbdCallback(unsigned char* image, TangoPointCloud* pointcloud_buffer, double color_timestamp, TangoPoseData pose);
         // void sayHello();

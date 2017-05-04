@@ -58,7 +58,7 @@ static const char combo_splatfrag[]=
 "}\n";
 
 static const char copy_unstablegeom[]=
-"#version 300 es\n"
+"#version 310 es\n"
 "uniform vec4 cam; //cx, cy, fx, fy\n"
 "uniform float maxDepth;\n"
 "in vec4 position;\n"
@@ -97,7 +97,7 @@ static const char copy_unstablegeom[]=
 "    gl_FragDepth = (corrected_pos.z / (2 * maxDepth)) + 0.5f;}\n";
 
 static const char copy_unstablevert[]=
-"#version 300 es\n"
+"#version 310 es\n"
 "layout (location = 0) in vec4 vPos;\n"
 "layout (location = 1) in vec4 vCol;\n"
 "layout (location = 2) in vec4 vNormR;\n"
@@ -337,7 +337,7 @@ static const char copy_unstablevert[]=
 "}\n";
 
 static const char datafrag[]=
-"#version 300 es\n"
+"#version 310 es\n"
 "in vec4 vPosition0;\n"
 "in vec4 vColor0;\n"
 "in vec4 vNormRad0;\n"
@@ -357,7 +357,7 @@ static const char datafrag[]=
 "}\n";
 
 static const char datageom[]=
-"#version 300 es\n"
+"#version 310 es\n"
 "layout(points) in;\n"
 "layout(points, max_vertices = 1) out;\n"
 "in vec4 vPosition[];\n"
@@ -386,7 +386,7 @@ static const char datageom[]=
 "}\n";
 
 static const char datavert[]=
-"#version 300 es\n"
+"#version 310 es\n"
 "layout (location = 0) in vec2 texcoord;\n"
 "out vec4 vPosition;\n"
 "out vec4 vColor;\n"
@@ -592,7 +592,7 @@ static const char datavert[]=
 "}\n";
 
 static const char depth_bilateralfrag[]=
-"#version 300 es\n"
+"#version 310 es\n"
 "in vec2 texcoord;\n"
 "out uint FragColor;\n"
 "uniform usampler2D gSampler;\n"
@@ -643,7 +643,7 @@ static const char depth_bilateralfrag[]=
 "}\n";
 
 static const char depth_metricfrag[]=
-"#version 300 es\n"
+"#version 310 es\n"
 "in vec2 texcoord;\n"
 "out float FragColor;\n"
 "uniform usampler2D gSampler;\n"
@@ -662,7 +662,7 @@ static const char depth_metricfrag[]=
 "}\n";
 
 static const char depth_normfrag[]=
-"#version 300 es\n"
+"#version 310 es\n"
 "in vec2 texcoord;\n"
 "out float FragColor;\n"
 "uniform usampler2D gSampler;\n"
@@ -678,7 +678,7 @@ static const char depth_normfrag[]=
 "}\n";
 
 static const char depth_splatfrag[]=
-"#version 300 es\n"
+"#version 310 es\n"
 "uniform vec4 cam; //cx, cy, fx, fy\n"
 "uniform float maxDepth;\n"
 "in vec4 position;\n"
@@ -700,7 +700,7 @@ static const char depth_splatfrag[]=
 "}\n";
 
 static const char draw_feedbackfrag[]=
-"#version 300 es\n"
+"#version 310 es\n"
 "in vec4 vColor;\n"
 "out vec4 FragColor;\n"
 "void main()\n"
@@ -709,7 +709,7 @@ static const char draw_feedbackfrag[]=
 "}\n";
 
 static const char draw_feedbackvert[]=
-"#version 300 es\n"
+"#version 310 es\n"
 "layout (location = 0) in vec4 position;\n"
 "layout (location = 1) in vec4 color;\n"
 "layout (location = 2) in vec4 normal;\n"
@@ -754,7 +754,7 @@ static const char draw_feedbackvert[]=
 "}\n";
 
 static const char draw_global_surfacefrag[]=
-"#version 300 es\n"
+"#version 310 es\n"
 "in vec3 vColor0;\n"
 "in vec2 texcoord;\n"
 "out vec4 FragColor;\n"
@@ -766,7 +766,7 @@ static const char draw_global_surfacefrag[]=
 "}\n";
 
 static const char draw_global_surfacegeom []=
-"#version 300 es\n"
+"#version 310 es\n"
 "layout(points) in;\n"
 "layout(triangle_strip, max_vertices = 4) out;\n"
 "uniform float threshold;\n"
@@ -849,7 +849,7 @@ static const char draw_global_surfacegeom []=
 "}\n";
 
 static const char draw_global_surfacevert[] =
-"#version 300 es\n"
+"#version 310 es\n"
 "layout (location = 0) in vec4 position;\n"
 "layout (location = 1) in vec4 color;\n"
 "layout (location = 2) in vec4 normal;\n"
@@ -889,7 +889,7 @@ static const char draw_global_surfacevert[] =
 "}\n";
 
 static const char draw_global_surface_phongfrag[] =
-"#version 300 es\n"
+"#version 310 es\n"
 "in vec3 n;\n"
 "in vec3 v;\n"
 "in vec3 vColor0;\n"
@@ -927,7 +927,7 @@ static const char emptyvert[]=
 "void main() {}\n";
 
 static const char fill_normalfrag[]=
-"#version 300 es\n"
+"#version 310 es\n"
 "in vec2 texcoord;\n"
 "out vec4 FragColor;\n"
 "uniform sampler2D eSampler;\n"
@@ -992,7 +992,7 @@ static const char fill_normalfrag[]=
 "}\n";
 
 static const char fill_rgbfrag[] =
-"#version 300 es\n"
+"#version 310 es\n"
 "in vec2 texcoord;\n"
 "out vec4 FragColor;\n"
 "uniform sampler2D eSampler;\n"
@@ -1008,7 +1008,7 @@ static const char fill_rgbfrag[] =
 "}\n";
 
 static const char fill_vertexfrag[] =
-"#version 300 es\n"
+"#version 310 es\n"
 "in vec2 texcoord;\n"
 "out vec4 FragColor;\n"
 "uniform sampler2D eSampler;\n"
@@ -1038,7 +1038,7 @@ static const char fill_vertexfrag[] =
 "}\n";
 
 static const char fxaafrag[] =
-"#version 300 es\n"
+"#version 310 es\n"
 "#define FXAA_REDUCE_MIN   (1.0/ 128.0)\n"
 "#define FXAA_REDUCE_MUL   (1.0 / 8.0)\n"
 "#define FXAA_SPAN_MAX     8.0\n"
@@ -1092,7 +1092,7 @@ static const char fxaafrag[] =
 "}\n";
 
 static const char index_mapfrag[] =
-"#version 300 es\n"
+"#version 310 es\n"
 "in vec4 vPosition0;\n"
 "in vec4 vColorTime0;\n"
 "in vec4 vNormRad0;\n"
@@ -1110,7 +1110,7 @@ static const char index_mapfrag[] =
 "}\n";
 
 static const char index_mapvert[] =
-"#version 300 es\n"
+"#version 310 es\n"
 "layout (location = 0) in vec4 vPosition;\n"
 "layout (location = 1) in vec4 vColorTime;\n"
 "layout (location = 2) in vec4 vNormRad;\n"
@@ -1149,7 +1149,7 @@ static const char index_mapvert[] =
 "}\n";
 
 static const char init_unstablevert[] =
-"#version 300 es\n"
+"#version 310 es\n"
 "layout (location = 0) in vec4 vPosition;\n"
 "layout (location = 1) in vec4 vColor;\n"
 "layout (location = 2) in vec4 vNormRad;\n"
@@ -1166,7 +1166,7 @@ static const char init_unstablevert[] =
 "}\n";
 
 static const char quadgeom[] =
-"#version 300 es\n"
+"#version 310 es\n"
 "layout(points) in;\n"
 "layout(triangle_strip, max_vertices = 4) out;\n"
 "out vec2 texcoord;\n"
@@ -1188,7 +1188,7 @@ static const char quadgeom[] =
 "}\n";
 
 static const char resizefrag[] =
-"#version 300 es\n"
+"#version 310 es\n"
 "in vec2 texcoord;\n"
 "out vec4 FragColor;\n"
 "uniform sampler2D eSampler;\n"
@@ -1198,7 +1198,7 @@ static const char resizefrag[] =
 "}\n";
 
 static const char samplegeom[] =
-"#version 300 es\n"
+"#version 310 es\n"
 "layout(points) in;\n"
 "layout(points, max_vertices = 1) out;\n"
 "in vec4 vPosition0[];\n"
@@ -1218,7 +1218,7 @@ static const char samplegeom[] =
 "}\n";
 
 static const char samplevert[] =
-"#version 300 es\n"
+"#version 310 es\n"
 "layout (location = 0) in vec4 vPosition;\n"
 "layout (location = 1) in vec4 vColorTime;\n"
 "layout (location = 2) in vec4 vNormRad;\n"
@@ -1235,7 +1235,7 @@ static const char samplevert[] =
 "}\n";
 
 static const char splatvert[] =
-"#version 300 es\n"
+"#version 310 es\n"
 "layout (location = 0) in vec4 vPosition;\n"
 "layout (location = 1) in vec4 vColor;\n"
 "layout (location = 2) in vec4 vNormRad;\n"
@@ -1292,7 +1292,7 @@ static const char splatvert[] =
 "}\n";
 
 static const char updatevert[] =
-"#version 300 es\n"
+"#version 310 es\n"
 "layout (location = 0) in vec4 vPosition;\n"
 "layout (location = 1) in vec4 vColor;\n"
 "layout (location = 2) in vec4 vNormRad;\n"
@@ -1361,7 +1361,7 @@ static const char updatevert[] =
 "}\n";
 
 static const char vertex_feedbackgeom[] =
-"#version 300 es\n"
+"#version 310 es\n"
 "layout(points) in;\n"
 "layout(points, max_vertices = 1) out;\n"
 "in vec4 vPosition[];\n"
@@ -1384,7 +1384,7 @@ static const char vertex_feedbackgeom[] =
 "}\n";
 
 static const char vertex_feedbackvert[] =
-"#version 300 es\n"
+"#version 310 es\n"
 "layout (location = 0) in vec2 texcoord;\n"
 "out vec4 vPosition;\n"
 "out vec4 vColor;\n"
@@ -1492,7 +1492,7 @@ static const char vertex_feedbackvert[] =
 "}\n";
 
 static const char visualise_texturesfrag[] =
-"#version 300 es\n"
+"#version 310 es\n"
 "uniform sampler2D texVerts;\n"
 "uniform float maxDepth;\n"
 "in vec2 texcoord;\n"
