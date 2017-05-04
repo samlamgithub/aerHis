@@ -20,13 +20,13 @@ public class MainActivity extends Activity implements OnClickListener{
   private FrameLayout mFrameLayout;
 
   private ToggleButton writingSwitcher;
-  private static const int writingSwitcherID = 9000;
+  private static final int writingSwitcherID = 9000;
 
   private ToggleButton elasticFusionSwitcher;
-  private static const int elasticFusionSwitcherID = 9001;
+  private static final int elasticFusionSwitcherID = 9001;
 
   private Button savePlybutton;
-  private static const int savePlybuttonID = 9002;
+  private static final int savePlybuttonID = 9002;
 
   private boolean mIsCameraConnected = false;
   private GLSurfaceRenderer mRenderer;

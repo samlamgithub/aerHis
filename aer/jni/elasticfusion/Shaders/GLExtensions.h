@@ -76,17 +76,6 @@ bool LoadOpenGLExtensionsManually();
 	//FRAMEBUFFER
 
 
-	typedef GLint (GL_API_CALL_P PFNGLGETVARYINGLOCATIONNVPROC) (GLuint program, const GLchar *name);
-	extern PFNGLGETVARYINGLOCATIONNVPROC glGetVaryingLocationNV;
-
-	typedef void (GL_API_CALL_P PFNGLTRANSFORMFEEDBACKVARYINGSNVPROC) (GLuint program, GLsizei count, const GLint *locations, GLenum bufferMode);
-	extern PFNGLTRANSFORMFEEDBACKVARYINGSNVPROC glTransformFeedbackVaryingsNV;
-
-	typedef void (GL_API_CALL_P PFNGLDRAWTRANSFORMFEEDBACKNVPROC) (GLenum mode, GLuint id);
-	extern PFNGLDRAWTRANSFORMFEEDBACKNVPROC glDrawTransformFeedback;
-
-	typedef void (GL_API_CALL_P PFNGLGETBUFFERSUBDATAPROC) (GLenum target, GLintptr offset, GLsizeiptr size, void *data);
-	extern PFNGLDRAWTRANSFORMFEEDBACKNVPROC glGetBufferSubData;
 
 	typedef void (GL_API_CALL_P PFNGLDEBUGMESSAGECONTROLPROCKHR)(GLenum source, GLenum type, GLenum severity, GLsizei count, const GLuint* ids, GLboolean enabled);
 	extern PFNGLDEBUGMESSAGECONTROLPROCKHR glDebugMessageControl;
@@ -94,7 +83,7 @@ bool LoadOpenGLExtensionsManually();
 	typedef void (GL_API_CALL_P PFNGLDEBUGMESSAGECALLBACKPROCKHR)(GLDEBUGPROCKHR callback, const void* userParam);
 	extern PFNGLDEBUGMESSAGECALLBACKPROCKHR glDebugMessageCallback;
 
-	typedef void (GL_API_CALL_P PFNGLPUSHDEBUGGROUPPROCKHR)(GLenum source, uint id, GLsizei length, const GLchar* message);
+	typedef void (GL_API_CALL_P PFNGLPUSHDEBUGGROUPPROCKHR)(GLenum source, GLuint id, GLsizei length, const GLchar* message);
 	extern PFNGLPUSHDEBUGGROUPPROCKHR glPushDebugGroup;
 
 	typedef void(GL_API_CALL_P PFNGLPOPDEBUGGROUPPROCKHR)(void);
@@ -104,6 +93,33 @@ bool LoadOpenGLExtensionsManually();
 	extern PFNGLOBJECTLABELPROCKHR glObjectLabel;
 
 #endif
+
+typedef GLint (GL_API_CALL_P PFNGLGETVARYINGLOCATIONNVPROC) (GLuint program, const GLchar *name);
+extern PFNGLGETVARYINGLOCATIONNVPROC glGetVaryingLocationNV;
+
+typedef void (GL_API_CALL_P PFNGLTRANSFORMFEEDBACKVARYINGSNVPROC) (GLuint program, GLsizei count, const GLint *locations, GLenum bufferMode);
+extern PFNGLTRANSFORMFEEDBACKVARYINGSNVPROC glTransformFeedbackVaryingsNV;
+
+typedef void (GL_API_CALL_P PFNGLDRAWTRANSFORMFEEDBACKNVPROC) (GLenum mode, GLuint id);
+extern PFNGLDRAWTRANSFORMFEEDBACKNVPROC glDrawTransformFeedback;
+
+typedef void (GL_API_CALL_P PFNGLGETBUFFERSUBDATAPROC) (GLenum target, GLintptr offset, GLsizeiptr size, void *data);
+extern PFNGLGETBUFFERSUBDATAPROC glGetBufferSubData;
+
+typedef void  (GL_API_CALL_P PFNGLPUSHATTRIBPROC) (GLbitfield mask);
+extern PFNGLPUSHATTRIBPROC glPushAttrib;
+
+typedef void  (GL_API_CALL_P PFNGLPOPATTRIBPROC) (void);
+extern PFNGLPOPATTRIBPROC glPopAttrib;
+
+#define 	GL_LUMINANCE32F_ARB   0x8818
+#define 	GL_LUMINANCE32UI_EXT   0x8D74
+#define 	GL_LUMINANCE_INTEGER_EXT   0x8D9C
+#define 	GL_LUMINANCE16UI_EXT   0x8D7A
+#define GL_VIEWPORT_BIT   0x00000800
+#define GL_POINT_SPRITE                   0x8861
+#define GL_PROGRAM_POINT_SIZE             0x8642
+
 #if defined(GL_GLEXT_PROTOTYPES)
 #	define glDebugMessageControl glDebugMessageControlKHR
 #	define glDebugMessageCallback glDebugMessageCallbackKHR

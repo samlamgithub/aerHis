@@ -46,7 +46,11 @@ PFNGLTRANSFORMFEEDBACKVARYINGSNVPROC glTransformFeedbackVaryingsNV;
 
 PFNGLDRAWTRANSFORMFEEDBACKNVPROC glDrawTransformFeedback;
 
-PFNGLDRAWTRANSFORMFEEDBACKNVPROC glGetBufferSubData;
+PFNGLGETBUFFERSUBDATAPROC glGetBufferSubData;
+
+PFNGLPUSHATTRIBPROC glPushAttrib;
+
+PFNGLPOPATTRIBPROC glPopAttrib;
 
 void* Load(const char* extension, bool& success)
 {
@@ -112,8 +116,9 @@ bool LoadOpenGLExtensionsManually()
 glGetVaryingLocationNV = (PFNGLGETVARYINGLOCATIONNVPROC)Load("glGetVaryingLocationNV", success);
 glTransformFeedbackVaryingsNV = (PFNGLTRANSFORMFEEDBACKVARYINGSNVPROC)Load("glTransformFeedbackVaryingsNV", success);
 glDrawTransformFeedback = (PFNGLDRAWTRANSFORMFEEDBACKNVPROC)Load("glDrawTransformFeedback", success);
-glGetBufferSubData = (PFNGLDRAWTRANSFORMFEEDBACKNVPROC)Load("glGetBufferSubData", success);
-
+glGetBufferSubData = (PFNGLGETBUFFERSUBDATAPROC)Load("glGetBufferSubData", success);
+glPushAttrib = (PFNGLPUSHATTRIBPROC)Load("glPushAttrib", success);
+glPopAttrib = (PFNGLPOPATTRIBPROC)Load("glPopAttrib", success);
 
 	return success;
 }

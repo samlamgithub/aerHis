@@ -168,33 +168,33 @@ void ElasticFusion::createTextures()
 
     textures[GPUTexture::DEPTH_RAW] = new GPUTexture(Resolution::getInstance().width(),
                                                      Resolution::getInstance().height(),
-                                                    //  GL_LUMINANCE16UI_EXT,
-                                                    GL_LUMINANCE16F_EXT,
-                                                    //  GL_LUMINANCE_INTEGER_EXT,
-                                                    GL_LUMINANCE16F_EXT,
+                                                     GL_LUMINANCE16UI_EXT,
+                                                    // GL_LUMINANCE16F_EXT,
+                                                     GL_LUMINANCE_INTEGER_EXT,
+                                                    // GL_LUMINANCE16F_EXT,
                                                      GL_UNSIGNED_SHORT);
 
     textures[GPUTexture::DEPTH_FILTERED] = new GPUTexture(Resolution::getInstance().width(),
                                                           Resolution::getInstance().height(),
-                                                          // GL_LUMINANCE16UI_EXT,
-                                                          // GL_LUMINANCE_INTEGER_EXT,
-                                                          GL_LUMINANCE16F_EXT,
-                                                          GL_LUMINANCE16F_EXT,
+                                                          GL_LUMINANCE16UI_EXT,
+                                                          GL_LUMINANCE_INTEGER_EXT,
+                                                          // GL_LUMINANCE16F_EXT,
+                                                          // GL_LUMINANCE16F_EXT,
                                                           GL_UNSIGNED_SHORT,
                                                           false,
                                                           true);
 
     textures[GPUTexture::DEPTH_METRIC] = new GPUTexture(Resolution::getInstance().width(),
                                                         Resolution::getInstance().height(),
-                                                        // GL_LUMINANCE32F_ARB,
-                                                          GL_LUMINANCE32F_EXT,
+                                                        GL_LUMINANCE32F_ARB,
+                                                          // GL_LUMINANCE32F_EXT,
                                                         GL_LUMINANCE,
                                                         GL_FLOAT);
 
     textures[GPUTexture::DEPTH_METRIC_FILTERED] = new GPUTexture(Resolution::getInstance().width(),
                                                                  Resolution::getInstance().height(),
-                                                                //  GL_LUMINANCE32F_ARB,
-                                                                  GL_LUMINANCE32F_EXT,
+                                                                 GL_LUMINANCE32F_ARB,
+                                                                  // GL_LUMINANCE32F_EXT,
                                                                  GL_LUMINANCE,
                                                                  GL_FLOAT);
 
@@ -268,8 +268,8 @@ void ElasticFusion::processFrame(const unsigned char * rgb,
 {
     TICK("Run");
 
-    // textures[GPUTexture::DEPTH_RAW]->texture->Upload(depth, GL_LUMINANCE_INTEGER_EXT, GL_UNSIGNED_SHORT);
-    textures[GPUTexture::DEPTH_RAW]->texture->Upload(depth, GL_LUMINANCE, GL_UNSIGNED_SHORT);
+    textures[GPUTexture::DEPTH_RAW]->texture->Upload(depth, GL_LUMINANCE_INTEGER_EXT, GL_UNSIGNED_SHORT);
+    // textures[GPUTexture::DEPTH_RAW]->texture->Upload(depth, GL_LUMINANCE, GL_UNSIGNED_SHORT);
     textures[GPUTexture::RGB]->texture->Upload(rgb, GL_RGB, GL_UNSIGNED_BYTE);
 
     TICK("Preprocess");
