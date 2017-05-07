@@ -26,9 +26,39 @@ include $(PREBUILT_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := cholmod
-LOCAL_SRC_FILES := /home/sam/suitesparse/CHOLMOD/obj/local/armeabi-v7a/libcholmod.a
+LOCAL_SRC_FILES := armeabi-v7a/libcholmod.a
+LOCAL_C_INCLUDES := $(LOCAL_PATH)/include
+LOCAL_C_INCLUDES += /home/sam/aer_practicals_2017_04_18_21_49_latest/aer_practicals/projects/aer/jni/include
+LOCAL_C_INCLUDES += /home/sam/aer_practicals_2017_04_18_21_49_latest/aer_practicals/projects/aer/jni/include/cholmod
+LOCAL_C_INCLUDES += $(LOCAL_PATH)/include/cholmod
+LOCAL_C_INCLUDES += /home/sam/suitesparse/CHOLMOD/Include
+LOCAL_C_INCLUDES += /home/sam/suitesparse/include
+#LOCAL_C_INCLUDES += $(LOCAL_PATH)/include
+#LOCAL_C_INCLUDES += $(LOCAL_PATH)/include/cholmod
+#LOCAL_C_INCLUDES += $(LOCAL_PATH)/include/AMD
+LOCAL_C_INCLUDES += $(LOCAL_PATH)/include/AMD
+#LOCAL_C_INCLUDES += $(LOCAL_PATH)/include/CAMD
+LOCAL_C_INCLUDES += $(LOCAL_PATH)/include/CAMD
+#LOCAL_C_INCLUDES += $(LOCAL_PATH)/include/CCOLAMD
+LOCAL_C_INCLUDES += $(LOCAL_PATH)/include/CCOLAMD
+LOCAL_C_INCLUDES += $(LOCAL_PATH)/include/COLAMD
+#LOCAL_C_INCLUDES += $(LOCAL_PATH)/include/CXSparse
+LOCAL_C_INCLUDES += $(LOCAL_PATH)/include/CXSparse
+LOCAL_C_INCLUDES += $(LOCAL_PATH)/include/metis
+#LOCAL_EXPORT_C_INCLUDES += /home/sam/suitesparse/CHOLMOD/Include
+#LOCAL_EXPORT_C_INCLUDES += /home/sam/suitesparse/include
+LOCAL_EXPORT_C_INCLUDES += /home/sam/suitesparse/CHOLMOD/Include
+LOCAL_EXPORT_C_INCLUDES += /home/sam/suitesparse/AMD/Include
+LOCAL_EXPORT_C_INCLUDES += /home/sam/suitesparse/CAMD/Include
+LOCAL_EXPORT_C_INCLUDES += /home/sam/suitesparse/CCOLAMD/Include
+LOCAL_EXPORT_C_INCLUDES += /home/sam/suitesparse/COLAMD/Include
+LOCAL_EXPORT_C_INCLUDES += /home/sam/suitesparse/CXSparse/Include
+LOCAL_EXPORT_C_INCLUDES += /home/sam/suitesparse/metis-4.0/Lib
+LOCAL_EXPORT_C_INCLUDES += /home/sam/suitesparse/SuiteSparse_config
 LOCAL_EXPORT_C_INCLUDES += /home/sam/suitesparse/CHOLMOD/Include
 LOCAL_EXPORT_C_INCLUDES += /home/sam/suitesparse/include
+LOCAL_EXPORT_C_INCLUDES += /home/sam/aer_practicals_2017_04_18_21_49_latest/aer_practicals/projects/aer/jni/include
+LOCAL_EXPORT_C_INCLUDES += /home/sam/aer_practicals_2017_04_18_21_49_latest/aer_practicals/projects/aer/jni/include/cholmod
 include $(PREBUILT_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
@@ -37,14 +67,13 @@ LOCAL_MODULE := aer
 LOCAL_SHARED_LIBRARIES += tango_client_api \
                           tango_support_api \
                           tango_3d_reconstruction \
-                           cholmod
-                          # pangolin \
 
 
 LOCAL_STATIC_LIBRARIES += opencv_calib3d opencv_features2d opencv_highgui \
 						    opencv_imgproc opencv_flann \
 						    opencv_core tbb IlmImf  libjasper  libjpeg  libpng  libtiff \
 						  png \
+						  cholmod \
 						  boost_system \
 						  boost_thread \
 						  boost_filesystem \
@@ -53,6 +82,7 @@ LOCAL_STATIC_LIBRARIES += opencv_calib3d opencv_features2d opencv_highgui \
 						  CudatestLib  \
 							CudaLib  \
 						  cudart_static
+						   
 
 LOCAL_CFLAGS += -std=c++11 -O3 -g -D__ANDROID__ -DANDROID -pthread -DLOAD__EXT_geometry_shader
 
@@ -60,6 +90,7 @@ LOCAL_SRC_FILES += jni_interface.cpp \
                           tango_interface/logger.cpp \
                           tango_interface/mylogger.cpp \
                           tango_interface/gui_interface.cpp \
+                          tango_interface/myElasticFusion.cpp \
                           tango_interface/imu_interface.cpp \
                           tango_interface/camera_interface.cpp \
                           aer/aer.cpp \
@@ -73,7 +104,7 @@ LOCAL_SRC_FILES += jni_interface.cpp \
 													elasticfusion/IndexMap.cpp \
 													elasticfusion/GlobalModel.cpp \
 													elasticfusion/ElasticFusion.cpp \
-													elasticfusion/Shaders/GLExtension.cpp \
+													elasticfusion/Shaders/GLExtensions.cpp \
 													elasticfusion/Shaders/FeedbackBuffer.cpp \
 													elasticfusion/Shaders/FillIn.cpp \
 													elasticfusion/Shaders/ComputePack.cpp \
@@ -89,6 +120,7 @@ LOCAL_C_INCLUDES += $(PROJECT_ROOT)/third_party/glm/ \
 		$(LOCAL_PATH)/elasticfusion/Utils \
 		$(LOCAL_PATH)/elasticfusion/Shaders \
        $(LOCAL_PATH)/include \
+       $(LOCAL_PATH)/include/cholmod \
 		 $(LOCAL_PATH)
 
 LOCAL_C_INCLUDES += $(EIGEN_PATH)

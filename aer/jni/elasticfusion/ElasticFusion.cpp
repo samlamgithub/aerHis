@@ -85,54 +85,54 @@ ElasticFusion::ElasticFusion(const int timeDelta,
     createCompute();
     createFeedbackBuffers();
 
-    std::string filename = fileName;
-    filename.append(".freiburg");
-
-    std::ofstream file;
-    file.open(filename.c_str(), std::fstream::out);
-    file.close();
+//    std::string filename = fileName;
+//    filename.append(".freiburg");
+//
+//    std::ofstream file;
+//    file.open(filename.c_str(), std::fstream::out);
+//    file.close();
 
     Stopwatch::getInstance().setCustomSignature(12431231);
 }
 
 ElasticFusion::~ElasticFusion()
 {
-    if(iclnuim)
-    {
-        savePly();
-    }
+//    if(iclnuim)
+//    {
+//        savePly();
+//    }
 
     //Output deformed pose graph
-    std::string fname = saveFilename;
-    fname.append(".freiburg");
+//    std::string fname = saveFilename;
+//    fname.append(".freiburg");
+//
+//    std::ofstream f;
+//    f.open(fname.c_str(), std::fstream::out);
 
-    std::ofstream f;
-    f.open(fname.c_str(), std::fstream::out);
-
-    for(size_t i = 0; i < poseGraph.size(); i++)
-    {
-        std::stringstream strs;
-
-        if(iclnuim)
-        {
-            strs << std::setprecision(6) << std::fixed << (double)poseLogTimes.at(i) << " ";
-        }
-        else
-        {
-            strs << std::setprecision(6) << std::fixed << (double)poseLogTimes.at(i) / 1000000.0 << " ";
-        }
-
-        Eigen::Vector3f trans = poseGraph.at(i).second.topRightCorner(3, 1);
-        Eigen::Matrix3f rot = poseGraph.at(i).second.topLeftCorner(3, 3);
-
-        f << strs.str() << trans(0) << " " << trans(1) << " " << trans(2) << " ";
-
-        Eigen::Quaternionf currentCameraRotation(rot);
-
-        f << currentCameraRotation.x() << " " << currentCameraRotation.y() << " " << currentCameraRotation.z() << " " << currentCameraRotation.w() << "\n";
-    }
-
-    f.close();
+//    for(size_t i = 0; i < poseGraph.size(); i++)
+//    {
+//        std::stringstream strs;
+//
+//        if(iclnuim)
+//        {
+//            strs << std::setprecision(6) << std::fixed << (double)poseLogTimes.at(i) << " ";
+//        }
+//        else
+//        {
+//            strs << std::setprecision(6) << std::fixed << (double)poseLogTimes.at(i) / 1000000.0 << " ";
+//        }
+//
+//        Eigen::Vector3f trans = poseGraph.at(i).second.topRightCorner(3, 1);
+//        Eigen::Matrix3f rot = poseGraph.at(i).second.topLeftCorner(3, 3);
+//
+//        f << strs.str() << trans(0) << " " << trans(1) << " " << trans(2) << " ";
+//
+//        Eigen::Quaternionf currentCameraRotation(rot);
+//
+//        f << currentCameraRotation.x() << " " << currentCameraRotation.y() << " " << currentCameraRotation.z() << " " << currentCameraRotation.w() << "\n";
+//    }
+//
+//    f.close();
 
     for(std::map<std::string, GPUTexture*>::iterator it = textures.begin(); it != textures.end(); ++it)
     {
@@ -730,11 +730,11 @@ void ElasticFusion::normaliseDepth(const float & minVal, const float & maxVal)
     computePacks[ComputePack::NORM]->compute(textures[GPUTexture::DEPTH_RAW]->texture, &uniforms);
 }
 
-void ElasticFusion::savePly(Eigen::Vector4f myMapData, unsigned int &myLastCount, float &myConfidenceThreshold) {
+void ElasticFusion::savePly(Eigen::Vector4f myMapData, unsigned int myLastCount, float myConfidenceThreshold) {
     // TODO: save PLY
-    *myMapData = globalModel.downloadMap();
-    *myLastCount = globalModel.lastCount();
-    *myConfidenceThreshold = confidenceThreshold;
+    myMapData = *globalModel.downloadMap();
+    myLastCount = globalModel.lastCount();
+    myConfidenceThreshold = confidenceThreshold;
     //===========
     // std::string filename = saveFilename;
     // filename.append(".ply");

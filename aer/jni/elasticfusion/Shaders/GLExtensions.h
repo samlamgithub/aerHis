@@ -1,6 +1,11 @@
 #ifndef __GL_EXTENSIONS__
 #define __GL_EXTENSIONS__
 
+#include <GLES3/gl3.h>
+#define __gl2_h_                 // what the f***
+#include <GLES2/gl2ext.h>
+#include <GLES3/gl3platform.h>
+
 #include <EGL/egl.h>
 #include <EGL/eglext.h>
 
@@ -106,19 +111,19 @@ extern PFNGLDRAWTRANSFORMFEEDBACKNVPROC glDrawTransformFeedback;
 typedef void (GL_API_CALL_P PFNGLGETBUFFERSUBDATAPROC) (GLenum target, GLintptr offset, GLsizeiptr size, void *data);
 extern PFNGLGETBUFFERSUBDATAPROC glGetBufferSubData;
 
-typedef void  (GL_API_CALL_P PFNGLPUSHATTRIBPROC) (GLbitfield mask);
-extern PFNGLPUSHATTRIBPROC glPushAttrib;
+typedef void (GL_API_CALL_P PFNGLPUSHATTRIBPROC) (GLbitfield mask);
 
-typedef void  (GL_API_CALL_P PFNGLPOPATTRIBPROC) (void);
+extern PFNGLPUSHATTRIBPROC glPushAttrib;
+typedef  void (GL_API_CALL_P PFNGLPOPATTRIBPROC) (void);
 extern PFNGLPOPATTRIBPROC glPopAttrib;
 
-#define 	GL_LUMINANCE32F_ARB   0x8818
-#define 	GL_LUMINANCE32UI_EXT   0x8D74
-#define 	GL_LUMINANCE_INTEGER_EXT   0x8D9C
-#define 	GL_LUMINANCE16UI_EXT   0x8D7A
-#define GL_VIEWPORT_BIT   0x00000800
-#define GL_POINT_SPRITE                   0x8861
-#define GL_PROGRAM_POINT_SIZE             0x8642
+#define GL_LUMINANCE32F_ARB  0x8818
+#define GL_LUMINANCE32UI_EXT  0x8D74
+#define GL_LUMINANCE_INTEGER_EXT  0x8D9C
+#define GL_LUMINANCE16UI_EXT  0x8D7A
+#define GL_VIEWPORT_BIT  0x00000800
+#define GL_POINT_SPRITE  0x8861
+#define GL_PROGRAM_POINT_SIZE  0x8642
 
 #if defined(GL_GLEXT_PROTOTYPES)
 #	define glDebugMessageControl glDebugMessageControlKHR

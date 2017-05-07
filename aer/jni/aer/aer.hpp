@@ -18,7 +18,7 @@
 //test
 //#include <pangolin/gl/gl.h>
 //#include <pangolin/pangolin.h>
-#include <cholmod.h>
+#include <cholmod/cholmod.h>
 //#include <cholmod_core.h>
 //#include <Eigen/CholmodSupport>
 #include <Eigen/Core>

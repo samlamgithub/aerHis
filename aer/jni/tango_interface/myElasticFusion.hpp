@@ -6,7 +6,9 @@
 #include <limits>
 #include <cassert>
 #include <iostream>
+#include <fstream>
 #include <iomanip>
+#include <vector>
 
 // #include <opencv2/opencv.hpp>
 
@@ -44,8 +46,7 @@ struct ElasticFusionData {
    TangoPoseData pose;
 };
 
-class MyElasticFusion
-{
+class MyElasticFusion {
     public:
 	    MyElasticFusion();
 //	    Mylogger(int width, int height);
@@ -98,7 +99,8 @@ class MyElasticFusion
         // void encodeJpeg(cv::Vec<unsigned char, 3> * rgb_data);
         // FILE* RGBlog_file_;
         // FILE* Depthlog_file_;
-        void elasticFusionProcessFrame();
+//        void elasticFusionProcessFrame();
+        void runEF();
 };
 }
 #endif /* MYELASTICFUSION_HPP_ */
