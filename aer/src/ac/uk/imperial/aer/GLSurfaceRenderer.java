@@ -3,7 +3,6 @@ package ac.uk.imperial.aer;
 import android.opengl.GLSurfaceView;
 
 import javax.microedition.khronos.egl.EGLConfig;
-import javax.microedition.khronos.opengles.GL;
 import javax.microedition.khronos.opengles.GL10;
 /**
  * GLSurfaceRenderer renders graphic content.

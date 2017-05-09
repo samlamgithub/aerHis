@@ -28,9 +28,9 @@ public class JNIInterface {
 
       //Toogle writing button
       public static native void setWriting(boolean startWriting);
-
-      //Toogle writing button
-      public static native void setWriting(boolean startWriting);
+//
+//      //Toogle writing button
+//      public static native void setWriting(boolean startWriting);
 
       //Toogle ElasticFusion button
       public static native void setElasticFusion(boolean startElasticFusion);
