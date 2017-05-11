@@ -18,7 +18,8 @@
 
 #include "GlobalModel.h"
 
-const int GlobalModel::TEXTURE_DIMENSION = 3072;
+//const int GlobalModel::TEXTURE_DIMENSION = 3072;
+const int GlobalModel::TEXTURE_DIMENSION = 772;
 const int GlobalModel::MAX_VERTICES = GlobalModel::TEXTURE_DIMENSION * GlobalModel::TEXTURE_DIMENSION;
 const int GlobalModel::NODE_TEXTURE_DIMENSION = 16384;
 const int GlobalModel::MAX_NODES = GlobalModel::NODE_TEXTURE_DIMENSION / 16; //16 floats per node
@@ -43,17 +44,20 @@ GlobalModel::GlobalModel()
 {
 LOGI("MY elasitcfusion GlobalModel struct init 1 ");
     vbos = new std::pair<GLuint, GLuint>[2];
-
+    LOGI("MY elasitcfusion GlobalModel struct init 1 1 1 1 : %d", bufferSize);
     float * vertices = new float[bufferSize];
-
+    LOGI("MY elasitcfusion GlobalModel struct init 1 1 1 2");
     memset(&vertices[0], 0, bufferSize);
-
+LOGI("MY elasitcfusion GlobalModel struct init 1 1 1");
     glGenTransformFeedbacks(1, &vbos[0].second);
+    LOGI("MY elasitcfusion GlobalModel struct init 1 1 2");
     glGenBuffers(1, &vbos[0].first);
     glBindBuffer(GL_ARRAY_BUFFER, vbos[0].first);
+    LOGI("MY elasitcfusion GlobalModel struct init 1 1 3");
     glBufferData(GL_ARRAY_BUFFER, bufferSize, &vertices[0], GL_STREAM_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
+LOGI("MY elasitcfusion GlobalModel struct init 1 1 ");
     glGenTransformFeedbacks(1, &vbos[1].second);
     glGenBuffers(1, &vbos[1].first);
     glBindBuffer(GL_ARRAY_BUFFER, vbos[1].first);
@@ -61,7 +65,7 @@ LOGI("MY elasitcfusion GlobalModel struct init 1 ");
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     delete [] vertices;
-
+LOGI("MY elasitcfusion GlobalModel struct init 1 2");
     vertices = new float[Resolution::getInstance().numPixels() * Vertex::SIZE];
 
     memset(&vertices[0], 0, Resolution::getInstance().numPixels() * Vertex::SIZE);
@@ -73,6 +77,7 @@ LOGI("MY elasitcfusion GlobalModel struct init 1 ");
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     delete [] vertices;
+    LOGI("MY elasitcfusion GlobalModel struct init 1 3 ");
 
     std::vector<Eigen::Vector2f> uv;
 
@@ -86,7 +91,7 @@ LOGI("MY elasitcfusion GlobalModel struct init 1 ");
     }
 
     uvSize = uv.size();
-
+LOGI("MY elasitcfusion GlobalModel struct init 1 4 ");
     glGenBuffers(1, &uvo);
     glBindBuffer(GL_ARRAY_BUFFER, uvo);
     glBufferData(GL_ARRAY_BUFFER, uvSize * sizeof(Eigen::Vector2f), &uv[0], GL_STATIC_DRAW);
@@ -96,7 +101,7 @@ LOGI("MY elasitcfusion GlobalModel struct init 1 ");
     frameBuffer.AttachColour(*updateMapColorsTime.texture);
     frameBuffer.AttachColour(*updateMapNormsRadii.texture);
     frameBuffer.AttachDepth(renderBuffer);
-
+LOGI("MY elasitcfusion GlobalModel struct init 1 5 ");
     updateProgram->Bind();
 
     int locUpdate[3] =
@@ -107,7 +112,7 @@ LOGI("MY elasitcfusion GlobalModel struct init 1 ");
     };
 
     glTransformFeedbackVaryingsNV(updateProgram->programId(), 3, locUpdate, GL_INTERLEAVED_ATTRIBS);
-
+LOGI("MY elasitcfusion GlobalModel struct init 1 6 ");
     updateProgram->Unbind();
 
     dataProgram->Bind();
@@ -146,7 +151,7 @@ LOGI("MY elasitcfusion GlobalModel struct init 1 ");
      };
 
      glTransformFeedbackVaryingsNV(initProgram->programId(), 3, locInit, GL_INTERLEAVED_ATTRIBS);
-
+LOGI("MY elasitcfusion GlobalModel struct init 1 7 ");
     glGenQueries(1, &countQuery);
 
     //Empty both transform feedbacks

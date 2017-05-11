@@ -251,20 +251,22 @@ void RGBDOdometry::initRGB(GPUTexture * rgb)
 
 void RGBDOdometry::initFirstRGB(GPUTexture * rgb)
 {
+	LOGI(" ElasticFusionRGBDOdometry initFirstRGB 1 ");
     cudaArray * textPtr;
-
+    LOGI(" ElasticFusionRGBDOdometry initFirstRGB 2 ");
     cudaGraphicsMapResources(1, &rgb->cudaRes);
-
+    LOGI(" ElasticFusionRGBDOdometry initFirstRGB 3 ");
     cudaGraphicsSubResourceGetMappedArray(&textPtr, rgb->cudaRes, 0, 0);
-
+    LOGI(" ElasticFusionRGBDOdometry initFirstRGB 4 ");
     imageBGRToIntensity(textPtr, lastNextImage[0]);
-
+    LOGI(" ElasticFusionRGBDOdometry initFirstRGB 5 ");
     cudaGraphicsUnmapResources(1, &rgb->cudaRes);
-
+    LOGI(" ElasticFusionRGBDOdometry initFirstRGB 6 ");
     for(int i = 0; i + 1 < NUM_PYRS; i++)
     {
         pyrDownUcharGauss(lastNextImage[i], lastNextImage[i + 1]);
     }
+    LOGI(" ElasticFusionRGBDOdometry initFirstRGB 7 ");
 }
 
 void RGBDOdometry::getIncrementalTransformation(Eigen::Vector3f & trans,

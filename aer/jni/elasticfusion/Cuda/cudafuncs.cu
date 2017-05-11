@@ -563,16 +563,28 @@ __global__ void bgr2IntensityKernel(PtrStepSz<unsigned char> dst)
 
 void imageBGRToIntensity(cudaArray * cuArr, DeviceArray2D<unsigned char> & dst)
 {
+LOGI("My elasticfusion cuda imageBGRToIntensity 1");
     dim3 block (32, 8);
     dim3 grid (getGridDim (dst.cols (), block.x), getGridDim (dst.rows (), block.y));
-
+LOGI("My elasticfusion  cuda imageBGRToIntensity 2");
+if (!cuArr) {
+	LOGI("My elasticfusion  cuda imageBGRToIntensity is NULL");
+}  else {
+	LOGI("My elasticfusion  cuda imageBGRToIntensity is not NULL");
+}
+if (cuArr == NULL) {
+	LOGI("My elasticfusion  cuda imageBGRToIntensity is NULL again ");
+} else {
+	LOGI("My elasticfusion  cuda imageBGRToIntensity is not NULL again");
+}
     cudaSafeCall(cudaBindTextureToArray(inTex, cuArr));
-
+LOGI("My elasticfusion cuda imageBGRToIntensity 3");
     bgr2IntensityKernel<<<grid, block>>>(dst);
-
+LOGI("My elasticfusion cuda imageBGRToIntensity 4");
     cudaSafeCall(cudaGetLastError());
 
     cudaSafeCall(cudaUnbindTexture(inTex));
+    LOGI("My elasticfusion cuda imageBGRToIntensity 5");
 };
 
 __constant__ float gsobel_x3x3[9];

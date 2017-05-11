@@ -272,26 +272,27 @@ void ElasticFusion::processFrame(const unsigned char * rgb,
                                  const bool bootstrap)
 {
     TICK("Run");
-
+    LOGI(" ElasticFusion struct Process frame Run");
     textures[GPUTexture::DEPTH_RAW]->texture->Upload(depth, GL_LUMINANCE_INTEGER_EXT, GL_UNSIGNED_SHORT);
     // textures[GPUTexture::DEPTH_RAW]->texture->Upload(depth, GL_LUMINANCE, GL_UNSIGNED_SHORT);
     textures[GPUTexture::RGB]->texture->Upload(rgb, GL_RGB, GL_UNSIGNED_BYTE);
-
+    LOGI(" ElasticFusion struct Process frame Preprocess");
     TICK("Preprocess");
 
     filterDepth();
     metriciseDepth();
-
+    LOGI(" ElasticFusion struct Process frame Preprocess done");
     TOCK("Preprocess");
 
     //First run
     if(tick == 1)
     {
         computeFeedbackBuffers();
-
+        LOGI(" ElasticFusion struct Process frame computeFeedbackBuffers done");
         globalModel.initialise(*feedbackBuffers[FeedbackBuffer::RAW], *feedbackBuffers[FeedbackBuffer::FILTERED]);
-
+        LOGI(" ElasticFusion struct Process frame globalModel.initialise done");
         frameToModel.initFirstRGB(textures[GPUTexture::RGB]);
+        LOGI("ElasticFusion struct Process frame tick 1 done");
     }
     else
     {
@@ -636,26 +637,30 @@ void ElasticFusion::processFrame(const unsigned char * rgb,
         }
     }
 
+
+    LOGI(" ElasticFusion struct Process frame tick tick  done");
+
     poseGraph.push_back(std::pair<unsigned long long int, Eigen::Matrix4f>(tick, currPose));
     poseLogTimes.push_back(timestamp);
-
+    LOGI(" ElasticFusion struct Process frame  sampleGraph");
     TICK("sampleGraph");
     //在这里初始化 DeformationGraph
 
     localDeformation.sampleGraphModel(globalModel.model());
 
     globalDeformation.sampleGraphFrom(localDeformation);
-
+    LOGI(" ElasticFusion struct Process frame  sampleGraph done");
     TOCK("sampleGraph");
 
     predict();
+    LOGI(" ElasticFusion struct Process frame  predict done");
     //如果没跟丢则检测是否将当前帧添加为关键帧
     if(!lost)
     {
         processFerns();
         tick++;
     }
-
+    LOGI(" ElasticFusion struct Process frame  run finally done");
     TOCK("Run");
 }
 

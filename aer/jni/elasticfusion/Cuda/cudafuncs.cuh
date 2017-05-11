@@ -61,6 +61,8 @@
 #include "containers/device_array.hpp"
 #include "types.cuh"
 
+#include "../../tango_interface/util.hpp"
+
 void icpStep(const mat33& Rcurr,
              const float3& tcurr,
              const DeviceArray2D<float>& vmap_curr,

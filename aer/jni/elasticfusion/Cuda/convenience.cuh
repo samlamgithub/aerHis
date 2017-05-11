@@ -2,16 +2,16 @@
  * This file is part of ElasticFusion.
  *
  * Copyright (C) 2015 Imperial College London
- * 
- * The use of the code within this file and all code within files that 
- * make up the software that is ElasticFusion is permitted for 
- * non-commercial purposes only.  The full terms and conditions that 
- * apply to the code within this file are detailed within the LICENSE.txt 
- * file and at <http://www.imperial.ac.uk/dyson-robotics-lab/downloads/elastic-fusion/elastic-fusion-license/> 
- * unless explicitly stated.  By downloading this file you agree to 
+ *
+ * The use of the code within this file and all code within files that
+ * make up the software that is ElasticFusion is permitted for
+ * non-commercial purposes only.  The full terms and conditions that
+ * apply to the code within this file are detailed within the LICENSE.txt
+ * file and at <http://www.imperial.ac.uk/dyson-robotics-lab/downloads/elastic-fusion/elastic-fusion-license/>
+ * unless explicitly stated.  By downloading this file you agree to
  * comply with these terms.
  *
- * If you wish to use any of this code for commercial purposes then 
+ * If you wish to use any of this code for commercial purposes then
  * please email researchcontracts.engineering@imperial.ac.uk.
  *
  * Software License Agreement (BSD License)
@@ -55,19 +55,21 @@
 #include <cuda_runtime_api.h>
 #include <cstdlib>
 #include <iostream>
+#include "../../tango_interface/util.hpp"
 
 static inline int getGridDim(int x, int y)
 {
     return (x + y - 1) / y;
 }
 
-static inline void cudaSafeCall(cudaError_t err)
-{
-    if(cudaSuccess != err)
-    {
-        std::cout << "Error: " << cudaGetErrorString(err) << ": " << __FILE__ << ":" << __LINE__ << std::endl;
+static inline void cudaSafeCall(cudaError_t err) {
+  LOGI("elasticfusion CUDA cudaSafeCall 1");
+    if(cudaSuccess != err) {
+      LOGI("elasticfusion CUDA error: %s", cudaGetErrorString(err));
+        // std::cout << "Error: " << cudaGetErrorString(err) << ": " << __FILE__ << ":" << __LINE__ << std::endl;
         exit(0);
     }
+    LOGI("elasticfusion CUDA cudaSafeCall 2");
 }
 
 #endif /* CUDA_CONVENIENCE_CUH_ */
