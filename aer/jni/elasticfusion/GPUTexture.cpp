@@ -41,6 +41,7 @@ GPUTexture::GPUTexture(const int width,
    format(format),
    dataType(dataType)
 {
+LOGI("MY elasitcfusion GPUTexture struct init 1 ");
     if(cuda)
     {
         cudaGraphicsGLRegisterImage(&cudaRes, texture->tid, GL_TEXTURE_2D, cudaGraphicsRegisterFlagsReadOnly);
@@ -49,6 +50,7 @@ GPUTexture::GPUTexture(const int width,
     {
         cudaRes = 0;
     }
+LOGI("MY elasitcfusion GPUTexture struct init 2 ");
 }
 
 GPUTexture::~GPUTexture()

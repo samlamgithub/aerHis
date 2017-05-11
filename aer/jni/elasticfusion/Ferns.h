@@ -41,6 +41,8 @@
 #include "Utils/RGBDOdometry.h"
 #include "Shaders/Resize.h"
 
+#include "../tango_interface/util.hpp"
+
 class Ferns
 {
     public:

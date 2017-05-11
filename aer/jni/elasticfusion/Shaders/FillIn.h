@@ -26,6 +26,8 @@
 #include "../GPUTexture.h"
 #include <glFrameBuffer.h>
 
+#include "../../tango_interface/util.hpp"
+
 class FillIn
 {
     public:

@@ -31,6 +31,7 @@
 #include <cuda_gl_interop.h>
 #include <cuda_runtime_api.h>
 #include <string>
+#include "../tango_interface/util.hpp"
 
 class GPUTexture
 {

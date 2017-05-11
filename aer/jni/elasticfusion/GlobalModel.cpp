@@ -41,6 +41,7 @@ GlobalModel::GlobalModel()
     deformationNodes(NODE_TEXTURE_DIMENSION, 1, GL_LUMINANCE32F_ARB, GL_LUMINANCE, GL_FLOAT)
 //   deformationNodes(NODE_TEXTURE_DIMENSION, 1, GL_LUMINANCE32F_EXT, GL_LUMINANCE, GL_FLOAT)
 {
+LOGI("MY elasitcfusion GlobalModel struct init 1 ");
     vbos = new std::pair<GLuint, GLuint>[2];
 
     float * vertices = new float[bufferSize];
@@ -178,6 +179,7 @@ GlobalModel::GlobalModel()
     glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, 0);
 
     initProgram->Unbind();
+LOGI("MY elasitcfusion GlobalModel struct init 2");
 }
 
 GlobalModel::~GlobalModel()

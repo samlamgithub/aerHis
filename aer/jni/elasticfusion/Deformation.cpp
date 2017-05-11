@@ -29,6 +29,7 @@ Deformation::Deformation()
    graphPosePoints(new std::vector<Eigen::Vector3f>),
    lastDeformTime(0)
 {
+LOGI("MY elasitcfusion Deformation struct init 1 ");
     //x, y, z and init time
     memset(&vertices[0], 0, bufferSize);
 
@@ -50,6 +51,7 @@ Deformation::Deformation()
     sampleProgram->Unbind();
 
     glGenQueries(1, &countQuery);
+LOGI("MY elasitcfusion Deformation struct init 2 ");
 }
 
 Deformation::~Deformation()

@@ -28,6 +28,8 @@
 //#include <pangolin/display/opengl_render_state.h>
 #include <glTexture.h>
 
+#include "../../tango_interface/util.hpp"
+
 class FeedbackBuffer
 {
     public:

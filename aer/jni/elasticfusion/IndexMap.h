@@ -27,6 +27,7 @@
 #include "Utils/Intrinsics.h"
 // #include <pangolin/gl/gl.h>
 #include <Shaders/glFrameBuffer.h>
+#include "../tango_interface/util.hpp"
 
 class IndexMap
 {

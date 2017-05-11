@@ -81,7 +81,7 @@ ElasticFusion::ElasticFusion(const int timeDelta,
    frameToFrameRGB(frameToFrameRGB),
    depthCutoff(depthCut)
 {
-	LOGI("MY elasitcfusion struct init 1 ");
+	  LOGI("MY elasitcfusion struct init 1 ");
     createTextures();
     LOGI("MY elasitcfusion struct init 2 ");
     createCompute();

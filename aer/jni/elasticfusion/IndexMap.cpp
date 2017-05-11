@@ -116,6 +116,7 @@ IndexMap::IndexMap()
                     GL_RGBA32F, GL_LUMINANCE, GL_FLOAT)
 
 {
+LOGI("MY elasitcfusion IndexMap struct init 1 ");
    indexFrameBuffer.AttachColour(*indexTexture.texture);
    indexFrameBuffer.AttachColour(*vertConfTexture.texture);
    indexFrameBuffer.AttachColour(*colorTimeTexture.texture);
@@ -144,6 +145,7 @@ IndexMap::IndexMap()
    infoFrameBuffer.AttachColour(*vertexInfoTexture.texture);
    infoFrameBuffer.AttachColour(*normalInfoTexture.texture);
    infoFrameBuffer.AttachDepth(infoRenderBuffer);
+LOGI("MY elasitcfusion IndexMap struct init 2 ");
 }
 
 IndexMap::~IndexMap()

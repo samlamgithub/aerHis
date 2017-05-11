@@ -27,6 +27,7 @@ FeedbackBuffer::FeedbackBuffer(std::shared_ptr<Shader> program)
    bufferSize(Resolution::getInstance().numPixels() * Vertex::SIZE),
    count(0)
 {
+    LOGI("MY elasitcfusion FeedbackBuffer struct init 1 ");
     float * vertices = new float[bufferSize];
 
     memset(&vertices[0], 0, bufferSize);
@@ -69,6 +70,7 @@ FeedbackBuffer::FeedbackBuffer(std::shared_ptr<Shader> program)
     program->Unbind();
 
     glGenQueries(1, &countQuery);
+LOGI("MY elasitcfusion FeedbackBuffer struct init 2 ");
 }
 
 FeedbackBuffer::~FeedbackBuffer()

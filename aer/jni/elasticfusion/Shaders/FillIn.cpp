@@ -47,6 +47,7 @@ FillIn::FillIn()
    normalProgram(loadProgram(emptyvert, fill_normalfrag, quadgeom)),
    normalRenderBuffer(Resolution::getInstance().width(), Resolution::getInstance().height())
 {
+    LOGI("MY elasitcfusion FillIn struct init 1 ");
     imageFrameBuffer.AttachColour(*imageTexture.texture);
     imageFrameBuffer.AttachDepth(imageRenderBuffer);
 
@@ -55,6 +56,7 @@ FillIn::FillIn()
 
     normalFrameBuffer.AttachColour(*normalTexture.texture);
     normalFrameBuffer.AttachDepth(normalRenderBuffer);
+    LOGI("MY elasitcfusion FillIn struct init 2 ");
 }
 
 FillIn::~FillIn()
