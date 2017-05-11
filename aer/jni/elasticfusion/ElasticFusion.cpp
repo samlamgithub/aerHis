@@ -81,9 +81,13 @@ ElasticFusion::ElasticFusion(const int timeDelta,
    frameToFrameRGB(frameToFrameRGB),
    depthCutoff(depthCut)
 {
+	LOGI("MY elasitcfusion struct init 1 ");
     createTextures();
+    LOGI("MY elasitcfusion struct init 2 ");
     createCompute();
+    LOGI("MY elasitcfusion struct init 3 ");
     createFeedbackBuffers();
+    LOGI("MY elasitcfusion struct init 4 ");
 
 //    std::string filename = fileName;
 //    filename.append(".freiburg");
@@ -93,6 +97,7 @@ ElasticFusion::ElasticFusion(const int timeDelta,
 //    file.close();
 
     Stopwatch::getInstance().setCustomSignature(12431231);
+    LOGI("MY elasitcfusion struct init 5 ");
 }
 
 ElasticFusion::~ElasticFusion()

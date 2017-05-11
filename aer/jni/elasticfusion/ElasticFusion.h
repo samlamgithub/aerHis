@@ -33,6 +33,8 @@
 #include "Ferns.h"
 #include "PoseMatch.h"
 
+#include "../tango_interface/util.hpp"
+
 #include <iomanip>
 // #include <pangolin/gl/glcuda.h>
 

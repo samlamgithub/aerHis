@@ -41,6 +41,7 @@ RGBDOdometry::RGBDOdometry(int width,
   height(height),
   cx(cx), cy(cy), fx(fx), fy(fy)
 {
+	LOGI("MY elasitcfusion RGBDOdometry struct init 1 ");
     sumDataSE3.create(MAX_THREADS);
     outDataSE3.create(1);
     sumResidualRGB.create(MAX_THREADS);
@@ -108,6 +109,7 @@ RGBDOdometry::RGBDOdometry(int width,
     minimumGradientMagnitudes[0] = 5;
     minimumGradientMagnitudes[1] = 3;
     minimumGradientMagnitudes[2] = 1;
+    LOGI("MY elasitcfusion RGBDOdometry struct init 2 ");
 }
 
 RGBDOdometry::~RGBDOdometry()

@@ -27,6 +27,7 @@
 
 #include <vector>
 #include <vector_types.h>
+#include "../../tango_interface/util.hpp"
 
 class RGBDOdometry
 {
