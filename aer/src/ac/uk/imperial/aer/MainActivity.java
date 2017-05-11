@@ -6,9 +6,11 @@ import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ToggleButton;
 import android.widget.Button;
@@ -55,19 +57,8 @@ public class MainActivity extends Activity implements OnClickListener{
     writingSwitcher.setId(writingSwitcherID);
     writingSwitcher.setTextOff("Tap to Stop writing");
     writingSwitcher.setChecked(false);
-    writingSwitcher.setWidth(250);
-    //...    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-    //  	RelativeLayout.ALIGN_PARENT_LEFT,
-    //  		RelativeLayout.ALIGN_PARENT_TOP);
-    //    writingSwitcher.setLayoutParams(params);
-    //    writingSwitcher.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+//    writingSwitcher.setWidth(250);
     writingSwitcher.setOnClickListener(this);
-    //    <ToggleButton
-    //    android:id="@+id/log_writer"
-    //    android:layout_width="150dp"
-    //    android:layout_height="wrap_content"
-    //    android:text="Start writing"
-    //    android:onClick="writingClicked" />
 
     elasticFusionSwitcher = new ToggleButton(this);
     elasticFusionSwitcher.setTextOn("Tap to Start ElasticFusion");
@@ -76,18 +67,31 @@ public class MainActivity extends Activity implements OnClickListener{
     elasticFusionSwitcher.setId(elasticFusionSwitcherID);
     elasticFusionSwitcher.setTextOff("Tap to Stop ElasticFusion");
     elasticFusionSwitcher.setChecked(false);
-    elasticFusionSwitcher.setWidth(350);
+//    elasticFusionSwitcher.setWidth(350);
     elasticFusionSwitcher.setOnClickListener(this);
 
     savePlybutton = new Button(this);
     savePlybutton.setText("Save ply");
+    savePlybutton.setBackgroundColor(Color.WHITE);
+    savePlybutton.setTextColor(Color.BLACK);
     savePlybutton.setId(savePlybuttonID);
-    savePlybutton.setWidth(250);
+//    savePlybutton.setWidth(250);
     savePlybutton.setOnClickListener(this);
 
-    addContentView(writingSwitcher, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-    addContentView(elasticFusionSwitcher, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-    addContentView(savePlybutton, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+    LinearLayout ll = new LinearLayout(this);
+    ll.setBackgroundColor(Color.WHITE);
+    ll.setOrientation(LinearLayout.HORIZONTAL);
+    ll.addView(writingSwitcher);
+    ll.addView(elasticFusionSwitcher);
+    ll.addView(savePlybutton);
+
+    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT);
+
+    addContentView(ll, layoutParams);
+//    addContentView(writingSwitcher, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+//    addContentView(elasticFusionSwitcher, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+//    addContentView(savePlybutton, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
     //    writingSwitcher = (ToggleButton) findViewById(R.id.log_writer);
   }
 
