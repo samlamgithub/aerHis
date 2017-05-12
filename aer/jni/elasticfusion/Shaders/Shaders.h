@@ -73,12 +73,13 @@ class Shader //: public pangolin::GlSlProgram
                     glUniformMatrix4fv(loc, 1, false, v.m4.data());
                     break;
                 default:
-                    assert(false && "Uniform type not implemented!");
+                    assert(false && "elasitcfusion Uniform type not implemented!");
                     break;
             }
         }
 
    bool AddShader(GLenum shader_type, const char* source_code) {
+LOGI("MY elasitcfusion Shader AddShader  1 ");
     if(!prog) {
         prog = glCreateProgram();
     }
@@ -101,16 +102,20 @@ class Shader //: public pangolin::GlSlProgram
         glDeleteShader(shader);
         shader = 0;
       }
+LOGI("MY elasitcfusion Shader AddShader false");
       return false;
+
     } else {
       glAttachShader(prog, shader);
       shaders.push_back(shader);
       linked = false;
+LOGI("MY elasitcfusion Shader AddShader true");
       return true;
     }
   }
 
   bool Link() {
+LOGI("MY elasitcfusion Shader Link 1");
       glLinkProgram(prog);
       GLint link_status = GL_FALSE;
       glGetProgramiv(prog, GL_LINK_STATUS, &link_status);
@@ -127,17 +132,21 @@ class Shader //: public pangolin::GlSlProgram
         }
         glDeleteProgram(prog);
         prog = 0;
+LOGI("MY elasitcfusion Shader Link false");
         return false;
     }
+LOGI("MY elasitcfusion Shader Link true");
    return true;
 }
 
  void Bind() {
+LOGI("MY elasitcfusion Shader Bind");
     prev_prog = 0;
     glUseProgram(prog);
  }
 
  void Unbind() {
+LOGI("MY elasitcfusion Shader Unbind");
     glUseProgram(prev_prog);
  }
 
@@ -151,6 +160,7 @@ class Shader //: public pangolin::GlSlProgram
 
 static inline std::shared_ptr<Shader> loadProgramGeom(const char* vertex_shader_file, const char* geometry_shader_file)
 {
+LOGI("MY elasitcfusion Shader loadProgramGeom");
     std::shared_ptr<Shader> program = std::make_shared<Shader>();
 
     program->AddShader(GL_VERTEX_SHADER,  vertex_shader_file);
@@ -162,6 +172,7 @@ static inline std::shared_ptr<Shader> loadProgramGeom(const char* vertex_shader_
 
 static inline std::shared_ptr<Shader> loadProgram(const char* vertex_shader_file)
 {
+LOGI("MY elasitcfusion Shader loadProgram");
     std::shared_ptr<Shader> program = std::make_shared<Shader>();
 
     program->AddShader(GL_VERTEX_SHADER,  vertex_shader_file);
@@ -172,6 +183,7 @@ static inline std::shared_ptr<Shader> loadProgram(const char* vertex_shader_file
 
 static inline std::shared_ptr<Shader> loadProgram(const char* vertex_shader_file, const char* fragment_shader_file)
 {
+LOGI("MY elasitcfusion Shader loadProgram 1");
     std::shared_ptr<Shader> program = std::make_shared<Shader>();
 
     program->AddShader(GL_VERTEX_SHADER,  vertex_shader_file);
@@ -183,6 +195,7 @@ static inline std::shared_ptr<Shader> loadProgram(const char* vertex_shader_file
 
 static inline std::shared_ptr<Shader> loadProgram(const char* vertex_shader_file, const char* fragment_shader_file, const char* geometry_shader_file)
 {
+LOGI("MY elasitcfusion Shader loadProgram 2");
     std::shared_ptr<Shader> program = std::make_shared<Shader>();
 
     program->AddShader(GL_VERTEX_SHADER,  vertex_shader_file);

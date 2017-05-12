@@ -52,6 +52,7 @@ Resize::Resize(int srcWidth,
   timeProgram(loadProgram(emptyvert, resizefrag, quadgeom)),
   timeRenderBuffer(destWidth, destHeight)
 {
+LOGI("MY elasitcfusion resize struct init 1 ");
    imageFrameBuffer.AttachColour(*imageTexture.texture);
    imageFrameBuffer.AttachDepth(imageRenderBuffer);
 
@@ -60,6 +61,7 @@ Resize::Resize(int srcWidth,
 
    timeFrameBuffer.AttachColour(*timeTexture.texture);
    timeFrameBuffer.AttachDepth(timeRenderBuffer);
+LOGI("MY elasitcfusion resize struct init 2 ");
 }
 
 Resize::~Resize()
@@ -68,6 +70,7 @@ Resize::~Resize()
 
 void Resize::image(GPUTexture * source, Img<Eigen::Matrix<unsigned char, 3, 1>> & dest)
 {
+LOGI("MY elasitcfusion resize struct image 1 ");
     imageFrameBuffer.Bind();
 
     glPushAttrib(GL_VIEWPORT_BIT);
@@ -99,10 +102,12 @@ void Resize::image(GPUTexture * source, Img<Eigen::Matrix<unsigned char, 3, 1>> 
     glPopAttrib();
 
     glFinish();
+LOGI("MY elasitcfusion resize struct image 2 ");
 }
 
 void Resize::vertex(GPUTexture * source, Img<Eigen::Vector4f> & dest)
 {
+LOGI("MY elasitcfusion resize struct vertex 1 ");
     vertexFrameBuffer.Bind();
 
     glPushAttrib(GL_VIEWPORT_BIT);
@@ -134,10 +139,12 @@ void Resize::vertex(GPUTexture * source, Img<Eigen::Vector4f> & dest)
     glPopAttrib();
 
     glFinish();
+LOGI("MY elasitcfusion resize struct vertex 2");
 }
 
 void Resize::time(GPUTexture * source, Img<unsigned short> & dest)
 {
+LOGI("MY elasitcfusion resize struct time 1");
     timeFrameBuffer.Bind();
 
     glPushAttrib(GL_VIEWPORT_BIT);
@@ -170,4 +177,5 @@ void Resize::time(GPUTexture * source, Img<unsigned short> & dest)
     glPopAttrib();
 
     glFinish();
+LOGI("MY elasitcfusion resize struct time 2");
 }
