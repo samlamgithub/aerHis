@@ -41,10 +41,13 @@ GPUTexture::GPUTexture(const int width,
    format(format),
    dataType(dataType)
 {
-LOGI("MY elasitcfusion GPUTexture struct init 1 ");
+    LOGI("MY elasitcfusion GPUTexture struct init 1 ");
     if(cuda)
     {
-        cudaGraphicsGLRegisterImage(&cudaRes, texture->tid, GL_TEXTURE_2D, cudaGraphicsRegisterFlagsReadOnly);
+        cudaError_t err = cudaGraphicsGLRegisterImage(&cudaRes, texture->tid, GL_TEXTURE_2D, cudaGraphicsRegisterFlagsReadOnly);
+        if(cudaSuccess != err) {
+          LOGI("elasticfusion GPU texture cudaGraphicsGLRegisterImage error: %s", cudaGetErrorString(err));
+        }
     }
     else
     {

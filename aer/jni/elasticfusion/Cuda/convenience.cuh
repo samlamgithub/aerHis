@@ -63,11 +63,11 @@ static inline int getGridDim(int x, int y)
 }
 
 static inline void cudaSafeCall(cudaError_t err) {
-  LOGI("elasticfusion CUDA cudaSafeCall 1");
+    LOGI("elasticfusion CUDA cudaSafeCall 1");
     if(cudaSuccess != err) {
       LOGI("elasticfusion CUDA error: %s", cudaGetErrorString(err));
         // std::cout << "Error: " << cudaGetErrorString(err) << ": " << __FILE__ << ":" << __LINE__ << std::endl;
-        exit(0);
+      exit(0);
     }
     LOGI("elasticfusion CUDA cudaSafeCall 2");
 }

@@ -32,7 +32,7 @@
 #include "myElasticFusion.hpp"
 
 //test
-#include "../cudatest/nativeCUDA.cuh"
+// #include "../cudatest/nativeCUDA.cuh"
 
 //#include <tango-gl/util.h>
 #include <tango_client_api.h>  // NOLINT
