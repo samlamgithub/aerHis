@@ -578,7 +578,7 @@ if (cuArr == NULL) {
 	LOGI("My elasticfusion cuda imageBGRToIntensity cuArr is not NULL again");
 }
 
-cudaError_t err = cudaBindTextureToArray(inTex, cuArr)
+cudaError_t err = cudaBindTextureToArray(inTex, cuArr);
 if(cudaSuccess != err) {
   LOGI("elasticfusion CUDA cudaBindTextureToArray error: %s", cudaGetErrorString(err));
 }

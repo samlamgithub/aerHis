@@ -29,6 +29,26 @@
 
 #include <utility>
 
+static const char* glErrorString(GLenum err) {
+  switch(err) {
+    case GL_INVALID_ENUM: return "Invalid Enum";
+    case GL_INVALID_VALUE: return "Invalid Value";
+    case GL_INVALID_OPERATION: return "Invalid Operation";
+    case GL_STACK_OVERFLOW: return "Stack Overflow";
+    case GL_STACK_UNDERFLOW: return "Stack Underflow";
+    case GL_OUT_OF_MEMORY: return "Out of Memory";
+    case GL_TABLE_TOO_LARGE: return "Table too Large";
+    default: return "Unknown Error";
+  }
+}
+
+inline void CheckGlDieOnError()
+{
+    for (GLint error = glGetError(); error; error = glGetError()) {
+        LOGI("after %s: glError (0x%x)\n", glErrorString(glError), error);
+      }
+}
+
 
 class GlTexture {
 public:
@@ -106,13 +126,13 @@ public:
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-        //CheckGlDieOnError
+        CheckGlDieOnError();
     }
 
     void Upload(const void* data, GLenum data_format = GL_LUMINANCE, GLenum data_type = GL_FLOAT) {
         Bind();
         glTexSubImage2D(GL_TEXTURE_2D,0,0,0,width,height,data_format,data_type,data);
-        //CheckGlDieOnError
+        CheckGlDieOnError();
     }
 
 
@@ -125,7 +145,7 @@ public:
     // {
     //     Bind();
     //     glTexSubImage2D(GL_TEXTURE_2D,0,tex_x_offset,tex_y_offset,data_w,data_h,data_format,data_type,data);
-    //     //CheckGlDieOnError
+    //     CheckGlDieOnError
     // }
 
     //  void Load(const TypedImage& image, bool sampling_linear)

@@ -47,7 +47,7 @@ struct GlFramebuffer {
         glGenFramebuffers(1, &fbid);
         AttachColour(colour);
         AttachDepth(depth);
-        //CheckGlDieOnError();
+        CheckGlDieOnError();
     }
 
     GlFramebuffer(GlTexture& colour0, GlTexture& colour1, GlRenderBuffer& depth) : attachments(0)  {
@@ -56,7 +56,7 @@ struct GlFramebuffer {
         AttachColour(colour0);
         AttachColour(colour1);
         AttachDepth(depth);
-        //CheckGlDieOnError();
+        CheckGlDieOnError();
     }
 
     void Bind() const {
@@ -92,7 +92,7 @@ struct GlFramebuffer {
         glFramebufferTexture2D(GL_FRAMEBUFFER, color_attachment, GL_TEXTURE_2D, tex.tid, 0);
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         attachments++;
-        //CheckGlDieOnError();
+        CheckGlDieOnError();
         return color_attachment;
     }
 
@@ -107,7 +107,7 @@ struct GlFramebuffer {
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, rb.rbid, 0);
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-        ////CheckGlDieOnError();
+        CheckGlDieOnError();
     }
 
     GLuint fbid;

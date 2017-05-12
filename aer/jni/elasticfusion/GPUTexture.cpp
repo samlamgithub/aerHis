@@ -25,6 +25,7 @@ const std::string GPUTexture::DEPTH_METRIC = "DEPTH_METRIC";
 const std::string GPUTexture::DEPTH_METRIC_FILTERED = "DEPTH_METRIC_FILTERED";
 const std::string GPUTexture::DEPTH_NORM = "DEPTH_NORM";
 
+// : texture(new pangolin::GlTexture(width, height, internalFormat, draw, 0, format, dataType)),
 GPUTexture::GPUTexture(const int width,
                        const int height,
                        const GLenum internalFormat,
@@ -32,28 +33,24 @@ GPUTexture::GPUTexture(const int width,
                        const GLenum dataType,
                        const bool draw,
                        const bool cuda)
- // : texture(new pangolin::GlTexture(width, height, internalFormat, draw, 0, format, dataType)),
   : texture(new GlTexture(width, height, internalFormat, draw, 0, format, dataType)),
    draw(draw),
    width(width),
    height(height),
    internalFormat(internalFormat),
    format(format),
-   dataType(dataType)
-{
+   dataType(dataType) {
     LOGI("MY elasitcfusion GPUTexture struct init 1 ");
-    if(cuda)
-    {
-        cudaError_t err = cudaGraphicsGLRegisterImage(&cudaRes, texture->tid, GL_TEXTURE_2D, cudaGraphicsRegisterFlagsReadOnly);
+    if(cuda) {
+        cudaError_t err = cudaGraphicsGLRegisterImage(&cudaRes, texture->tid,
+        GL_TEXTURE_2D, cudaGraphicsRegisterFlagsReadOnly);
         if(cudaSuccess != err) {
           LOGI("elasticfusion GPU texture cudaGraphicsGLRegisterImage error: %s", cudaGetErrorString(err));
         }
-    }
-    else
-    {
+    } else {
         cudaRes = 0;
     }
-LOGI("MY elasitcfusion GPUTexture struct init 2 ");
+    LOGI("MY elasitcfusion GPUTexture struct init 2 ");
 }
 
 GPUTexture::~GPUTexture()

@@ -163,6 +163,7 @@ ElasticFusion::~ElasticFusion()
 
 void ElasticFusion::createTextures()
 {
+LOGI("MY elasitcfusion struct createTextures 1 ");
     textures[GPUTexture::RGB] = new GPUTexture(Resolution::getInstance().width(),
                                                Resolution::getInstance().height(),
                                                GL_RGBA,
@@ -209,10 +210,12 @@ void ElasticFusion::createTextures()
                                                       GL_LUMINANCE,
                                                       GL_FLOAT,
                                                       true);
+LOGI("MY elasitcfusion struct createTextures 2 ");
 }
 
 void ElasticFusion::createCompute()
 {
+LOGI("MY elasitcfusion struct createCompute 1 ");
     computePacks[ComputePack::NORM] = new ComputePack(loadProgram(emptyvert, depth_normfrag, quadgeom),
                                                       textures[GPUTexture::DEPTH_NORM]->texture);
 
@@ -224,16 +227,20 @@ void ElasticFusion::createCompute()
 
     computePacks[ComputePack::METRIC_FILTERED] = new ComputePack(loadProgram(emptyvert, depth_metricfrag, quadgeom),
                                                                  textures[GPUTexture::DEPTH_METRIC_FILTERED]->texture);
+LOGI("MY elasitcfusion struct createCompute 2");
 }
 
 void ElasticFusion::createFeedbackBuffers()
 {
+LOGI("MY elasitcfusion struct createFeedbackBuffers 1 ");
     feedbackBuffers[FeedbackBuffer::RAW] = new FeedbackBuffer(loadProgramGeom(vertex_feedbackvert, vertex_feedbackgeom));
     feedbackBuffers[FeedbackBuffer::FILTERED] = new FeedbackBuffer(loadProgramGeom(vertex_feedbackvert, vertex_feedbackgeom));
+LOGI("MY elasitcfusion struct createFeedbackBuffers 2  ");
 }
 
 void ElasticFusion::computeFeedbackBuffers()
 {
+LOGI("MY elasitcfusion struct computeFeedbackBuffers 1 ");
     TICK("feedbackBuffers");
     feedbackBuffers[FeedbackBuffer::RAW]->compute(textures[GPUTexture::RGB]->texture,
                                                   textures[GPUTexture::DEPTH_METRIC]->texture,
@@ -244,11 +251,13 @@ void ElasticFusion::computeFeedbackBuffers()
                                                        textures[GPUTexture::DEPTH_METRIC_FILTERED]->texture,
                                                        tick,
                                                        maxDepthProcessed);
+LOGI("MY elasitcfusion struct computeFeedbackBuffers 2 ");
     TOCK("feedbackBuffers");
 }
 
 bool ElasticFusion::denseEnough(const Img<Eigen::Matrix<unsigned char, 3, 1>> & img)
 {
+LOGI("MY elasitcfusion struct denseEnough 1 ");
     int sum = 0;
 
     for(int i = 0; i < img.rows; i++)
@@ -260,7 +269,7 @@ bool ElasticFusion::denseEnough(const Img<Eigen::Matrix<unsigned char, 3, 1>> & 
                    img.at<Eigen::Matrix<unsigned char, 3, 1>>(i, j)(2) > 0;
         }
     }
-
+LOGI("MY elasitcfusion struct denseEnough 2 ");
     return float(sum) / float(img.rows * img.cols) > 0.75f;
 }
 
@@ -666,15 +675,17 @@ void ElasticFusion::processFrame(const unsigned char * rgb,
 
 void ElasticFusion::processFerns()
 {
+LOGI("MY elasitcfusion struct processFerns 1 ");
     TICK("Ferns::addFrame");
     ferns.addFrame(&fillIn.imageTexture, &fillIn.vertexTexture, &fillIn.normalTexture, currPose, tick, fernThresh);
     TOCK("Ferns::addFrame");
+LOGI("MY elasitcfusion struct processFerns 2 ");
 }
 
 void ElasticFusion::predict()
 {
     TICK("IndexMap::ACTIVE");
-
+LOGI("MY elasitcfusion struct predict 1 ");
     if(lastFrameRecovery)
     {
         indexMap.combinedPredict(currPose,
@@ -707,20 +718,24 @@ void ElasticFusion::predict()
     TOCK("FillIn");
 
     TOCK("IndexMap::ACTIVE");
+LOGI("MY elasitcfusion struct predict 2 ");
 }
 
 void ElasticFusion::metriciseDepth()
 {
+LOGI("MY elasitcfusion struct metriciseDepth 1 ");
     std::vector<Uniform> uniforms;
 
     uniforms.push_back(Uniform("maxD", depthCutoff));
 
     computePacks[ComputePack::METRIC]->compute(textures[GPUTexture::DEPTH_RAW]->texture, &uniforms);
     computePacks[ComputePack::METRIC_FILTERED]->compute(textures[GPUTexture::DEPTH_FILTERED]->texture, &uniforms);
+LOGI("MY elasitcfusion struct metriciseDepth 2 ");
 }
 
 void ElasticFusion::filterDepth()
 {
+LOGI("MY elasitcfusion struct filterDepth 1 ");
     std::vector<Uniform> uniforms;
 
     uniforms.push_back(Uniform("cols", (float)Resolution::getInstance().cols()));
@@ -728,16 +743,19 @@ void ElasticFusion::filterDepth()
     uniforms.push_back(Uniform("maxD", depthCutoff));
 
     computePacks[ComputePack::FILTER]->compute(textures[GPUTexture::DEPTH_RAW]->texture, &uniforms);
+LOGI("MY elasitcfusion struct filterDepth 2 ");
 }
 
 void ElasticFusion::normaliseDepth(const float & minVal, const float & maxVal)
 {
+LOGI("MY elasitcfusion struct normaliseDepth 1");
     std::vector<Uniform> uniforms;
 
     uniforms.push_back(Uniform("maxVal", maxVal * 1000.f));
     uniforms.push_back(Uniform("minVal", minVal * 1000.f));
 
     computePacks[ComputePack::NORM]->compute(textures[GPUTexture::DEPTH_RAW]->texture, &uniforms);
+LOGI("MY elasitcfusion struct normaliseDepth 2 ");
 }
 
 void ElasticFusion::savePly(Eigen::Vector4f myMapData, unsigned int myLastCount, float myConfidenceThreshold) {
@@ -848,6 +866,7 @@ void ElasticFusion::savePly(Eigen::Vector4f myMapData, unsigned int myLastCount,
 
 Eigen::Vector3f ElasticFusion::rodrigues2(const Eigen::Matrix3f& matrix)
 {
+LOGI("MY elasitcfusion struct rodrigues2 1");
     Eigen::JacobiSVD<Eigen::Matrix3f> svd(matrix, Eigen::ComputeFullV | Eigen::ComputeFullU);
     Eigen::Matrix3f R = svd.matrixU() * svd.matrixV().transpose();
 
@@ -891,6 +910,7 @@ Eigen::Vector3f ElasticFusion::rodrigues2(const Eigen::Matrix3f& matrix)
         rx *= vth; ry *= vth; rz *= vth;
     }
     return Eigen::Vector3d(rx, ry, rz).cast<float>();
+LOGI("MY elasitcfusion struct rodrigues2 2");
 }
 
 //Sad times ahead
