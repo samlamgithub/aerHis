@@ -28,16 +28,17 @@
 #include <EGL/eglext.h>
 
 #include <utility>
+#include "../../tango_interface/util.hpp"
 
 static const char* glErrorString(GLenum err) {
   switch(err) {
     case GL_INVALID_ENUM: return "Invalid Enum";
     case GL_INVALID_VALUE: return "Invalid Value";
     case GL_INVALID_OPERATION: return "Invalid Operation";
-    case GL_STACK_OVERFLOW: return "Stack Overflow";
-    case GL_STACK_UNDERFLOW: return "Stack Underflow";
+   // case GL_STACK_OVERFLOW: return "Stack Overflow";
+   // case GL_STACK_UNDERFLOW: return "Stack Underflow";
     case GL_OUT_OF_MEMORY: return "Out of Memory";
-    case GL_TABLE_TOO_LARGE: return "Table too Large";
+  //  case GL_TABLE_TOO_LARGE: return "Table too Large";
     default: return "Unknown Error";
   }
 }
@@ -45,7 +46,7 @@ static const char* glErrorString(GLenum err) {
 inline void CheckGlDieOnError()
 {
     for (GLint error = glGetError(); error; error = glGetError()) {
-        LOGI("after %s: glError (0x%x)\n", glErrorString(glError), error);
+        LOGI("after %s: glError (0x%x)\n", glErrorString(error), error);
       }
 }
 
