@@ -38,7 +38,7 @@
 #include "Uniform.h"
 
 
-void check_gl_error(const char* operation) {
+inline void check_gl_error2(const char* operation) {
   for (GLint error = glGetError(); error; error = glGetError()) {
     LOGI("My elastic-fusion shader after %s() glError (0x%x)\n", operation, error);
   }
@@ -89,15 +89,17 @@ class Shader //: public pangolin::GlSlProgram
     LOGI("MY elasitcfusion Shader AddShader  1 ");
     if(!prog) {
         prog = glCreateProgram();
+        check_gl_error2("MY elasitcfusion Shader glCreateProgram:");
         if(!prog) {
         LOGI("MY elasitcfusion Shader AddShader  1  glCreateProgram failed");
         }
     }
     // GLhandleARB shader = glCreateShader(shader_type);
     GLuint shader = glCreateShader(shader_type);
+    check_gl_error2("MY elasitcfusion Shader glCreateShader:");
     if(!shader) {
     LOGI("MY elasitcfusion Shader AddShader  1  glCreateShader failed");
-    return false;
+//    return false;
     }
     glShaderSource(shader, 1, &source_code, NULL);
     glCompileShader(shader);
@@ -120,7 +122,7 @@ class Shader //: public pangolin::GlSlProgram
       return false;
     } else {
       glAttachShader(prog, shader);
-check_gl_error("glAttachShader");
+check_gl_error2("glAttachShader");
       shaders.push_back(shader);
       linked = false;
       LOGI("MY elasitcfusion Shader AddShader true");
@@ -157,20 +159,20 @@ LOGI("MY elasitcfusion Shader Link true");
 LOGI("MY elasitcfusion Shader Bind");
     prev_prog = 0;
     glUseProgram(prog);
-  check_gl_error("MY elasitcfusion Shader Bind:");
+  check_gl_error2("MY elasitcfusion Shader Bind:");
  }
 
  void Unbind() {
 LOGI("MY elasitcfusion Shader Unbind");
     glUseProgram(prev_prog);
-  check_gl_error("MY elasitcfusion Shader Unbind:");
+  check_gl_error2("MY elasitcfusion Shader Unbind:");
  }
 
   protected:
     bool linked;
 	  // std::vector<GLhandleARB> shaders;
     std::vector<GLuint> shaders;
-    GLenum prog;
+    GLint prog;
     GLint prev_prog;
 };
 

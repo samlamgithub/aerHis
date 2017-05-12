@@ -4,4 +4,4 @@ APP_STL := gnustl_static
 APP_PLATFORM := android-19
 APP_CPPFLAGS += -std=c++11 -frtti -fexceptions #-g
 #APP_LDFLAGS += -g
-APP_OPTIM := release
+APP_OPTIM := debug

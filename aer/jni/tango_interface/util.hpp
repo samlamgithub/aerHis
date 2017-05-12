@@ -3,7 +3,7 @@
 
 #include <android/log.h>
 // This is for logging to a file via the class 'Logger'
-#include "logger.hpp"
+//#include "logger.hpp"
 
 #define LOG_TAG "JNI Log"
 #define LOGI(...) __android_log_print(ANDROID_LOG_INFO   , LOG_TAG,__VA_ARGS__)

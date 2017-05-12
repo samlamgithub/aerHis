@@ -60,16 +60,15 @@ MyElasticFusion::~MyElasticFusion() {
 
 void MyElasticFusion::setCamWidthAndheight(int width, int height, double fx,
 		double fy, double cx, double cy, int maxVerCount) {
-	LOGI("setCamWidthAndheight start");
+	LOGI("MyElasticFusion setCamWidthAndheight start");
 	depth_image_width = width, depth_image_height = height;
 	myImageSize = width * height;
 	myFx = fx;
 	myFy = fy;
 	myCx = cx;
 	myCy = cy;
-	LOGI(
-			"setCamWidthAndheight intrinsic: %d, %d, %f, %f, %f, %f , myImageSize: %d",
-			depth_image_width, depth_image_height, fx, fy, cx, cy, myImageSize);
+	LOGI("MyElasticFusion setCamWidthAndheight intrinsic: %d, %d, %f, %f, %f, %f , myImageSize: %d",
+	depth_image_width, depth_image_height, fx, fy, cx, cy, myImageSize);
 	// int imageSize = width * height;
 	depth_compress_buf_size = myImageSize * sizeof(int16_t) * 4;
 	depth_compress_buf = (unsigned char*) malloc(depth_compress_buf_size);
@@ -100,7 +99,7 @@ void MyElasticFusion::setCamWidthAndheight(int width, int height, double fx,
 //	       rgbdData.pose = NULL;
 		frameBuffers[i] = rgbdData;
 	}
-	LOGI("setCamWidthAndheight done");
+	LOGI("MyElasticFusion setCamWidthAndheight done");
 }
 //
 // void MyElasticFusion::encodeJpeg(cv::Vec<unsigned char, 3> * rgb_data) {
@@ -132,7 +131,7 @@ void MyElasticFusion::setCamWidthAndheight(int width, int height, double fx,
 void MyElasticFusion::rgbdCallback(unsigned char* image,
 		TangoPointCloud* pointcloud_buffer, double color_timestamp,
 		TangoPoseData pose) {
-	LOGI("Writing thread rgbdCallback start ");
+	LOGI("MyElasticFusion  thread rgbdCallback start ");
 	//===========================================================
 	boost::posix_time::ptime time =
 			boost::posix_time::microsec_clock::local_time();
@@ -175,7 +174,7 @@ void MyElasticFusion::rgbdCallback(unsigned char* image,
 //    memcpy(frameBuffers[bufferIndex].first.second, reinterpret_cast<unsigned char*>(image), rgbPixeldatacount);
 //    frameBuffers[bufferIndex].second = m_lastFrameTime;
 	latestBufferIndex++;
-	LOGI("myElasticFusion thread rgbdCallback done ");
+	LOGI("MyElasticFusion thread rgbdCallback done ");
 }
 
 glm::mat4 MyElasticFusion::GetMatrixFromPose(const TangoPoseData* pose_data) {
@@ -286,7 +285,7 @@ void MyElasticFusion::UpSampleDepthAroundPoint(float depth_value, int pixel_x,
 
 void MyElasticFusion::startElasticFusion() {
 	assert(!elasticFusionThread && !runningElasticFusion.getValue());
-	LOGI("MyElasticFusion start running");
+	LOGI("MyElasticFusion startElasticFusion running");
 	bool success = LoadOpenGLExtensionsManually();
 	if (!success) {
 		LOGE("MyElasticFusion LoadOpenGLExtensionsManually failed");
@@ -295,14 +294,16 @@ void MyElasticFusion::startElasticFusion() {
 	runningElasticFusion.assignValue(true);
 	elasticFusionThread = new boost::thread(
 			boost::bind(&MyElasticFusion::runEF, this));
+	LOGI("MyElasticFusion startElasticFusion running done");
 }
 
 void MyElasticFusion::stopElasticFusion() {
 	assert(elasticFusionThread && runningElasticFusion.getValue());
-	LOGI("MyElasticFusion stop running");
+	LOGI("MyElasticFusion stopElasticFusion running");
 	runningElasticFusion.assignValue(false);
 	elasticFusionThread->join();
 	elasticFusionThread = 0;
+	LOGI("MyElasticFusion stopElasticFusion running done");
 	// LOGI("logger stop logging3");
 }
 
@@ -310,6 +311,7 @@ void MyElasticFusion::savePly() {
 	assert(elasticFusionThread && runningElasticFusion.getValue());
 	LOGI("MyElasticFusion is running, should save ply");
 	shouldSavePly.assignValue(true);
+	LOGI("MyElasticFusion is running, should save ply done");
 }
 
 bool MyElasticFusion::file_exists(const std::string& filename) const {
@@ -362,11 +364,11 @@ void MyElasticFusion::runEF() {
 	//   	  if (Depthlog_file_ == NULL) {
 	//   	    LOGE("Logger: There was a problem opening the Depth log file:%s",Depthfilename.c_str());
 	//   	  }
-	LOGI("ElasticFusion Initializing ...");
+	LOGI("MyElasticFusion runEF Initialising ...");
 	Resolution::getInstance(depth_image_width, depth_image_height);
 	Intrinsics::getInstance(myFx, myFy, myCx, myCy);
-	LOGI("ElasticFusion Initializing done ...");
-	LOGI("ElasticFusion Setting parameters...");
+	LOGI("MyElasticFusion Initialising done ...");
+	LOGI("MyElasticFusion Setting parameters...");
 	float confidence = 10.0f; //fusion的confidence阈值
 	float depth = 3.0f; //去掉depth大于某个阈值的帧
 	float icp = 10.0f; //icp的阈值
@@ -389,8 +391,8 @@ void MyElasticFusion::runEF() {
 	bool frameToFrameRGB = 0; //只做rgb图像的tracking：不开启
 	int timestamp = 0;
 	std::string savefilename = "testElasticFusion";
-	LOGI("ElasticFusion Setting parameters done.");
-	LOGI("ElasticFusion Building eFusion...");
+	LOGI("MyElasticFusion Setting parameters done.");
+	LOGI("MyElasticFusion Building eFusion...");
 	// pangolin::Params windowParams;
 	// windowParams.Set("SAMPLE_BUFFERS", 0);
 	// windowParams.Set("SAMPLES", 0);
@@ -402,7 +404,7 @@ void MyElasticFusion::runEF() {
 			icpCountThresh, icpErrThresh, covThresh, !openLoop, iclnuim, reloc,
 			photoThresh, confidence, depth, icp, fastOdom, fernThresh, so3,
 			frameToFrameRGB, savefilename);
-	LOGI("ElasticFusion Building eFusion done");
+	LOGI("MyElasticFusion Building eFusion done");
 	//待处理文件的位置和下标
 	// std::string filedir = "../pic/";
 	// int file_start = 1;
@@ -413,7 +415,7 @@ void MyElasticFusion::runEF() {
 	// LOGI("Logger fwrite: %d", result1);
 	//    int result = fputs("\n:testest     \n", log_file_);
 	//    LOGI("Logger puts: %d", result);
-	// LOGI("Logger: good");
+	LOGI("MyElasticFusion: good");
 	while (runningElasticFusion.getValueWait(1)) {
 		int bufferIndex = latestBufferIndex.getValue();
 		if (bufferIndex == -1) {
@@ -425,13 +427,13 @@ void MyElasticFusion::runEF() {
 			continue;
 		}
 		//==============================================
-		LOGI("ElasticFusion thread Processing start ");
+		LOGI("MyElasticFusion thread Processing start ");
 		// double depth_timestamp = 0.0;
 		//  depth_timestamp = pointcloud_buffer->timestamp;
 		double depth_timestamp = frameBuffers[bufferIndex].pointCloudTimestamp;
 		// uint32_t num_points = pointcloud_buffer->num_points;
 		uint32_t num_points = frameBuffers[bufferIndex].pointCloudNumpoints;
-		LOGI("ElasticFusion depth_timestamp: %f , num_points:  %d",
+		LOGI("MyElasticFusion depth_timestamp: %f , num_points:  %d",
 				depth_timestamp, num_points);
 		double color_timestamp = frameBuffers[bufferIndex].colorTimeStamp;
 		// In the following code, we define t0 as the depth timestamp and t1 as the
@@ -444,19 +446,17 @@ void MyElasticFusion::runEF() {
 				TANGO_COORDINATE_FRAME_CAMERA_DEPTH,
 				&pose_color_image_t1_T_depth_image_t0);
 		if (err == TANGO_SUCCESS) {
-			LOGI(
-					"CameraInterface ElasticFusion: success get valid relative pose at %f time for color and depth cameras :%f , color > depth: %d",
+			LOGI("CameraInterface MyElasticFusion: success get valid relative pose at %f time for color and depth cameras :%f , color > depth: %d",
 					color_timestamp, depth_timestamp,
 					color_timestamp > depth_timestamp);
 		} else {
-			LOGE(
-					"CameraInterface ElasticFusion: Could not find a valid relative pose at %f time for color and depth cameras :%f ",
+			LOGE("CameraInterface MyElasticFusion: Could not find a valid relative pose at %f time for color and depth cameras :%f ",
 					color_timestamp, depth_timestamp);
 			if (err == TANGO_INVALID) {
-				LOGE("CameraInterface ElasticFusion TANGO_INVALID");
+				LOGE("CameraInterface MyElasticFusion TANGO_INVALID");
 			}
 			if (err == TANGO_ERROR) {
-				LOGE("CameraInterface ElasticFusion TANGO_ERROR");
+				LOGE("CameraInterface MyElasticFusion TANGO_ERROR");
 			}
 			return;
 		}
@@ -469,7 +469,7 @@ void MyElasticFusion::runEF() {
 		//	LOGI("CameraInterface 1 confidence: %d",   pose_color_image_t1_T_depth_image_t0.confidence);
 		//	return;
 		if (std::isnan(pose_color_image_t1_T_depth_image_t0.translation[0])) {
-			LOGI("CameraInterface ElasticFusion Position: is Nan");
+			LOGI("CameraInterface MyElasticFusion Position: is Nan");
 			return;
 		}
 		//	  double x =  pose_color_image_t1_T_depth_image_t0.orientation[0];
@@ -502,7 +502,7 @@ void MyElasticFusion::runEF() {
 		unsigned short* depthForEF = &depth_map_buffer_[0];
 		//	          (*rgbd_callback_)(frame.get(), depth, color_timestamp);
 		//	     }
-		LOGI("ElasticFusion thread rgbdCallback Processing done ");
+		LOGI("MyElasticFusion thread rgbdCallback Processing done ");
 		unsigned long long int timeStampleForEF =
 				frameBuffers[bufferIndex].m_lastTimestamp;
 		unsigned char *rgbImageForEF = frameBuffers[bufferIndex].image;
@@ -538,17 +538,17 @@ void MyElasticFusion::runEF() {
 		//  currentPose = new Eigen::Matrix4f;
 		//  currentPose->setIdentity();
 		//  *currentPose = groundTruthOdometry->getTransformation(timestamp); }
+		LOGI("MyElasticFusion Processing frames ready.");
 		eFusion.processFrame(rgbImageForEF, depthForEF, timeStampleForEF,
 				currentPose);
 		delete currentPose;
 		// eFusion.processFrame(rgb, dep, timestamp);
+		LOGI("MyElasticFusion Processing frames ready done.");
 		Eigen::Matrix4f currPose = eFusion.getCurrPose();
 		posesEigen.push_back(currPose);
 //        LOGI("current pose is : " <<currPose);
-		LOGI("Processing frames done.");
-
+		LOGI("MyElasticFusion Processing frames done.");
 		if (shouldSavePly.getValueWait()) {
-
 			LOGI("ElasticFusion start to save frame.");
 			Eigen::Vector4f * mapData;
 			unsigned int lastCount;
@@ -665,7 +665,7 @@ void MyElasticFusion::runEF() {
 
 			delete[] mapData;
 			shouldSavePly.assignValue(false);
-			LOGI("ElasticFusion save frame done.");
+			LOGI("MyElasticFusion save frame done.");
 		}
 		// LOGI("Saving Elastic-Fusion model...");
 		// LOGI("Saving Elastic-Fusion model done");
@@ -738,10 +738,10 @@ void MyElasticFusion::runEF() {
 //         LOGI("Logger fwrite depth1: %d", result);
 //         result = fwrite("\n", sizeof(char), 1, Depthlog_file_);
 //         LOGI("Logger fwrite depth2: %d", result);
-		LOGI("ElasticFusion: processing");
+		LOGI("MyElasticFusion: processing++");
 		numFrames++;
 		lastProcessed = bufferIndex;
-		LOGI("ElasticFusion: processed one frame, total: %d", numFrames);
+		LOGI("MyElasticFusion: processed one frame, total: %d", numFrames);
 	}
 	// fseek(RGBlog_file_, 0, SEEK_SET);
 	// fwrite(&numFrames, sizeof(int32_t), 1, RGBlog_file_);

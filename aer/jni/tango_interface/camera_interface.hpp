@@ -28,11 +28,13 @@
 #include <memory>
 #include <string>
 
+#include <opencv2/opencv.hpp>
+
 // #include "mylogger.hpp"
 #include "myElasticFusion.hpp"
 
 //test
-// #include "../cudatest/nativeCUDA.cuh"
+#include "../cudatest/nativeCUDA.cuh"
 
 //#include <tango-gl/util.h>
 #include <tango_client_api.h>  // NOLINT

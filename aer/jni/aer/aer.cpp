@@ -374,6 +374,7 @@ void Aer::elasticFusion() {
 
 void Aer::setLoggerWidthHeight_callback(const int width, const int height, const double fx,const double fy,const double cx,const double cy, const int max_vertex_count) {
   // mylogger.setCamWidthAndheight(width, height, fx, fy, cx, cy, max_vertex_count);
+	LOGI("AER Elasticfusion setting width height callback");
 myElasticFusion.setCamWidthAndheight(width, height, fx, fy, cx, cy, max_vertex_count);
 }
 
@@ -396,6 +397,7 @@ myElasticFusion.rgbdCallback(image, pointcloud_buffer, cameraTime, pose);
 
 //Save elasticFusion Ply file
 void Aer::savePlyFile() {
+	LOGI("AER Elasticfusion setting width height callback");
   myElasticFusion.savePly();
 }
 
@@ -403,12 +405,12 @@ void Aer::savePlyFile() {
 void Aer::aerStartElasticFusion(bool startElasticFusion) {
     // TODO: make use of startElasticFusion to stop
     // elasticFusion_thread = std::thread(&Aer::elasticFusion, this);
-    LOGI("ElasticFusion aer called");
+    LOGI("AER ElasticFusion start called: %d", startElasticFusion);
   	if (startElasticFusion) {
-  	   LOGI("ElasticFusion starting in aer");
+  	   LOGI("AER ElasticFusion starting");
   	   myElasticFusion.startElasticFusion();
   	} else {
-  		 LOGI("ElasticFusion stoping in aer");
+  		 LOGI("AER ElasticFusion stopping");
   		 myElasticFusion.stopElasticFusion();
   	}
 }
@@ -416,10 +418,10 @@ void Aer::aerStartElasticFusion(bool startElasticFusion) {
 void Aer::aerStartWriting(bool startWriting) {
 	LOGI("Aer hello start writing");
 	if (startWriting) {
-		 LOGI("logger start writing in aerStartWriting");
+		 LOGI("aer logger start writing in aerStartWriting");
 			//  mylogger.startWriting();
 	} else {
-		  LOGI("logger stop weriting in aerStartWriting");
+		  LOGI("aer logger stop weriting in aerStartWriting");
 			// mylogger.stopWriting();
 	}
 }
