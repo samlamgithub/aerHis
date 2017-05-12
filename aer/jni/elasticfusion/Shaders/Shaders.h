@@ -37,6 +37,13 @@
 // #include "../Utils/Parse.h"
 #include "Uniform.h"
 
+
+void check_gl_error(const char* operation) {
+  for (GLint error = glGetError(); error; error = glGetError()) {
+    LOGI("My elastic-fusion shader after %s() glError (0x%x)\n", operation, error);
+  }
+}
+
 class Shader //: public pangolin::GlSlProgram
 {
     public:
@@ -79,12 +86,19 @@ class Shader //: public pangolin::GlSlProgram
         }
 
    bool AddShader(GLenum shader_type, const char* source_code) {
-LOGI("MY elasitcfusion Shader AddShader  1 ");
+    LOGI("MY elasitcfusion Shader AddShader  1 ");
     if(!prog) {
         prog = glCreateProgram();
+        if(!prog) {
+        LOGI("MY elasitcfusion Shader AddShader  1  glCreateProgram failed");
+        }
     }
     // GLhandleARB shader = glCreateShader(shader_type);
     GLuint shader = glCreateShader(shader_type);
+    if(!shader) {
+    LOGI("MY elasitcfusion Shader AddShader  1  glCreateShader failed");
+    return false;
+    }
     glShaderSource(shader, 1, &source_code, NULL);
     glCompileShader(shader);
     GLint compiled = 0;
@@ -96,26 +110,26 @@ LOGI("MY elasitcfusion Shader AddShader  1 ");
         char* buf = (char*) malloc(info_len);
         if (buf) {
           glGetShaderInfoLog(shader, info_len, NULL, buf);
-          LOGE("GlCameraFrame: Could not compile shader %d:\n%s\n", shader_type, buf);
+          LOGE("AddShader GlCameraFrame: Could not compile shader %d:\n%s\n", shader_type, buf);
           free(buf);
         }
         glDeleteShader(shader);
         shader = 0;
       }
-LOGI("MY elasitcfusion Shader AddShader false");
+      LOGI("MY elasitcfusion Shader AddShader false");
       return false;
-
     } else {
       glAttachShader(prog, shader);
+check_gl_error("glAttachShader");
       shaders.push_back(shader);
       linked = false;
-LOGI("MY elasitcfusion Shader AddShader true");
+      LOGI("MY elasitcfusion Shader AddShader true");
       return true;
     }
   }
 
   bool Link() {
-LOGI("MY elasitcfusion Shader Link 1");
+      LOGI("MY elasitcfusion Shader Link 1");
       glLinkProgram(prog);
       GLint link_status = GL_FALSE;
       glGetProgramiv(prog, GL_LINK_STATUS, &link_status);
@@ -126,7 +140,7 @@ LOGI("MY elasitcfusion Shader Link 1");
           char* buf = (char*) malloc(buf_length);
           if (buf) {
             glGetProgramInfoLog(prog, buf_length, NULL, buf);
-            LOGE("Shaders: Could not link program:\n%s\n", buf);
+            LOGE("MY elasitcfusion Shaders: Could not link program:\n%s\n", buf);
             free(buf);
           }
         }
@@ -143,11 +157,13 @@ LOGI("MY elasitcfusion Shader Link true");
 LOGI("MY elasitcfusion Shader Bind");
     prev_prog = 0;
     glUseProgram(prog);
+  check_gl_error("MY elasitcfusion Shader Bind:");
  }
 
  void Unbind() {
 LOGI("MY elasitcfusion Shader Unbind");
     glUseProgram(prev_prog);
+  check_gl_error("MY elasitcfusion Shader Unbind:");
  }
 
   protected:
