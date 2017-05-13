@@ -364,11 +364,68 @@ void MyElasticFusion::runEF() {
 	//   	  if (Depthlog_file_ == NULL) {
 	//   	    LOGE("Logger: There was a problem opening the Depth log file:%s",Depthfilename.c_str());
 	//   	  }
-	LOGI("MyElasticFusion runEF Initialising ...");
+
+
+	//==================================
+LOGI("MyElasticFusion runEF egl context setup start ...");
+			const EGLint configAttribs[] = {
+		            EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
+		            EGL_BLUE_SIZE, 8,
+		            EGL_GREEN_SIZE, 8,
+		            EGL_RED_SIZE, 8,
+					EGL_DEPTH_SIZE, 24,
+		            EGL_NONE
+		    };
+
+			const EGLint contextAttribs[] = {
+				EGL_CONTEXT_CLIENT_VERSION, 2,
+				EGL_NONE
+			};
+
+		    EGLDisplay display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
+		    if(display == EGL_NO_DISPLAY || eglGetError() != EGL_SUCCESS) {
+		    	 LOGI("MyElasticFusion runEF egl  eglGetDisplay failed");
+		    }
+
+		    EGLint major, minor;
+		    if (!eglInitialize(display, &major, &minor) ) {
+		    	LOGI("MyElasticFusion runEF egl  eglInitialize failed");
+		    }
+
+		    EGLint numConfigs;
+		  	EGLConfig config;
+		  	if(!eglChooseConfig(display, configAttribs, &config, 1, &numConfigs)) {
+		  		LOGI("MyElasticFusion runEF egl eglChooseConfig failed");
+		  	}
+
+		    EGLSurface surface;
+
+		    //PixmapSurface和PBufferSurface
+		    surface = eglCreatePbufferSurface(display, config, NULL);
+	//	    surface = eglCreateWindowSurface(display, config, mWindow, NULL);
+		    if (surface == EGL_NO_SURFACE) {
+		    	LOGI("MyElasticFusion runEF egl eglCreatePbufferSurface failed");
+		    }
+
+		    EGLContext context;
+
+		    //EGL_NO_CONTEXT
+		    context = eglCreateContext(display, config, EGL_NO_CONTEXT, contextAttribs);
+		    if(context == EGL_NO_CONTEXT) {
+		    	LOGI("MyElasticFusion runEF egl eglCreateContext failed");
+		    }
+
+		    if (eglMakeCurrent(display, surface, surface, context) == EGL_FALSE) {
+		        LOGI("MyElasticFusion runEF egl eglMakeCurrent failed");
+		    }
+LOGI("MyElasticFusion runEF egl context setup done ...");
+//==================================
+
+	LOGI("MyElasticFusion runEF elasticfusion Initialising ...");
 	Resolution::getInstance(depth_image_width, depth_image_height);
 	Intrinsics::getInstance(myFx, myFy, myCx, myCy);
-	LOGI("MyElasticFusion Initialising done ...");
-	LOGI("MyElasticFusion Setting parameters...");
+	LOGI("MyElasticFusion runEF elasticfusion Initialising done ...");
+	LOGI("MyElasticFusion runEF elasticfusion Setting parameters...");
 	float confidence = 10.0f; //fusion的confidence阈值
 	float depth = 3.0f; //去掉depth大于某个阈值的帧
 	float icp = 10.0f; //icp的阈值
@@ -391,8 +448,8 @@ void MyElasticFusion::runEF() {
 	bool frameToFrameRGB = 0; //只做rgb图像的tracking：不开启
 	int timestamp = 0;
 	std::string savefilename = "testElasticFusion";
-	LOGI("MyElasticFusion Setting parameters done.");
-	LOGI("MyElasticFusion Building eFusion...");
+	LOGI("MyElasticFusion runEF elasticfusion Setting parameters done.");
+	LOGI("MyElasticFusion runEF elasticfusion Building eFusion...");
 	// pangolin::Params windowParams;
 	// windowParams.Set("SAMPLE_BUFFERS", 0);
 	// windowParams.Set("SAMPLES", 0);
@@ -404,7 +461,7 @@ void MyElasticFusion::runEF() {
 			icpCountThresh, icpErrThresh, covThresh, !openLoop, iclnuim, reloc,
 			photoThresh, confidence, depth, icp, fastOdom, fernThresh, so3,
 			frameToFrameRGB, savefilename);
-	LOGI("MyElasticFusion Building eFusion done");
+	LOGI("MyElasticFusion runEF elasticfusion Building eFusion done");
 	//待处理文件的位置和下标
 	// std::string filedir = "../pic/";
 	// int file_start = 1;
@@ -415,7 +472,7 @@ void MyElasticFusion::runEF() {
 	// LOGI("Logger fwrite: %d", result1);
 	//    int result = fputs("\n:testest     \n", log_file_);
 	//    LOGI("Logger puts: %d", result);
-	LOGI("MyElasticFusion: good");
+	LOGI("MyElasticFusion runEF elasticfusion: good");
 	while (runningElasticFusion.getValueWait(1)) {
 		int bufferIndex = latestBufferIndex.getValue();
 		if (bufferIndex == -1) {

@@ -34,6 +34,16 @@
 #include <Eigen/Core>
 #include <Eigen/Geometry>
 
+
+
+#include <GLES3/gl3.h>
+#define __gl2_h_                 // what the f***
+#include <GLES2/gl2ext.h>
+#include <GLES3/gl3platform.h>
+
+#include <EGL/egl.h>
+#include <EGL/eglext.h>
+
 namespace tango_interface {
 
 struct ElasticFusionData {
