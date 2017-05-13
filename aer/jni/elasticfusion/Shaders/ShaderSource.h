@@ -19,6 +19,9 @@
 #ifndef SHADERS_SHADERSSOURCE_H_
 #define SHADERS_SHADERSSOURCE_H_
 
+#include <tuple>
+#include <string>
+
 static const char combo_splatfrag[]=
 "uniform float maxDepth;\n"
 "in vec4 position;\n"
@@ -56,6 +59,46 @@ static const char combo_splatfrag[]=
 "    time = uint(colTime.z);\n"
 "    gl_FragDepth = (corrected_pos.z / (2 * maxDepth)) + 0.5f;\n"
 "}\n";
+
+// std::tuple<std::string, const char[]> combo_splatfrag = std::make_tuple("combo_splatfrag", combo_splatfrag_source);
+static const char combo_splatfrag_source[]=
+"uniform float maxDepth;\n"
+"in vec4 position;\n"
+"in vec4 normRad;\n"
+"in vec4 colTime;\n"
+"layout(location = 0) out vec4 image;\n"
+"layout(location = 1) out vec4 vertex;\n"
+"layout(location = 2) out vec4 normal;\n"
+"layout(location = 3) out uint time;\n"
+"float encodeColor(vec3 c) {\n"
+"    int rgb = int(round(c.x * 255.0f));\n"
+"    rgb = (rgb << 8) + int(round(c.y * 255.0f));\n"
+"    rgb = (rgb << 8) + int(round(c.z * 255.0f));\n"
+"    return float(rgb);}\n"
+"vec3 decodeColor(float c) {\n"
+"    vec3 col;\n"
+"    col.x = float(int(c) >> 16 & 0xFF) / 255.0f;\n"
+"    col.y = float(int(c) >> 8 & 0xFF) / 255.0f;\n"
+"    col.z = float(int(c) & 0xFF) / 255.0f;\n"
+"    return col;}\n"
+"void main() {\n"
+"    vec3 l = normalize(vec3((vec2(gl_FragCoord) - cam.xy) / cam.zw, 1.0f));\n"
+"    vec3 corrected_pos = (dot(position.xyz, normRad.xyz) / dot(l, normRad.xyz)) * l; \n"
+"    //check if the intersection is inside the surfel\n"
+"    float sqrRad = pow(normRad.w, 2);\n"
+"    vec3 diff = corrected_pos - position.xyz;\n"
+"    if(dot(diff, diff) > sqrRad)\n"
+"    {\n"
+"        discard;\n"
+"    }\n"
+"    image = vec4(decodeColor(colTime.x), 1);\n"
+"    float z = corrected_pos.z;\n"
+"    vertex = vec4((gl_FragCoord.x - cam.x) * z * (1.f / cam.z), (gl_FragCoord.y - cam.y) * z * (1.f / cam.w), z, position.w);\n"
+"    normal = normRad;\n"
+"    time = uint(colTime.z);\n"
+"    gl_FragDepth = (corrected_pos.z / (2 * maxDepth)) + 0.5f;\n"
+"}\n";
+std::tuple<std::string, const char[]> combo_splatfrag_tuple = std::make_tuple("combo_splatfrag", combo_splatfrag_source);
 
 static const char copy_unstablegeom[]=
 "#version 310 es\n"
