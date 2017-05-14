@@ -62,16 +62,16 @@ void* Load(const char* extension, bool& success)
 // 	ptr = glfwGetProcAddress(extension);
 // #endif
 
-//	char buffer[255];
-//	sprintf(buffer, "Loaded '%s' %p", extension, ptr);
+	char buffer[255];
+	sprintf(buffer, "Loaded '%s' %p", extension, ptr);
 	// Log::Verbose("[GLExtensions]", buffer);
+LOGI("GLExtensions %s", buffer);
 
 	success &= true;
 	return ptr;
 }
 
-bool LoadOpenGLExtensionsManually()
-{
+bool LoadOpenGLExtensionsManually() {
 	bool success = true;
 
 #ifdef LOAD__GL_KHR_debug

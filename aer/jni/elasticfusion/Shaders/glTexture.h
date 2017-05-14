@@ -46,9 +46,8 @@ static const char* glErrorString(GLenum err) {
 inline void CheckGlDieOnError() {
     for (GLint error = glGetError(); error; error = glGetError()) {
         LOGI("glTexture.h CheckGlDieOnError after %s: glError (0x%x)\n", glErrorString(error), error);
-      }
+    }
 }
-
 
 class GlTexture {
 public:
@@ -103,6 +102,8 @@ public:
 
     virtual void Reinitialise(GLsizei w, GLsizei h, GLint int_format = GL_RGBA8,
       bool sampling_linear = true, int border = 0, GLenum glformat = GL_RGBA, GLenum gltype = GL_UNSIGNED_BYTE, GLvoid* data = NULL ) {
+        LOG("GlTexture init 3");
+        CheckGlDieOnError();
         if(tid!=0) {
             glDeleteTextures(1,&tid);
         }
@@ -113,7 +114,8 @@ public:
 
         glGenTextures(1,&tid);
         Bind();
-
+        LOG("GlTexture init 4");
+        CheckGlDieOnError();
         // GL_LUMINANCE and GL_FLOAT don't seem to actually affect buffer, but some values are required
         // for call to succeed.
         glTexImage2D(GL_TEXTURE_2D, 0, internal_format, width, height, border, glformat, gltype, data);
@@ -121,7 +123,7 @@ public:
         if(sampling_linear) {
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        }else{
+        } else {
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         }
@@ -133,11 +135,11 @@ public:
     }
 
     void Upload(const void* data, GLenum data_format = GL_LUMINANCE, GLenum data_type = GL_FLOAT) {
-        LOGI("GlTexture bind 1");
+        LOGI("GlTexture Upload 1");
         Bind();
         glTexSubImage2D(GL_TEXTURE_2D,0,0,0,width,height,data_format,data_type,data);
         CheckGlDieOnError();
-        LOGI("GlTexture bind 2");
+        LOGI("GlTexture Upload 2");
     }
 
     //  void Upload(

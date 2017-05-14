@@ -286,10 +286,6 @@ void MyElasticFusion::UpSampleDepthAroundPoint(float depth_value, int pixel_x,
 void MyElasticFusion::startElasticFusion() {
 	assert(!elasticFusionThread && !runningElasticFusion.getValue());
 	LOGI("MyElasticFusion startElasticFusion running");
-	bool success = LoadOpenGLExtensionsManually();
-	if (!success) {
-		LOGE("MyElasticFusion LoadOpenGLExtensionsManually failed");
-	}
 //    this->filename = filename;
 	runningElasticFusion.assignValue(true);
 	elasticFusionThread = new boost::thread(
@@ -420,7 +416,13 @@ LOGI("MyElasticFusion runEF egl context setup start ...");
 		    }
 LOGI("MyElasticFusion runEF egl context setup done ...");
 //==================================
-
+bool success = LoadOpenGLExtensionsManually();
+if (!success) {
+	LOGE("MyElasticFusion runEF LoadOpenGLExtensionsManually failed");
+} else {
+	LOGE("MyElasticFusion runEF LoadOpenGLExtensionsManually success");
+}
+//============================
 	LOGI("MyElasticFusion runEF elasticfusion Initialising ...");
 	Resolution::getInstance(depth_image_width, depth_image_height);
 	Intrinsics::getInstance(myFx, myFy, myCx, myCy);

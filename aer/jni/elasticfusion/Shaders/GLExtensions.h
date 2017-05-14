@@ -1,6 +1,8 @@
 #ifndef __GL_EXTENSIONS__
 #define __GL_EXTENSIONS__
 
+#include <stdio.h>
+
 #include <GLES3/gl3.h>
 #define __gl2_h_                 // what the f***
 #include <GLES2/gl2ext.h>
@@ -8,6 +10,8 @@
 
 #include <EGL/egl.h>
 #include <EGL/eglext.h>
+
+#include "../../tango_interface/util.hpp"
 
 #ifndef GL_API_CALL
 	#ifdef ANDROID
@@ -79,8 +83,6 @@ bool LoadOpenGLExtensionsManually();
 	//TEXTURE
 	//RENDERBUFFER
 	//FRAMEBUFFER
-
-
 
 	typedef void (GL_API_CALL_P PFNGLDEBUGMESSAGECONTROLPROCKHR)(GLenum source, GLenum type, GLenum severity, GLsizei count, const GLuint* ids, GLboolean enabled);
 	extern PFNGLDEBUGMESSAGECONTROLPROCKHR glDebugMessageControl;
@@ -277,7 +279,6 @@ extern PFNGLPOPATTRIBPROC glPopAttrib;
 // EXT_texture_view
 // https://www.khronos.org/registry/gles/extensions/EXT/EXT_texture_view.txt
 #if defined(LOAD__EXT_texture_view)
-
 	typedef void(GL_API_CALL_P PFNGLTEXTUREVIEWPROC)(GLuint texture, GLenum target, GLuint origtexture,	GLenum internalformat, GLuint minlevel, GLuint numlevels, GLuint minlayer, GLuint numlayers);
 	extern PFNGLTEXTUREVIEWPROC glTextureView;
 #endif
