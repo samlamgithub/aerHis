@@ -65,8 +65,8 @@ static const char combo_splatfrag_source[]=
 static const std::tuple<std::string, std::string> combo_splatfrag_tuple = std::make_tuple("combo_splatfrag", combo_splatfrag_source);
 
 static const char copy_unstablegeom_source[]=
-"#extension GL_EXT_geometry_shader : require\n"
 "#version 310 es\n"
+"#extension GL_EXT_geometry_shader : require\n"
 "precision highp float;\n"
 "precision highp int;\n"
 "uniform vec4 cam; //cx, cy, fx, fy\n"
@@ -374,8 +374,8 @@ static const char datafrag_source[]=
 static const std::tuple<std::string, std::string> datafrag_tuple = std::make_tuple("datafrag", datafrag_source);
 
 static const char datageom_source[]=
-"#extension GL_EXT_geometry_shader : require\n"
 "#version 310 es\n"
+"#extension GL_EXT_geometry_shader : require\n"
 "precision highp float;\n"
 "precision highp int;\n"
 "layout(points) in;\n"
@@ -811,8 +811,8 @@ static const char draw_global_surfacefrag_source[]=
 static const std::tuple<std::string, std::string> draw_global_surfacefrag_tuple = std::make_tuple("draw_global_surfacefrag", draw_global_surfacefrag_source);
 
 static const char draw_global_surfacegeom_source []=
-"#extension GL_EXT_geometry_shader : require\n"
 "#version 310 es\n"
+"#extension GL_EXT_geometry_shader : require\n"
 "precision highp float;\n"
 "precision highp int;\n"
 "layout(points) in;\n"
@@ -1203,12 +1203,12 @@ static const char index_mapvert_source[] =
 "void main()\n"
 "{\n"
 "    vec4 vPosHome = t_inv * vec4(vPosition.xyz, 1.0);\n"
-"    float x = 0;\n"
-"    float y = 0;\n"
-"    if(vPosHome.z > maxDepth || vPosHome.z < 0 || time - vColorTime.w > timeDelta)\n"
+"    float x = 0.0;\n"
+"    float y = 0.0;\n"
+"    if(vPosHome.z > maxDepth || vPosHome.z < 0.0 || float(time) - vColorTime.w > float(timeDelta))\n"
 "    {\n"
-"        x = -10;\n"
-"        y = -10;\n"
+"        x = -10.0;\n"
+"        y = -10.0;\n"
 "        vertexId = 0;\n"
 "    }\n"
 "    else\n"
@@ -1245,8 +1245,8 @@ static const char init_unstablevert_source[] =
 static const std::tuple<std::string, std::string> init_unstablevert_tuple = std::make_tuple("init_unstablevert", init_unstablevert_source);
 
 static const char quadgeom_source[] =
-"#extension GL_EXT_geometry_shader : require\n"
 "#version 310 es\n"
+"#extension GL_EXT_geometry_shader : require\n"
 "precision highp float;\n"
 "precision highp int;\n"
 "layout(points) in;\n"
@@ -1284,8 +1284,8 @@ static const char resizefrag_source[] =
 static const std::tuple<std::string, std::string> resizefrag_tuple = std::make_tuple("resizefrag", resizefrag_source);
 
 static const char samplegeom_source[] =
-"#extension GL_EXT_geometry_shader : require\n"
 "#version 310 es\n"
+"#extension GL_EXT_geometry_shader : require\n"
 "precision highp float;\n"
 "precision highp int;\n"
 "layout(points) in;\n"
@@ -1460,8 +1460,8 @@ static const char updatevert_source[] =
 static const std::tuple<std::string, std::string> updatevert_tuple = std::make_tuple("updatevert", updatevert_source);
 
 static const char vertex_feedbackgeom_source[] =
-"#extension GL_EXT_geometry_shader : require\n"
 "#version 310 es\n"
+"#extension GL_EXT_geometry_shader : require\n"
 "precision highp float;\n"
 "precision highp int;\n"
 "layout(points) in;\n"

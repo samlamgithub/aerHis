@@ -183,11 +183,14 @@ static inline std::shared_ptr<Shader> loadProgramGeom(std::tuple<std::string, st
     const char * geometry_shader_source = std::get<1>(geometry_shader_file).c_str();
     LOGI("MY elasitcfusion Shader loadProgramGeom: v, g: %s, %s", v, g);
     std::shared_ptr<Shader> program = std::make_shared<Shader>();
-
+  LOGI("MY elasitcfusion Shader loadProgramGeom GL_VERTEX_SHADER start  %s", v);
     program->AddShader(GL_VERTEX_SHADER,  vertex_shader_source);
+LOGI("MY elasitcfusion Shader loadProgramGeom GL_VERTEX_SHADER done  %s", v);
+LOGI("MY elasitcfusion Shader loadProgramGeom GL_GEOMETRY_SHADER start  %s", g);
     program->AddShader(GL_GEOMETRY_SHADER,  geometry_shader_source);
+LOGI("MY elasitcfusion Shader loadProgramGeom GL_GEOMETRY_SHADER done  %s", g);
     program->Link();
-
+  LOGI("MY elasitcfusion Shader loadProgramGeom done");
     return program;
 }
 
@@ -196,10 +199,11 @@ static inline std::shared_ptr<Shader> loadProgram(std::tuple<std::string, std::s
   const char * vertex_shader_source = std::get<1>(vertex_shader_file).c_str();
   LOGI("MY elasitcfusion Shader loadProgram: v: %s", v);
     std::shared_ptr<Shader> program = std::make_shared<Shader>();
-
+  LOGI("MY elasitcfusion Shader loadProgram GL_VERTEX_SHADER start  %s", v);
     program->AddShader(GL_VERTEX_SHADER,  vertex_shader_source);
+LOGI("MY elasitcfusion Shader loadProgram GL_VERTEX_SHADER done  %s", v);
     program->Link();
-
+  LOGI("MY elasitcfusion Shader loadProgram done");
     return program;
 }
 
@@ -210,11 +214,14 @@ static inline std::shared_ptr<Shader> loadProgram(std::tuple<std::string, std::s
   const char * fragment_shader_source = std::get<1>(fragment_shader_file).c_str();
   LOGI("MY elasitcfusion Shader loadProgram 1: v, f: %s, %s", v, f);
     std::shared_ptr<Shader> program = std::make_shared<Shader>();
-
+LOGI("MY elasitcfusion Shader loadProgramGeom GL_VERTEX_SHADER start  %s", v);
     program->AddShader(GL_VERTEX_SHADER,  vertex_shader_source);
+    LOGI("MY elasitcfusion Shader loadProgram 1 GL_VERTEX_SHADER done  %s", v);
+    LOGI("MY elasitcfusion Shader loadProgram 1 GL_FRAGMENT_SHADER start  %s", f);
     program->AddShader(GL_FRAGMENT_SHADER,  fragment_shader_source);
+  LOGI("MY elasitcfusion Shader loadProgram 1 GL_FRAGMENT_SHADER done  %s", f);
     program->Link();
-
+  LOGI("MY elasitcfusion Shader loadProgram 1 done");
     return program;
 }
 
@@ -227,12 +234,17 @@ static inline std::shared_ptr<Shader> loadProgram(std::tuple<std::string, std::s
 const char * geometry_shader_source = std::get<1>(geometry_shader_file).c_str();
   LOGI("MY elasitcfusion Shader loadProgram 2: v, f, g: %s, %s, %s", v, g, f);
     std::shared_ptr<Shader> program = std::make_shared<Shader>();
-
+LOGI("MY elasitcfusion Shader loadProgram 2 GL_VERTEX_SHADER start  %s", v);
     program->AddShader(GL_VERTEX_SHADER,  vertex_shader_source);
+  LOGI("MY elasitcfusion Shader loadProgram 2 GL_VERTEX_SHADER done  %s", v);
+LOGI("MY elasitcfusion Shader loadProgram 2 GL_GEOMETRY_SHADER start  %s", g);
     program->AddShader(GL_GEOMETRY_SHADER,  geometry_shader_source);
+LOGI("MY elasitcfusion Shader loadProgram 2 GL_GEOMETRY_SHADER done  %s", g);
+    LOGI("MY elasitcfusion Shader loadProgram 2 GL_FRAGMENT_SHADER start  %s", f);
     program->AddShader(GL_FRAGMENT_SHADER,  fragment_shader_source);
+LOGI("MY elasitcfusion Shader loadProgram 2 GL_FRAGMENT_SHADER done  %s", f);
     program->Link();
-
+  LOGI("MY elasitcfusion Shader loadProgram 2 done");
     return program;
 }
 
