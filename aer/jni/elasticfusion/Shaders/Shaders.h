@@ -148,11 +148,11 @@ check_gl_error2("glAttachShader");
         }
         glDeleteProgram(prog);
         prog = 0;
-LOGI("MY elasitcfusion Shader Link false");
+        LOGI("MY elasitcfusion Shader Link false");
         return false;
-    }
-LOGI("MY elasitcfusion Shader Link true");
-   return true;
+      }
+      LOGI("MY elasitcfusion Shader Link true");
+      return true;
 }
 
  void Bind() {

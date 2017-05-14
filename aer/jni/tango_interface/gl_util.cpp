@@ -67,7 +67,7 @@ const GLfloat kFlipTextureCoords[] = {0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0.0};
 
 void check_gl_error(const char* operation) {
   for (GLint error = glGetError(); error; error = glGetError()) {
-    LOGI("after %s() glError (0x%x)\n", operation, error);
+    LOGI("glutil.cpp after %s() glError (0x%x)\n", operation, error);
   }
 }
 
