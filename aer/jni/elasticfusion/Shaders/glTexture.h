@@ -120,6 +120,9 @@ public:
         // for call to succeed.
         glTexImage2D(GL_TEXTURE_2D, 0, internal_format, width, height, border, glformat, gltype, data);
 
+        LOG("GlTexture init 5");
+        CheckGlDieOnError();
+
         if(sampling_linear) {
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
