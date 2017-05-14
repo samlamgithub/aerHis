@@ -24,6 +24,8 @@
 
 static const char combo_splatfrag_source[]=
 "#version 310 es\n"
+"precision highp float;\n"
+"precision highp int;\n"
 "uniform float maxDepth;\n"
 "in vec4 position;\n"
 "in vec4 normRad;\n"
@@ -63,7 +65,10 @@ static const char combo_splatfrag_source[]=
 static const std::tuple<std::string, std::string> combo_splatfrag_tuple = std::make_tuple("combo_splatfrag", combo_splatfrag_source);
 
 static const char copy_unstablegeom_source[]=
+"#extension GL_EXT_geometry_shader : require\n"
 "#version 310 es\n"
+"precision highp float;\n"
+"precision highp int;\n"
 "uniform vec4 cam; //cx, cy, fx, fy\n"
 "uniform float maxDepth;\n"
 "in vec4 position;\n"
@@ -104,6 +109,8 @@ static const std::tuple<std::string, std::string> copy_unstablegeom_tuple = std:
 
 static const char copy_unstablevert_source[]=
 "#version 310 es\n"
+"precision highp float;\n"
+"precision highp int;\n"
 "layout (location = 0) in vec4 vPos;\n"
 "layout (location = 1) in vec4 vCol;\n"
 "layout (location = 2) in vec4 vNormR;\n"
@@ -345,6 +352,8 @@ static const std::tuple<std::string, std::string> copy_unstablevert_tuple = std:
 
 static const char datafrag_source[]=
 "#version 310 es\n"
+"precision highp float;\n"
+"precision highp int;\n"
 "in vec4 vPosition0;\n"
 "in vec4 vColor0;\n"
 "in vec4 vNormRad0;\n"
@@ -365,7 +374,10 @@ static const char datafrag_source[]=
 static const std::tuple<std::string, std::string> datafrag_tuple = std::make_tuple("datafrag", datafrag_source);
 
 static const char datageom_source[]=
+"#extension GL_EXT_geometry_shader : require\n"
 "#version 310 es\n"
+"precision highp float;\n"
+"precision highp int;\n"
 "layout(points) in;\n"
 "layout(points, max_vertices = 1) out;\n"
 "in vec4 vPosition[];\n"
@@ -396,6 +408,8 @@ static const std::tuple<std::string, std::string> datageom_tuple = std::make_tup
 
 static const char datavert_source[]=
 "#version 310 es\n"
+"precision highp float;\n"
+"precision highp int;\n"
 "layout (location = 0) in vec2 texcoord;\n"
 "out vec4 vPosition;\n"
 "out vec4 vColor;\n"
@@ -603,6 +617,8 @@ static const std::tuple<std::string, std::string> datavert_tuple = std::make_tup
 
 static const char depth_bilateralfrag_source[]=
 "#version 310 es\n"
+"precision highp float;\n"
+"precision highp int;\n"
 "in vec2 texcoord;\n"
 "out uint FragColor;\n"
 "uniform usampler2D gSampler;\n"
@@ -655,6 +671,8 @@ static const std::tuple<std::string, std::string> depth_bilateralfrag_tuple = st
 
 static const char depth_metricfrag_source[]=
 "#version 310 es\n"
+"precision highp float;\n"
+"precision highp int;\n"
 "in vec2 texcoord;\n"
 "out float FragColor;\n"
 "uniform usampler2D gSampler;\n"
@@ -675,6 +693,8 @@ static const std::tuple<std::string, std::string> depth_metricfrag_tuple = std::
 
 static const char depth_normfrag_source[]=
 "#version 310 es\n"
+"precision highp float;\n"
+"precision highp int;\n"
 "in vec2 texcoord;\n"
 "out float FragColor;\n"
 "uniform usampler2D gSampler;\n"
@@ -692,6 +712,8 @@ static const std::tuple<std::string, std::string> depth_normfrag_tuple = std::ma
 
 static const char depth_splatfrag_source[]=
 "#version 310 es\n"
+"precision highp float;\n"
+"precision highp int;\n"
 "uniform vec4 cam; //cx, cy, fx, fy\n"
 "uniform float maxDepth;\n"
 "in vec4 position;\n"
@@ -715,6 +737,8 @@ static const std::tuple<std::string, std::string> depth_splatfrag_tuple = std::m
 
 static const char draw_feedbackfrag_source[]=
 "#version 310 es\n"
+"precision highp float;\n"
+"precision highp int;\n"
 "in vec4 vColor;\n"
 "out vec4 FragColor;\n"
 "void main()\n"
@@ -725,6 +749,8 @@ static const std::tuple<std::string, std::string> draw_feedbackfrag_tuple = std:
 
 static const char draw_feedbackvert_source[]=
 "#version 310 es\n"
+"precision highp float;\n"
+"precision highp int;\n"
 "layout (location = 0) in vec4 position;\n"
 "layout (location = 1) in vec4 color;\n"
 "layout (location = 2) in vec4 normal;\n"
@@ -771,6 +797,8 @@ static const std::tuple<std::string, std::string> draw_feedbackvert_tuple = std:
 
 static const char draw_global_surfacefrag_source[]=
 "#version 310 es\n"
+"precision highp float;\n"
+"precision highp int;\n"
 "in vec3 vColor0;\n"
 "in vec2 texcoord;\n"
 "out vec4 FragColor;\n"
@@ -783,7 +811,10 @@ static const char draw_global_surfacefrag_source[]=
 static const std::tuple<std::string, std::string> draw_global_surfacefrag_tuple = std::make_tuple("draw_global_surfacefrag", draw_global_surfacefrag_source);
 
 static const char draw_global_surfacegeom_source []=
+"#extension GL_EXT_geometry_shader : require\n"
 "#version 310 es\n"
+"precision highp float;\n"
+"precision highp int;\n"
 "layout(points) in;\n"
 "layout(triangle_strip, max_vertices = 4) out;\n"
 "uniform float threshold;\n"
@@ -868,6 +899,8 @@ static const std::tuple<std::string, std::string> draw_global_surfacegeom_tuple 
 
 static const char draw_global_surfacevert_source[] =
 "#version 310 es\n"
+"precision highp float;\n"
+"precision highp int;\n"
 "layout (location = 0) in vec4 position;\n"
 "layout (location = 1) in vec4 color;\n"
 "layout (location = 2) in vec4 normal;\n"
@@ -909,6 +942,8 @@ static const std::tuple<std::string, std::string> draw_global_surfacevert_tuple 
 
 static const char draw_global_surface_phongfrag_source[] =
 "#version 310 es\n"
+"precision highp float;\n"
+"precision highp int;\n"
 "in vec3 n;\n"
 "in vec3 v;\n"
 "in vec3 vColor0;\n"
@@ -944,11 +979,15 @@ static const std::tuple<std::string, std::string> draw_global_surface_phongfrag_
 
 static const char emptyvert_source[]=
 "#version 310 es\n"
+"precision highp float;\n"
+"precision highp int;\n"
 "void main() {}\n";
 static const std::tuple<std::string, std::string> emptyvert_tuple = std::make_tuple("emptyvert", emptyvert_source);
 
 static const char fill_normalfrag_source[]=
 "#version 310 es\n"
+"precision highp float;\n"
+"precision highp int;\n"
 "in vec2 texcoord;\n"
 "out vec4 FragColor;\n"
 "uniform sampler2D eSampler;\n"
@@ -1015,6 +1054,8 @@ static const std::tuple<std::string, std::string> fill_normalfrag_tuple = std::m
 
 static const char fill_rgbfrag_source[] =
 "#version 310 es\n"
+"precision highp float;\n"
+"precision highp int;\n"
 "in vec2 texcoord;\n"
 "out vec4 FragColor;\n"
 "uniform sampler2D eSampler;\n"
@@ -1022,9 +1063,9 @@ static const char fill_rgbfrag_source[] =
 "uniform int passthrough;\n"
 "void main()\n"
 "{\n"
-"    vec4 sample = texture2D(eSampler, texcoord.xy);\n"
+"    vec4 sample = texture(eSampler, texcoord.xy);\n"
 "    if(sample.x + sample.y + sample.z == 0 || passthrough == 1)\n"
-"        FragColor = texture2D(rSampler, texcoord.xy);\n"
+"        FragColor = texture(rSampler, texcoord.xy);\n"
 "    else\n"
 "        FragColor = sample;\n"
 "}\n";
@@ -1032,6 +1073,8 @@ static const std::tuple<std::string, std::string> fill_rgbfrag_tuple = std::make
 
 static const char fill_vertexfrag_source[] =
 "#version 310 es\n"
+"precision highp float;\n"
+"precision highp int;\n"
 "in vec2 texcoord;\n"
 "out vec4 FragColor;\n"
 "uniform sampler2D eSampler;\n"
@@ -1063,6 +1106,8 @@ static const std::tuple<std::string, std::string> fill_vertexfrag_tuple = std::m
 
 static const char fxaafrag_source[] =
 "#version 310 es\n"
+"precision highp float;\n"
+"precision highp int;\n"
 "#define FXAA_REDUCE_MIN   (1.0/ 128.0)\n"
 "#define FXAA_REDUCE_MUL   (1.0 / 8.0)\n"
 "#define FXAA_SPAN_MAX     8.0\n"
@@ -1083,15 +1128,15 @@ static const char fxaafrag_source[] =
 "    vec2 v_rgbW = texcoord + (vec2(0.0, -1.0) * inverseVP);\n"
 "    vec2 v_rgbS = texcoord + (vec2(0.0, 1.0) * inverseVP);\n"
 "    vec2 v_rgbM = texcoord;\n"
-"    vec3 rgbNW = texture2D(tex, v_rgbNW).xyz;\n"
-"    vec3 rgbNE = texture2D(tex, v_rgbNE).xyz;\n"
-"    vec3 rgbSW = texture2D(tex, v_rgbSW).xyz;\n"
-"    vec3 rgbSE = texture2D(tex, v_rgbSE).xyz;\n"
-"    vec3 rgbN = texture2D(tex, v_rgbN).xyz;\n"
-"    vec3 rgbE = texture2D(tex, v_rgbE).xyz;\n"
-"    vec3 rgbW = texture2D(tex, v_rgbW).xyz;\n"
-"    vec3 rgbS = texture2D(tex, v_rgbS).xyz;\n"
-"    vec3 rgbM  = texture2D(tex, v_rgbM).xyz;\n"
+"    vec3 rgbNW = texture(tex, v_rgbNW).xyz;\n"
+"    vec3 rgbNE = texture(tex, v_rgbNE).xyz;\n"
+"    vec3 rgbSW = texture(tex, v_rgbSW).xyz;\n"
+"    vec3 rgbSE = texture(tex, v_rgbSE).xyz;\n"
+"    vec3 rgbN = texture(tex, v_rgbN).xyz;\n"
+"    vec3 rgbE = texture(tex, v_rgbE).xyz;\n"
+"    vec3 rgbW = texture(tex, v_rgbW).xyz;\n"
+"    vec3 rgbS = texture(tex, v_rgbS).xyz;\n"
+"    vec3 rgbM  = texture(tex, v_rgbM).xyz;\n"
 "    vec3 luma = vec3(0.299, 0.587, 0.114);\n"
 "    float lumaNW = dot(rgbNW, luma);\n"
 "    float lumaNE = dot(rgbNE, luma);\n"
@@ -1106,8 +1151,8 @@ static const char fxaafrag_source[] =
 "    float dirReduce = max((lumaNW + lumaNE + lumaSW + lumaSE) * (0.25 * FXAA_REDUCE_MUL), FXAA_REDUCE_MIN);\n"
 "    float rcpDirMin = 1.0 / (min(abs(dir.x), abs(dir.y)) + dirReduce);\n"
 "    dir = min(vec2(FXAA_SPAN_MAX, FXAA_SPAN_MAX), max(vec2(-FXAA_SPAN_MAX, -FXAA_SPAN_MAX), dir * rcpDirMin)) * inverseVP;\n"
-"    vec3 rgbA = 0.5 * (texture2D(tex, texcoord + dir * (1.0 / 3.0 - 0.5)).xyz + texture2D(tex, texcoord + dir * (2.0 / 3.0 - 0.5)).xyz);\n"
-"    vec3 rgbB = rgbA * 0.5 + 0.25 * (texture2D(tex, texcoord + dir * -0.5).xyz + texture2D(tex, texcoord + dir * 0.5).xyz);\n"
+"    vec3 rgbA = 0.5 * (texture(tex, texcoord + dir * (1.0 / 3.0 - 0.5)).xyz + texture(tex, texcoord + dir * (2.0 / 3.0 - 0.5)).xyz);\n"
+"    vec3 rgbB = rgbA * 0.5 + 0.25 * (texture(tex, texcoord + dir * -0.5).xyz + texture(tex, texcoord + dir * 0.5).xyz);\n"
 "    float lumaB = dot(rgbB, luma);\n"
 "    if ((lumaB < lumaMin) || (lumaB > lumaMax))\n"
 "        FragColor = vec4(rgbA, 1);\n"
@@ -1118,6 +1163,8 @@ static const std::tuple<std::string, std::string> fxaafrag_tuple = std::make_tup
 
 static const char index_mapfrag_source[] =
 "#version 310 es\n"
+"precision highp float;\n"
+"precision highp int;\n"
 "in vec4 vPosition0;\n"
 "in vec4 vColorTime0;\n"
 "in vec4 vNormRad0;\n"
@@ -1137,6 +1184,8 @@ static const std::tuple<std::string, std::string> index_mapfrag_tuple = std::mak
 
 static const char index_mapvert_source[] =
 "#version 310 es\n"
+"precision highp float;\n"
+"precision highp int;\n"
 "layout (location = 0) in vec4 vPosition;\n"
 "layout (location = 1) in vec4 vColorTime;\n"
 "layout (location = 2) in vec4 vNormRad;\n"
@@ -1177,6 +1226,8 @@ static const std::tuple<std::string, std::string> index_mapvert_tuple = std::mak
 
 static const char init_unstablevert_source[] =
 "#version 310 es\n"
+"precision highp float;\n"
+"precision highp int;\n"
 "layout (location = 0) in vec4 vPosition;\n"
 "layout (location = 1) in vec4 vColor;\n"
 "layout (location = 2) in vec4 vNormRad;\n"
@@ -1194,7 +1245,10 @@ static const char init_unstablevert_source[] =
 static const std::tuple<std::string, std::string> init_unstablevert_tuple = std::make_tuple("init_unstablevert", init_unstablevert_source);
 
 static const char quadgeom_source[] =
+"#extension GL_EXT_geometry_shader : require\n"
 "#version 310 es\n"
+"precision highp float;\n"
+"precision highp int;\n"
 "layout(points) in;\n"
 "layout(triangle_strip, max_vertices = 4) out;\n"
 "out vec2 texcoord;\n"
@@ -1218,17 +1272,22 @@ static const std::tuple<std::string, std::string> quadgeom_tuple = std::make_tup
 
 static const char resizefrag_source[] =
 "#version 310 es\n"
+"precision highp float;\n"
+"precision highp int;\n"
 "in vec2 texcoord;\n"
 "out vec4 FragColor;\n"
 "uniform sampler2D eSampler;\n"
 "void main()\n"
 "{\n"
-"    FragColor = texture2D(eSampler, texcoord.xy);\n"
+"    FragColor = texture(eSampler, texcoord.xy);\n"
 "}\n";
 static const std::tuple<std::string, std::string> resizefrag_tuple = std::make_tuple("resizefrag", resizefrag_source);
 
 static const char samplegeom_source[] =
+"#extension GL_EXT_geometry_shader : require\n"
 "#version 310 es\n"
+"precision highp float;\n"
+"precision highp int;\n"
 "layout(points) in;\n"
 "layout(points, max_vertices = 1) out;\n"
 "in vec4 vPosition0[];\n"
@@ -1250,6 +1309,8 @@ static const std::tuple<std::string, std::string> samplegeom_tuple = std::make_t
 
 static const char samplevert_source[] =
 "#version 310 es\n"
+"precision highp float;\n"
+"precision highp int;\n"
 "layout (location = 0) in vec4 vPosition;\n"
 "layout (location = 1) in vec4 vColorTime;\n"
 "layout (location = 2) in vec4 vNormRad;\n"
@@ -1268,6 +1329,8 @@ static const std::tuple<std::string, std::string> samplevert_tuple = std::make_t
 
 static const char splatvert_source[] =
 "#version 310 es\n"
+"precision highp float;\n"
+"precision highp int;\n"
 "layout (location = 0) in vec4 vPosition;\n"
 "layout (location = 1) in vec4 vColor;\n"
 "layout (location = 2) in vec4 vNormRad;\n"
@@ -1326,6 +1389,8 @@ static const std::tuple<std::string, std::string> splatvert_tuple = std::make_tu
 
 static const char updatevert_source[] =
 "#version 310 es\n"
+"precision highp float;\n"
+"precision highp int;\n"
 "layout (location = 0) in vec4 vPosition;\n"
 "layout (location = 1) in vec4 vColor;\n"
 "layout (location = 2) in vec4 vNormRad;\n"
@@ -1395,7 +1460,10 @@ static const char updatevert_source[] =
 static const std::tuple<std::string, std::string> updatevert_tuple = std::make_tuple("updatevert", updatevert_source);
 
 static const char vertex_feedbackgeom_source[] =
+"#extension GL_EXT_geometry_shader : require\n"
 "#version 310 es\n"
+"precision highp float;\n"
+"precision highp int;\n"
 "layout(points) in;\n"
 "layout(points, max_vertices = 1) out;\n"
 "in vec4 vPosition[];\n"
@@ -1420,6 +1488,8 @@ static const std::tuple<std::string, std::string> vertex_feedbackgeom_tuple = st
 
 static const char vertex_feedbackvert_source[] =
 "#version 310 es\n"
+"precision highp float;\n"
+"precision highp int;\n"
 "layout (location = 0) in vec2 texcoord;\n"
 "out vec4 vPosition;\n"
 "out vec4 vColor;\n"
@@ -1529,13 +1599,15 @@ static const std::tuple<std::string, std::string> vertex_feedbackvert_tuple = st
 
 static const char visualise_texturesfrag_source[] =
 "#version 310 es\n"
+"precision highp float;\n"
+"precision highp int;\n"
 "uniform sampler2D texVerts;\n"
 "uniform float maxDepth;\n"
 "in vec2 texcoord;\n"
 "out vec4 FragColor;\n"
 "void main()\n"
 "{\n"
-"    vec4 vertex = texture2D(texVerts, texcoord);\n"
+"    vec4 vertex = texture(texVerts, texcoord);\n"
 "    if(vertex.z > maxDepth || vertex.z <= 0)\n"
 "    {\n"
 "        discard;\n"
