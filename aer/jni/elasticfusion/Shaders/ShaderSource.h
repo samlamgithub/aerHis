@@ -60,7 +60,7 @@ static const char combo_splatfrag_source[]=
 "    time = uint(colTime.z);\n"
 "    gl_FragDepth = (corrected_pos.z / (2 * maxDepth)) + 0.5f;\n"
 "}\n";
-std::tuple<std::string, std::string> combo_splatfrag_tuple = std::make_tuple("combo_splatfrag", combo_splatfrag_source);
+static const std::tuple<std::string, std::string> combo_splatfrag_tuple = std::make_tuple("combo_splatfrag", combo_splatfrag_source);
 
 static const char copy_unstablegeom_source[]=
 "#version 310 es\n"
@@ -100,7 +100,7 @@ static const char copy_unstablegeom_source[]=
 "    normal = normRad;\n"
 "    time = uint(colTime.z);\n"
 "    gl_FragDepth = (corrected_pos.z / (2 * maxDepth)) + 0.5f;}\n";
-std::tuple<std::string, std::string> copy_unstablegeom_tuple = std::make_tuple("copy_unstablegeom", copy_unstablegeom_source);
+static const std::tuple<std::string, std::string> copy_unstablegeom_tuple = std::make_tuple("copy_unstablegeom", copy_unstablegeom_source);
 
 static const char copy_unstablevert_source[]=
 "#version 310 es\n"
@@ -341,7 +341,7 @@ static const char copy_unstablevert_source[]=
 "        }\n"
 "    }\n"
 "}\n";
-std::tuple<std::string, std::string> copy_unstablevert_tuple = std::make_tuple("copy_unstablevert", copy_unstablevert_source);
+static const std::tuple<std::string, std::string> copy_unstablevert_tuple = std::make_tuple("copy_unstablevert", copy_unstablevert_source);
 
 static const char datafrag_source[]=
 "#version 310 es\n"
@@ -362,7 +362,7 @@ static const char datafrag_source[]=
 "        vNormRad1 = vNormRad0;\n"
 "    }\n"
 "}\n";
-std::tuple<std::string, std::string> datafrag_tuple = std::make_tuple("datafrag", datafrag_source);
+static const std::tuple<std::string, std::string> datafrag_tuple = std::make_tuple("datafrag", datafrag_source);
 
 static const char datageom_source[]=
 "#version 310 es\n"
@@ -392,7 +392,7 @@ static const char datageom_source[]=
 "        EndPrimitive(); \n"
 "    }\n"
 "}\n";
-std::tuple<std::string, std::string> datageom_tuple = std::make_tuple("datageom", datageom_source);
+static const std::tuple<std::string, std::string> datageom_tuple = std::make_tuple("datageom", datageom_source);
 
 static const char datavert_source[]=
 "#version 310 es\n"
@@ -599,7 +599,7 @@ static const char datavert_source[]=
 "        gl_Position = vec4(-10, -10, 0, 1);\n"
 "    }\n"
 "}\n";
-std::tuple<std::string, std::string> datavert_tuple = std::make_tuple("datavert", datavert_source);
+static const std::tuple<std::string, std::string> datavert_tuple = std::make_tuple("datavert", datavert_source);
 
 static const char depth_bilateralfrag_source[]=
 "#version 310 es\n"
@@ -651,7 +651,7 @@ static const char depth_bilateralfrag_source[]=
 "      FragColor = 0U;\n"
 "    }\n"
 "}\n";
-std::tuple<std::string, std::string> depth_bilateralfrag_tuple = std::make_tuple("depth_bilateralfrag", depth_bilateralfrag_source);
+static const std::tuple<std::string, std::string> depth_bilateralfrag_tuple = std::make_tuple("depth_bilateralfrag", depth_bilateralfrag_source);
 
 static const char depth_metricfrag_source[]=
 "#version 310 es\n"
@@ -671,7 +671,7 @@ static const char depth_metricfrag_source[]=
 "      FragColor = float(value) / 1000.0f;\n"
 "    }\n"
 "}\n";
-std::tuple<std::string, std::string> depth_metricfrag_tuple = std::make_tuple("depth_metricfrag", depth_metricfrag_source);
+static const std::tuple<std::string, std::string> depth_metricfrag_tuple = std::make_tuple("depth_metricfrag", depth_metricfrag_source);
 
 static const char depth_normfrag_source[]=
 "#version 310 es\n"
@@ -688,7 +688,7 @@ static const char depth_normfrag_source[]=
 "    else \n"
 "        FragColor = 0;\n"
 "}\n";
-std::tuple<std::string, std::string> depth_normfrag_tuple = std::make_tuple("depth_normfrag", depth_normfrag_source);
+static const std::tuple<std::string, std::string> depth_normfrag_tuple = std::make_tuple("depth_normfrag", depth_normfrag_source);
 
 static const char depth_splatfrag_source[]=
 "#version 310 es\n"
@@ -711,7 +711,7 @@ static const char depth_splatfrag_source[]=
 "    FragColor = corrected_pos.z;\n"
 "    gl_FragDepth = (corrected_pos.z / (2 * maxDepth)) + 0.5f;\n"
 "}\n";
-std::tuple<std::string, std::string> depth_splatfrag_tuple = std::make_tuple("depth_splatfrag", depth_splatfrag_source);
+static const std::tuple<std::string, std::string> depth_splatfrag_tuple = std::make_tuple("depth_splatfrag", depth_splatfrag_source);
 
 static const char draw_feedbackfrag_source[]=
 "#version 310 es\n"
@@ -721,7 +721,7 @@ static const char draw_feedbackfrag_source[]=
 "{\n"
 "    FragColor = vColor;\n"
 "}\n";
-std::tuple<std::string, std::string> draw_feedbackfrag_tuple = std::make_tuple("draw_feedbackfrag", draw_feedbackfrag_source);
+static const std::tuple<std::string, std::string> draw_feedbackfrag_tuple = std::make_tuple("draw_feedbackfrag", draw_feedbackfrag_source);
 
 static const char draw_feedbackvert_source[]=
 "#version 310 es\n"
@@ -767,7 +767,7 @@ static const char draw_feedbackvert_source[]=
 "        gl_Position = vec4(-10, -10, 0, 1);\n"
 "    }\n"
 "}\n";
-std::tuple<std::string, std::string> draw_feedbackvert_tuple = std::make_tuple("draw_feedbackvert", draw_feedbackvert_source);
+static const std::tuple<std::string, std::string> draw_feedbackvert_tuple = std::make_tuple("draw_feedbackvert", draw_feedbackvert_source);
 
 static const char draw_global_surfacefrag_source[]=
 "#version 310 es\n"
@@ -780,7 +780,7 @@ static const char draw_global_surfacefrag_source[]=
 "        discard;\n"
 "    FragColor = vec4(vColor0, 1.0f);\n"
 "}\n";
-std::tuple<std::string, std::string> draw_global_surfacefrag_tuple = std::make_tuple("draw_global_surfacefrag", draw_global_surfacefrag_source);
+static const std::tuple<std::string, std::string> draw_global_surfacefrag_tuple = std::make_tuple("draw_global_surfacefrag", draw_global_surfacefrag_source);
 
 static const char draw_global_surfacegeom_source []=
 "#version 310 es\n"
@@ -864,7 +864,7 @@ static const char draw_global_surfacegeom_source []=
 "        EndPrimitive();\n"
 "    }\n"
 "}\n";
-std::tuple<std::string, std::string> draw_global_surfacegeom_tuple = std::make_tuple("draw_global_surfacegeom", draw_global_surfacegeom_source);
+static const std::tuple<std::string, std::string> draw_global_surfacegeom_tuple = std::make_tuple("draw_global_surfacegeom", draw_global_surfacegeom_source);
 
 static const char draw_global_surfacevert_source[] =
 "#version 310 es\n"
@@ -905,7 +905,7 @@ static const char draw_global_surfacevert_source[] =
 "        colorType0 = -1;\n"
 "    }\n"
 "}\n";
-std::tuple<std::string, std::string> draw_global_surfacevert_tuple = std::make_tuple("draw_global_surfacevert", draw_global_surfacevert_source);
+static const std::tuple<std::string, std::string> draw_global_surfacevert_tuple = std::make_tuple("draw_global_surfacevert", draw_global_surfacevert_source);
 
 static const char draw_global_surface_phongfrag_source[] =
 "#version 310 es\n"
@@ -940,12 +940,12 @@ static const char draw_global_surface_phongfrag_source[] =
 "        specular = ks * pow(RdotV, 32);\n"
 "    FragColor = ambient + diffuse + specular;\n"
 "}\n";
-std::tuple<std::string, std::string> draw_global_surface_phongfrag_tuple = std::make_tuple("draw_global_surface_phongfrag", draw_global_surface_phongfrag_source);
+static const std::tuple<std::string, std::string> draw_global_surface_phongfrag_tuple = std::make_tuple("draw_global_surface_phongfrag", draw_global_surface_phongfrag_source);
 
 static const char emptyvert_source[]=
 "#version 310 es\n"
 "void main() {}\n";
-std::tuple<std::string, std::string> emptyvert_tuple = std::make_tuple("emptyvert", emptyvert_source);
+static const std::tuple<std::string, std::string> emptyvert_tuple = std::make_tuple("emptyvert", emptyvert_source);
 
 static const char fill_normalfrag_source[]=
 "#version 310 es\n"
@@ -1011,7 +1011,7 @@ static const char fill_normalfrag_source[]=
 "        FragColor = sample;\n"
 "    }\n"
 "}\n";
-std::tuple<std::string, std::string> fill_normalfrag_tuple = std::make_tuple("fill_normalfrag", fill_normalfrag_source);
+static const std::tuple<std::string, std::string> fill_normalfrag_tuple = std::make_tuple("fill_normalfrag", fill_normalfrag_source);
 
 static const char fill_rgbfrag_source[] =
 "#version 310 es\n"
@@ -1028,7 +1028,7 @@ static const char fill_rgbfrag_source[] =
 "    else\n"
 "        FragColor = sample;\n"
 "}\n";
-std::tuple<std::string, std::string> fill_rgbfrag_tuple = std::make_tuple("fill_rgbfrag", fill_rgbfrag_source);
+static const std::tuple<std::string, std::string> fill_rgbfrag_tuple = std::make_tuple("fill_rgbfrag", fill_rgbfrag_source);
 
 static const char fill_vertexfrag_source[] =
 "#version 310 es\n"
@@ -1059,7 +1059,7 @@ static const char fill_vertexfrag_source[] =
 "        FragColor = sample;\n"
 "    }\n"
 "}\n";
-std::tuple<std::string, std::string> fill_vertexfrag_tuple = std::make_tuple("fill_vertexfrag", fill_vertexfrag_source);
+static const std::tuple<std::string, std::string> fill_vertexfrag_tuple = std::make_tuple("fill_vertexfrag", fill_vertexfrag_source);
 
 static const char fxaafrag_source[] =
 "#version 310 es\n"
@@ -1114,7 +1114,7 @@ static const char fxaafrag_source[] =
 "    else\n"
 "        FragColor = vec4(rgbB, 1);\n"
 "}\n";
-std::tuple<std::string, std::string> fxaafrag_tuple = std::make_tuple("fxaafrag", fxaafrag_source);
+static const std::tuple<std::string, std::string> fxaafrag_tuple = std::make_tuple("fxaafrag", fxaafrag_source);
 
 static const char index_mapfrag_source[] =
 "#version 310 es\n"
@@ -1133,7 +1133,7 @@ static const char index_mapfrag_source[] =
 "    vNormRad1 = vNormRad0; \n"
 "    FragColor = vertexId;\n"
 "}\n";
-std::tuple<std::string, std::string> index_mapfrag_tuple = std::make_tuple("index_mapfrag", index_mapfrag_source);
+static const std::tuple<std::string, std::string> index_mapfrag_tuple = std::make_tuple("index_mapfrag", index_mapfrag_source);
 
 static const char index_mapvert_source[] =
 "#version 310 es\n"
@@ -1173,7 +1173,7 @@ static const char index_mapvert_source[] =
 "    vColorTime0 = vColorTime;\n"
 "    vNormRad0 = vec4(normalize(mat3(t_inv) * vNormRad.xyz), vNormRad.w);\n"
 "}\n";
-std::tuple<std::string, std::string> index_mapvert_tuple = std::make_tuple("index_mapvert", index_mapvert_source);
+static const std::tuple<std::string, std::string> index_mapvert_tuple = std::make_tuple("index_mapvert", index_mapvert_source);
 
 static const char init_unstablevert_source[] =
 "#version 310 es\n"
@@ -1191,7 +1191,7 @@ static const char init_unstablevert_source[] =
 "    vColor0.z = 1; //This sets the vertex's initialisation time\n"
 "    vNormRad0 = vNormRad;\n"
 "}\n";
-std::tuple<std::string, std::string> init_unstablevert_tuple = std::make_tuple("init_unstablevert", init_unstablevert_source);
+static const std::tuple<std::string, std::string> init_unstablevert_tuple = std::make_tuple("init_unstablevert", init_unstablevert_source);
 
 static const char quadgeom_source[] =
 "#version 310 es\n"
@@ -1214,7 +1214,7 @@ static const char quadgeom_source[] =
 "    EmitVertex();\n"
 "    EndPrimitive(); \n"
 "}\n";
-std::tuple<std::string, std::string> quadgeom_tuple = std::make_tuple("quadgeom", quadgeom_source);
+static const std::tuple<std::string, std::string> quadgeom_tuple = std::make_tuple("quadgeom", quadgeom_source);
 
 static const char resizefrag_source[] =
 "#version 310 es\n"
@@ -1225,7 +1225,7 @@ static const char resizefrag_source[] =
 "{\n"
 "    FragColor = texture2D(eSampler, texcoord.xy);\n"
 "}\n";
-std::tuple<std::string, std::string> resizefrag_tuple = std::make_tuple("resizefrag", resizefrag_source);
+static const std::tuple<std::string, std::string> resizefrag_tuple = std::make_tuple("resizefrag", resizefrag_source);
 
 static const char samplegeom_source[] =
 "#version 310 es\n"
@@ -1246,7 +1246,7 @@ static const char samplegeom_source[] =
 "        EndPrimitive(); \n"
 "    }\n"
 "}\n";
-std::tuple<std::string, std::string> samplegeom_tuple = std::make_tuple("samplegeom", samplegeom_source);
+static const std::tuple<std::string, std::string> samplegeom_tuple = std::make_tuple("samplegeom", samplegeom_source);
 
 static const char samplevert_source[] =
 "#version 310 es\n"
@@ -1264,7 +1264,7 @@ static const char samplevert_source[] =
 "    vNormRad0 = vNormRad;\n"
 "    id = gl_VertexID;    \n"
 "}\n";
-std::tuple<std::string, std::string> samplevert_tuple = std::make_tuple("samplevert", samplevert_source);
+static const std::tuple<std::string, std::string> samplevert_tuple = std::make_tuple("samplevert", samplevert_source);
 
 static const char splatvert_source[] =
 "#version 310 es\n"
@@ -1322,7 +1322,7 @@ static const char splatvert_source[] =
 "        gl_PointSize = max(0, max(xDiff, yDiff));\n"
 "    }\n"
 "}\n";
-std::tuple<std::string, std::string> splatvert_tuple = std::make_tuple("splatvert", splatvert_source);
+static const std::tuple<std::string, std::string> splatvert_tuple = std::make_tuple("splatvert", splatvert_source);
 
 static const char updatevert_source[] =
 "#version 310 es\n"
@@ -1392,7 +1392,7 @@ static const char updatevert_source[] =
 "        vNormRad0 = vNormRad;\n"
 "    }\n"
 "}\n";
-std::tuple<std::string, std::string> updatevert_tuple = std::make_tuple("updatevert", updatevert_source);
+static const std::tuple<std::string, std::string> updatevert_tuple = std::make_tuple("updatevert", updatevert_source);
 
 static const char vertex_feedbackgeom_source[] =
 "#version 310 es\n"
@@ -1416,7 +1416,7 @@ static const char vertex_feedbackgeom_source[] =
 "        EndPrimitive(); \n"
 "    }\n"
 "}\n";
-std::tuple<std::string, std::string> vertex_feedbackgeom_tuple = std::make_tuple("vertex_feedbackgeom", vertex_feedbackgeom_source);
+static const std::tuple<std::string, std::string> vertex_feedbackgeom_tuple = std::make_tuple("vertex_feedbackgeom", vertex_feedbackgeom_source);
 
 static const char vertex_feedbackvert_source[] =
 "#version 310 es\n"
@@ -1525,7 +1525,7 @@ static const char vertex_feedbackvert_source[] =
 "    //Timestamp\n"
 "    vColor.w = float(time);\n"
 "}\n";
-std::tuple<std::string, std::string> vertex_feedbackvert_tuple = std::make_tuple("vertex_feedbackvert", vertex_feedbackvert_source);
+static const std::tuple<std::string, std::string> vertex_feedbackvert_tuple = std::make_tuple("vertex_feedbackvert", vertex_feedbackvert_source);
 
 static const char visualise_texturesfrag_source[] =
 "#version 310 es\n"
@@ -1545,7 +1545,7 @@ static const char visualise_texturesfrag_source[] =
 "        FragColor = 1.0f - vec4(vertex.z / maxDepth);\n"
 "    }\n"
 "}\n";
-std::tuple<std::string, std::string> visualise_texturesfrag_tuple = std::make_tuple("visualise_texturesfrag", visualise_texturesfrag_source);
+static const std::tuple<std::string, std::string> visualise_texturesfrag_tuple = std::make_tuple("visualise_texturesfrag", visualise_texturesfrag_source);
 
 
 #endif /* SHADERS_SHADERSSOURCE_H_ */
