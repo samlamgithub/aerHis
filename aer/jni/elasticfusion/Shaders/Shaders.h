@@ -177,8 +177,8 @@ LOGI("MY elasitcfusion Shader Unbind");
 };
 
 static inline std::shared_ptr<Shader> loadProgramGeom(std::tuple<std::string, std::string> vertex_shader_file, std::tuple<std::string, std::string> geometry_shader_file) {
-    const char * v = std::get<0>(vertex_shader_file)).c_str();
-    const char * g = std::get<0>(geometry_shader_file)).c_str();
+    const char * v = std::get<0>(vertex_shader_file).c_str();
+    const char * g = std::get<0>(geometry_shader_file).c_str();
   	const char * vertex_shader_source = std::get<1>(vertex_shader_file).c_str();
     const char * geometry_shader_source = std::get<1>(geometry_shader_file).c_str();
     LOGI("MY elasitcfusion Shader loadProgramGeom: v, g: %s, %s", v, g);
@@ -195,7 +195,7 @@ LOGI("MY elasitcfusion Shader loadProgramGeom GL_GEOMETRY_SHADER done  %s", g);
 }
 
 static inline std::shared_ptr<Shader> loadProgram(std::tuple<std::string, std::string> vertex_shader_file) {
-  const char * v = std::get<0>(vertex_shader_file)).c_str();
+  const char * v = std::get<0>(vertex_shader_file).c_str();
   const char * vertex_shader_source = std::get<1>(vertex_shader_file).c_str();
   LOGI("MY elasitcfusion Shader loadProgram: v: %s", v);
     std::shared_ptr<Shader> program = std::make_shared<Shader>();
@@ -208,8 +208,8 @@ LOGI("MY elasitcfusion Shader loadProgram GL_VERTEX_SHADER done  %s", v);
 }
 
 static inline std::shared_ptr<Shader> loadProgram(std::tuple<std::string, std::string> vertex_shader_file, std::tuple<std::string, std::string> fragment_shader_file) {
-  const char * v = std::get<0>(vertex_shader_file)).c_str();
-  const char * f = std::get<0>(fragment_shader_file)).c_str();
+  const char * v = std::get<0>(vertex_shader_file).c_str();
+  const char * f = std::get<0>(fragment_shader_file).c_str();
   const char * vertex_shader_source = std::get<1>(vertex_shader_file).c_str();
   const char * fragment_shader_source = std::get<1>(fragment_shader_file).c_str();
   LOGI("MY elasitcfusion Shader loadProgram 1: v, f: %s, %s", v, f);
@@ -226,9 +226,9 @@ LOGI("MY elasitcfusion Shader loadProgramGeom GL_VERTEX_SHADER start  %s", v);
 }
 
 static inline std::shared_ptr<Shader> loadProgram(std::tuple<std::string, std::string> vertex_shader_file, std::tuple<std::string, std::string> fragment_shader_file, std::tuple<std::string, std::string> geometry_shader_file) {
-  const char * v = std::get<0>(vertex_shader_file)).c_str();
-  const char * g = std::get<0>(geometry_shader_file)).c_str();
-  const char * f = std::get<0>(fragment_shader_file)).c_str();
+  const char * v = std::get<0>(vertex_shader_file).c_str();
+  const char * g = std::get<0>(geometry_shader_file).c_str();
+  const char * f = std::get<0>(fragment_shader_file).c_str();
   const char * vertex_shader_source = std::get<1>(vertex_shader_file).c_str();
   const char * fragment_shader_source = std::get<1>(fragment_shader_file).c_str();
 const char * geometry_shader_source = std::get<1>(geometry_shader_file).c_str();
