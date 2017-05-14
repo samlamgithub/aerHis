@@ -216,16 +216,16 @@ LOGI("MY elasitcfusion struct createTextures 2 ");
 void ElasticFusion::createCompute()
 {
 LOGI("MY elasitcfusion struct createCompute 1 ");
-    computePacks[ComputePack::NORM] = new ComputePack(loadProgram(emptyvert, depth_normfrag, quadgeom),
+    computePacks[ComputePack::NORM] = new ComputePack(loadProgram(emptyvert_tuple, depth_normfrag_tuple, quadgeom_tuple),
                                                       textures[GPUTexture::DEPTH_NORM]->texture);
 
-    computePacks[ComputePack::FILTER] = new ComputePack(loadProgram(emptyvert, depth_bilateralfrag, quadgeom),
+    computePacks[ComputePack::FILTER] = new ComputePack(loadProgram(emptyvert_tuple, depth_bilateralfrag_tuple, quadgeom_tuple),
                                                         textures[GPUTexture::DEPTH_FILTERED]->texture);
 
-    computePacks[ComputePack::METRIC] = new ComputePack(loadProgram(emptyvert, depth_metricfrag, quadgeom),
+    computePacks[ComputePack::METRIC] = new ComputePack(loadProgram(emptyvert_tuple, depth_metricfrag_tuple, quadgeom_tuple),
                                                         textures[GPUTexture::DEPTH_METRIC]->texture);
 
-    computePacks[ComputePack::METRIC_FILTERED] = new ComputePack(loadProgram(emptyvert, depth_metricfrag, quadgeom),
+    computePacks[ComputePack::METRIC_FILTERED] = new ComputePack(loadProgram(emptyvert_tuple, depth_metricfrag_tuple, quadgeom_tuple),
                                                                  textures[GPUTexture::DEPTH_METRIC_FILTERED]->texture);
 LOGI("MY elasitcfusion struct createCompute 2");
 }
@@ -233,8 +233,8 @@ LOGI("MY elasitcfusion struct createCompute 2");
 void ElasticFusion::createFeedbackBuffers()
 {
 LOGI("MY elasitcfusion struct createFeedbackBuffers 1 ");
-    feedbackBuffers[FeedbackBuffer::RAW] = new FeedbackBuffer(loadProgramGeom(vertex_feedbackvert, vertex_feedbackgeom));
-    feedbackBuffers[FeedbackBuffer::FILTERED] = new FeedbackBuffer(loadProgramGeom(vertex_feedbackvert, vertex_feedbackgeom));
+    feedbackBuffers[FeedbackBuffer::RAW] = new FeedbackBuffer(loadProgramGeom(vertex_feedbackvert_tuple, vertex_feedbackgeom_tuple));
+    feedbackBuffers[FeedbackBuffer::FILTERED] = new FeedbackBuffer(loadProgramGeom(vertex_feedbackvert_tuple, vertex_feedbackgeom_tuple));
 LOGI("MY elasitcfusion struct createFeedbackBuffers 2  ");
 }
 

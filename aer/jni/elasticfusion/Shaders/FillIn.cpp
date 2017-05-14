@@ -40,11 +40,11 @@ FillIn::FillIn()
                  GL_FLOAT,
                  false,
                  true),
-   imageProgram(loadProgram(emptyvert, fill_rgbfrag, quadgeom)),
+   imageProgram(loadProgram(emptyvert_tuple, fill_rgbfrag_tuple, quadgeom_tuple)),
    imageRenderBuffer(Resolution::getInstance().width(), Resolution::getInstance().height()),
-   vertexProgram(loadProgram(emptyvert, fill_vertexfrag, quadgeom)),
+   vertexProgram(loadProgram(emptyvert_tuple, fill_vertexfrag_tuple, quadgeom_tuple)),
    vertexRenderBuffer(Resolution::getInstance().width(), Resolution::getInstance().height()),
-   normalProgram(loadProgram(emptyvert, fill_normalfrag, quadgeom)),
+   normalProgram(loadProgram(emptyvert_tuple, fill_normalfrag_tuple, quadgeom_tuple)),
    normalRenderBuffer(Resolution::getInstance().width(), Resolution::getInstance().height())
 {
     LOGI("MY elasitcfusion FillIn struct init 1 ");

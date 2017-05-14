@@ -22,7 +22,7 @@ Deformation::Deformation()
  : def(4, &pointPool),
    originalPointPool(0),
    firstGraphNode(0),
-   sampleProgram(loadProgramGeom(samplevert, samplegeom)),
+   sampleProgram(loadProgramGeom(samplevert_tuple, samplegeom_tuple)),
    bufferSize(1024), //max nodes basically
    count(0),
    vertices(new Eigen::Vector4f[bufferSize]),

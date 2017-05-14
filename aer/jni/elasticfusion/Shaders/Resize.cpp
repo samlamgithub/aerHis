@@ -45,11 +45,11 @@ Resize::Resize(int srcWidth,
               GL_UNSIGNED_SHORT,
               false,
               true),
-  imageProgram(loadProgram(emptyvert, resizefrag, quadgeom)),
+  imageProgram(loadProgram(emptyvert_tuple, resizefrag_tuple, quadgeom_tuple)),
   imageRenderBuffer(destWidth, destHeight),
-  vertexProgram(loadProgram(emptyvert, resizefrag, quadgeom)),
+  vertexProgram(loadProgram(emptyvert_tuple, resizefrag_tuple, quadgeom_tuple)),
   vertexRenderBuffer(destWidth, destHeight),
-  timeProgram(loadProgram(emptyvert, resizefrag, quadgeom)),
+  timeProgram(loadProgram(emptyvert_tuple, resizefrag_tuple, quadgeom_tuple)),
   timeRenderBuffer(destWidth, destHeight)
 {
 LOGI("MY elasitcfusion resize struct init 1 ");

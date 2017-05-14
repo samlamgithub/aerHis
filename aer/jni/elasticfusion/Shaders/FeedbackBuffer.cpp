@@ -23,7 +23,7 @@ const std::string FeedbackBuffer::FILTERED = "FILTERED";
 
 FeedbackBuffer::FeedbackBuffer(std::shared_ptr<Shader> program)
  : program(program),
-   drawProgram(loadProgram(draw_feedbackvert, draw_feedbackfrag)),
+   drawProgram(loadProgram(draw_feedbackvert_tuple, draw_feedbackfrag_tuple)),
    bufferSize(Resolution::getInstance().numPixels() * Vertex::SIZE),
    count(0)
 {

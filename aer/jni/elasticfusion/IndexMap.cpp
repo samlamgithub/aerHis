@@ -21,7 +21,7 @@
 const int IndexMap::FACTOR = 1;
 
 IndexMap::IndexMap()
-: indexProgram(loadProgram(index_mapvert, index_mapfrag)),
+: indexProgram(loadProgram(index_mapvert_tuple, index_mapfrag_tuple)),
   indexRenderBuffer(Resolution::getInstance().width() * IndexMap::FACTOR, Resolution::getInstance().height() * IndexMap::FACTOR),
   indexTexture(Resolution::getInstance().width() * IndexMap::FACTOR,
                Resolution::getInstance().height() * IndexMap::FACTOR,
@@ -39,7 +39,7 @@ IndexMap::IndexMap()
   normalRadTexture(Resolution::getInstance().width() * IndexMap::FACTOR,
                    Resolution::getInstance().height() * IndexMap::FACTOR,
                    GL_RGBA32F, GL_LUMINANCE, GL_FLOAT),
-  drawDepthProgram(loadProgram(emptyvert, visualise_texturesfrag, quadgeom)),
+  drawDepthProgram(loadProgram(emptyvert_tuple, visualise_texturesfrag_tuple, quadgeom_tuple)),
   drawRenderBuffer(Resolution::getInstance().width(), Resolution::getInstance().height()),
   drawTexture(Resolution::getInstance().width(),
               Resolution::getInstance().height(),
@@ -47,7 +47,7 @@ IndexMap::IndexMap()
               GL_RGB,
               GL_UNSIGNED_BYTE,
               false),
-  depthProgram(loadProgram(splatvert, depth_splatfrag)),
+  depthProgram(loadProgram(splatvert_tuple, depth_splatfrag_tuple)),
   depthRenderBuffer(Resolution::getInstance().width(), Resolution::getInstance().height()),
   depthTexture(Resolution::getInstance().width(),
                Resolution::getInstance().height(),
@@ -57,7 +57,7 @@ IndexMap::IndexMap()
                GL_FLOAT,
                false,
                true),
-  combinedProgram(loadProgram(splatvert, combo_splatfrag)),
+  combinedProgram(loadProgram(splatvert_tuple, combo_splatfrag_tuple)),
   combinedRenderBuffer(Resolution::getInstance().width(), Resolution::getInstance().height()),
   imageTexture(Resolution::getInstance().width(),
                Resolution::getInstance().height(),
