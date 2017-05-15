@@ -26,7 +26,7 @@ const std::string GPUTexture::DEPTH_METRIC_FILTERED = "DEPTH_METRIC_FILTERED";
 const std::string GPUTexture::DEPTH_NORM = "DEPTH_NORM";
 
 
-static const char* glErrorString(GLenum err) {
+static const char* glErrorStringGT(GLenum err) {
   switch(err) {
     case GL_INVALID_ENUM: return "Invalid Enum";
     case GL_INVALID_VALUE: return "Invalid Value";
@@ -39,9 +39,9 @@ static const char* glErrorString(GLenum err) {
   }
 }
 
-inline void CheckGlDieOnError() {
+inline void CheckGlDieOnErrorGT() {
     for (GLint error = glGetError(); error; error = glGetError()) {
-        LOGI("GPUTexture.cpp CheckGlDieOnError after %s: glError (0x%x)\n", glErrorString(error), error);
+        LOGI("GPUTexture.cpp CheckGlDieOnError after %s: glError (0x%x)\n", glErrorStringGT(error), error);
     }
 }
 
@@ -60,7 +60,7 @@ GPUTexture::GPUTexture(const int width,
    internalFormat(internalFormat),
    format(format),
    dataType(dataType) {
-CheckGlDieOnError();
+CheckGlDieOnErrorGT();
     LOGI("MY elasitcfusion GPUTexture struct init 1 ");
     if(cuda) {
         cudaError_t err = cudaGraphicsGLRegisterImage(&cudaRes, texture->tid,
@@ -74,7 +74,7 @@ CheckGlDieOnError();
         cudaRes = 0;
     }
     LOGI("MY elasitcfusion GPUTexture struct init 2 ");
-CheckGlDieOnError();
+CheckGlDieOnErrorGT();
 }
 
 GPUTexture::~GPUTexture()
