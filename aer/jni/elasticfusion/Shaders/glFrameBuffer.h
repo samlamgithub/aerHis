@@ -31,7 +31,7 @@
 #include <glRenderBuffer.h>
 #include <GLExtensions.h>
 
-static const char* glErrorString(GLenum err) {
+static const char* glErrorStringFB(GLenum err) {
   switch(err) {
     case GL_INVALID_ENUM: return "Invalid Enum";
     case GL_INVALID_VALUE: return "Invalid Value";
@@ -44,9 +44,9 @@ static const char* glErrorString(GLenum err) {
   }
 }
 
-inline void CheckGlDieOnError() {
+inline void CheckGlDieOnErrorFB() {
     for (GLint error = glGetError(); error; error = glGetError()) {
-        LOGI("GlFramebuffer.h CheckGlDieOnError after %s: glError (0x%x)\n", glErrorString(error), error);
+        LOGI("GlFramebuffer.h CheckGlDieOnError after %s: glError (0x%x)\n", glErrorStringFB(error), error);
     }
 }
 
@@ -67,7 +67,7 @@ struct GlFramebuffer {
         glGenFramebuffers(1, &fbid);
         AttachColour(colour);
         AttachDepth(depth);
-        CheckGlDieOnError();
+        CheckGlDieOnErrorFB();
  LOGI("GlFramebuffer init 2 done");
     }
 
@@ -78,7 +78,7 @@ struct GlFramebuffer {
         AttachColour(colour0);
         AttachColour(colour1);
         AttachDepth(depth);
-        CheckGlDieOnError();
+        CheckGlDieOnErrorFB();
  LOGI("GlFramebuffer init 3 start");
     }
 
@@ -116,7 +116,7 @@ struct GlFramebuffer {
         glFramebufferTexture2D(GL_FRAMEBUFFER, color_attachment, GL_TEXTURE_2D, tex.tid, 0);
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         attachments++;
-        CheckGlDieOnError();
+        CheckGlDieOnErrorFB();
  LOGI("GlFramebuffer AttachColour done");
         return color_attachment;
     }
@@ -133,7 +133,7 @@ struct GlFramebuffer {
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, rb.rbid, 0);
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-        CheckGlDieOnError();
+        CheckGlDieOnErrorFB();
  LOGI("GlFramebuffer AttachDepth done");
     }
 

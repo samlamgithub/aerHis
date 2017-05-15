@@ -28,7 +28,7 @@
 #include <EGL/eglext.h>
 #include "GLExtensions.h"
 
-static const char* glErrorString(GLenum err) {
+static const char* glErrorStringRB(GLenum err) {
   switch(err) {
     case GL_INVALID_ENUM: return "Invalid Enum";
     case GL_INVALID_VALUE: return "Invalid Value";
@@ -41,9 +41,9 @@ static const char* glErrorString(GLenum err) {
   }
 }
 
-inline void CheckGlDieOnError() {
+inline void CheckGlDieOnErrorRB() {
     for (GLint error = glGetError(); error; error = glGetError()) {
-        LOGI("GlRenderBuffer.h CheckGlDieOnError after %s: glError (0x%x)\n", glErrorString(error), error);
+        LOGI("GlRenderBuffer.h CheckGlDieOnError after %s: glError (0x%x)\n", glErrorStringRB(error), error);
     }
 }
 
@@ -53,10 +53,10 @@ struct GlRenderBuffer {
 
    GlRenderBuffer(GLint width, GLint height, GLint internal_format = GL_DEPTH_COMPONENT24 )
     : width(0), height(0), rbid(0) {
-CheckGlDieOnError();
+CheckGlDieOnErrorRB();
         LOGI("GlRenderBuffer init start");
         Reinitialise(width,height,internal_format);
-CheckGlDieOnError();
+CheckGlDieOnErrorRB();
       LOGI("GlRenderBuffer init done");
   }
 
@@ -68,7 +68,7 @@ CheckGlDieOnError();
    }
 
    void Reinitialise(GLint width, GLint height, GLint internal_format = GL_DEPTH_COMPONENT24) {
-CheckGlDieOnError();
+CheckGlDieOnErrorRB();
     LOGI("GlRenderBuffer Reinitialise start");
 	   if( width!=0 ) {
 	      glDeleteTextures(1, &rbid);
@@ -86,7 +86,7 @@ CheckGlDieOnError();
 	         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-CheckGlDieOnError();
+CheckGlDieOnErrorRB();
 LOGI("GlRenderBuffer Reinitialise done");
     }
 
