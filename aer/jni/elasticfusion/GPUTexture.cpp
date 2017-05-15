@@ -61,7 +61,7 @@ GPUTexture::GPUTexture(const int width,
    format(format),
    dataType(dataType) {
 CheckGlDieOnErrorGT();
-    LOGI("MY elasitcfusion GPUTexture struct init 1 ");
+    LOGI("MY elasitcfusion GPUTexture struct init 1 : %d, %d,  %d,  %d,  %d", width, height, internalFormat, format, dataType);
     if(cuda) {
         cudaError_t err = cudaGraphicsGLRegisterImage(&cudaRes, texture->tid,
         GL_TEXTURE_2D, cudaGraphicsRegisterFlagsReadOnly);
