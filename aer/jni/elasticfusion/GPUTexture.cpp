@@ -46,6 +46,8 @@ GPUTexture::GPUTexture(const int width,
         GL_TEXTURE_2D, cudaGraphicsRegisterFlagsReadOnly);
         if(cudaSuccess != err) {
           LOGI("elasticfusion GPU texture cudaGraphicsGLRegisterImage error: %s", cudaGetErrorString(err));
+        } else {
+          LOGI("elasticfusion GPU texture cudaGraphicsGLRegisterImage success");
         }
     } else {
         cudaRes = 0;

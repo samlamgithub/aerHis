@@ -10,6 +10,7 @@
 #include <iomanip>
 #include <vector>
 
+#include <../elasticfusion/Shaders/GLExtensions.h>
 // #include <opencv2/opencv.hpp>
 
 #include <boost/date_time/posix_time/posix_time.hpp>

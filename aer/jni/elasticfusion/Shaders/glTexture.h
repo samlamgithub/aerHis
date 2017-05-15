@@ -29,6 +29,7 @@
 
 #include <utility>
 #include "../../tango_interface/util.hpp"
+#include "GLExtensions.h"
 
 static const char* glErrorString(GLenum err) {
   switch(err) {
@@ -60,8 +61,9 @@ public:
       bool sampling_linear = true, int border = 0, GLenum glformat = GL_RGBA, GLenum gltype = GL_UNSIGNED_BYTE, GLvoid* data = NULL)
     : internal_format(0), tid(0) {
         LOGI("GlTexture init 1");
+        CheckGlDieOnError();
         Reinitialise(width,height,internal_format,sampling_linear,border,glformat,gltype,data);
-        LOGI("GlTexture init 2");
+        LOGI("GlTexture init done 2");
     }
 
     void operator=(GlTexture&& tex) {
@@ -93,7 +95,9 @@ public:
     }
 
     void Bind() const {
+        LOGI("GlTexture bind start");
         glBindTexture(GL_TEXTURE_2D, tid);
+        LOGI("GlTexture bind done");
     }
 
     void Unbind() const {
@@ -102,7 +106,7 @@ public:
 
     virtual void Reinitialise(GLsizei w, GLsizei h, GLint int_format = GL_RGBA8,
       bool sampling_linear = true, int border = 0, GLenum glformat = GL_RGBA, GLenum gltype = GL_UNSIGNED_BYTE, GLvoid* data = NULL ) {
-        LOG("GlTexture init 3");
+        LOGI("GlTexture init 3");
         CheckGlDieOnError();
         if(tid!=0) {
             glDeleteTextures(1,&tid);
@@ -114,13 +118,13 @@ public:
 
         glGenTextures(1,&tid);
         Bind();
-        LOG("GlTexture init 4");
+        LOGI("GlTexture init 4");
         CheckGlDieOnError();
         // GL_LUMINANCE and GL_FLOAT don't seem to actually affect buffer, but some values are required
         // for call to succeed.
         glTexImage2D(GL_TEXTURE_2D, 0, internal_format, width, height, border, glformat, gltype, data);
 
-        LOG("GlTexture init 5");
+        LOGI("GlTexture init 5");
         CheckGlDieOnError();
 
         if(sampling_linear) {

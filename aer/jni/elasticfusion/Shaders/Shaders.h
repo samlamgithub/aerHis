@@ -214,7 +214,7 @@ static inline std::shared_ptr<Shader> loadProgram(std::tuple<std::string, std::s
   const char * fragment_shader_source = std::get<1>(fragment_shader_file).c_str();
   LOGI("MY elasitcfusion Shader loadProgram 1: v, f: %s, %s", v, f);
     std::shared_ptr<Shader> program = std::make_shared<Shader>();
-LOGI("MY elasitcfusion Shader loadProgramGeom GL_VERTEX_SHADER start  %s", v);
+LOGI("MY elasitcfusion Shader loadProgram 1 GL_VERTEX_SHADER start  %s", v);
     program->AddShader(GL_VERTEX_SHADER,  vertex_shader_source);
     LOGI("MY elasitcfusion Shader loadProgram 1 GL_VERTEX_SHADER done  %s", v);
     LOGI("MY elasitcfusion Shader loadProgram 1 GL_FRAGMENT_SHADER start  %s", f);

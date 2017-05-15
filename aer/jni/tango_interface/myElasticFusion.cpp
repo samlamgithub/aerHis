@@ -20,7 +20,6 @@
 
 //using namespace cv;
 #include <../elasticfusion/ElasticFusion.h>
-#include <../elasticfusion/Shaders/GLExtensions.h>
 
 namespace tango_interface {
 
