@@ -25,6 +25,26 @@ const std::string GPUTexture::DEPTH_METRIC = "DEPTH_METRIC";
 const std::string GPUTexture::DEPTH_METRIC_FILTERED = "DEPTH_METRIC_FILTERED";
 const std::string GPUTexture::DEPTH_NORM = "DEPTH_NORM";
 
+
+static const char* glErrorString(GLenum err) {
+  switch(err) {
+    case GL_INVALID_ENUM: return "Invalid Enum";
+    case GL_INVALID_VALUE: return "Invalid Value";
+    case GL_INVALID_OPERATION: return "Invalid Operation";
+   // case GL_STACK_OVERFLOW: return "Stack Overflow";
+   // case GL_STACK_UNDERFLOW: return "Stack Underflow";
+    case GL_OUT_OF_MEMORY: return "Out of Memory";
+  //  case GL_TABLE_TOO_LARGE: return "Table too Large";
+    default: return "Unknown Error";
+  }
+}
+
+inline void CheckGlDieOnError() {
+    for (GLint error = glGetError(); error; error = glGetError()) {
+        LOGI("GPUTexture.cpp CheckGlDieOnError after %s: glError (0x%x)\n", glErrorString(error), error);
+    }
+}
+
 // : texture(new pangolin::GlTexture(width, height, internalFormat, draw, 0, format, dataType)),
 GPUTexture::GPUTexture(const int width,
                        const int height,
@@ -40,6 +60,7 @@ GPUTexture::GPUTexture(const int width,
    internalFormat(internalFormat),
    format(format),
    dataType(dataType) {
+CheckGlDieOnError();
     LOGI("MY elasitcfusion GPUTexture struct init 1 ");
     if(cuda) {
         cudaError_t err = cudaGraphicsGLRegisterImage(&cudaRes, texture->tid,
@@ -53,6 +74,7 @@ GPUTexture::GPUTexture(const int width,
         cudaRes = 0;
     }
     LOGI("MY elasitcfusion GPUTexture struct init 2 ");
+CheckGlDieOnError();
 }
 
 GPUTexture::~GPUTexture()

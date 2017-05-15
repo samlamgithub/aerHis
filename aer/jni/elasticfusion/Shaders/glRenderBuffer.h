@@ -26,6 +26,26 @@
 
 #include <EGL/egl.h>
 #include <EGL/eglext.h>
+#include "GLExtensions.h"
+
+static const char* glErrorString(GLenum err) {
+  switch(err) {
+    case GL_INVALID_ENUM: return "Invalid Enum";
+    case GL_INVALID_VALUE: return "Invalid Value";
+    case GL_INVALID_OPERATION: return "Invalid Operation";
+   // case GL_STACK_OVERFLOW: return "Stack Overflow";
+   // case GL_STACK_UNDERFLOW: return "Stack Underflow";
+    case GL_OUT_OF_MEMORY: return "Out of Memory";
+  //  case GL_TABLE_TOO_LARGE: return "Table too Large";
+    default: return "Unknown Error";
+  }
+}
+
+inline void CheckGlDieOnError() {
+    for (GLint error = glGetError(); error; error = glGetError()) {
+        LOGI("GlRenderBuffer.h CheckGlDieOnError after %s: glError (0x%x)\n", glErrorString(error), error);
+    }
+}
 
 struct GlRenderBuffer {
 
@@ -33,7 +53,11 @@ struct GlRenderBuffer {
 
    GlRenderBuffer(GLint width, GLint height, GLint internal_format = GL_DEPTH_COMPONENT24 )
     : width(0), height(0), rbid(0) {
+CheckGlDieOnError();
+        LOGI("GlRenderBuffer init start");
         Reinitialise(width,height,internal_format);
+CheckGlDieOnError();
+      LOGI("GlRenderBuffer init done");
   }
 
    ~GlRenderBuffer() {
@@ -44,9 +68,11 @@ struct GlRenderBuffer {
    }
 
    void Reinitialise(GLint width, GLint height, GLint internal_format = GL_DEPTH_COMPONENT24) {
+CheckGlDieOnError();
+    LOGI("GlRenderBuffer Reinitialise start");
 	   if( width!=0 ) {
-	             glDeleteTextures(1, &rbid);
-	         }
+	      glDeleteTextures(1, &rbid);
+	    }
 
 	         // Use a texture instead...
 	         glGenTextures(1, &rbid);
@@ -60,6 +86,8 @@ struct GlRenderBuffer {
 	         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+CheckGlDieOnError();
+LOGI("GlRenderBuffer Reinitialise done");
     }
 
       //! Move Constructor

@@ -31,9 +31,28 @@
 #include <glRenderBuffer.h>
 #include <GLExtensions.h>
 
+static const char* glErrorString(GLenum err) {
+  switch(err) {
+    case GL_INVALID_ENUM: return "Invalid Enum";
+    case GL_INVALID_VALUE: return "Invalid Value";
+    case GL_INVALID_OPERATION: return "Invalid Operation";
+   // case GL_STACK_OVERFLOW: return "Stack Overflow";
+   // case GL_STACK_UNDERFLOW: return "Stack Underflow";
+    case GL_OUT_OF_MEMORY: return "Out of Memory";
+  //  case GL_TABLE_TOO_LARGE: return "Table too Large";
+    default: return "Unknown Error";
+  }
+}
+
+inline void CheckGlDieOnError() {
+    for (GLint error = glGetError(); error; error = glGetError()) {
+        LOGI("GlFramebuffer.h CheckGlDieOnError after %s: glError (0x%x)\n", glErrorString(error), error);
+    }
+}
+
 struct GlFramebuffer {
 
-    GlFramebuffer(): fbid(0), attachments(0){}
+    GlFramebuffer(): fbid(0), attachments(0){  LOGI("GlFramebuffer init 1");}
 
     ~GlFramebuffer() {
         if(fbid) {
@@ -44,19 +63,23 @@ struct GlFramebuffer {
 
     GlFramebuffer(GlTexture& colour, GlRenderBuffer& depth) : attachments(0) {
         // glGenFramebuffersEXT(1, &fbid);
+ LOGI("GlFramebuffer init 2 start");
         glGenFramebuffers(1, &fbid);
         AttachColour(colour);
         AttachDepth(depth);
         CheckGlDieOnError();
+ LOGI("GlFramebuffer init 2 done");
     }
 
     GlFramebuffer(GlTexture& colour0, GlTexture& colour1, GlRenderBuffer& depth) : attachments(0)  {
         // glGenFramebuffersEXT(1, &fbid);
+ LOGI("GlFramebuffer init 3 start");
         glGenFramebuffers(1, &fbid);
         AttachColour(colour0);
         AttachColour(colour1);
         AttachDepth(depth);
         CheckGlDieOnError();
+ LOGI("GlFramebuffer init 3 start");
     }
 
     void Bind() const {
@@ -81,6 +104,7 @@ struct GlFramebuffer {
     }
 
      GLenum AttachColour(GlTexture& tex ){
+       LOGI("GlFramebuffer AttachColour start");
         if(!fbid) Reinitialise();
 
         // const GLenum color_attachment = GL_COLOR_ATTACHMENT0_EXT + attachments;
@@ -93,10 +117,12 @@ struct GlFramebuffer {
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         attachments++;
         CheckGlDieOnError();
+ LOGI("GlFramebuffer AttachColour done");
         return color_attachment;
     }
 
     void AttachDepth(GlRenderBuffer& rb ) {
+ LOGI("GlFramebuffer AttachDepth start");
         if(!fbid) Reinitialise();
 
         // glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fbid);
@@ -108,6 +134,7 @@ struct GlFramebuffer {
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
         CheckGlDieOnError();
+ LOGI("GlFramebuffer AttachDepth done");
     }
 
     GLuint fbid;
