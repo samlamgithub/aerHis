@@ -63,23 +63,23 @@ struct GlFramebuffer {
 
     GlFramebuffer(GlTexture& colour, GlRenderBuffer& depth) : attachments(0) {
         // glGenFramebuffersEXT(1, &fbid);
- LOGI("GlFramebuffer init 2 start");
+        LOGI("GlFramebuffer init 2 start");
         glGenFramebuffers(1, &fbid);
         AttachColour(colour);
         AttachDepth(depth);
         CheckGlDieOnErrorFB();
- LOGI("GlFramebuffer init 2 done");
+        LOGI("GlFramebuffer init 2 done");
     }
 
     GlFramebuffer(GlTexture& colour0, GlTexture& colour1, GlRenderBuffer& depth) : attachments(0)  {
         // glGenFramebuffersEXT(1, &fbid);
- LOGI("GlFramebuffer init 3 start");
+        LOGI("GlFramebuffer init 3 start");
         glGenFramebuffers(1, &fbid);
         AttachColour(colour0);
         AttachColour(colour1);
         AttachDepth(depth);
         CheckGlDieOnErrorFB();
- LOGI("GlFramebuffer init 3 start");
+        LOGI("GlFramebuffer init 3 start");
     }
 
     void Bind() const {
@@ -94,7 +94,7 @@ struct GlFramebuffer {
             glDeleteFramebuffers(1, &fbid);
         }
         // glGenFramebuffersEXT(1, &fbid);
-         glGenFramebuffers(1, &fbid);
+        glGenFramebuffers(1, &fbid);
     }
 
      void Unbind() const {
@@ -106,7 +106,6 @@ struct GlFramebuffer {
      GLenum AttachColour(GlTexture& tex ){
        LOGI("GlFramebuffer AttachColour start");
         if(!fbid) Reinitialise();
-
         // const GLenum color_attachment = GL_COLOR_ATTACHMENT0_EXT + attachments;
         // glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fbid);
         // glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, color_attachment, GL_TEXTURE_2D, tex.tid, 0);
