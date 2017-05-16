@@ -293,7 +293,7 @@ static const char copy_unstablevert_source[]=
 "                                textureLod(nodeSampler, vec2(((float(nearNodes[i]) * 16.0 + 5.0) / nodeCols) + (1.0 / (nodeCols * 2.0)), 0.5), 0.0).x);\n"
 "            vec3 column1 = vec3(textureLod(nodeSampler, vec2(((float(nearNodes[i]) * 16.0 + 6.0) / nodeCols) + (1.0 / (nodeCols * 2.0)), 0.5), 0.0).x, \n"
 "                                textureLod(nodeSampler, vec2(((float(nearNodes[i]) * 16.0 + 7.0) / nodeCols) + (1.0 / (nodeCols * 2.0)), 0.5), 0.0).x,\n"
-"                                textureLod(nodeSampler, vec2(((float(nearNodes[i)) * 16.0 + 8.0) / nodeCols) + (1.0 / (nodeCols * 2.0)), 0.5), 0.0).x);\n"
+"                                textureLod(nodeSampler, vec2(((float(nearNodes[i]) * 16.0 + 8.0) / nodeCols) + (1.0 / (nodeCols * 2.0)), 0.5), 0.0).x);\n"
 "            vec3 column2 = vec3(textureLod(nodeSampler, vec2(((float(nearNodes[i]) * 16.0 + 9.0) / nodeCols) + (1.0 / (nodeCols * 2.0)), 0.5), 0.0).x, \n"
 "                                textureLod(nodeSampler, vec2(((float(nearNodes[i]) * 16.0 + 10.0) / nodeCols) + (1.0 / (nodeCols * 2.0)), 0.5), 0.0).x,\n"
 "                                textureLod(nodeSampler, vec2(((float(nearNodes[i]) * 16.0 + 11.0) / nodeCols) + (1.0 / (nodeCols * 2.0)), 0.5), 0.0).x);\n"
