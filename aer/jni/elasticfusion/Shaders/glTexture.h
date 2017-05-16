@@ -129,8 +129,14 @@ LOGI("GlTexture Unbind done");
           glformat = int_format;
           gltype = GL_UNSIGNED_BYTE;
         } else if (internal_format == GL_RGBA32F) {
-	       glformat = GL_RGBA;
-	       gltype = GL_FLOAT;
+	         glformat = GL_RGBA;
+	         gltype = GL_FLOAT;
+        } else if (internal_format == GL_RGBA) {
+          glformat = GL_RGBA;
+          gltype = GL_UNSIGNED_BYTE
+        } else if (internal_format == GL_RGBA32F) {
+          glformat = GL_RGBA;
+	        gltype = GL_FLOAT;
         }
         // GL_LUMINANCE and GL_FLOAT don't seem to actually affect buffer, but some values are required
         // for call to succeed.
