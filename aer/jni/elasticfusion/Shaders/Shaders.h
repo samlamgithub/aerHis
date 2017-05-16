@@ -42,9 +42,22 @@ static const char empty_fragment_shader_source[]=
 "#version 310 es\n"
 "void main(void){}\n";
 
+static const char* glErrorString(GLenum err) {
+  switch(err) {
+    case GL_INVALID_ENUM: return "Invalid Enum";
+    case GL_INVALID_VALUE: return "Invalid Value";
+    case GL_INVALID_OPERATION: return "Invalid Operation";
+   // case GL_STACK_OVERFLOW: return "Stack Overflow";
+   // case GL_STACK_UNDERFLOW: return "Stack Underflow";
+    case GL_OUT_OF_MEMORY: return "Out of Memory";
+  //  case GL_TABLE_TOO_LARGE: return "Table too Large";
+    default: return "Unknown Error";
+  }
+}
+
 inline void check_gl_error2(const char* operation) {
   for (GLint error = glGetError(); error; error = glGetError()) {
-    LOGI("My elastic-fusion shader after %s() glError (0x%x)\n", operation, error);
+    LOGI("Shader.h My elastic-fusion shader CheckGlDieOnError after %s() glError (0x%x)\n", glErrorString(error), error);
   }
 }
 
@@ -160,16 +173,18 @@ check_gl_error2("glAttachShader");
 }
 
  void Bind() {
-LOGI("MY elasitcfusion Shader Bind");
+LOGI("MY elasitcfusion Shader Bind start ");
     prev_prog = 0;
     glUseProgram(prog);
   check_gl_error2("MY elasitcfusion Shader Bind:");
+LOGI("MY elasitcfusion Shader Bind done");
  }
 
  void Unbind() {
-LOGI("MY elasitcfusion Shader Unbind");
+LOGI("MY elasitcfusion Shader Unbind start");
     glUseProgram(prev_prog);
   check_gl_error2("MY elasitcfusion Shader Unbind:");
+LOGI("MY elasitcfusion Shader Unbind done");
  }
 
   protected:

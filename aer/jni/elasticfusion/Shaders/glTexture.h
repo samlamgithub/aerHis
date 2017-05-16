@@ -95,9 +95,11 @@ public:
     }
 
     void Bind() const {
+LOGI("GlTexture bind start check");
+        CheckGlDieOnError();
         LOGI("GlTexture bind start");
         glBindTexture(GL_TEXTURE_2D, tid);
-CheckGlDieOnError();
+        CheckGlDieOnError();
         LOGI("GlTexture bind done");
     }
 
@@ -126,17 +128,21 @@ LOGI("GlTexture Unbind done");
         CheckGlDieOnError();
         if (internal_format == GL_LUMINANCE32UI_EXT) {
           internal_format = GL_LUMINANCE;
-          glformat = int_format;
+          glformat = internal_format;
           gltype = GL_UNSIGNED_BYTE;
         } else if (internal_format == GL_RGBA32F) {
 	         glformat = GL_RGBA;
 	         gltype = GL_FLOAT;
         } else if (internal_format == GL_RGBA) {
           glformat = GL_RGBA;
-          gltype = GL_UNSIGNED_BYTE
+          gltype = GL_UNSIGNED_BYTE;
         } else if (internal_format == GL_RGBA32F) {
           glformat = GL_RGBA;
 	        gltype = GL_FLOAT;
+        } else if (internal_format == GL_LUMINANCE16UI_EXT) {
+          internal_format = GL_LUMINANCE;
+          glformat = GL_LUMINANCE;
+          gltype = GL_UNSIGNED_BYTE;
         }
         // GL_LUMINANCE and GL_FLOAT don't seem to actually affect buffer, but some values are required
         // for call to succeed.
@@ -160,8 +166,11 @@ LOGI("GlTexture Unbind done");
     }
 
     void Upload(const void* data, GLenum data_format = GL_LUMINANCE, GLenum data_type = GL_FLOAT) {
-        LOGI("GlTexture Upload 1");
+        LOGI("GlTexture Upload 1: %d, %d", data_format, data_type);
+        LOGI("GlTexture Upload Bind start");
         Bind();
+        LOGI("GlTexture Upload Bind done");
+        CheckGlDieOnError();
         glTexSubImage2D(GL_TEXTURE_2D,0,0,0,width,height,data_format,data_type,data);
         CheckGlDieOnError();
         LOGI("GlTexture Upload 2");
