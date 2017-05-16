@@ -97,11 +97,15 @@ public:
     void Bind() const {
         LOGI("GlTexture bind start");
         glBindTexture(GL_TEXTURE_2D, tid);
+CheckGlDieOnError();
         LOGI("GlTexture bind done");
     }
 
     void Unbind() const {
+  LOGI("GlTexture Unbind start");
         glBindTexture(GL_TEXTURE_2D, 0);
+CheckGlDieOnError();
+LOGI("GlTexture Unbind done");
     }
 
     virtual void Reinitialise(GLsizei w, GLsizei h, GLint int_format = GL_RGBA8,
@@ -120,6 +124,11 @@ public:
         Bind();
         LOGI("GlTexture init 4");
         CheckGlDieOnError();
+        if (int_format == GL_LUMINANCE32UI_EXT) {
+          int_format = GL_LUMINANCE;
+          glformat = int_format;
+          gltype = GL_UNSIGNED_BYTE;
+        }
         // GL_LUMINANCE and GL_FLOAT don't seem to actually affect buffer, but some values are required
         // for call to succeed.
         glTexImage2D(GL_TEXTURE_2D, 0, internal_format, width, height, border, glformat, gltype, data);

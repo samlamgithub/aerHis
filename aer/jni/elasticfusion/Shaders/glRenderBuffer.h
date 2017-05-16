@@ -73,15 +73,21 @@ struct GlRenderBuffer {
 	      glDeleteTextures(1, &rbid);
 	    }
       // Use a texture instead...
-CheckGlDieOnErrorRB();
-LOGI("GlRenderBuffer Reinitialise 1");
+      GLint format = internal_format;
+      GLint type = GL_UNSIGNED_SHORT;
+      if (internal_format == GL_DEPTH_COMPONENT24) {
+          format = GL_DEPTH_COMPONENT;
+          type = GL_UNSIGNED_INT;
+      }
+      CheckGlDieOnErrorRB();
+      LOGI("GlRenderBuffer Reinitialise 1");
 	         glGenTextures(1, &rbid);
 	         glBindTexture(GL_TEXTURE_2D, rbid);
            CheckGlDieOnErrorRB();
            LOGI("GlRenderBuffer Reinitialise 2");
 	         glTexImage2D(GL_TEXTURE_2D, 0, internal_format,
 	                 width, height,
-	                 0, internal_format, GL_UNSIGNED_SHORT, NULL);
+	                 0, format, type, NULL);
                    CheckGlDieOnErrorRB();
                    LOGI("GlRenderBuffer Reinitialise 3");
 	         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
