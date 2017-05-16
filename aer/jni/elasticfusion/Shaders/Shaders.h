@@ -38,6 +38,10 @@
 #include "Uniform.h"
 
 
+static const char empty_fragment_shader_source[]=
+"#version 310 es\n"
+"void main(void){}\n"
+
 inline void check_gl_error2(const char* operation) {
   for (GLint error = glGetError(); error; error = glGetError()) {
     LOGI("My elastic-fusion shader after %s() glError (0x%x)\n", operation, error);
@@ -189,6 +193,9 @@ LOGI("MY elasitcfusion Shader loadProgramGeom GL_VERTEX_SHADER done  %s", v);
 LOGI("MY elasitcfusion Shader loadProgramGeom GL_GEOMETRY_SHADER start  %s", g);
     program->AddShader(GL_GEOMETRY_SHADER,  geometry_shader_source);
 LOGI("MY elasitcfusion Shader loadProgramGeom GL_GEOMETRY_SHADER done  %s", g);
+LOGI("MY elasitcfusion Shader loadProgramGeom empty_fragment_shader_source start");
+    program->AddShader(GL_FRAGMENT_SHADER,  empty_fragment_shader_source);
+LOGI("MY elasitcfusion Shader loadProgramGeom empty_fragment_shader_source done");
     program->Link();
   LOGI("MY elasitcfusion Shader loadProgramGeom done");
     return program;
@@ -202,6 +209,9 @@ static inline std::shared_ptr<Shader> loadProgram(std::tuple<std::string, std::s
   LOGI("MY elasitcfusion Shader loadProgram GL_VERTEX_SHADER start  %s", v);
     program->AddShader(GL_VERTEX_SHADER,  vertex_shader_source);
 LOGI("MY elasitcfusion Shader loadProgram GL_VERTEX_SHADER done  %s", v);
+LOGI("MY elasitcfusion Shader loadProgramGeom empty_fragment_shader_source start");
+    program->AddShader(GL_FRAGMENT_SHADER,  empty_fragment_shader_source);
+LOGI("MY elasitcfusion Shader loadProgramGeom empty_fragment_shader_source done");
     program->Link();
   LOGI("MY elasitcfusion Shader loadProgram done");
     return program;
