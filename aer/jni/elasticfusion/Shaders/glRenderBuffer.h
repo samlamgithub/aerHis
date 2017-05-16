@@ -48,7 +48,7 @@ inline void CheckGlDieOnErrorRB() {
 }
 
 struct GlRenderBuffer {
-   GlRenderBuffer() : width(0), height(0), rbid(0) {}
+   GlRenderBuffer() : width(0), height(0), rbid(0) {  LOGI("GlRenderBuffer init with nothing");}
 
    GlRenderBuffer(GLint width, GLint height, GLint internal_format = GL_DEPTH_COMPONENT24 )
     : width(0), height(0), rbid(0) {

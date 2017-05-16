@@ -60,7 +60,7 @@ public:
     GlTexture(GLint width, GLint height, GLint internal_format = GL_RGBA8,
       bool sampling_linear = true, int border = 0, GLenum glformat = GL_RGBA, GLenum gltype = GL_UNSIGNED_BYTE, GLvoid* data = NULL)
     : internal_format(0), tid(0) {
-        LOGI("GlTexture init 1");
+        LOGI("GlTexture init 1: %d, %d, %d, %d, %d, %d ", width, height, internal_format, border, glformat, gltype);
         CheckGlDieOnError();
         Reinitialise(width,height,internal_format,sampling_linear,border,glformat,gltype,data);
         LOGI("GlTexture init done 2");

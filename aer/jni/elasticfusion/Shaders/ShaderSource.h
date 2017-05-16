@@ -86,7 +86,7 @@ static const char copy_unstablegeom_source[]=
 "        EmitVertex();\n"
 "        EndPrimitive(); \n"
 "    }\n"
-"}\n"
+"}\n";
 static const std::tuple<std::string, std::string> copy_unstablegeom_tuple = std::make_tuple("copy_unstablegeom", copy_unstablegeom_source);
 
 static const char copy_unstablevert_source[]=
