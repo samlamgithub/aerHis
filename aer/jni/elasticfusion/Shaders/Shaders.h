@@ -40,7 +40,7 @@
 
 static const char empty_fragment_shader_source[]=
 "#version 310 es\n"
-"void main(void){}\n"
+"void main(void){}\n";
 
 inline void check_gl_error2(const char* operation) {
   for (GLint error = glGetError(); error; error = glGetError()) {
