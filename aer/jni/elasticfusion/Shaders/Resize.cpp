@@ -120,21 +120,28 @@ LOGI("MY elasitcfusion resize struct image 1 ");
     check_gl_errorResize();
     LOGI("MY elasitcfusion resize struct image 10 ");
     glDrawArrays(GL_POINTS, 0, 1);
-
+    check_gl_errorResize();
+    LOGI("MY elasitcfusion resize struct image 11 ");
     glReadPixels(0, 0, imageRenderBuffer.width, imageRenderBuffer.height, GL_RGB, GL_UNSIGNED_BYTE, dest.data);
-
-    imageFrameBuffer.Unbind();
-
+    check_gl_errorResize();
+    LOGI("MY elasitcfusion resize struct image 12 ");
+    imageFrameBuffer.Unbind(); //here
+    check_gl_errorResize();
+    LOGI("MY elasitcfusion resize struct image 13 ");
     glBindTexture(GL_TEXTURE_2D, 0);
-
+    check_gl_errorResize();
+    LOGI("MY elasitcfusion resize struct image 14 ");
     glActiveTexture(GL_TEXTURE0);
-
+    check_gl_errorResize();
+    LOGI("MY elasitcfusion resize struct image 15 ");
     imageProgram->Unbind();
-
+    check_gl_errorResize();
+    LOGI("MY elasitcfusion resize struct image 16 ");
     //glPopAttrib();
 
     glFinish();
-LOGI("MY elasitcfusion resize struct image 12 ");
+    check_gl_errorResize();
+LOGI("MY elasitcfusion resize struct image 17 ");
 }
 
 void Resize::vertex(GPUTexture * source, Img<Eigen::Vector4f> & dest)

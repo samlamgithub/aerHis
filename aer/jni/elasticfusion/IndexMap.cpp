@@ -302,10 +302,10 @@ void IndexMap::combinedPredict(const Eigen::Matrix4f & pose,
 {
   check_gl_errorIndexMap();
     LOGI("MY elasitcfusion IndexMap::combinedPredict  1");
-    glEnable(GL_PROGRAM_POINT_SIZE);
+    glEnable(GL_PROGRAM_POINT_SIZE);  //here
     check_gl_errorIndexMap();
       LOGI("MY elasitcfusion IndexMap::combinedPredict  2");
-    glEnable(GL_POINT_SPRITE);
+    glEnable(GL_POINT_SPRITE);  //here
     check_gl_errorIndexMap();
       LOGI("MY elasitcfusion IndexMap::combinedPredict  3");
     if(predictionType == IndexMap::ACTIVE)
@@ -338,13 +338,17 @@ check_gl_errorIndexMap();
     {
         assert(false);
     }
-
+    check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::combinedPredict 6");
     glClearColor(0, 0, 0, 0);
-
+    check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::combinedPredict 7");
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    combinedProgram->Bind();
-
+    check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::combinedPredict 8");
+    combinedProgram->Bind(); //here
+    check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::combinedPredict 9");
     Eigen::Matrix4f t_inv = pose.inverse();
 
     Eigen::Vector4f cam(Intrinsics::getInstance().cx(),
@@ -361,25 +365,40 @@ check_gl_errorIndexMap();
     combinedProgram->setUniform(Uniform("time", time));
     combinedProgram->setUniform(Uniform("maxTime", maxTime));
     combinedProgram->setUniform(Uniform("timeDelta", timeDelta));
-
+    check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::combinedPredict 10");
     glBindBuffer(GL_ARRAY_BUFFER, model.first);
-
+    check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::combinedPredict 11");
     glEnableVertexAttribArray(0);
+    check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::combinedPredict 12");
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, Vertex::SIZE, 0);
-
+    check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::combinedPredict 13");
     glEnableVertexAttribArray(1);
+    check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::combinedPredict 14");
     glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, Vertex::SIZE, reinterpret_cast<GLvoid*>(sizeof(Eigen::Vector4f) * 1));
-
+    check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::combinedPredict 15");
     glEnableVertexAttribArray(2);
+    check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::combinedPredict 16");
     glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, Vertex::SIZE, reinterpret_cast<GLvoid*>(sizeof(Eigen::Vector4f) * 2));
-
+    check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::combinedPredict 17");
     glDrawTransformFeedback(GL_POINTS, model.second);
-
+    check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::combinedPredict 18");
     glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);
     glDisableVertexAttribArray(2);
+    check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::combinedPredict 19");
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-
+    check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::combinedPredict 20");
     if(predictionType == IndexMap::ACTIVE)
     {
         combinedFrameBuffer.Unbind();
@@ -392,15 +411,22 @@ check_gl_errorIndexMap();
     {
         assert(false);
     }
-
+    check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::combinedPredict 21");
     combinedProgram->Unbind();
-
+    check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::combinedPredict 22");
     glDisable(GL_PROGRAM_POINT_SIZE);
+    check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::combinedPredict 23");
     glDisable(GL_POINT_SPRITE);
-
+    check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::combinedPredict 24");
     //glPopAttrib();
 
     glFinish();
+    check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::combinedPredict 25");
 }
 
 // splat.vert depth_splat.frag
@@ -485,80 +511,80 @@ void IndexMap::synthesizeDepth(const Eigen::Matrix4f & pose,
 
     glFinish();
 }
-
-void IndexMap::synthesizeInfo(const Eigen::Matrix4f & pose,
-                              const std::pair<GLuint, GLuint> & model,
-                              const float depthCutoff,
-                              const float confThreshold)
-{
-  check_gl_errorIndexMap();
-    LOGI("MY elasitcfusion IndexMap::synthesizeInfo  1");
-    glEnable(GL_PROGRAM_POINT_SIZE);
-    check_gl_errorIndexMap();
-      LOGI("MY elasitcfusion IndexMap::synthesizeInfo  2");
-    glEnable(GL_POINT_SPRITE);
-    check_gl_errorIndexMap();
-      LOGI("MY elasitcfusion IndexMap::synthesizeInfo  3");
-    infoFrameBuffer.Bind();
-    check_gl_errorIndexMap();
-      LOGI("MY elasitcfusion IndexMap::synthesizeInfo  4");
-    //glPushAttrib(GL_VIEWPORT_BIT);
-    check_gl_errorIndexMap();
-      LOGI("MY elasitcfusion IndexMap::synthesizeInfo  5");
-    glViewport(0, 0, infoRenderBuffer.width, infoRenderBuffer.height);
-    check_gl_errorIndexMap();
-      LOGI("MY elasitcfusion IndexMap::synthesizeInfo  6");
-    glClearColor(0, 0, 0, 0);
-    check_gl_errorIndexMap();
-      LOGI("MY elasitcfusion IndexMap::synthesizeInfo  7");
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    check_gl_errorIndexMap();
-      LOGI("MY elasitcfusion IndexMap::synthesizeInfo  8");
-    combinedProgram->Bind();
-
-    Eigen::Matrix4f t_inv = pose.inverse();
-
-    Eigen::Vector4f cam(Intrinsics::getInstance().cx(),
-                  Intrinsics::getInstance().cy(),
-                  Intrinsics::getInstance().fx(),
-                  Intrinsics::getInstance().fy());
-
-    combinedProgram->setUniform(Uniform("t_inv", t_inv));
-    combinedProgram->setUniform(Uniform("cam", cam));
-    combinedProgram->setUniform(Uniform("maxDepth", depthCutoff));
-    combinedProgram->setUniform(Uniform("confThreshold", confThreshold));
-    combinedProgram->setUniform(Uniform("cols", (float)Resolution::getInstance().cols()));
-    combinedProgram->setUniform(Uniform("rows", (float)Resolution::getInstance().rows()));
-    combinedProgram->setUniform(Uniform("time", 0));
-    combinedProgram->setUniform(Uniform("maxTime", std::numeric_limits<int>::max()));
-    combinedProgram->setUniform(Uniform("timeDelta", std::numeric_limits<int>::max()));
-
-    glBindBuffer(GL_ARRAY_BUFFER, model.first);
-
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, Vertex::SIZE, 0);
-
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, Vertex::SIZE, reinterpret_cast<GLvoid*>(sizeof(Eigen::Vector4f) * 1));
-
-    glEnableVertexAttribArray(2);
-    glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, Vertex::SIZE, reinterpret_cast<GLvoid*>(sizeof(Eigen::Vector4f) * 2));
-
-    glDrawTransformFeedback(GL_POINTS, model.second);
-
-    glDisableVertexAttribArray(0);
-    glDisableVertexAttribArray(1);
-    glDisableVertexAttribArray(2);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-    infoFrameBuffer.Unbind();
-
-    combinedProgram->Unbind();
-
-    glDisable(GL_PROGRAM_POINT_SIZE);
-    glDisable(GL_POINT_SPRITE);
-
-    //glPopAttrib();
-
-    glFinish();
-}
+//
+// void IndexMap::synthesizeInfo(const Eigen::Matrix4f & pose,
+//                               const std::pair<GLuint, GLuint> & model,
+//                               const float depthCutoff,
+//                               const float confThreshold)
+// {
+//   check_gl_errorIndexMap();
+//     LOGI("MY elasitcfusion IndexMap::synthesizeInfo  1");
+//     glEnable(GL_PROGRAM_POINT_SIZE);
+//     check_gl_errorIndexMap();
+//       LOGI("MY elasitcfusion IndexMap::synthesizeInfo  2");
+//     glEnable(GL_POINT_SPRITE);
+//     check_gl_errorIndexMap();
+//       LOGI("MY elasitcfusion IndexMap::synthesizeInfo  3");
+//     infoFrameBuffer.Bind();
+//     check_gl_errorIndexMap();
+//       LOGI("MY elasitcfusion IndexMap::synthesizeInfo  4");
+//     //glPushAttrib(GL_VIEWPORT_BIT);
+//     check_gl_errorIndexMap();
+//       LOGI("MY elasitcfusion IndexMap::synthesizeInfo  5");
+//     glViewport(0, 0, infoRenderBuffer.width, infoRenderBuffer.height);
+//     check_gl_errorIndexMap();
+//       LOGI("MY elasitcfusion IndexMap::synthesizeInfo  6");
+//     glClearColor(0, 0, 0, 0);
+//     check_gl_errorIndexMap();
+//       LOGI("MY elasitcfusion IndexMap::synthesizeInfo  7");
+//     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+//     check_gl_errorIndexMap();
+//       LOGI("MY elasitcfusion IndexMap::synthesizeInfo  8");
+//     combinedProgram->Bind();
+//
+//     Eigen::Matrix4f t_inv = pose.inverse();
+//
+//     Eigen::Vector4f cam(Intrinsics::getInstance().cx(),
+//                   Intrinsics::getInstance().cy(),
+//                   Intrinsics::getInstance().fx(),
+//                   Intrinsics::getInstance().fy());
+//
+//     combinedProgram->setUniform(Uniform("t_inv", t_inv));
+//     combinedProgram->setUniform(Uniform("cam", cam));
+//     combinedProgram->setUniform(Uniform("maxDepth", depthCutoff));
+//     combinedProgram->setUniform(Uniform("confThreshold", confThreshold));
+//     combinedProgram->setUniform(Uniform("cols", (float)Resolution::getInstance().cols()));
+//     combinedProgram->setUniform(Uniform("rows", (float)Resolution::getInstance().rows()));
+//     combinedProgram->setUniform(Uniform("time", 0));
+//     combinedProgram->setUniform(Uniform("maxTime", std::numeric_limits<int>::max()));
+//     combinedProgram->setUniform(Uniform("timeDelta", std::numeric_limits<int>::max()));
+//
+//     glBindBuffer(GL_ARRAY_BUFFER, model.first);
+//
+//     glEnableVertexAttribArray(0);
+//     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, Vertex::SIZE, 0);
+//
+//     glEnableVertexAttribArray(1);
+//     glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, Vertex::SIZE, reinterpret_cast<GLvoid*>(sizeof(Eigen::Vector4f) * 1));
+//
+//     glEnableVertexAttribArray(2);
+//     glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, Vertex::SIZE, reinterpret_cast<GLvoid*>(sizeof(Eigen::Vector4f) * 2));
+//
+//     glDrawTransformFeedback(GL_POINTS, model.second);
+//
+//     glDisableVertexAttribArray(0);
+//     glDisableVertexAttribArray(1);
+//     glDisableVertexAttribArray(2);
+//     glBindBuffer(GL_ARRAY_BUFFER, 0);
+//
+//     infoFrameBuffer.Unbind();
+//
+//     combinedProgram->Unbind();
+//
+//     glDisable(GL_PROGRAM_POINT_SIZE);
+//     glDisable(GL_POINT_SPRITE);
+//
+//     //glPopAttrib();
+//
+//     glFinish();
+// }

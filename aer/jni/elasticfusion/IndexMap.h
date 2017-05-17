@@ -58,10 +58,10 @@ class IndexMap
                              const int timeDelta,
                              IndexMap::Prediction predictionType);
 
-        void synthesizeInfo(const Eigen::Matrix4f & pose,
-                            const std::pair<GLuint, GLuint> & model,
-                            const float depthCutoff,
-                            const float confThreshold);
+        // void synthesizeInfo(const Eigen::Matrix4f & pose,
+        //                     const std::pair<GLuint, GLuint> & model,
+        //                     const float depthCutoff,
+        //                     const float confThreshold);
 
         void synthesizeDepth(const Eigen::Matrix4f & pose,
                              const std::pair<GLuint, GLuint> & model,
