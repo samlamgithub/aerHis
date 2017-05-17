@@ -686,7 +686,7 @@ void MyElasticFusion::runEF() {
     } //调用点云中的每一个点
     LOGI("MyElasticFusion Log processing result eFusion.globalModel.downloadMap() valid count : %d", validCount);
 
-		RGBDOdometry modelToModel = eFusion.getModelToModel()
+		RGBDOdometry modelToModel = eFusion.getModelToModel();
 		float lastICPError = modelToModel.lastICPError;
 		float lastICPCount = modelToModel.lastICPCount;
 		LOGI("MyElasticFusion Log processing result lastICPError: %f, icpErrThresh: %f", lastICPError, 5e-05);

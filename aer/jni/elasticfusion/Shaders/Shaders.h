@@ -42,7 +42,7 @@ static const char empty_fragment_shader_source[]=
 "#version 310 es\n"
 "void main(void){}\n";
 
-static const char* glErrorString(GLenum err) {
+static const char* glErrorString2(GLenum err) {
   switch(err) {
     case GL_INVALID_ENUM: return "Invalid Enum";
     case GL_INVALID_VALUE: return "Invalid Value";
@@ -57,7 +57,7 @@ static const char* glErrorString(GLenum err) {
 
 inline void check_gl_error2(const char* operation) {
   for (GLint error = glGetError(); error; error = glGetError()) {
-    LOGI("Shader.h My elastic-fusion shader CheckGlDieOnError after %s() glError (0x%x)\n", glErrorString(error), error);
+    LOGI("Shader.h My elastic-fusion shader CheckGlDieOnError after %s() glError (0x%x)\n", glErrorString2(error), error);
   }
 }
 
