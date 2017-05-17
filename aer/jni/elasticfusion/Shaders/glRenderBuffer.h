@@ -106,7 +106,7 @@ struct GlRenderBuffer {
     GLint width;
     GLint height;
     GLuint rbid;
-  private:
+  // private:
     // Private copy constructor
     GlRenderBuffer(const GlRenderBuffer&) {}
 };

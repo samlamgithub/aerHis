@@ -126,7 +126,7 @@ extern PFNGLPOPATTRIBPROC glPopAttrib;
 #define GL_VIEWPORT_BIT  0x00000800
 #define GL_POINT_SPRITE  0x8861
 #define GL_PROGRAM_POINT_SIZE  0x8642
-
+#define INTERLEAVED_ATTRIBS_NV 0x8C8C
 
 #if defined(GL_GLEXT_PROTOTYPES)
 #	define glDebugMessageControl glDebugMessageControlKHR
