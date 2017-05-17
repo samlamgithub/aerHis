@@ -171,6 +171,12 @@ LOGI("GlTexture Unbind done");
         Bind();
         LOGI("GlTexture Upload Bind done");
         CheckGlDieOnError();
+        if (data_format == GL_LUMINANCE_INTEGER_EXT) {
+            data_format = GL_LUMINANCE;
+            data_type = GL_UNSIGNED_BYTE;
+        } else if (data_format == GL_RGB && data_type == GL_UNSIGNED_BYTE) {
+            data_format = GL_RGBA;
+        }
         glTexSubImage2D(GL_TEXTURE_2D,0,0,0,width,height,data_format,data_type,data);
         CheckGlDieOnError();
         LOGI("GlTexture Upload 2");

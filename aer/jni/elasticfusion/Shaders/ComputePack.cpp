@@ -23,6 +23,26 @@ const std::string ComputePack::FILTER = "FILTER";
 const std::string ComputePack::METRIC = "METRIC";
 const std::string ComputePack::METRIC_FILTERED = "METRIC_FILTERED";
 
+
+static const char* glErrorStringComputePack(GLenum err) {
+  switch(err) {
+    case GL_INVALID_ENUM: return "Invalid Enum";
+    case GL_INVALID_VALUE: return "Invalid Value";
+    case GL_INVALID_OPERATION: return "Invalid Operation";
+   // case GL_STACK_OVERFLOW: return "Stack Overflow";
+   // case GL_STACK_UNDERFLOW: return "Stack Underflow";
+    case GL_OUT_OF_MEMORY: return "Out of Memory";
+  //  case GL_TABLE_TOO_LARGE: return "Table too Large";
+    default: return "Unknown Error";
+  }
+}
+
+inline void check_gl_errorComputePack() {
+  for (GLint error = glGetError(); error; error = glGetError()) {
+    LOGI("ComputePack My elastic-fusion  CheckGlDieOnError after %s() glError (0x%x)\n", glErrorStringComputePack(error), error);
+  }
+}
+
 // ComputePack::ComputePack(std::shared_ptr<Shader> program,  pangolin::GlTexture * target)
 ComputePack::ComputePack(std::shared_ptr<Shader> program, GlTexture * target)
  : program(program),
@@ -36,14 +56,20 @@ ComputePack::~ComputePack() {}
 
 // void ComputePack::compute(pangolin::GlTexture * input, const std::vector<Uniform> * const uniforms) {
   void ComputePack::compute(GlTexture * input, const std::vector<Uniform> * const uniforms) {
+check_gl_errorComputePack();
+LOGI("MY elasitcfusion ComputePack compute 1 start");
     input->Bind();
-
+check_gl_errorComputePack();
+LOGI("MY elasitcfusion ComputePack compute 2");
     frameBuffer.Bind();
-
+check_gl_errorComputePack();
+LOGI("MY elasitcfusion ComputePack compute 3");
     glPushAttrib(GL_VIEWPORT_BIT);
-
+check_gl_errorComputePack();
+LOGI("MY elasitcfusion ComputePack compute 4");
     glViewport(0, 0, renderBuffer.width, renderBuffer.height);
-
+check_gl_errorComputePack();
+LOGI("MY elasitcfusion ComputePack compute 5");
     glClearColor(0, 0, 0, 0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -66,4 +92,5 @@ ComputePack::~ComputePack() {}
     glPopAttrib();
 
     glFinish();
+LOGI("MY elasitcfusion ComputePack compute  done");
 }

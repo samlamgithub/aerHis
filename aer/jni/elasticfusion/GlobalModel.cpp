@@ -24,6 +24,26 @@ const int GlobalModel::MAX_VERTICES = GlobalModel::TEXTURE_DIMENSION * GlobalMod
 const int GlobalModel::NODE_TEXTURE_DIMENSION = 16384;
 const int GlobalModel::MAX_NODES = GlobalModel::NODE_TEXTURE_DIMENSION / 16; //16 floats per node
 
+
+static const char* glErrorStringGlobalModel(GLenum err) {
+  switch(err) {
+    case GL_INVALID_ENUM: return "Invalid Enum";
+    case GL_INVALID_VALUE: return "Invalid Value";
+    case GL_INVALID_OPERATION: return "Invalid Operation";
+   // case GL_STACK_OVERFLOW: return "Stack Overflow";
+   // case GL_STACK_UNDERFLOW: return "Stack Underflow";
+    case GL_OUT_OF_MEMORY: return "Out of Memory";
+  //  case GL_TABLE_TOO_LARGE: return "Table too Large";
+    default: return "Unknown Error";
+  }
+}
+
+inline void check_gl_errorGlobalModel() {
+  for (GLint error = glGetError(); error; error = glGetError()) {
+    LOGI("check_gl_errorGlobalModel My elastic-fusion CheckGlDieOnError after %s() glError (0x%x)\n", glErrorStringGlobalModel(error), error);
+  }
+}
+
 GlobalModel::GlobalModel()
  : target(0),
    renderSource(1),
@@ -101,89 +121,100 @@ LOGI("MY elasitcfusion GlobalModel struct init 1 4 ");
     frameBuffer.AttachColour(*updateMapColorsTime.texture);
     frameBuffer.AttachColour(*updateMapNormsRadii.texture);
     frameBuffer.AttachDepth(renderBuffer);
+
+check_gl_errorGlobalModel();
 LOGI("MY elasitcfusion GlobalModel struct init 1 5 ");
     updateProgram->Bind();
-
+check_gl_errorGlobalModel();
+LOGI("MY elasitcfusion GlobalModel struct init check 1 ");
     int locUpdate[3] =
     {
         glGetVaryingLocationNV(updateProgram->programId(), "vPosition0"),
         glGetVaryingLocationNV(updateProgram->programId(), "vColor0"),
         glGetVaryingLocationNV(updateProgram->programId(), "vNormRad0"),
     };
-
+check_gl_errorGlobalModel();
+LOGI("MY elasitcfusion GlobalModel struct init check 2 ");
     glTransformFeedbackVaryingsNV(updateProgram->programId(), 3, locUpdate, GL_INTERLEAVED_ATTRIBS);
+check_gl_errorGlobalModel();
+LOGI("MY elasitcfusion GlobalModel struct init check 3 ");
 LOGI("MY elasitcfusion GlobalModel struct init 1 6 ");
     updateProgram->Unbind();
-
+check_gl_errorGlobalModel();
+LOGI("MY elasitcfusion GlobalModel struct init check 4 ");
     dataProgram->Bind();
-
+check_gl_errorGlobalModel();
+LOGI("MY elasitcfusion GlobalModel struct init check 5 ");
     int dataUpdate[3] =
     {
         glGetVaryingLocationNV(dataProgram->programId(), "vPosition0"),
         glGetVaryingLocationNV(dataProgram->programId(), "vColor0"),
         glGetVaryingLocationNV(dataProgram->programId(), "vNormRad0"),
     };
-
+check_gl_errorGlobalModel();
+LOGI("MY elasitcfusion GlobalModel struct init check 6 ");
     glTransformFeedbackVaryingsNV(dataProgram->programId(), 3, dataUpdate, GL_INTERLEAVED_ATTRIBS);
-
+check_gl_errorGlobalModel();
     dataProgram->Unbind();
-
+check_gl_errorGlobalModel();
     unstableProgram->Bind();
-
+check_gl_errorGlobalModel();
     int unstableUpdate[3] =
     {
         glGetVaryingLocationNV(unstableProgram->programId(), "vPosition0"),
         glGetVaryingLocationNV(unstableProgram->programId(), "vColor0"),
         glGetVaryingLocationNV(unstableProgram->programId(), "vNormRad0"),
     };
-
+check_gl_errorGlobalModel();
     glTransformFeedbackVaryingsNV(unstableProgram->programId(), 3, unstableUpdate, GL_INTERLEAVED_ATTRIBS);
-
+check_gl_errorGlobalModel();
     unstableProgram->Unbind();
-
+check_gl_errorGlobalModel();
     initProgram->Bind();
-
+check_gl_errorGlobalModel();
     int locInit[3] =
      {
          glGetVaryingLocationNV(initProgram->programId(), "vPosition0"),
          glGetVaryingLocationNV(initProgram->programId(), "vColor0"),
          glGetVaryingLocationNV(initProgram->programId(), "vNormRad0"),
      };
-
+check_gl_errorGlobalModel();
      glTransformFeedbackVaryingsNV(initProgram->programId(), 3, locInit, GL_INTERLEAVED_ATTRIBS);
+check_gl_errorGlobalModel();
 LOGI("MY elasitcfusion GlobalModel struct init 1 7 ");
     glGenQueries(1, &countQuery);
-
+check_gl_errorGlobalModel();
     //Empty both transform feedbacks
     glEnable(GL_RASTERIZER_DISCARD);
-
+check_gl_errorGlobalModel();
     glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, vbos[0].second);
-
+check_gl_errorGlobalModel();
     glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, vbos[0].first);
-
+check_gl_errorGlobalModel();
     glBeginTransformFeedback(GL_POINTS);
-
+check_gl_errorGlobalModel();
     glDrawArrays(GL_POINTS, 0, 0);
-
+check_gl_errorGlobalModel();
     glEndTransformFeedback();
-
+check_gl_errorGlobalModel();
     glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, 0);
-
+check_gl_errorGlobalModel();
     glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, vbos[1].second);
-
+check_gl_errorGlobalModel();
     glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, vbos[1].first);
-
+check_gl_errorGlobalModel();
     glBeginTransformFeedback(GL_POINTS);
-
+check_gl_errorGlobalModel();
     glDrawArrays(GL_POINTS, 0, 0);
-
+check_gl_errorGlobalModel();
     glEndTransformFeedback();
-
+check_gl_errorGlobalModel();
     glDisable(GL_RASTERIZER_DISCARD);
-
+check_gl_errorGlobalModel();
     glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, 0);
-
+check_gl_errorGlobalModel();
     initProgram->Unbind();
+check_gl_errorGlobalModel();
 LOGI("MY elasitcfusion GlobalModel struct init 2");
 }
 

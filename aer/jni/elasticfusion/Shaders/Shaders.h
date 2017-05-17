@@ -174,17 +174,18 @@ check_gl_error2("glAttachShader");
 
  void Bind() {
 LOGI("MY elasitcfusion Shader Bind start ");
+check_gl_error2("MY elasitcfusion Shader Bind 1:");
     prev_prog = 0;
     glUseProgram(prog);
-  check_gl_error2("MY elasitcfusion Shader Bind:");
+  check_gl_error2("MY elasitcfusion Shader Bind 2:");
 LOGI("MY elasitcfusion Shader Bind done");
  }
 
  void Unbind() {
-LOGI("MY elasitcfusion Shader Unbind start");
+    LOGI("MY elasitcfusion Shader Unbind start");
     glUseProgram(prev_prog);
-  check_gl_error2("MY elasitcfusion Shader Unbind:");
-LOGI("MY elasitcfusion Shader Unbind done");
+    check_gl_error2("MY elasitcfusion Shader Unbind:");
+    LOGI("MY elasitcfusion Shader Unbind done");
  }
 
   protected:
