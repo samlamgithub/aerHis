@@ -21,6 +21,26 @@
 // using namespace cv;
 #include <../elasticfusion/ElasticFusion.h>
 
+
+static const char* glErrorStringef(GLenum err) {
+  switch(err) {
+    case GL_INVALID_ENUM: return "Invalid Enum";
+    case GL_INVALID_VALUE: return "Invalid Value";
+    case GL_INVALID_OPERATION: return "Invalid Operation";
+   // case GL_STACK_OVERFLOW: return "Stack Overflow";
+   // case GL_STACK_UNDERFLOW: return "Stack Underflow";
+    case GL_OUT_OF_MEMORY: return "Out of Memory";
+  //  case GL_TABLE_TOO_LARGE: return "Table too Large";
+    default: return "Unknown Error";
+  }
+}
+
+inline void check_gl_errorEF() {
+  for (GLint error = glGetError(); error; error = glGetError()) {
+    LOGI("check_gl_errorGlobalModel My elastic-fusion CheckGlDieOnError after %s() glError (0x%x)\n", glErrorStringef(error), error);
+  }
+}
+
 namespace tango_interface {
 
 MyElasticFusion::MyElasticFusion()
@@ -483,6 +503,7 @@ void MyElasticFusion::runEF() {
       photoThresh, confidence, depth, icp, fastOdom, fernThresh, so3,
       frameToFrameRGB, savefilename);
   LOGI("MyElasticFusion runEF elasticfusion Building eFusion done");
+  check_gl_errorEF();
   //待处理文件的位置和下标
   // std::string filedir = "../pic/";
   // int file_start = 1;
@@ -628,11 +649,14 @@ void MyElasticFusion::runEF() {
     //  currentPose->setIdentity();
     //  *currentPose = groundTruthOdometry->getTransformation(timestamp); }
     LOGI("MyElasticFusion Processing frames ready.");
+    check_gl_errorEF();
     eFusion.processFrame(rgbImageForEF, depthForEF, timeStampleForEF,
                          currentPose);
     delete currentPose;
     // eFusion.processFrame(rgb, dep, timestamp);
+    check_gl_errorEF();
     LOGI("MyElasticFusion Processing frames ready done.");
+    check_gl_errorEF();
     Eigen::Matrix4f currPose = eFusion.getCurrPose();
     posesEigen.push_back(currPose);
     //        LOGI("current pose is : " <<currPose);
@@ -912,7 +936,7 @@ void MyElasticFusion::runEF() {
   // LOGI("Logger close:");
   // fclose(RGBlog_file_);
   // fclose(Depthlog_file_);
-delete eFusion;
+delete &eFusion;
   LOGI("ElasticFusion done:");
 }
 }

@@ -20,6 +20,27 @@
 
 const int IndexMap::FACTOR = 1;
 
+
+
+static const char* glErrorStringIndexMap(GLenum err) {
+  switch(err) {
+    case GL_INVALID_ENUM: return "Invalid Enum";
+    case GL_INVALID_VALUE: return "Invalid Value";
+    case GL_INVALID_OPERATION: return "Invalid Operation";
+   // case GL_STACK_OVERFLOW: return "Stack Overflow";
+   // case GL_STACK_UNDERFLOW: return "Stack Underflow";
+    case GL_OUT_OF_MEMORY: return "Out of Memory";
+  //  case GL_TABLE_TOO_LARGE: return "Table too Large";
+    default: return "Unknown Error";
+  }
+}
+
+inline void check_gl_errorIndexMap() {
+  for (GLint error = glGetError(); error; error = glGetError()) {
+    LOGI("check_gl_errorGlobalModel My elastic-fusion CheckGlDieOnError after %s() glError (0x%x)\n", glErrorStringIndexMap(error), error);
+  }
+}
+
 IndexMap::IndexMap()
 : indexProgram(loadProgram(index_mapvert_tuple, index_mapfrag_tuple)),
   indexRenderBuffer(Resolution::getInstance().width() * IndexMap::FACTOR, Resolution::getInstance().height() * IndexMap::FACTOR),
@@ -163,14 +184,20 @@ void IndexMap::predictIndices(const Eigen::Matrix4f & pose,
                               const float depthCutoff,
                               const int timeDelta)
 {
+  check_gl_errorIndexMap();
+    LOGI("MY elasitcfusion IndexMap::predictIndices  1");
     indexFrameBuffer.Bind();
-
+    check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::predictIndices 2");
     glPushAttrib(GL_VIEWPORT_BIT);
-
+    check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::predictIndices  3");
     glViewport(0, 0, indexRenderBuffer.width, indexRenderBuffer.height);
-
+    check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::predictIndices  4");
     glClearColor(0, 0, 0, 0);
-
+    check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::predictIndices  5");
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     indexProgram->Bind();
@@ -219,18 +246,26 @@ void IndexMap::predictIndices(const Eigen::Matrix4f & pose,
 
 void IndexMap::renderDepth(const float depthCutoff)
 {
+  check_gl_errorIndexMap();
+    LOGI("MY elasitcfusion IndexMap::renderDepth  1");
     drawFrameBuffer.Bind();
-
+    check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::renderDepth  2");
     glPushAttrib(GL_VIEWPORT_BIT);
-
+    check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::renderDepth  3");
     glViewport(0, 0, drawRenderBuffer.width, drawRenderBuffer.height);
-
+    check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::renderDepth  4");
     glClearColor(0, 0, 0, 0);
-
+    check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::renderDepth  5");
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+    check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::renderDepth  6");
     drawDepthProgram->Bind();
-
+    check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::renderDepth  7");
     drawDepthProgram->setUniform(Uniform("maxDepth", depthCutoff));
 
     glActiveTexture(GL_TEXTURE0);
@@ -265,9 +300,14 @@ void IndexMap::combinedPredict(const Eigen::Matrix4f & pose,
                                const int timeDelta,
                                IndexMap::Prediction predictionType)
 {
+  check_gl_errorIndexMap();
+    LOGI("MY elasitcfusion IndexMap::combinedPredict  1");
     glEnable(GL_PROGRAM_POINT_SIZE);
+    check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::combinedPredict  2");
     glEnable(GL_POINT_SPRITE);
-
+    check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::combinedPredict  3");
     if(predictionType == IndexMap::ACTIVE)
     {
         combinedFrameBuffer.Bind();
@@ -280,9 +320,12 @@ void IndexMap::combinedPredict(const Eigen::Matrix4f & pose,
     {
         assert(false);
     }
+check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::combinedPredict 4");
 
     glPushAttrib(GL_VIEWPORT_BIT);
-
+    check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::combinedPredict 5");
     if(predictionType == IndexMap::ACTIVE)
     {
         glViewport(0, 0, combinedRenderBuffer.width, combinedRenderBuffer.height);
@@ -370,21 +413,32 @@ void IndexMap::synthesizeDepth(const Eigen::Matrix4f & pose,
                                const int maxTime,
                                const int timeDelta)
 {
+  check_gl_errorIndexMap();
+    LOGI("MY elasitcfusion IndexMap::synthesizeDepth  1");
     glEnable(GL_PROGRAM_POINT_SIZE);
+    check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::synthesizeDepth  2");
     glEnable(GL_POINT_SPRITE);
-
+    check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::synthesizeDepth  3");
     depthFrameBuffer.Bind();
-
+    check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::synthesizeDepth  4");
     glPushAttrib(GL_VIEWPORT_BIT);
-
+    check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::synthesizeDepth  5");
     glViewport(0, 0, depthRenderBuffer.width, depthRenderBuffer.height);
-
+    check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::synthesizeDepth  6");
     glClearColor(0, 0, 0, 0);
-
+    check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::synthesizeDepth  7");
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+    check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::synthesizeDepth 8");
     depthProgram->Bind();
-
+    check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::synthesizeDepth  9");
     Eigen::Matrix4f t_inv = pose.inverse();
 
     Eigen::Vector4f cam(Intrinsics::getInstance().cx(),
@@ -437,19 +491,29 @@ void IndexMap::synthesizeInfo(const Eigen::Matrix4f & pose,
                               const float depthCutoff,
                               const float confThreshold)
 {
+  check_gl_errorIndexMap();
+    LOGI("MY elasitcfusion IndexMap::synthesizeInfo  1");
     glEnable(GL_PROGRAM_POINT_SIZE);
+    check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::synthesizeInfo  2");
     glEnable(GL_POINT_SPRITE);
-
+    check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::synthesizeInfo  3");
     infoFrameBuffer.Bind();
-
+    check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::synthesizeInfo  4");
     glPushAttrib(GL_VIEWPORT_BIT);
-
+    check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::synthesizeInfo  5");
     glViewport(0, 0, infoRenderBuffer.width, infoRenderBuffer.height);
-
+    check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::synthesizeInfo  6");
     glClearColor(0, 0, 0, 0);
-
+    check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::synthesizeInfo  7");
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+    check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::synthesizeInfo  8");
     combinedProgram->Bind();
 
     Eigen::Matrix4f t_inv = pose.inverse();

@@ -18,6 +18,27 @@
 
 #include "FillIn.h"
 
+
+
+static const char* glErrorStringFillIn(GLenum err) {
+  switch(err) {
+    case GL_INVALID_ENUM: return "Invalid Enum";
+    case GL_INVALID_VALUE: return "Invalid Value";
+    case GL_INVALID_OPERATION: return "Invalid Operation";
+   // case GL_STACK_OVERFLOW: return "Stack Overflow";
+   // case GL_STACK_UNDERFLOW: return "Stack Underflow";
+    case GL_OUT_OF_MEMORY: return "Out of Memory";
+  //  case GL_TABLE_TOO_LARGE: return "Table too Large";
+    default: return "Unknown Error";
+  }
+}
+
+inline void check_gl_errorFillIn() {
+  for (GLint error = glGetError(); error; error = glGetError()) {
+    LOGI("check_gl_errorGlobalModel My elastic-fusion CheckGlDieOnError after %s() glError (0x%x)\n", glErrorStringFillIn(error), error);
+  }
+}
+
 FillIn::FillIn()
  : imageTexture(Resolution::getInstance().width(),
                 Resolution::getInstance().height(),
@@ -66,55 +87,84 @@ FillIn::~FillIn()
 
 void FillIn::image(GPUTexture * existingRgb, GPUTexture * rawRgb, bool passthrough)
 {
+check_gl_errorFillIn();
+LOGI("MY elasitcfusion FillIn image 1 ");
     imageFrameBuffer.Bind();
-
+    check_gl_errorFillIn();
+    LOGI("MY elasitcfusion FillIn image 2 ");
     glPushAttrib(GL_VIEWPORT_BIT);
-
+    check_gl_errorFillIn();
+    LOGI("MY elasitcfusion FillIn image 3 ");
     glViewport(0, 0, imageRenderBuffer.width, imageRenderBuffer.height);
-
+    check_gl_errorFillIn();
+    LOGI("MY elasitcfusion FillIn image 4 ");
     glClearColor(0, 0, 0, 0);
+    check_gl_errorFillIn();
+    LOGI("MY elasitcfusion FillIn image 5 ");
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+    check_gl_errorFillIn();
+    LOGI("MY elasitcfusion FillIn image 6 ");
     imageProgram->Bind();
-
+    check_gl_errorFillIn();
+    LOGI("MY elasitcfusion FillIn image 7 ");
     imageProgram->setUniform(Uniform("eSampler", 0));
     imageProgram->setUniform(Uniform("rSampler", 1));
     imageProgram->setUniform(Uniform("passthrough", (int)passthrough));
-
+    check_gl_errorFillIn();
+    LOGI("MY elasitcfusion FillIn image 8 ");
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, existingRgb->texture->tid);
-
+    check_gl_errorFillIn();
+    LOGI("MY elasitcfusion FillIn image 9 ");
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, rawRgb->texture->tid);
-
+    check_gl_errorFillIn();
+    LOGI("MY elasitcfusion FillIn image 10 ");
     glDrawArrays(GL_POINTS, 0, 1);
-
+    check_gl_errorFillIn();
+    LOGI("MY elasitcfusion FillIn image 11 ");
     imageFrameBuffer.Unbind();
-
+    check_gl_errorFillIn();
+    LOGI("MY elasitcfusion FillIn image 12 ");
     glBindTexture(GL_TEXTURE_2D, 0);
-
+    check_gl_errorFillIn();
+    LOGI("MY elasitcfusion FillIn image 13 ");
     glActiveTexture(GL_TEXTURE0);
-
+    check_gl_errorFillIn();
+    LOGI("MY elasitcfusion FillIn image 14 ");
     imageProgram->Unbind();
-
+    check_gl_errorFillIn();
+    LOGI("MY elasitcfusion FillIn image 15 ");
     glPopAttrib();
-
+    check_gl_errorFillIn();
+    LOGI("MY elasitcfusion FillIn image 16 ");
     glFinish();
+    check_gl_errorFillIn();
+    LOGI("MY elasitcfusion FillIn image 17 ");
 }
 
 void FillIn::vertex(GPUTexture * existingVertex, GPUTexture * rawDepth, bool passthrough)
 {
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn vertex 1 ");
     vertexFrameBuffer.Bind();
-
+    check_gl_errorFillIn();
+    LOGI("MY elasitcfusion FillIn vertex 2");
     glPushAttrib(GL_VIEWPORT_BIT);
-
+    check_gl_errorFillIn();
+    LOGI("MY elasitcfusion FillIn vertex 3 ");
     glViewport(0, 0, vertexRenderBuffer.width, vertexRenderBuffer.height);
-
+    check_gl_errorFillIn();
+    LOGI("MY elasitcfusion FillIn vertex 4 ");
     glClearColor(0, 0, 0, 0);
+    check_gl_errorFillIn();
+    LOGI("MY elasitcfusion FillIn vertex 5 ");
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+    check_gl_errorFillIn();
+    LOGI("MY elasitcfusion FillIn vertex 6 ");
     vertexProgram->Bind();
-
+    check_gl_errorFillIn();
+    LOGI("MY elasitcfusion FillIn vertex 7 ");
     vertexProgram->setUniform(Uniform("eSampler", 0));
     vertexProgram->setUniform(Uniform("rSampler", 1));
     vertexProgram->setUniform(Uniform("passthrough", (int)passthrough));
@@ -151,17 +201,26 @@ void FillIn::vertex(GPUTexture * existingVertex, GPUTexture * rawDepth, bool pas
 
 void FillIn::normal(GPUTexture * existingNormal, GPUTexture * rawDepth, bool passthrough)
 {
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn normal 1 ");
     normalFrameBuffer.Bind();
-
+    check_gl_errorFillIn();
+    LOGI("MY elasitcfusion FillIn normal 2 ");
     glPushAttrib(GL_VIEWPORT_BIT);
-
+    check_gl_errorFillIn();
+    LOGI("MY elasitcfusion FillIn normal 3 ");
     glViewport(0, 0, normalRenderBuffer.width, normalRenderBuffer.height);
-
+    check_gl_errorFillIn();
+    LOGI("MY elasitcfusion FillIn normal 4 ");
     glClearColor(0, 0, 0, 0);
+    check_gl_errorFillIn();
+    LOGI("MY elasitcfusion FillIn normal 5 ");
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+    check_gl_errorFillIn();
+    LOGI("MY elasitcfusion FillIn normal 6");
     normalProgram->Bind();
-
+    check_gl_errorFillIn();
+    LOGI("MY elasitcfusion FillIn normal 7 ");
     normalProgram->setUniform(Uniform("eSampler", 0));
     normalProgram->setUniform(Uniform("rSampler", 1));
     normalProgram->setUniform(Uniform("passthrough", (int)passthrough));
