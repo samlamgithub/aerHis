@@ -95,7 +95,7 @@ LOGI("MY elasitcfusion resize struct image 1 ");
     imageFrameBuffer.Bind();
     check_gl_errorResize();
     LOGI("MY elasitcfusion resize struct image 2 ");
-    glPushAttrib(GL_VIEWPORT_BIT);
+    //glPushAttrib(GL_VIEWPORT_BIT);
     check_gl_errorResize();
     LOGI("MY elasitcfusion resize struct image 3 ");
     glViewport(0, 0, imageRenderBuffer.width, imageRenderBuffer.height);
@@ -131,10 +131,10 @@ LOGI("MY elasitcfusion resize struct image 1 ");
 
     imageProgram->Unbind();
 
-    glPopAttrib();
+    //glPopAttrib();
 
     glFinish();
-LOGI("MY elasitcfusion resize struct image 2 ");
+LOGI("MY elasitcfusion resize struct image 12 ");
 }
 
 void Resize::vertex(GPUTexture * source, Img<Eigen::Vector4f> & dest)
@@ -144,7 +144,7 @@ LOGI("MY elasitcfusion resize struct vertex 1 ");
     vertexFrameBuffer.Bind();
     check_gl_errorResize();
     LOGI("MY elasitcfusion resize struct vertex 2 ");
-    glPushAttrib(GL_VIEWPORT_BIT);
+    //glPushAttrib(GL_VIEWPORT_BIT);
     check_gl_errorResize();
     LOGI("MY elasitcfusion resize struct vertex 3 ");
     glViewport(0, 0, vertexRenderBuffer.width, vertexRenderBuffer.height);
@@ -174,7 +174,7 @@ LOGI("MY elasitcfusion resize struct vertex 1 ");
 
     vertexProgram->Unbind();
 
-    glPopAttrib();
+    //glPopAttrib();
 
     glFinish();
 LOGI("MY elasitcfusion resize struct vertex 2");
@@ -187,7 +187,7 @@ LOGI("MY elasitcfusion resize struct time 1");
     timeFrameBuffer.Bind();
     check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct time 2");
-    glPushAttrib(GL_VIEWPORT_BIT);
+    //glPushAttrib(GL_VIEWPORT_BIT);
     check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct time 3");
     glViewport(0, 0, timeRenderBuffer.width, timeRenderBuffer.height);
@@ -217,7 +217,7 @@ LOGI("MY elasitcfusion resize struct time 1");
 
     timeProgram->Unbind();
 
-    glPopAttrib();
+    //glPopAttrib();
 
     glFinish();
 LOGI("MY elasitcfusion resize struct time 2");

@@ -189,7 +189,7 @@ void IndexMap::predictIndices(const Eigen::Matrix4f & pose,
     indexFrameBuffer.Bind();
     check_gl_errorIndexMap();
       LOGI("MY elasitcfusion IndexMap::predictIndices 2");
-    glPushAttrib(GL_VIEWPORT_BIT);
+    //glPushAttrib(GL_VIEWPORT_BIT);
     check_gl_errorIndexMap();
       LOGI("MY elasitcfusion IndexMap::predictIndices  3");
     glViewport(0, 0, indexRenderBuffer.width, indexRenderBuffer.height);
@@ -239,7 +239,7 @@ void IndexMap::predictIndices(const Eigen::Matrix4f & pose,
 
     indexProgram->Unbind();
 
-    glPopAttrib();
+    //glPopAttrib();
 
     glFinish();
 }
@@ -251,7 +251,7 @@ void IndexMap::renderDepth(const float depthCutoff)
     drawFrameBuffer.Bind();
     check_gl_errorIndexMap();
       LOGI("MY elasitcfusion IndexMap::renderDepth  2");
-    glPushAttrib(GL_VIEWPORT_BIT);
+    //glPushAttrib(GL_VIEWPORT_BIT);
     check_gl_errorIndexMap();
       LOGI("MY elasitcfusion IndexMap::renderDepth  3");
     glViewport(0, 0, drawRenderBuffer.width, drawRenderBuffer.height);
@@ -281,7 +281,7 @@ void IndexMap::renderDepth(const float depthCutoff)
 
     glBindTexture(GL_TEXTURE_2D, 0);
 
-    glPopAttrib();
+    //glPopAttrib();
 
     glFinish();
 }
@@ -323,7 +323,7 @@ void IndexMap::combinedPredict(const Eigen::Matrix4f & pose,
 check_gl_errorIndexMap();
       LOGI("MY elasitcfusion IndexMap::combinedPredict 4");
 
-    glPushAttrib(GL_VIEWPORT_BIT);
+    //glPushAttrib(GL_VIEWPORT_BIT);
     check_gl_errorIndexMap();
       LOGI("MY elasitcfusion IndexMap::combinedPredict 5");
     if(predictionType == IndexMap::ACTIVE)
@@ -398,7 +398,7 @@ check_gl_errorIndexMap();
     glDisable(GL_PROGRAM_POINT_SIZE);
     glDisable(GL_POINT_SPRITE);
 
-    glPopAttrib();
+    //glPopAttrib();
 
     glFinish();
 }
@@ -424,7 +424,7 @@ void IndexMap::synthesizeDepth(const Eigen::Matrix4f & pose,
     depthFrameBuffer.Bind();
     check_gl_errorIndexMap();
       LOGI("MY elasitcfusion IndexMap::synthesizeDepth  4");
-    glPushAttrib(GL_VIEWPORT_BIT);
+    //glPushAttrib(GL_VIEWPORT_BIT);
     check_gl_errorIndexMap();
       LOGI("MY elasitcfusion IndexMap::synthesizeDepth  5");
     glViewport(0, 0, depthRenderBuffer.width, depthRenderBuffer.height);
@@ -481,7 +481,7 @@ void IndexMap::synthesizeDepth(const Eigen::Matrix4f & pose,
     glDisable(GL_PROGRAM_POINT_SIZE);
     glDisable(GL_POINT_SPRITE);
 
-    glPopAttrib();
+    //glPopAttrib();
 
     glFinish();
 }
@@ -502,7 +502,7 @@ void IndexMap::synthesizeInfo(const Eigen::Matrix4f & pose,
     infoFrameBuffer.Bind();
     check_gl_errorIndexMap();
       LOGI("MY elasitcfusion IndexMap::synthesizeInfo  4");
-    glPushAttrib(GL_VIEWPORT_BIT);
+    //glPushAttrib(GL_VIEWPORT_BIT);
     check_gl_errorIndexMap();
       LOGI("MY elasitcfusion IndexMap::synthesizeInfo  5");
     glViewport(0, 0, infoRenderBuffer.width, infoRenderBuffer.height);
@@ -558,7 +558,7 @@ void IndexMap::synthesizeInfo(const Eigen::Matrix4f & pose,
     glDisable(GL_PROGRAM_POINT_SIZE);
     glDisable(GL_POINT_SPRITE);
 
-    glPopAttrib();
+    //glPopAttrib();
 
     glFinish();
 }
