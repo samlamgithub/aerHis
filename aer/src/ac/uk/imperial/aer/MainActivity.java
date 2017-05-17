@@ -51,21 +51,21 @@ public class MainActivity extends Activity implements OnClickListener{
     addContentView(mGLView, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
     // add Toggle button
     writingSwitcher = new ToggleButton(this);
-    writingSwitcher.setTextOn("Tap to Start writing");
+    writingSwitcher.setTextOn("Tap to Stop writing");
     writingSwitcher.setBackgroundColor(Color.WHITE);
     writingSwitcher.setTextColor(Color.BLACK);
     writingSwitcher.setId(writingSwitcherID);
-    writingSwitcher.setTextOff("Tap to Stop writing");
+    writingSwitcher.setTextOff("Tap to Start writing");
     writingSwitcher.setChecked(false);
 //    writingSwitcher.setWidth(250);
     writingSwitcher.setOnClickListener(this);
 
     elasticFusionSwitcher = new ToggleButton(this);
-    elasticFusionSwitcher.setTextOn("Tap to Start ElasticFusion");
+    elasticFusionSwitcher.setTextOn("Tap to Stop ElasticFusion");
     elasticFusionSwitcher.setBackgroundColor(Color.WHITE);
     elasticFusionSwitcher.setTextColor(Color.BLACK);
     elasticFusionSwitcher.setId(elasticFusionSwitcherID);
-    elasticFusionSwitcher.setTextOff("Tap to Stop ElasticFusion");
+    elasticFusionSwitcher.setTextOff("Tap to Start ElasticFusion");
     elasticFusionSwitcher.setChecked(false);
 //    elasticFusionSwitcher.setWidth(350);
     elasticFusionSwitcher.setOnClickListener(this);

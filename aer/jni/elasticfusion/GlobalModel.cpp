@@ -135,8 +135,8 @@ LOGI("MY elasitcfusion GlobalModel struct init check 1 ");
     };
 check_gl_errorGlobalModel();
 LOGI("MY elasitcfusion GlobalModel struct init check 2 ");
-    // glTransformFeedbackVaryingsNV(updateProgram->programId(), 3, locUpdate, GL_INTERLEAVED_ATTRIBS);
-glTransformFeedbackVaryingsNV(updateProgram->programId(), 3, locUpdate, INTERLEAVED_ATTRIBS_NV);
+    glTransformFeedbackVaryings(updateProgram->programId(), 3, {"vPosition0", "vColor0",  "vNormRad0"}, GL_INTERLEAVED_ATTRIBS);
+// glTransformFeedbackVaryingsNV(updateProgram->programId(), 3, locUpdate, INTERLEAVED_ATTRIBS_NV);
 
 check_gl_errorGlobalModel();
 LOGI("MY elasitcfusion GlobalModel struct init check 3 ");

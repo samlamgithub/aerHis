@@ -690,7 +690,7 @@ void MyElasticFusion::runEF() {
 		float lastICPError = modelToModel.lastICPError;
 		float lastICPCount = modelToModel.lastICPCount;
 		LOGI("MyElasticFusion Log processing result lastICPError: %f, icpErrThresh: %f", lastICPError, 5e-05);
-		LOGI("MyElasticFusion Log processing result lastICPCount: %f, icpCountThresh: %f",lastICPCount ,35000 );
+		LOGI("MyElasticFusion Log processing result lastICPCount: %f, icpCountThresh: %f",lastICPCount , 35000.00 );
     //
     // LOGI("saving cloud points..." );
     // eFusion.savePly();			 //保存当前的点云图至ply
