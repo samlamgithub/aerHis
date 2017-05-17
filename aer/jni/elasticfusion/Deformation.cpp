@@ -18,6 +18,27 @@
 
 #include "Deformation.h"
 
+
+static const char* glErrorStringDeformation(GLenum err) {
+  switch(err) {
+    case GL_INVALID_ENUM: return "Invalid Enum";
+    case GL_INVALID_VALUE: return "Invalid Value";
+    case GL_INVALID_OPERATION: return "Invalid Operation";
+   // case GL_STACK_OVERFLOW: return "Stack Overflow";
+   // case GL_STACK_UNDERFLOW: return "Stack Underflow";
+    case GL_OUT_OF_MEMORY: return "Out of Memory";
+  //  case GL_TABLE_TOO_LARGE: return "Table too Large";
+    default: return "Unknown Error";
+  }
+}
+
+inline void check_gl_errorDeformation() {
+  for (GLint error = glGetError(); error; error = glGetError()) {
+    LOGI("check_gl_errorGlobalModel My elastic-fusion CheckGlDieOnError after %s() glError (0x%x)\n", glErrorStringDeformation(error), error);
+  }
+}
+
+
 Deformation::Deformation()
  : def(4, &pointPool),
    originalPointPool(0),
@@ -29,29 +50,46 @@ Deformation::Deformation()
    graphPosePoints(new std::vector<Eigen::Vector3f>),
    lastDeformTime(0)
 {
+check_gl_errorDeformation();
 LOGI("MY elasitcfusion Deformation struct init 1 ");
+
     //x, y, z and init time
     memset(&vertices[0], 0, bufferSize);
 
     glGenTransformFeedbacks(1, &fid);
+    check_gl_errorDeformation();
+    LOGI("MY elasitcfusion Deformation struct init 2");
     glGenBuffers(1, &vbo);
+    check_gl_errorDeformation();
+    LOGI("MY elasitcfusion Deformation struct init 3 ");
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    check_gl_errorDeformation();
+    LOGI("MY elasitcfusion Deformation struct init 4 ");
     glBufferData(GL_ARRAY_BUFFER, bufferSize * sizeof(Eigen::Vector4f), &vertices[0], GL_STREAM_DRAW);
+    check_gl_errorDeformation();
+    LOGI("MY elasitcfusion Deformation struct init 5 ");
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-
+    check_gl_errorDeformation();
+    LOGI("MY elasitcfusion Deformation struct init 6 ");
     sampleProgram->Bind();
-
+    check_gl_errorDeformation();
+    LOGI("MY elasitcfusion Deformation struct init 7 ");
     int loc[1] =
      {
          glGetVaryingLocationNV(sampleProgram->programId(), "vData"),
      };
-
-     glTransformFeedbackVaryingsNV(sampleProgram->programId(), 1, loc, GL_INTERLEAVED_ATTRIBS);
-
+     check_gl_errorDeformation();
+     LOGI("MY elasitcfusion Deformation struct init 8 ");
+    //  glTransformFeedbackVaryingsNV(sampleProgram->programId(), 1, loc, GL_INTERLEAVED_ATTRIBS);
+ glTransformFeedbackVaryingsNV(sampleProgram->programId(), 1, loc, INTERLEAVED_ATTRIBS_NV);
+     check_gl_errorDeformation();
+     LOGI("MY elasitcfusion Deformation struct init 9 ");
     sampleProgram->Unbind();
-
+    check_gl_errorDeformation();
+    LOGI("MY elasitcfusion Deformation struct init 10 ");
     glGenQueries(1, &countQuery);
-LOGI("MY elasitcfusion Deformation struct init 2 ");
+  check_gl_errorDeformation();
+LOGI("MY elasitcfusion Deformation struct init 11 ");
 }
 
 Deformation::~Deformation()

@@ -651,7 +651,7 @@ void MyElasticFusion::runEF() {
     int gd_num = eFusion.getFernDeforms();     //全局deformations的数量
     GlobalModel gm = eFusion.getGlobalModel(); //全局deformation model:
 
-    int CloudPoint_num = eFusion.globalModel.lastCount(); //点云的点数量
+    int CloudPoint_num = gm.lastCount(); //点云的点数量
     LOGI("MyElasticFusion Log processing eFusion.globalModel.lastCount(): "
          "totalPoints :%d ",
          CloudPoint_num);
@@ -676,11 +676,11 @@ void MyElasticFusion::runEF() {
          "eFusion.getFernDeforms(): totalFernDefs :%d ",
          totalFernDefs);
 
-    Eigen::Vector4f *mapData = eFusion.globalModel.downloadMap(); //点云图
+    Eigen::Vector4f *mapData = gm.downloadMap(); //点云图
     int validCount = 0;
     for (unsigned int i = 0; i < CloudPoint_num; i++) {
       Eigen::Vector4f pos = mapData[(i * 3) + 0];
-      if (pos[3] > eFusion.confidenceThreshold) {
+      if (pos[3] > confidence) {
         validCount++; //这是个有效的顶点,
       }
     } //调用点云中的每一个点
@@ -912,6 +912,7 @@ void MyElasticFusion::runEF() {
   // LOGI("Logger close:");
   // fclose(RGBlog_file_);
   // fclose(Depthlog_file_);
+delete eFusion;
   LOGI("ElasticFusion done:");
 }
 }
