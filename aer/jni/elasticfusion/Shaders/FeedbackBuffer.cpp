@@ -106,7 +106,7 @@ check_gl_errorFeedbackBuffer();
    check_gl_errorFeedbackBuffer();
        LOGI("MY elasitcfusion FeedbackBuffer struct init 7 ");
 GLchar *vars[3] = {"vPosition0", "vColor0",  "vNormRad0"};
-   glTransformFeedbackVaryingsNV(program->programId(), 3, vars, GL_INTERLEAVED_ATTRIBS);
+   glTransformFeedbackVaryings(program->programId(), 3, vars, GL_INTERLEAVED_ATTRIBS);
   // glTransformFeedbackVaryingsNV(program->programId(), 3, loc, INTERLEAVED_ATTRIBS_NV);
    check_gl_errorFeedbackBuffer();
        LOGI("MY elasitcfusion FeedbackBuffer struct init 8 ");

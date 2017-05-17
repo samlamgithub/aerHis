@@ -81,7 +81,7 @@ LOGI("MY elasitcfusion Deformation struct init 1 ");
      check_gl_errorDeformation();
      LOGI("MY elasitcfusion Deformation struct init 8 ");
 GLchar *vars[1] = {"vData"};
-     glTransformFeedbackVaryingsNV(sampleProgram->programId(), 1, vars, GL_INTERLEAVED_ATTRIBS);
+     glTransformFeedbackVaryings(sampleProgram->programId(), 1, vars, GL_INTERLEAVED_ATTRIBS);
  // glTransformFeedbackVaryingsNV(sampleProgram->programId(), 1, loc, INTERLEAVED_ATTRIBS_NV);
      check_gl_errorDeformation();
      LOGI("MY elasitcfusion Deformation struct init 9 ");

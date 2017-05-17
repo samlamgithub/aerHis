@@ -71,10 +71,14 @@ LOGI("MY elasitcfusion ComputePack compute 4");
 check_gl_errorComputePack();
 LOGI("MY elasitcfusion ComputePack compute 5");
     glClearColor(0, 0, 0, 0);
+    check_gl_errorComputePack();
+    LOGI("MY elasitcfusion ComputePack compute 6");
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+    check_gl_errorComputePack();
+    LOGI("MY elasitcfusion ComputePack compute 7");
     program->Bind();
-
+    check_gl_errorComputePack();
+    LOGI("MY elasitcfusion ComputePack compute 8");
     if(uniforms)
     {
         for(size_t i = 0; i < uniforms->size(); i++)
@@ -82,15 +86,21 @@ LOGI("MY elasitcfusion ComputePack compute 5");
             program->setUniform(uniforms->at(i));
         }
     }
-
+    check_gl_errorComputePack();
+    LOGI("MY elasitcfusion ComputePack compute 9");
     glDrawArrays(GL_POINTS, 0, 1);
-
+    check_gl_errorComputePack();
+    LOGI("MY elasitcfusion ComputePack compute 10");
     frameBuffer.Unbind();
-
+    check_gl_errorComputePack();
+    LOGI("MY elasitcfusion ComputePack compute 11");
     program->Unbind();
-
+    check_gl_errorComputePack();
+    LOGI("MY elasitcfusion ComputePack compute 12");
     glPopAttrib();
-
+    check_gl_errorComputePack();
+    LOGI("MY elasitcfusion ComputePack compute 13");
     glFinish();
+check_gl_errorComputePack();
 LOGI("MY elasitcfusion ComputePack compute  done");
 }
