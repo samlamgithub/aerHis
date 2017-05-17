@@ -410,7 +410,7 @@ void MyElasticFusion::runEF() {
                                   EGL_DEPTH_SIZE,   24,
                                   EGL_NONE};
 
-  const EGLint contextAttribs[] = {EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT, EGL_CONTEXT_CLIENT_VERSION, 3,  EGL_NONE};
+  const EGLint contextAttribs[] = {EGL_CONTEXT_CLIENT_VERSION, 3,  EGL_NONE};
 
   EGLDisplay display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
   if (display == EGL_NO_DISPLAY || eglGetError() != EGL_SUCCESS) {
