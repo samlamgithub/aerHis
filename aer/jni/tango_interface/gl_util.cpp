@@ -65,9 +65,24 @@ const GLfloat kFlipTextureCoords[] = {0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0.0};
 
 }  // namespace shader
 
+static const char* glErrorStringUtil(GLenum err) {
+  switch(err) {
+    case GL_INVALID_ENUM: return "Invalid Enum";
+    case GL_INVALID_VALUE: return "Invalid Value";
+    case GL_INVALID_OPERATION: return "Invalid Operation";
+    case GL_INVALID_FRAMEBUFFER_OPERATION:
+      return "GL_INVALID_FRAMEBUFFER_OPERATION";
+   // case GL_STACK_OVERFLOW: return "Stack Overflow";
+   // case GL_STACK_UNDERFLOW: return "Stack Underflow";
+    case GL_OUT_OF_MEMORY: return "Out of Memory";
+  //  case GL_TABLE_TOO_LARGE: return "Table too Large";
+    default: return "Unknown Error";
+  }
+}
+
 void check_gl_error(const char* operation) {
   for (GLint error = glGetError(); error; error = glGetError()) {
-    LOGI("glutil.cpp after %s() glError (0x%x)\n", operation, error);
+    LOGI("glutil.cpp after %s() glError: %s, (0x%x)\n", operation, glErrorStringUtil(error), error);
   }
 }
 

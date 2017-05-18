@@ -27,6 +27,8 @@ static const char *glErrorStringEF(GLenum err) {
     return "Invalid Value";
   case GL_INVALID_OPERATION:
     return "Invalid Operation";
+    case GL_INVALID_FRAMEBUFFER_OPERATION:
+      return "GL_INVALID_FRAMEBUFFER_OPERATION";
   // case GL_STACK_OVERFLOW: return "Stack Overflow";
   // case GL_STACK_UNDERFLOW: return "Stack Underflow";
   case GL_OUT_OF_MEMORY:

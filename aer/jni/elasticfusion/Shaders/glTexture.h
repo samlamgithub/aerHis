@@ -36,6 +36,8 @@ static const char* glErrorString(GLenum err) {
     case GL_INVALID_ENUM: return "Invalid Enum";
     case GL_INVALID_VALUE: return "Invalid Value";
     case GL_INVALID_OPERATION: return "Invalid Operation";
+    case GL_INVALID_FRAMEBUFFER_OPERATION:
+      return "GL_INVALID_FRAMEBUFFER_OPERATION";
    // case GL_STACK_OVERFLOW: return "Stack Overflow";
    // case GL_STACK_UNDERFLOW: return "Stack Underflow";
     case GL_OUT_OF_MEMORY: return "Out of Memory";
@@ -104,6 +106,7 @@ LOGI("GlTexture bind start check");
     }
 
     void Unbind() const {
+CheckGlDieOnError();
   LOGI("GlTexture Unbind start");
         glBindTexture(GL_TEXTURE_2D, 0);
 CheckGlDieOnError();
@@ -112,20 +115,25 @@ LOGI("GlTexture Unbind done");
 
     virtual void Reinitialise(GLsizei w, GLsizei h, GLint int_format = GL_RGBA8,
       bool sampling_linear = true, int border = 0, GLenum glformat = GL_RGBA, GLenum gltype = GL_UNSIGNED_BYTE, GLvoid* data = NULL ) {
-        LOGI("GlTexture init 3");
-        CheckGlDieOnError();
+CheckGlDieOnError();
+        LOGI("GlTexture Reinitialise 1");
+
         if(tid!=0) {
             glDeleteTextures(1,&tid);
         }
-
+        CheckGlDieOnError();
+                LOGI("GlTexture Reinitialise 2");
         internal_format = int_format;
         width = w;
         height = h;
 
         glGenTextures(1,&tid);
-        Bind();
-        LOGI("GlTexture init 4");
         CheckGlDieOnError();
+                LOGI("GlTexture Reinitialise 3");
+        Bind();
+        CheckGlDieOnError();
+                LOGI("GlTexture Reinitialise 4");
+
         if (internal_format == GL_LUMINANCE32UI_EXT) {
           internal_format = GL_LUMINANCE;
           glformat = internal_format;
@@ -147,10 +155,8 @@ LOGI("GlTexture Unbind done");
         // GL_LUMINANCE and GL_FLOAT don't seem to actually affect buffer, but some values are required
         // for call to succeed.
         glTexImage2D(GL_TEXTURE_2D, 0, internal_format, width, height, border, glformat, gltype, data);
-
-        LOGI("GlTexture init 5");
         CheckGlDieOnError();
-
+                LOGI("GlTexture Reinitialise 5");
         if(sampling_linear) {
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -158,17 +164,20 @@ LOGI("GlTexture Unbind done");
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         }
-
+        CheckGlDieOnError();
+                LOGI("GlTexture Reinitialise 6");
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
         CheckGlDieOnError();
+                LOGI("GlTexture Reinitialise 7");
     }
 
     void Upload(const void* data, GLenum data_format = GL_LUMINANCE, GLenum data_type = GL_FLOAT) {
         LOGI("GlTexture Upload 1: %d, %d", data_format, data_type);
+CheckGlDieOnError();
         LOGI("GlTexture Upload Bind start");
         Bind();
+CheckGlDieOnError();
         LOGI("GlTexture Upload Bind done");
         CheckGlDieOnError();
         if (data_format == GL_LUMINANCE_INTEGER_EXT) {
@@ -177,9 +186,11 @@ LOGI("GlTexture Unbind done");
         } else if (data_format == GL_RGB && data_type == GL_UNSIGNED_BYTE) {
             data_format = GL_RGBA;
         }
+CheckGlDieOnError();
+  LOGI("GlTexture Upload 2");
         glTexSubImage2D(GL_TEXTURE_2D,0,0,0,width,height,data_format,data_type,data);
         CheckGlDieOnError();
-        LOGI("GlTexture Upload 2");
+        LOGI("GlTexture Upload 3");
     }
 
     //  void Upload(

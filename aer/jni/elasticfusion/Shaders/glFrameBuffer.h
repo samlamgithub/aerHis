@@ -36,6 +36,8 @@ static const char* glErrorStringFB(GLenum err) {
     case GL_INVALID_ENUM: return "Invalid Enum";
     case GL_INVALID_VALUE: return "Invalid Value";
     case GL_INVALID_OPERATION: return "Invalid Operation";
+    case GL_INVALID_FRAMEBUFFER_OPERATION:
+      return "GL_INVALID_FRAMEBUFFER_OPERATION";
    // case GL_STACK_OVERFLOW: return "Stack Overflow";
    // case GL_STACK_UNDERFLOW: return "Stack Underflow";
     case GL_OUT_OF_MEMORY: return "Out of Memory";
@@ -52,7 +54,7 @@ inline void CheckGlDieOnErrorFB() {
 
 struct GlFramebuffer {
 
-    GlFramebuffer(): fbid(0), attachments(0){  LOGI("GlFramebuffer init 1");}
+    GlFramebuffer(): fbid(0), attachments(0){  LOGI(CheckGlDieOnErrorFB();"GlFramebuffer init 1");}
 
     ~GlFramebuffer() {
         if(fbid) {
@@ -63,9 +65,14 @@ struct GlFramebuffer {
 
     GlFramebuffer(GlTexture& colour, GlRenderBuffer& depth) : attachments(0) {
         // glGenFramebuffersEXT(1, &fbid);
-        LOGI("GlFramebuffer init 2 start");
+        CheckGlDieOnErrorFB();
+        LOGI("GlFramebuffer init 2 start 1 ");
         glGenFramebuffers(1, &fbid);
+        CheckGlDieOnErrorFB();
+        LOGI("GlFramebuffer init 2 2 ");
         AttachColour(colour);
+        CheckGlDieOnErrorFB();
+        LOGI("GlFramebuffer init 2 3");
         AttachDepth(depth);
         CheckGlDieOnErrorFB();
         LOGI("GlFramebuffer init 2 done");
@@ -73,47 +80,77 @@ struct GlFramebuffer {
 
     GlFramebuffer(GlTexture& colour0, GlTexture& colour1, GlRenderBuffer& depth) : attachments(0)  {
         // glGenFramebuffersEXT(1, &fbid);
-        LOGI("GlFramebuffer init 3 start");
+        CheckGlDieOnErrorFB();
+        LOGI("GlFramebuffer init 3 start 1");
         glGenFramebuffers(1, &fbid);
+        CheckGlDieOnErrorFB();
+        LOGI("GlFramebuffer init 3 2");
         AttachColour(colour0);
+        CheckGlDieOnErrorFB();
+        LOGI("GlFramebuffer init 3 3");
         AttachColour(colour1);
+        CheckGlDieOnErrorFB();
+        LOGI("GlFramebuffer init 3 4");
         AttachDepth(depth);
         CheckGlDieOnErrorFB();
-        LOGI("GlFramebuffer init 3 start");
+        LOGI("GlFramebuffer init 3 done");
     }
 
     void Bind() const {
         // glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fbid);
+        CheckGlDieOnErrorFB();
+        LOGI("GlFramebuffer Bind start");
         glBindFramebuffer(GL_FRAMEBUFFER, fbid);
+        CheckGlDieOnErrorFB();
+        LOGI("GlFramebuffer Bind done");
         // glDrawBuffers( attachments, attachment_buffers );
     }
 
     void Reinitialise() {
+      CheckGlDieOnErrorFB();
+      LOGI("GlFramebuffer Reinitialise start");
         if(fbid) {
             // glDeleteFramebuffersEXT(1, &fbid);
             glDeleteFramebuffers(1, &fbid);
         }
+        CheckGlDieOnErrorFB();
+        LOGI("GlFramebuffer Reinitialise start 1");
         // glGenFramebuffersEXT(1, &fbid);
         glGenFramebuffers(1, &fbid);
+        CheckGlDieOnErrorFB();
+        LOGI("GlFramebuffer Reinitialise start 2");
     }
 
      void Unbind() const {
+       CheckGlDieOnErrorFB();
+       LOGI("GlFramebuffer Unbind start");
         // glDrawBuffers( 1, attachment_buffers );
         // glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        CheckGlDieOnErrorFB();
+        LOGI("GlFramebuffer Unbind done ");
     }
 
      GLenum AttachColour(GlTexture& tex ){
+        CheckGlDieOnErrorFB();
        LOGI("GlFramebuffer AttachColour start");
         if(!fbid) Reinitialise();
+        CheckGlDieOnErrorFB();
+       LOGI("GlFramebuffer AttachColour start  1");
         // const GLenum color_attachment = GL_COLOR_ATTACHMENT0_EXT + attachments;
         // glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fbid);
         // glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, color_attachment, GL_TEXTURE_2D, tex.tid, 0);
         // glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
         const GLenum color_attachment = GL_COLOR_ATTACHMENT0 + attachments;
         glBindFramebuffer(GL_FRAMEBUFFER, fbid);
+        CheckGlDieOnErrorFB();
+       LOGI("GlFramebuffer AttachColour start  2");
         glFramebufferTexture2D(GL_FRAMEBUFFER, color_attachment, GL_TEXTURE_2D, tex.tid, 0);
+        CheckGlDieOnErrorFB();
+        LOGI("GlFramebuffer AttachColour start  3");
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        CheckGlDieOnErrorFB();
+        LOGI("GlFramebuffer AttachColour start  4");
         attachments++;
         CheckGlDieOnErrorFB();
  LOGI("GlFramebuffer AttachColour done");
@@ -121,17 +158,22 @@ struct GlFramebuffer {
     }
 
     void AttachDepth(GlRenderBuffer& rb ) {
+      CheckGlDieOnErrorFB();
  LOGI("GlFramebuffer AttachDepth start");
         if(!fbid) Reinitialise();
-
+        CheckGlDieOnErrorFB();
+      LOGI("GlFramebuffer AttachDepth 1");
         // glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fbid);
         // glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_TEXTURE_2D, rb.rbid, 0);
         // glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 
         glBindFramebuffer(GL_FRAMEBUFFER, fbid);
+        CheckGlDieOnErrorFB();
+      LOGI("GlFramebuffer AttachDepth 2");
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, rb.rbid, 0);
+        CheckGlDieOnErrorFB();
+      LOGI("GlFramebuffer AttachDepth 3");
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
         CheckGlDieOnErrorFB();
  LOGI("GlFramebuffer AttachDepth done");
     }

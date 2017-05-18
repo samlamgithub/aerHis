@@ -27,6 +27,8 @@ static const char* glErrorStringef(GLenum err) {
     case GL_INVALID_ENUM: return "Invalid Enum";
     case GL_INVALID_VALUE: return "Invalid Value";
     case GL_INVALID_OPERATION: return "Invalid Operation";
+    case GL_INVALID_FRAMEBUFFER_OPERATION:
+      return "GL_INVALID_FRAMEBUFFER_OPERATION";
    // case GL_STACK_OVERFLOW: return "Stack Overflow";
    // case GL_STACK_UNDERFLOW: return "Stack Underflow";
     case GL_OUT_OF_MEMORY: return "Out of Memory";
@@ -402,7 +404,7 @@ void MyElasticFusion::runEF() {
   //   	  }
   //==================================
   LOGI("MyElasticFusion runEF egl context setup start ...");
-  const EGLint configAttribs[] = {EGL_RENDERABLE_TYPE, EGL_OPENGL_ES3_BIT,
+  const EGLint configAttribs[] = {EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
                                   EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
                                   EGL_BLUE_SIZE,    8,
                                   EGL_GREEN_SIZE,   8,
