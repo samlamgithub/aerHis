@@ -715,7 +715,6 @@ void ElasticFusion::metriciseDepth() {
   check_gl_errorElasticFusion();
   LOGI("MY elasitcfusion struct metriciseDepth 1 ");
   std::vector<Uniform> uniforms;
-
   uniforms.push_back(Uniform("maxD", depthCutoff));
   check_gl_errorElasticFusion();
   LOGI("MY elasitcfusion struct metriciseDepth 2 ");

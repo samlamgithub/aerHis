@@ -66,13 +66,12 @@ const GLfloat kFlipTextureCoords[] = {0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0.0};
 inline void glCheckFramebufferStatusUtil(const char *operation) {
   GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
   if (status == GL_FRAMEBUFFER_COMPLETE) {
-    LOGI("MY elasitcfusion gl Util GL_FRAMEBUFFER_COMPLETE", % s, operation);
+    LOGI("MY elasitcfusion gl Util GL_FRAMEBUFFER_COMPLETE, % s", operation);
   } else if (status == GL_FRAMEBUFFER_UNDEFINED) {
-    LOGI("MY elasitcfusion gl Util  GL_FRAMEBUFFER_UNDEFINED", % s, operation);
+    LOGI("MY elasitcfusion gl Util  GL_FRAMEBUFFER_UNDEFINED, % s", operation);
   } else if (status == GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT) {
     LOGI("MY elasitcfusion gl Util "
-         "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT",
-         % s, operation);
+         "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT, % s", operation);
   } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT) {
     LOGI("MY elasitcfusion gl Util "
          "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT, %s",
@@ -253,7 +252,7 @@ GlCameraFrame::GlCameraFrame()
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 1280, 720, 0, GL_RGB, GL_UNSIGNED_BYTE,
                NULL);
   check_gl_error("glutil 5");
-  glBindFramebuffer(GL_FRAMEBUFFER, frame_buffer_object_);
+  glBindFramebuffer(GL_FRAMEBUFFER, frame_buffer_object_); //GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT
   check_gl_error("glutil 6");
   glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D,
                          frame_texture_buffer_, 0);

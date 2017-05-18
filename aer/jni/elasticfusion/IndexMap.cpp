@@ -55,10 +55,9 @@ IndexMap::IndexMap()
                         Resolution::getInstance().height() * IndexMap::FACTOR),
       indexTexture(Resolution::getInstance().width() * IndexMap::FACTOR,
                    Resolution::getInstance().height() * IndexMap::FACTOR,
-                   GL_LUMINANCE32UI_EXT, GL_LUMINANCE_INTEGER_EXT,
-                   // GL_LUMINANCE32F_EXT,
-                   // GL_LUMINANCE,
-                   GL_UNSIGNED_INT),
+                   GL_LUMINANCE, GL_LUMINANCE, GL_UNSIGNED_BYTE),
+      //  GL_LUMINANCE32UI_EXT, GL_LUMINANCE_INTEGER_EXT,
+      //  GL_UNSIGNED_INT),
       vertConfTexture(Resolution::getInstance().width() * IndexMap::FACTOR,
                       Resolution::getInstance().height() * IndexMap::FACTOR,
                       GL_RGBA32F, GL_LUMINANCE, GL_FLOAT),
@@ -393,8 +392,12 @@ void IndexMap::combinedPredict(const Eigen::Matrix4f &pose,
   LOGI("MY elasitcfusion IndexMap::combinedPredict  3");
   if (predictionType == IndexMap::ACTIVE) {
     combinedFrameBuffer.Bind();
+    check_gl_errorIndexMap();
+    LOGI("MY elasitcfusion IndexMap::combinedPredict  3 1");
   } else if (predictionType == IndexMap::INACTIVE) {
     oldFrameBuffer.Bind();
+    check_gl_errorIndexMap();
+    LOGI("MY elasitcfusion IndexMap::combinedPredict  3 2");
   } else {
     assert(false);
   }

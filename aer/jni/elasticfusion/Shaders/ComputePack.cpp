@@ -108,7 +108,7 @@ void ComputePack::compute(GlTexture *input,
   input->Bind();
   check_gl_errorComputePack();
   LOGI("MY elasitcfusion ComputePack compute 2");
-  frameBuffer.Bind();
+  frameBuffer.Bind();  // no good
   check_gl_errorComputePack();
   LOGI("MY elasitcfusion ComputePack compute 3");
   // glPushAttrib(GL_VIEWPORT_BIT);
@@ -136,7 +136,7 @@ void ComputePack::compute(GlTexture *input,
   }
   check_gl_errorComputePack();
   LOGI("MY elasitcfusion ComputePack compute 9");
-  glDrawArrays(GL_POINTS, 0, 1); // here GL_INVALID_FRAMEBUFFER_OPERATION
+  glDrawArrays(GL_POINTS, 0, 1); // here GL_INVALID_FRAMEBUFFER_OPERATION // no good
   check_gl_errorComputePack();
   LOGI("MY elasitcfusion ComputePack compute 10");
   frameBuffer.Unbind();
