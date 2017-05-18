@@ -111,7 +111,7 @@ void ComputePack::compute(GlTexture *input,
   }
   check_gl_errorComputePack();
   LOGI("MY elasitcfusion ComputePack compute 6");
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // here
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // here Invalid Enum
   check_gl_errorComputePack();
   LOGI("MY elasitcfusion ComputePack compute 7");
   program->Bind();
@@ -124,7 +124,7 @@ void ComputePack::compute(GlTexture *input,
   }
   check_gl_errorComputePack();
   LOGI("MY elasitcfusion ComputePack compute 9");
-  glDrawArrays(GL_POINTS, 0, 1); // here
+  glDrawArrays(GL_POINTS, 0, 1); // here GL_INVALID_FRAMEBUFFER_OPERATION
   check_gl_errorComputePack();
   LOGI("MY elasitcfusion ComputePack compute 10");
   frameBuffer.Unbind();
