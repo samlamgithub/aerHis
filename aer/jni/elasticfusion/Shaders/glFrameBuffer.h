@@ -179,11 +179,11 @@ struct GlFramebuffer {
     // glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, color_attachment,
     // GL_TEXTURE_2D, tex.tid, 0); glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
     const GLenum color_attachment = GL_COLOR_ATTACHMENT0 + attachments;
-    glBindFramebuffer(GL_FRAMEBUFFER, fbid);
+    glBindFramebuffer(GL_FRAMEBUFFER, fbid); // GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT
     CheckGlDieOnErrorFB();
     LOGI("GlFramebuffer AttachColour start  2");
     glFramebufferTexture2D(GL_FRAMEBUFFER, color_attachment, GL_TEXTURE_2D,
-                           tex.tid, 0);
+                           tex.tid, 0); // GL_FRAMEBUFFER_UNSUPPORTED
     CheckGlDieOnErrorFB();
     LOGI("GlFramebuffer AttachColour start  3");
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -205,7 +205,6 @@ struct GlFramebuffer {
     // glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fbid);
     // glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT,
     // GL_TEXTURE_2D, rb.rbid, 0); glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
-
     glBindFramebuffer(GL_FRAMEBUFFER, fbid);
     CheckGlDieOnErrorFB();
     LOGI("GlFramebuffer AttachDepth 2");

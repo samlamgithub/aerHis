@@ -46,15 +46,6 @@ static const char *glErrorStringComputePack(GLenum err) {
   }
 }
 
-inline void check_gl_errorComputePack() {
-  for (GLint error = glGetError(); error; error = glGetError()) {
-    if (error != GL_NO_ERROR) {
-      LOGI("ComputePack My elastic-fusion  CheckGlDieOnError after %s() "
-           "glError (0x%x)\n",
-           glErrorStringComputePack(error), error);
-    }
-  }
-}
 
 inline void glCheckFramebufferStatusCC() {
   GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
@@ -80,14 +71,30 @@ inline void glCheckFramebufferStatusCC() {
   }
 }
 
+inline void check_gl_errorComputePack() {
+  glCheckFramebufferStatusCC();
+  for (GLint error = glGetError(); error; error = glGetError()) {
+    if (error != GL_NO_ERROR) {
+      LOGI("ComputePack My elastic-fusion  CheckGlDieOnError after %s() "
+           "glError (0x%x)\n",
+           glErrorStringComputePack(error), error);
+    }
+  }
+}
+
+
 // ComputePack::ComputePack(std::shared_ptr<Shader> program,
 // pangolin::GlTexture * target)
 ComputePack::ComputePack(std::shared_ptr<Shader> program, GlTexture *target)
     : program(program), renderBuffer(Resolution::getInstance().width(),
                                      Resolution::getInstance().height()),
       target(target) {
+LOGI("MY elasitcfusion ComputePack struct ComputePack AttachColour(*target); start ");
   frameBuffer.AttachColour(*target);
-  frameBuffer.AttachDepth(renderBuffer);
+LOGI("MY elasitcfusion ComputePack struct ComputePack AttachColour(*target); done ");
+LOGI("MY elasitcfusion ComputePack struct ComputePack AttachDepth(renderBuffer); start ");
+frameBuffer.AttachDepth(renderBuffer);
+LOGI("MY elasitcfusion ComputePack struct ComputePack AttachDepth(renderBuffer); done ");
 }
 
 ComputePack::~ComputePack() {}

@@ -145,10 +145,26 @@ GlobalModel::GlobalModel()
                GL_STATIC_DRAW);
   glBindBuffer(GL_ARRAY_BUFFER, 0);
 
+  LOGI("MY elasitcfusion GlobalModel struct init "
+       "AttachColour(*updateMapVertsConfs.texture); start ");
   frameBuffer.AttachColour(*updateMapVertsConfs.texture);
+  LOGI("MY elasitcfusion GlobalModel struct init "
+       "AttachColour(*updateMapVertsConfs.texture); done ");
+  LOGI("MY elasitcfusion GlobalModel struct init "
+       "AttachColour(*updateMapColorsTime.texture); start ");
   frameBuffer.AttachColour(*updateMapColorsTime.texture);
+  LOGI("MY elasitcfusion GlobalModel struct init "
+       "AttachColour(*updateMapColorsTime.texture); done ");
+  LOGI("MY elasitcfusion GlobalModel struct init "
+       "AttachColour(*updateMapNormsRadii.texture); start ");
   frameBuffer.AttachColour(*updateMapNormsRadii.texture);
+  LOGI("MY elasitcfusion GlobalModel struct init "
+       "AttachColour(*updateMapNormsRadii.texture); done ");
+  LOGI("MY elasitcfusion GlobalModel struct init "
+       "AttachDepthrenderBuffer); start ");
   frameBuffer.AttachDepth(renderBuffer);
+  LOGI("MY elasitcfusion GlobalModel struct init "
+       "AttachDepth(renderBuffer); done ");
 
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel struct init 1 5 ");

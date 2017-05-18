@@ -95,14 +95,36 @@ FillIn::FillIn()
       normalRenderBuffer(Resolution::getInstance().width(),
                          Resolution::getInstance().height()) {
   LOGI("MY elasitcfusion FillIn struct init 1 ");
+  LOGI("MY elasitcfusion FillIn struct FillIn "
+       "AttachColour(*imageTexture.texture); start ");
   imageFrameBuffer.AttachColour(*imageTexture.texture);
+  LOGI("MY elasitcfusion FillIn struct FillIn "
+       "AttachColour(*imageTexture.texture); done ");
+  LOGI("MY elasitcfusion FillIn struct FillIn AttachDepth(imageRenderBuffer); "
+       "start ");
   imageFrameBuffer.AttachDepth(imageRenderBuffer);
-
+  LOGI("MY elasitcfusion FillIn struct FillIn AttachDepth(imageRenderBuffer); "
+       "done ");
+  LOGI("MY elasitcfusion FillIn struct FillIn "
+       "AttachColour(*vertexTexture.texture); start ");
   vertexFrameBuffer.AttachColour(*vertexTexture.texture);
+  LOGI("MY elasitcfusion FillIn struct FillIn "
+       "AttachColour(*vertexTexture.texture); done ");
+  LOGI("MY elasitcfusion FillIn struct FillIn AttachDepth(vertexRenderBuffer); "
+       "start ");
   vertexFrameBuffer.AttachDepth(vertexRenderBuffer);
-
+  LOGI("MY elasitcfusion FillIn struct FillIn "
+       "AttachDepth(*imageTexture.texture); done ");
+  LOGI("MY elasitcfusion FillIn struct FillIn "
+       "AttachColour(*normalTexture.texture); start ");
   normalFrameBuffer.AttachColour(*normalTexture.texture);
+  LOGI("MY elasitcfusion FillIn struct FillIn "
+       "AttachColour(*normalTexture.texture); done ");
+  LOGI("MY elasitcfusion FillIn struct FillIn AttachDepth(normalRenderBuffer); "
+       "start ");
   normalFrameBuffer.AttachDepth(normalRenderBuffer);
+  LOGI("MY elasitcfusion FillIn struct FillIn AttachDepth(normalRenderBuffer); "
+       "done ");
   LOGI("MY elasitcfusion FillIn struct init 2 ");
 }
 

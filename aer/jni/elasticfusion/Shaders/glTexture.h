@@ -52,7 +52,32 @@ static const char *glErrorString(GLenum err) {
   }
 }
 
+inline void glCheckFramebufferStatusgltexture() {
+  GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+  if (status == GL_FRAMEBUFFER_COMPLETE) {
+    LOGI("MY elasitcfusion gltexture GL_FRAMEBUFFER_COMPLETE");
+  } else if (status == GL_FRAMEBUFFER_UNDEFINED) {
+    LOGI("MY elasitcfusion gltexture  GL_FRAMEBUFFER_UNDEFINED");
+  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT) {
+    LOGI("MY elasitcfusion gltexture "
+         "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT");
+  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT) {
+    LOGI("MY elasitcfusion gltexture "
+         "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT");
+  } else if (status == GL_FRAMEBUFFER_UNSUPPORTED) {
+    LOGI("MY elasitcfusion gltexture  GL_FRAMEBUFFER_UNSUPPORTED");
+  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE) {
+    LOGI("MY elasitcfusion gltexture  "
+         "GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE");
+  } else if (status == GL_INVALID_ENUM) {
+    LOGI("MY elasitcfusion gltexture GL_INVALID_ENUM");
+  } else {
+    LOGI("MY elasitcfusion gltexture %d", status);
+  }
+}
+
 inline void CheckGlDieOnError() {
+  glCheckFramebufferStatusgltexture();
   for (GLint error = glGetError(); error; error = glGetError()) {
     LOGI("glTexture.h CheckGlDieOnError after %s: glError (0x%x)\n",
          glErrorString(error), error);

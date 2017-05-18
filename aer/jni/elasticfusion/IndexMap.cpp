@@ -131,34 +131,121 @@ IndexMap::IndexMap()
 
 {
   LOGI("MY elasitcfusion IndexMap struct init 1 ");
+  LOGI("MY elasitcfusion IndexMap struct IndexMap "
+       "AttachColour(*indexTexture.texture); start ");
   indexFrameBuffer.AttachColour(*indexTexture.texture);
+  LOGI("MY elasitcfusion IndexMap struct IndexMap "
+       "AttachColour(*indexTexture.texture); done ");
+  LOGI("MY elasitcfusion IndexMap struct IndexMap "
+       "AttachColour(*vertConfTexture.texture); start ");
   indexFrameBuffer.AttachColour(*vertConfTexture.texture);
+  LOGI("MY elasitcfusion IndexMap struct IndexMap "
+       "AttachColour(*vertConfTexture.texture); done ");
+  LOGI("MY elasitcfusion IndexMap struct IndexMap "
+       "AttachColour(*colorTimeTexture.texture); start ");
   indexFrameBuffer.AttachColour(*colorTimeTexture.texture);
+  LOGI("MY elasitcfusion IndexMap struct IndexMap "
+       "AttachColour(*colorTimeTexture.texture); done ");
+  LOGI("MY elasitcfusion IndexMap struct IndexMap "
+       "AttachColour(*normalRadTexture.texture); start ");
   indexFrameBuffer.AttachColour(*normalRadTexture.texture);
+  LOGI("MY elasitcfusion IndexMap struct IndexMap "
+       "AttachColour(*normalRadTexture.texture); done ");
+  LOGI("MY elasitcfusion IndexMap struct IndexMap "
+       "AttachDepth(*indexRenderBuffer.texture); start ");
   indexFrameBuffer.AttachDepth(indexRenderBuffer);
-
+  LOGI("MY elasitcfusion IndexMap struct IndexMap "
+       "AttachDepth(*indexRenderBuffer.texture); done ");
+  LOGI("MY elasitcfusion IndexMap struct IndexMap "
+       "AttachColour(*drawTexture.texture); start ");
   drawFrameBuffer.AttachColour(*drawTexture.texture);
+  LOGI("MY elasitcfusion IndexMap struct IndexMap "
+       "AttachColour(*drawTexture.texture); done ");
+  LOGI("MY elasitcfusion IndexMap struct IndexMap "
+       "AttachDepth(drawRenderBuffer); start ");
   drawFrameBuffer.AttachDepth(drawRenderBuffer);
-
+  LOGI("MY elasitcfusion IndexMap struct IndexMap "
+       "AttachDepth(drawRenderBuffer); done ");
+  LOGI("MY elasitcfusion IndexMap struct IndexMap "
+       "AttachColour(*depthTexture.texture); start ");
   depthFrameBuffer.AttachColour(*depthTexture.texture);
+  LOGI("MY elasitcfusion IndexMap struct IndexMap "
+       "AttachColour(*depthTexture.texture); done ");
+  LOGI("MY elasitcfusion IndexMap struct IndexMap "
+       "AttachDepth(depthRenderBuffer); start ");
   depthFrameBuffer.AttachDepth(depthRenderBuffer);
-
+  LOGI("MY elasitcfusion IndexMap struct IndexMap "
+       "AttachDepth(depthRenderBuffer); done ");
+  LOGI("MY elasitcfusion IndexMap struct IndexMap "
+       "AttachColour(*imageTexture.texture); start ");
   combinedFrameBuffer.AttachColour(*imageTexture.texture);
+  LOGI("MY elasitcfusion IndexMap struct IndexMap "
+       "AttachColour(*imageTexture.texture); done ");
+  LOGI("MY elasitcfusion IndexMap struct IndexMap "
+       "AttachColour(*vertexTexture.texture); start ");
   combinedFrameBuffer.AttachColour(*vertexTexture.texture);
+  LOGI("MY elasitcfusion IndexMap struct IndexMap "
+       "AttachColour(*vertexTexture.texture); done ");
+  LOGI("MY elasitcfusion IndexMap struct IndexMap "
+       "AttachColour(*normalTexture.texture); start ");
   combinedFrameBuffer.AttachColour(*normalTexture.texture);
+  LOGI("MY elasitcfusion IndexMap struct IndexMap "
+       "AttachColour(*normalTexture.texture); done ");
+  LOGI("MY elasitcfusion IndexMap struct IndexMap "
+       "AttachColour(*timeTexture.texture); start ");
   combinedFrameBuffer.AttachColour(*timeTexture.texture);
+  LOGI("MY elasitcfusion IndexMap struct IndexMap "
+       "AttachColour(*timeTexture.texture); done ");
+  LOGI("MY elasitcfusion IndexMap struct IndexMap "
+       "AttachDepth(combinedRenderBuffer); start ");
   combinedFrameBuffer.AttachDepth(combinedRenderBuffer);
-
+  LOGI("MY elasitcfusion IndexMap struct IndexMap "
+       "AttachDepth(combinedRenderBuffer); done ");
+  LOGI("MY elasitcfusion IndexMap struct IndexMap "
+       "AttachDepth(oldRenderBuffer); start ");
   oldFrameBuffer.AttachDepth(oldRenderBuffer);
+  LOGI("MY elasitcfusion IndexMap struct IndexMap "
+       "AttachDepth(oldRenderBuffer); done ");
+  LOGI("MY elasitcfusion IndexMap struct IndexMap "
+       "AttachColour(*oldImageTexture.texture); start ");
   oldFrameBuffer.AttachColour(*oldImageTexture.texture);
+  LOGI("MY elasitcfusion IndexMap struct IndexMap "
+       "AttachColour(*oldImageTexture.texture); done ");
+  LOGI("MY elasitcfusion IndexMap struct IndexMap "
+       "AttachColour(*oldVertexTexture.texture); start ");
   oldFrameBuffer.AttachColour(*oldVertexTexture.texture);
+  LOGI("MY elasitcfusion IndexMap struct IndexMap "
+       "AttachColour(*oldVertexTexture.texture); done ");
+  LOGI("MY elasitcfusion IndexMap struct IndexMap "
+       "AttachColour(*oldNormalTexture.texture); start ");
   oldFrameBuffer.AttachColour(*oldNormalTexture.texture);
+  LOGI("MY elasitcfusion IndexMap struct IndexMap "
+       "AttachColour(*oldNormalTexture.texture); done ");
+  LOGI("MY elasitcfusion IndexMap struct IndexMap "
+       "AttachColour(*oldTimeTexture.texture); start ");
   oldFrameBuffer.AttachColour(*oldTimeTexture.texture);
-
+  LOGI("MY elasitcfusion IndexMap struct IndexMap "
+       "AttachColour(*oldTimeTexture.texture); done ");
+  LOGI("MY elasitcfusion IndexMap struct IndexMap "
+       "AttachColour(*colorInfoTexture.texture); start ");
   infoFrameBuffer.AttachColour(*colorInfoTexture.texture);
+  LOGI("MY elasitcfusion IndexMap struct IndexMap "
+       "AttachColour(*colorInfoTexture.texture); done ");
+  LOGI("MY elasitcfusion IndexMap struct IndexMap "
+       "AttachColour(*vertexInfoTexture.texture); start ");
   infoFrameBuffer.AttachColour(*vertexInfoTexture.texture);
+  LOGI("MY elasitcfusion IndexMap struct IndexMap "
+       "AttachColour(*vertexInfoTexture.texture); done ");
+  LOGI("MY elasitcfusion IndexMap struct IndexMap "
+       "AttachColour(*normalInfoTexture.texture); start ");
   infoFrameBuffer.AttachColour(*normalInfoTexture.texture);
+  LOGI("MY elasitcfusion IndexMap struct IndexMap "
+       "AttachColour(*normalInfoTexture.texture); done ");
+  LOGI("MY elasitcfusion IndexMap struct IndexMap "
+       "AttachDepth(infoRenderBuffer); start ");
   infoFrameBuffer.AttachDepth(infoRenderBuffer);
+  LOGI("MY elasitcfusion IndexMap struct IndexMap "
+       "AttachDepth(infoRenderBuffer); done ");
   LOGI("MY elasitcfusion IndexMap struct init 2 ");
 }
 

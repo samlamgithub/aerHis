@@ -92,14 +92,36 @@ Resize::Resize(int srcWidth, int srcHeight, int destWidth, int destHeight)
           loadProgram(emptyvert_tuple, resizefrag_tuple, quadgeom_tuple)),
       timeRenderBuffer(destWidth, destHeight) {
   LOGI("MY elasitcfusion resize struct init 1 ");
+  LOGI("MY elasitcfusion Resize struct Resize "
+       "AttachColour(*imageTexture.texture); start ");
   imageFrameBuffer.AttachColour(*imageTexture.texture);
+  LOGI("MY elasitcfusion Resize struct Resize "
+       "AttachColour(*imageTexture.texture); done ");
+  LOGI("MY elasitcfusion Resize struct Resize AttachDepth(imageRenderBuffer); "
+       "start ");
   imageFrameBuffer.AttachDepth(imageRenderBuffer);
-
+  LOGI("MY elasitcfusion Resize struct Resize AttachDepth(imageRenderBuffer); "
+       "done ");
+  LOGI("MY elasitcfusion Resize struct Resize "
+       "AttachColour(*vertexTexture.texture); start ");
   vertexFrameBuffer.AttachColour(*vertexTexture.texture);
+  LOGI("MY elasitcfusion Resize struct Resize "
+       "AttachColour(*vertexTexture.texture); done ");
+  LOGI("MY elasitcfusion Resize struct Resize AttachDepth(vertexRenderBuffer); "
+       "start ");
   vertexFrameBuffer.AttachDepth(vertexRenderBuffer);
-
+  LOGI("MY elasitcfusion Resize struct Resize AttachDepth(vertexRenderBuffer); "
+       "done ");
+  LOGI("MY elasitcfusion Resize struct Resize "
+       "AttachColour(*timeTexture.texture); start ");
   timeFrameBuffer.AttachColour(*timeTexture.texture);
+  LOGI("MY elasitcfusion Resize struct Resize "
+       "AttachColour(*timeTexture.texture); done ");
+  LOGI("MY elasitcfusion Resize struct Resize AttachDepth(timeRenderBuffer); "
+       "start ");
   timeFrameBuffer.AttachDepth(timeRenderBuffer);
+  LOGI("MY elasitcfusion Resize struct Resize AttachDepth(timeRenderBuffer); "
+       "done ");
   LOGI("MY elasitcfusion resize struct init 2 ");
 }
 
