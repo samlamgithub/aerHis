@@ -1,9 +1,9 @@
 #ifndef __AER_HPP__
 #define __AER_HPP__
 
+#include <limits>
 #include <memory>
 #include <thread>
-#include <limits>
 
 #include <tango_interface/event_types/accelerometer_event.hpp>
 #include <tango_interface/event_types/gyroscope_event.hpp>
@@ -15,7 +15,7 @@
 
 #include <tango_client_api.h>
 
-//test
+// test
 //#include <pangolin/gl/gl.h>
 //#include <pangolin/pangolin.h>
 #include <cholmod/cholmod.h>
@@ -37,16 +37,22 @@ public:
   // double x_location() { return 3.0; };
 
   // IMU callback functions
-  //  void accelerometer_callback(const tango_interface::AccelerometerEvent& event);
-  //  void gyroscope_callback(const tango_interface::GyroscopeEvent& event);
+  //  void accelerometer_callback(const tango_interface::AccelerometerEvent&
+  //  event); void gyroscope_callback(const tango_interface::GyroscopeEvent&
+  //  event);
 
   // Camera callback functions
   //  void raw_frame_callback(const tango_interface::RawFrameEvent& event);
   //  void rgbd_callback(const tango_interface::DepthEvent& event);
-  //  void setLoggerWidthHeight_callback(const int width, const int height, const double fx, const double fy, const double cx, const double cy);
-  void setLoggerWidthHeight_callback(const int width, const int height, const double fx, const double fy, const double cx, const double cy, const int max_vertex_count);
+  //  void setLoggerWidthHeight_callback(const int width, const int height,
+  //  const double fx, const double fy, const double cx, const double cy);
+  void setLoggerWidthHeight_callback(const int width, const int height,
+                                     const double fx, const double fy,
+                                     const double cx, const double cy,
+                                     const int max_vertex_count);
 
-  void rgbdCallback(unsigned char* image, TangoPointCloud* pointcloud_buffer, double cameraTime, TangoPoseData pose);
+  void rgbdCallback(unsigned char *image, TangoPointCloud *pointcloud_buffer,
+                    double cameraTime, TangoPoseData pose);
   //  void marker_callback(const tango_interface::MarkerEvent& event);
   // void writing_callback();
   void elasticfusion_callback();
@@ -54,7 +60,7 @@ public:
   void aerStartWriting(bool startWriting);
   // tango_interface::Mylogger mylogger;
 
-  //Run ElasticFusion
+  // Run ElasticFusion
   void aerStartElasticFusion(bool startElasticFusion);
   tango_interface::MyElasticFusion myElasticFusion;
   void elasticFusion();
@@ -64,7 +70,7 @@ public:
 private:
   std::thread elasticFusion_thread;
 
-  //test
+  // test
   // cholmod_common Common;
   // cholmod_sparse * L;
   // cholmod_factor *factor;
