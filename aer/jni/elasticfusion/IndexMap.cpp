@@ -283,7 +283,7 @@ void IndexMap::renderDepth(const float depthCutoff) {
 
 // splat.vert combo_splat.frag
 //从模型到图像做投影，投影得到的图像用于配准求位姿，combinedFrameBuffer 用于
-//ACTIVE，oldFrameBuffer 用于 INACTIVE
+// ACTIVE，oldFrameBuffer 用于 INACTIVE
 // time 当前时间戳，maxTime 允许点的最大时间戳，timeDelta 在 time 到 time -
 // timeDelta 内的点投影到图像上 投影出来的图像是 active（time 到　time -
 // timeDelta）的点，所以下一帧图像配准也是和只是和 active 点配准 当重定位时 time
@@ -296,10 +296,10 @@ void IndexMap::combinedPredict(const Eigen::Matrix4f &pose,
                                IndexMap::Prediction predictionType) {
   check_gl_errorIndexMap();
   LOGI("MY elasitcfusion IndexMap::combinedPredict  1");
-  //glEnable(GL_PROGRAM_POINT_SIZE); // here
+  // glEnable(GL_PROGRAM_POINT_SIZE); // here
   check_gl_errorIndexMap();
   LOGI("MY elasitcfusion IndexMap::combinedPredict  2");
-  //glEnable(GL_POINT_SPRITE); // here
+  // glEnable(GL_POINT_SPRITE); // here
   check_gl_errorIndexMap();
   LOGI("MY elasitcfusion IndexMap::combinedPredict  3");
   if (predictionType == IndexMap::ACTIVE) {
@@ -311,7 +311,6 @@ void IndexMap::combinedPredict(const Eigen::Matrix4f &pose,
   }
   check_gl_errorIndexMap();
   LOGI("MY elasitcfusion IndexMap::combinedPredict 4");
-
   // glPushAttrib(GL_VIEWPORT_BIT);
   check_gl_errorIndexMap();
   LOGI("MY elasitcfusion IndexMap::combinedPredict 5");
@@ -327,10 +326,11 @@ void IndexMap::combinedPredict(const Eigen::Matrix4f &pose,
   glClearColor(0, 0, 0, 0);
   check_gl_errorIndexMap();
   LOGI("MY elasitcfusion IndexMap::combinedPredict 7");
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  glClear(GL_COLOR_BUFFER_BIT |
+          GL_DEPTH_BUFFER_BIT); // here GL_INVALID_FRAMEBUFFER_OPERATION
   check_gl_errorIndexMap();
   LOGI("MY elasitcfusion IndexMap::combinedPredict 8");
-  combinedProgram->Bind(); 
+  combinedProgram->Bind();
   check_gl_errorIndexMap();
   LOGI("MY elasitcfusion IndexMap::combinedPredict 9");
   Eigen::Matrix4f t_inv = pose.inverse();
@@ -400,10 +400,10 @@ void IndexMap::combinedPredict(const Eigen::Matrix4f &pose,
   combinedProgram->Unbind();
   check_gl_errorIndexMap();
   LOGI("MY elasitcfusion IndexMap::combinedPredict 22");
-  //glDisable(GL_PROGRAM_POINT_SIZE); // here
+  // glDisable(GL_PROGRAM_POINT_SIZE); // here
   check_gl_errorIndexMap();
   LOGI("MY elasitcfusion IndexMap::combinedPredict 23");
-//  glDisable(GL_POINT_SPRITE); // here
+  //  glDisable(GL_POINT_SPRITE); // here
   check_gl_errorIndexMap();
   LOGI("MY elasitcfusion IndexMap::combinedPredict 24");
   // glPopAttrib();

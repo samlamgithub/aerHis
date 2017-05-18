@@ -86,9 +86,9 @@ void ComputePack::compute(GlTexture *input,
   glViewport(0, 0, renderBuffer.width, renderBuffer.height);
   check_gl_errorComputePack();
   LOGI("MY elasitcfusion ComputePack compute 5");
-  glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+  glClearColor(0, 0, 0, 0);
   check_gl_errorComputePack();
-  GLenum status = glCheckFramebufferStatus(frameBuffer.rbid);
+  GLenum status = glCheckFramebufferStatus(frameBuffer.fbid);
   if (status == GL_FRAMEBUFFER_COMPLETE) {
     LOGI("MY elasitcfusion ComputePack compute 5: GL_FRAMEBUFFER_COMPLETE");
   } else if (status == GL_FRAMEBUFFER_UNDEFINED) {
@@ -109,6 +109,7 @@ void ComputePack::compute(GlTexture *input,
   } else {
     LOGI("MY elasitcfusion ComputePack compute 5: %d", status);
   }
+  check_gl_errorComputePack();
   LOGI("MY elasitcfusion ComputePack compute 6");
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // here
   check_gl_errorComputePack();

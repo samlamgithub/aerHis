@@ -99,7 +99,7 @@ void FillIn::image(GPUTexture *existingRgb, GPUTexture *rawRgb,
   glClearColor(0, 0, 0, 0);
   check_gl_errorFillIn();
   LOGI("MY elasitcfusion FillIn image 5 ");
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // keyi
   check_gl_errorFillIn();
   LOGI("MY elasitcfusion FillIn image 6 ");
   imageProgram->Bind();
@@ -157,7 +157,7 @@ void FillIn::vertex(GPUTexture *existingVertex, GPUTexture *rawDepth,
   glClearColor(0, 0, 0, 0);
   check_gl_errorFillIn();
   LOGI("MY elasitcfusion FillIn vertex 5 ");
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //keyi
   check_gl_errorFillIn();
   LOGI("MY elasitcfusion FillIn vertex 6 ");
   vertexProgram->Bind();
@@ -215,7 +215,7 @@ void FillIn::normal(GPUTexture *existingNormal, GPUTexture *rawDepth,
   glClearColor(0, 0, 0, 0);
   check_gl_errorFillIn();
   LOGI("MY elasitcfusion FillIn normal 5 ");
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //keyi
   check_gl_errorFillIn();
   LOGI("MY elasitcfusion FillIn normal 6");
   normalProgram->Bind();

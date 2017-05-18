@@ -425,22 +425,22 @@ void GlobalModel::fuse(const Eigen::Matrix4f &pose, const int &time,
   // with, storing  in an array that sets which vertices to update by index
   frameBuffer.Bind();
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel fuse 1");
+  LOGI("MY elasitcfusion GlobalModel fuse 1 2");
   // glPushAttrib(GL_VIEWPORT_BIT);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel fuse 1");
+  LOGI("MY elasitcfusion GlobalModel fuse 1 3");
   glViewport(0, 0, renderBuffer.width, renderBuffer.height);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel fuse 1");
+  LOGI("MY elasitcfusion GlobalModel fuse 1 4");
   glClearColor(0, 0, 0, 0);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel fuse 1");
+  LOGI("MY elasitcfusion GlobalModel fuse 1 5");
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel fuse 1");
+  LOGI("MY elasitcfusion GlobalModel fuse 1 6");
   dataProgram->Bind();
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel fuse 1");
+  LOGI("MY elasitcfusion GlobalModel fuse 1 7");
   dataProgram->setUniform(Uniform("cSampler", 0));
   dataProgram->setUniform(Uniform("drSampler", 1));
   dataProgram->setUniform(Uniform("drfSampler", 2));
@@ -469,7 +469,7 @@ void GlobalModel::fuse(const Eigen::Matrix4f &pose, const int &time,
   // ID 等信息），和新捕获的图像进行对比，得到哪些模型点需要更新, uvo
   // 的维度和输入图像的维度相同
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel fuse 1");
+  LOGI("MY elasitcfusion GlobalModel fuse 1 7");
   glEnableVertexAttribArray(0);
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel fuse 2");
