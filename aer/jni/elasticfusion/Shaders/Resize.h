@@ -7,7 +7,8 @@
  * make up the software that is ElasticFusion is permitted for
  * non-commercial purposes only.  The full terms and conditions that
  * apply to the code within this file are detailed within the LICENSE.txt
- * file and at <http://www.imperial.ac.uk/dyson-robotics-lab/downloads/elastic-fusion/elastic-fusion-license/>
+ * file and at
+ * <http://www.imperial.ac.uk/dyson-robotics-lab/downloads/elastic-fusion/elastic-fusion-license/>
  * unless explicitly stated.  By downloading this file you agree to
  * comply with these terms.
  *
@@ -19,48 +20,44 @@
 #ifndef RESIZE_H_
 #define RESIZE_H_
 
-#include "Shaders.h"
-#include "Uniform.h"
-#include "../Utils/Resolution.h"
-#include "../Utils/Intrinsics.h"
 #include "../GPUTexture.h"
 #include "../Utils/Img.h"
+#include "../Utils/Intrinsics.h"
+#include "../Utils/Resolution.h"
+#include "Shaders.h"
+#include "Uniform.h"
 #include <glFrameBuffer.h>
 
-class Resize
-{
-    public:
-        Resize(int srcWidth,
-               int srcHeight,
-               int destWidth,
-               int destHeight);
-        virtual ~Resize();
+class Resize {
+public:
+  Resize(int srcWidth, int srcHeight, int destWidth, int destHeight);
+  virtual ~Resize();
 
-        void image(GPUTexture * source, Img<Eigen::Matrix<unsigned char, 3, 1>> & dest);
-        void vertex(GPUTexture * source, Img<Eigen::Vector4f> & dest);
-        void time(GPUTexture * source, Img<unsigned short> & dest);
+  void image(GPUTexture *source, Img<Eigen::Matrix<unsigned char, 3, 1>> &dest);
+  void vertex(GPUTexture *source, Img<Eigen::Vector4f> &dest);
+  void time(GPUTexture *source, Img<unsigned short> &dest);
 
-        GPUTexture imageTexture;
-        GPUTexture vertexTexture;
-        GPUTexture timeTexture;
+  GPUTexture imageTexture;
+  GPUTexture vertexTexture;
+  GPUTexture timeTexture;
 
-        std::shared_ptr<Shader> imageProgram;
-        // pangolin::GlRenderBuffer imageRenderBuffer;
-        // pangolin::GlFramebuffer imageFrameBuffer;
-        GlRenderBuffer imageRenderBuffer;
-        GlFramebuffer imageFrameBuffer;
+  std::shared_ptr<Shader> imageProgram;
+  // pangolin::GlRenderBuffer imageRenderBuffer;
+  // pangolin::GlFramebuffer imageFrameBuffer;
+  GlRenderBuffer imageRenderBuffer;
+  GlFramebuffer imageFrameBuffer;
 
-        std::shared_ptr<Shader> vertexProgram;
-        GlRenderBuffer vertexRenderBuffer;
-        GlFramebuffer vertexFrameBuffer;
-        // pangolin::GlRenderBuffer vertexRenderBuffer;
-        // pangolin::GlFramebuffer vertexFrameBuffer;
+  std::shared_ptr<Shader> vertexProgram;
+  GlRenderBuffer vertexRenderBuffer;
+  GlFramebuffer vertexFrameBuffer;
+  // pangolin::GlRenderBuffer vertexRenderBuffer;
+  // pangolin::GlFramebuffer vertexFrameBuffer;
 
-        std::shared_ptr<Shader> timeProgram;
-        GlRenderBuffer timeRenderBuffer;
-        GlFramebuffer timeFrameBuffer;
-        // pangolin::GlRenderBuffer timeRenderBuffer;
-        // pangolin::GlFramebuffer timeFrameBuffer;
+  std::shared_ptr<Shader> timeProgram;
+  GlRenderBuffer timeRenderBuffer;
+  GlFramebuffer timeFrameBuffer;
+  // pangolin::GlRenderBuffer timeRenderBuffer;
+  // pangolin::GlFramebuffer timeFrameBuffer;
 };
 
 #endif /* RESIZE_H_ */

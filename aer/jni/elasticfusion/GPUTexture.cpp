@@ -7,7 +7,8 @@
  * make up the software that is ElasticFusion is permitted for
  * non-commercial purposes only.  The full terms and conditions that
  * apply to the code within this file are detailed within the LICENSE.txt
- * file and at <http://www.imperial.ac.uk/dyson-robotics-lab/downloads/elastic-fusion/elastic-fusion-license/>
+ * file and at
+ * <http://www.imperial.ac.uk/dyson-robotics-lab/downloads/elastic-fusion/elastic-fusion-license/>
  * unless explicitly stated.  By downloading this file you agree to
  * comply with these terms.
  *
@@ -25,69 +26,68 @@ const std::string GPUTexture::DEPTH_METRIC = "DEPTH_METRIC";
 const std::string GPUTexture::DEPTH_METRIC_FILTERED = "DEPTH_METRIC_FILTERED";
 const std::string GPUTexture::DEPTH_NORM = "DEPTH_NORM";
 
-
-static const char* glErrorStringGT(GLenum err) {
-  switch(err) {
-    case GL_INVALID_ENUM: return "Invalid Enum";
-    case GL_INVALID_VALUE: return "Invalid Value";
-    case GL_INVALID_OPERATION: return "Invalid Operation";
-   // case GL_STACK_OVERFLOW: return "Stack Overflow";
-   // case GL_STACK_UNDERFLOW: return "Stack Underflow";
-    case GL_OUT_OF_MEMORY: return "Out of Memory";
-    case GL_INVALID_FRAMEBUFFER_OPERATION:
-      return "GL_INVALID_FRAMEBUFFER_OPERATION";
+static const char *glErrorStringGT(GLenum err) {
+  switch (err) {
+  case GL_INVALID_ENUM:
+    return "Invalid Enum";
+  case GL_INVALID_VALUE:
+    return "Invalid Value";
+  case GL_INVALID_OPERATION:
+    return "Invalid Operation";
+  // case GL_STACK_OVERFLOW: return "Stack Overflow";
+  // case GL_STACK_UNDERFLOW: return "Stack Underflow";
+  case GL_OUT_OF_MEMORY:
+    return "Out of Memory";
+  case GL_INVALID_FRAMEBUFFER_OPERATION:
+    return "GL_INVALID_FRAMEBUFFER_OPERATION";
   //  case GL_TABLE_TOO_LARGE: return "Table too Large";
-    default: return "Unknown Error";
+  default:
+    return "Unknown Error";
   }
 }
 
 inline void CheckGlDieOnErrorGT() {
-    for (GLint error = glGetError(); error; error = glGetError()) {
-        LOGI("GPUTexture.cpp CheckGlDieOnError after %s: glError (0x%x)\n", glErrorStringGT(error), error);
-    }
+  for (GLint error = glGetError(); error; error = glGetError()) {
+    LOGI("GPUTexture.cpp CheckGlDieOnError after %s: glError (0x%x)\n",
+         glErrorStringGT(error), error);
+  }
 }
 
-// : texture(new pangolin::GlTexture(width, height, internalFormat, draw, 0, format, dataType)),
-GPUTexture::GPUTexture(const int width,
-                       const int height,
-                       const GLenum internalFormat,
-                       const GLenum format,
-                       const GLenum dataType,
-                       const bool draw,
-                       const bool cuda)
-  : texture(new GlTexture(width, height, internalFormat, draw, 0, format, dataType)),
-   draw(draw),
-   width(width),
-   height(height),
-   internalFormat(internalFormat),
-   format(format),
-   dataType(dataType) {
-CheckGlDieOnErrorGT();
-    LOGI("MY elasitcfusion GPUTexture struct init 1 : %d, %d,  %d,  %d,  %d", width, height, internalFormat, format, dataType);
-    if(cuda) {
-        cudaError_t err = cudaGraphicsGLRegisterImage(&cudaRes, texture->tid,
-        GL_TEXTURE_2D, cudaGraphicsRegisterFlagsReadOnly);
-        if(cudaSuccess != err) {
-          LOGI("elasticfusion GPU texture cudaGraphicsGLRegisterImage error: %s", cudaGetErrorString(err));
-        } else {
-          LOGI("elasticfusion GPU texture cudaGraphicsGLRegisterImage success");
-        }
+// : texture(new pangolin::GlTexture(width, height, internalFormat, draw, 0,
+// format, dataType)),
+GPUTexture::GPUTexture(const int width, const int height,
+                       const GLenum internalFormat, const GLenum format,
+                       const GLenum dataType, const bool draw, const bool cuda)
+    : texture(new GlTexture(width, height, internalFormat, draw, 0, format,
+                            dataType)),
+      draw(draw), width(width), height(height), internalFormat(internalFormat),
+      format(format), dataType(dataType) {
+  CheckGlDieOnErrorGT();
+  LOGI("MY elasitcfusion GPUTexture struct init 1 : %d, %d,  %d,  %d,  %d",
+       width, height, internalFormat, format, dataType);
+  if (cuda) {
+    cudaError_t err =
+        cudaGraphicsGLRegisterImage(&cudaRes, texture->tid, GL_TEXTURE_2D,
+                                    cudaGraphicsRegisterFlagsReadOnly);
+    if (cudaSuccess != err) {
+      LOGI("elasticfusion GPU texture cudaGraphicsGLRegisterImage error: %s",
+           cudaGetErrorString(err));
     } else {
-        cudaRes = 0;
+      LOGI("elasticfusion GPU texture cudaGraphicsGLRegisterImage success");
     }
-    LOGI("MY elasitcfusion GPUTexture struct init 2 ");
-CheckGlDieOnErrorGT();
+  } else {
+    cudaRes = 0;
+  }
+  LOGI("MY elasitcfusion GPUTexture struct init 2 ");
+  CheckGlDieOnErrorGT();
 }
 
-GPUTexture::~GPUTexture()
-{
-    if(texture)
-    {
-        delete texture;
-    }
+GPUTexture::~GPUTexture() {
+  if (texture) {
+    delete texture;
+  }
 
-    if(cudaRes)
-    {
-        cudaGraphicsUnregisterResource(cudaRes);
-    }
+  if (cudaRes) {
+    cudaGraphicsUnregisterResource(cudaRes);
+  }
 }

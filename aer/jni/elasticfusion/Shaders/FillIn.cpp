@@ -7,7 +7,8 @@
  * make up the software that is ElasticFusion is permitted for
  * non-commercial purposes only.  The full terms and conditions that
  * apply to the code within this file are detailed within the LICENSE.txt
- * file and at <http://www.imperial.ac.uk/dyson-robotics-lab/downloads/elastic-fusion/elastic-fusion-license/>
+ * file and at
+ * <http://www.imperial.ac.uk/dyson-robotics-lab/downloads/elastic-fusion/elastic-fusion-license/>
  * unless explicitly stated.  By downloading this file you agree to
  * comply with these terms.
  *
@@ -18,241 +19,240 @@
 
 #include "FillIn.h"
 
-
-
-static const char* glErrorStringFillIn(GLenum err) {
-  switch(err) {
-    case GL_INVALID_ENUM: return "Invalid Enum";
-    case GL_INVALID_VALUE: return "Invalid Value";
-    case GL_INVALID_OPERATION: return "Invalid Operation";
-    case GL_INVALID_FRAMEBUFFER_OPERATION:
-      return "GL_INVALID_FRAMEBUFFER_OPERATION";
-   // case GL_STACK_OVERFLOW: return "Stack Overflow";
-   // case GL_STACK_UNDERFLOW: return "Stack Underflow";
-    case GL_OUT_OF_MEMORY: return "Out of Memory";
+static const char *glErrorStringFillIn(GLenum err) {
+  switch (err) {
+  case GL_INVALID_ENUM:
+    return "Invalid Enum";
+  case GL_INVALID_VALUE:
+    return "Invalid Value";
+  case GL_INVALID_OPERATION:
+    return "Invalid Operation";
+  case GL_INVALID_FRAMEBUFFER_OPERATION:
+    return "GL_INVALID_FRAMEBUFFER_OPERATION";
+  // case GL_STACK_OVERFLOW: return "Stack Overflow";
+  // case GL_STACK_UNDERFLOW: return "Stack Underflow";
+  case GL_OUT_OF_MEMORY:
+    return "Out of Memory";
   //  case GL_TABLE_TOO_LARGE: return "Table too Large";
-    default: return "Unknown Error";
+  default:
+    return "Unknown Error";
   }
 }
 
 inline void check_gl_errorFillIn() {
   for (GLint error = glGetError(); error; error = glGetError()) {
-    LOGI("check_gl_errorGlobalModel My elastic-fusion CheckGlDieOnError after %s() glError (0x%x)\n", glErrorStringFillIn(error), error);
+    LOGI("check_gl_errorGlobalModel My elastic-fusion CheckGlDieOnError after "
+         "%s() glError (0x%x)\n",
+         glErrorStringFillIn(error), error);
   }
 }
 
 FillIn::FillIn()
- : imageTexture(Resolution::getInstance().width(),
-                Resolution::getInstance().height(),
-                GL_RGBA,
-                GL_RGB,
-                GL_UNSIGNED_BYTE,
-                false,
-                true),
-   vertexTexture(Resolution::getInstance().width(),
-                 Resolution::getInstance().height(),
-                 GL_RGBA32F,
-                 GL_LUMINANCE,
-                 GL_FLOAT,
-                 false,
-                 true),
-   normalTexture(Resolution::getInstance().width(),
-                 Resolution::getInstance().height(),
-                 GL_RGBA32F,
-                 GL_LUMINANCE,
-                 GL_FLOAT,
-                 false,
-                 true),
-   imageProgram(loadProgram(emptyvert_tuple, fill_rgbfrag_tuple, quadgeom_tuple)),
-   imageRenderBuffer(Resolution::getInstance().width(), Resolution::getInstance().height()),
-   vertexProgram(loadProgram(emptyvert_tuple, fill_vertexfrag_tuple, quadgeom_tuple)),
-   vertexRenderBuffer(Resolution::getInstance().width(), Resolution::getInstance().height()),
-   normalProgram(loadProgram(emptyvert_tuple, fill_normalfrag_tuple, quadgeom_tuple)),
-   normalRenderBuffer(Resolution::getInstance().width(), Resolution::getInstance().height())
-{
-    LOGI("MY elasitcfusion FillIn struct init 1 ");
-    imageFrameBuffer.AttachColour(*imageTexture.texture);
-    imageFrameBuffer.AttachDepth(imageRenderBuffer);
+    : imageTexture(Resolution::getInstance().width(),
+                   Resolution::getInstance().height(), GL_RGBA, GL_RGB,
+                   GL_UNSIGNED_BYTE, false, true),
+      vertexTexture(Resolution::getInstance().width(),
+                    Resolution::getInstance().height(), GL_RGBA32F,
+                    GL_LUMINANCE, GL_FLOAT, false, true),
+      normalTexture(Resolution::getInstance().width(),
+                    Resolution::getInstance().height(), GL_RGBA32F,
+                    GL_LUMINANCE, GL_FLOAT, false, true),
+      imageProgram(
+          loadProgram(emptyvert_tuple, fill_rgbfrag_tuple, quadgeom_tuple)),
+      imageRenderBuffer(Resolution::getInstance().width(),
+                        Resolution::getInstance().height()),
+      vertexProgram(
+          loadProgram(emptyvert_tuple, fill_vertexfrag_tuple, quadgeom_tuple)),
+      vertexRenderBuffer(Resolution::getInstance().width(),
+                         Resolution::getInstance().height()),
+      normalProgram(
+          loadProgram(emptyvert_tuple, fill_normalfrag_tuple, quadgeom_tuple)),
+      normalRenderBuffer(Resolution::getInstance().width(),
+                         Resolution::getInstance().height()) {
+  LOGI("MY elasitcfusion FillIn struct init 1 ");
+  imageFrameBuffer.AttachColour(*imageTexture.texture);
+  imageFrameBuffer.AttachDepth(imageRenderBuffer);
 
-    vertexFrameBuffer.AttachColour(*vertexTexture.texture);
-    vertexFrameBuffer.AttachDepth(vertexRenderBuffer);
+  vertexFrameBuffer.AttachColour(*vertexTexture.texture);
+  vertexFrameBuffer.AttachDepth(vertexRenderBuffer);
 
-    normalFrameBuffer.AttachColour(*normalTexture.texture);
-    normalFrameBuffer.AttachDepth(normalRenderBuffer);
-    LOGI("MY elasitcfusion FillIn struct init 2 ");
+  normalFrameBuffer.AttachColour(*normalTexture.texture);
+  normalFrameBuffer.AttachDepth(normalRenderBuffer);
+  LOGI("MY elasitcfusion FillIn struct init 2 ");
 }
 
-FillIn::~FillIn()
-{
+FillIn::~FillIn() {}
 
+void FillIn::image(GPUTexture *existingRgb, GPUTexture *rawRgb,
+                   bool passthrough) {
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn image 1 ");
+  imageFrameBuffer.Bind();
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn image 2 ");
+  // glPushAttrib(GL_VIEWPORT_BIT);
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn image 3 ");
+  glViewport(0, 0, imageRenderBuffer.width, imageRenderBuffer.height);
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn image 4 ");
+  glClearColor(0, 0, 0, 0);
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn image 5 ");
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn image 6 ");
+  imageProgram->Bind();
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn image 7 ");
+  imageProgram->setUniform(Uniform("eSampler", 0));
+  imageProgram->setUniform(Uniform("rSampler", 1));
+  imageProgram->setUniform(Uniform("passthrough", (int)passthrough));
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn image 8 ");
+  glActiveTexture(GL_TEXTURE0);
+  glBindTexture(GL_TEXTURE_2D, existingRgb->texture->tid);
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn image 9 ");
+  glActiveTexture(GL_TEXTURE1);
+  glBindTexture(GL_TEXTURE_2D, rawRgb->texture->tid);
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn image 10 ");
+  glDrawArrays(GL_POINTS, 0, 1);
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn image 11 ");
+  imageFrameBuffer.Unbind();
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn image 12 ");
+  glBindTexture(GL_TEXTURE_2D, 0);
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn image 13 ");
+  glActiveTexture(GL_TEXTURE0);
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn image 14 ");
+  imageProgram->Unbind();
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn image 15 ");
+  // glPopAttrib();
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn image 16 ");
+  glFinish();
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn image 17 ");
 }
 
-void FillIn::image(GPUTexture * existingRgb, GPUTexture * rawRgb, bool passthrough)
-{
-check_gl_errorFillIn();
-LOGI("MY elasitcfusion FillIn image 1 ");
-    imageFrameBuffer.Bind();
-    check_gl_errorFillIn();
-    LOGI("MY elasitcfusion FillIn image 2 ");
-    //glPushAttrib(GL_VIEWPORT_BIT);
-    check_gl_errorFillIn();
-    LOGI("MY elasitcfusion FillIn image 3 ");
-    glViewport(0, 0, imageRenderBuffer.width, imageRenderBuffer.height);
-    check_gl_errorFillIn();
-    LOGI("MY elasitcfusion FillIn image 4 ");
-    glClearColor(0, 0, 0, 0);
-    check_gl_errorFillIn();
-    LOGI("MY elasitcfusion FillIn image 5 ");
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    check_gl_errorFillIn();
-    LOGI("MY elasitcfusion FillIn image 6 ");
-    imageProgram->Bind();
-    check_gl_errorFillIn();
-    LOGI("MY elasitcfusion FillIn image 7 ");
-    imageProgram->setUniform(Uniform("eSampler", 0));
-    imageProgram->setUniform(Uniform("rSampler", 1));
-    imageProgram->setUniform(Uniform("passthrough", (int)passthrough));
-    check_gl_errorFillIn();
-    LOGI("MY elasitcfusion FillIn image 8 ");
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, existingRgb->texture->tid);
-    check_gl_errorFillIn();
-    LOGI("MY elasitcfusion FillIn image 9 ");
-    glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_2D, rawRgb->texture->tid);
-    check_gl_errorFillIn();
-    LOGI("MY elasitcfusion FillIn image 10 ");
-    glDrawArrays(GL_POINTS, 0, 1);
-    check_gl_errorFillIn();
-    LOGI("MY elasitcfusion FillIn image 11 ");
-    imageFrameBuffer.Unbind();
-    check_gl_errorFillIn();
-    LOGI("MY elasitcfusion FillIn image 12 ");
-    glBindTexture(GL_TEXTURE_2D, 0);
-    check_gl_errorFillIn();
-    LOGI("MY elasitcfusion FillIn image 13 ");
-    glActiveTexture(GL_TEXTURE0);
-    check_gl_errorFillIn();
-    LOGI("MY elasitcfusion FillIn image 14 ");
-    imageProgram->Unbind();
-    check_gl_errorFillIn();
-    LOGI("MY elasitcfusion FillIn image 15 ");
-    //glPopAttrib();
-    check_gl_errorFillIn();
-    LOGI("MY elasitcfusion FillIn image 16 ");
-    glFinish();
-    check_gl_errorFillIn();
-    LOGI("MY elasitcfusion FillIn image 17 ");
-}
-
-void FillIn::vertex(GPUTexture * existingVertex, GPUTexture * rawDepth, bool passthrough)
-{
+void FillIn::vertex(GPUTexture *existingVertex, GPUTexture *rawDepth,
+                    bool passthrough) {
   check_gl_errorFillIn();
   LOGI("MY elasitcfusion FillIn vertex 1 ");
-    vertexFrameBuffer.Bind();
-    check_gl_errorFillIn();
-    LOGI("MY elasitcfusion FillIn vertex 2");
-    //glPushAttrib(GL_VIEWPORT_BIT);
-    check_gl_errorFillIn();
-    LOGI("MY elasitcfusion FillIn vertex 3 ");
-    glViewport(0, 0, vertexRenderBuffer.width, vertexRenderBuffer.height);
-    check_gl_errorFillIn();
-    LOGI("MY elasitcfusion FillIn vertex 4 ");
-    glClearColor(0, 0, 0, 0);
-    check_gl_errorFillIn();
-    LOGI("MY elasitcfusion FillIn vertex 5 ");
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    check_gl_errorFillIn();
-    LOGI("MY elasitcfusion FillIn vertex 6 ");
-    vertexProgram->Bind();
-    check_gl_errorFillIn();
-    LOGI("MY elasitcfusion FillIn vertex 7 ");
-    vertexProgram->setUniform(Uniform("eSampler", 0));
-    vertexProgram->setUniform(Uniform("rSampler", 1));
-    vertexProgram->setUniform(Uniform("passthrough", (int)passthrough));
+  vertexFrameBuffer.Bind();
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn vertex 2");
+  // glPushAttrib(GL_VIEWPORT_BIT);
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn vertex 3 ");
+  glViewport(0, 0, vertexRenderBuffer.width, vertexRenderBuffer.height);
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn vertex 4 ");
+  glClearColor(0, 0, 0, 0);
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn vertex 5 ");
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn vertex 6 ");
+  vertexProgram->Bind();
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn vertex 7 ");
+  vertexProgram->setUniform(Uniform("eSampler", 0));
+  vertexProgram->setUniform(Uniform("rSampler", 1));
+  vertexProgram->setUniform(Uniform("passthrough", (int)passthrough));
 
-    Eigen::Vector4f cam(Intrinsics::getInstance().cx(),
-                  Intrinsics::getInstance().cy(),
-                  1.0f / Intrinsics::getInstance().fx(),
-                  1.0f / Intrinsics::getInstance().fy());
+  Eigen::Vector4f cam(Intrinsics::getInstance().cx(),
+                      Intrinsics::getInstance().cy(),
+                      1.0f / Intrinsics::getInstance().fx(),
+                      1.0f / Intrinsics::getInstance().fy());
 
-    vertexProgram->setUniform(Uniform("cam", cam));
-    vertexProgram->setUniform(Uniform("cols", (float)Resolution::getInstance().cols()));
-    vertexProgram->setUniform(Uniform("rows", (float)Resolution::getInstance().rows()));
+  vertexProgram->setUniform(Uniform("cam", cam));
+  vertexProgram->setUniform(
+      Uniform("cols", (float)Resolution::getInstance().cols()));
+  vertexProgram->setUniform(
+      Uniform("rows", (float)Resolution::getInstance().rows()));
 
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, existingVertex->texture->tid);
+  glActiveTexture(GL_TEXTURE0);
+  glBindTexture(GL_TEXTURE_2D, existingVertex->texture->tid);
 
-    glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_2D, rawDepth->texture->tid);
+  glActiveTexture(GL_TEXTURE1);
+  glBindTexture(GL_TEXTURE_2D, rawDepth->texture->tid);
 
-    glDrawArrays(GL_POINTS, 0, 1);
+  glDrawArrays(GL_POINTS, 0, 1);
 
-    vertexFrameBuffer.Unbind();
+  vertexFrameBuffer.Unbind();
 
-    glBindTexture(GL_TEXTURE_2D, 0);
+  glBindTexture(GL_TEXTURE_2D, 0);
 
-    glActiveTexture(GL_TEXTURE0);
+  glActiveTexture(GL_TEXTURE0);
 
-    vertexProgram->Unbind();
+  vertexProgram->Unbind();
 
-    //glPopAttrib();
+  // glPopAttrib();
 
-    glFinish();
+  glFinish();
 }
 
-void FillIn::normal(GPUTexture * existingNormal, GPUTexture * rawDepth, bool passthrough)
-{
+void FillIn::normal(GPUTexture *existingNormal, GPUTexture *rawDepth,
+                    bool passthrough) {
   check_gl_errorFillIn();
   LOGI("MY elasitcfusion FillIn normal 1 ");
-    normalFrameBuffer.Bind();
-    check_gl_errorFillIn();
-    LOGI("MY elasitcfusion FillIn normal 2 ");
-    //glPushAttrib(GL_VIEWPORT_BIT);
-    check_gl_errorFillIn();
-    LOGI("MY elasitcfusion FillIn normal 3 ");
-    glViewport(0, 0, normalRenderBuffer.width, normalRenderBuffer.height);
-    check_gl_errorFillIn();
-    LOGI("MY elasitcfusion FillIn normal 4 ");
-    glClearColor(0, 0, 0, 0);
-    check_gl_errorFillIn();
-    LOGI("MY elasitcfusion FillIn normal 5 ");
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    check_gl_errorFillIn();
-    LOGI("MY elasitcfusion FillIn normal 6");
-    normalProgram->Bind();
-    check_gl_errorFillIn();
-    LOGI("MY elasitcfusion FillIn normal 7 ");
-    normalProgram->setUniform(Uniform("eSampler", 0));
-    normalProgram->setUniform(Uniform("rSampler", 1));
-    normalProgram->setUniform(Uniform("passthrough", (int)passthrough));
+  normalFrameBuffer.Bind();
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn normal 2 ");
+  // glPushAttrib(GL_VIEWPORT_BIT);
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn normal 3 ");
+  glViewport(0, 0, normalRenderBuffer.width, normalRenderBuffer.height);
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn normal 4 ");
+  glClearColor(0, 0, 0, 0);
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn normal 5 ");
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn normal 6");
+  normalProgram->Bind();
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn normal 7 ");
+  normalProgram->setUniform(Uniform("eSampler", 0));
+  normalProgram->setUniform(Uniform("rSampler", 1));
+  normalProgram->setUniform(Uniform("passthrough", (int)passthrough));
 
-    Eigen::Vector4f cam(Intrinsics::getInstance().cx(),
-                  Intrinsics::getInstance().cy(),
-                  1.0f / Intrinsics::getInstance().fx(),
-                  1.0f / Intrinsics::getInstance().fy());
+  Eigen::Vector4f cam(Intrinsics::getInstance().cx(),
+                      Intrinsics::getInstance().cy(),
+                      1.0f / Intrinsics::getInstance().fx(),
+                      1.0f / Intrinsics::getInstance().fy());
 
-    normalProgram->setUniform(Uniform("cam", cam));
-    normalProgram->setUniform(Uniform("cols", (float)Resolution::getInstance().cols()));
-    normalProgram->setUniform(Uniform("rows", (float)Resolution::getInstance().rows()));
+  normalProgram->setUniform(Uniform("cam", cam));
+  normalProgram->setUniform(
+      Uniform("cols", (float)Resolution::getInstance().cols()));
+  normalProgram->setUniform(
+      Uniform("rows", (float)Resolution::getInstance().rows()));
 
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, existingNormal->texture->tid);
+  glActiveTexture(GL_TEXTURE0);
+  glBindTexture(GL_TEXTURE_2D, existingNormal->texture->tid);
 
-    glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_2D, rawDepth->texture->tid);
+  glActiveTexture(GL_TEXTURE1);
+  glBindTexture(GL_TEXTURE_2D, rawDepth->texture->tid);
 
-    glDrawArrays(GL_POINTS, 0, 1);
+  glDrawArrays(GL_POINTS, 0, 1);
 
-    normalFrameBuffer.Unbind();
+  normalFrameBuffer.Unbind();
 
-    glBindTexture(GL_TEXTURE_2D, 0);
+  glBindTexture(GL_TEXTURE_2D, 0);
 
-    glActiveTexture(GL_TEXTURE0);
+  glActiveTexture(GL_TEXTURE0);
 
-    normalProgram->Unbind();
+  normalProgram->Unbind();
 
-    //glPopAttrib();
+  // glPopAttrib();
 
-    glFinish();
+  glFinish();
 }

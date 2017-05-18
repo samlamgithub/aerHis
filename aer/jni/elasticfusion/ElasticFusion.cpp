@@ -27,8 +27,8 @@ static const char *glErrorStringEF(GLenum err) {
     return "Invalid Value";
   case GL_INVALID_OPERATION:
     return "Invalid Operation";
-    case GL_INVALID_FRAMEBUFFER_OPERATION:
-      return "GL_INVALID_FRAMEBUFFER_OPERATION";
+  case GL_INVALID_FRAMEBUFFER_OPERATION:
+    return "GL_INVALID_FRAMEBUFFER_OPERATION";
   // case GL_STACK_OVERFLOW: return "Stack Overflow";
   // case GL_STACK_UNDERFLOW: return "Stack Underflow";
   case GL_OUT_OF_MEMORY:
@@ -214,33 +214,33 @@ void ElasticFusion::createTextures() {
   LOGI("MY elasitcfusion struct createTextures 6 ");
   textures[GPUTexture::DEPTH_NORM] = new GPUTexture(
       Resolution::getInstance().width(), Resolution::getInstance().height(),
-      GL_LUMINANCE, GL_LUMINANCE, GL_FLOAT, true);for
-    check_gl_errorElasticFusion();
+      GL_LUMINANCE, GL_LUMINANCE, GL_FLOAT, true);
+  check_gl_errorElasticFusion();
   LOGI("MY elasitcfusion struct createTextures done ");
 }
 
 void ElasticFusion::createCompute() {
-check_gl_errorElasticFusion();
+  check_gl_errorElasticFusion();
   LOGI("MY elasitcfusion struct createCompute 1 ");
   computePacks[ComputePack::NORM] = new ComputePack(
       loadProgram(emptyvert_tuple, depth_normfrag_tuple, quadgeom_tuple),
       textures[GPUTexture::DEPTH_NORM]->texture);
-      check_gl_errorElasticFusion();
-        LOGI("MY elasitcfusion struct createCompute 2 ");
+  check_gl_errorElasticFusion();
+  LOGI("MY elasitcfusion struct createCompute 2 ");
   computePacks[ComputePack::FILTER] = new ComputePack(
       loadProgram(emptyvert_tuple, depth_bilateralfrag_tuple, quadgeom_tuple),
       textures[GPUTexture::DEPTH_FILTERED]->texture);
-      check_gl_errorElasticFusion();
-        LOGI("MY elasitcfusion struct createCompute 3 ");
+  check_gl_errorElasticFusion();
+  LOGI("MY elasitcfusion struct createCompute 3 ");
   computePacks[ComputePack::METRIC] = new ComputePack(
       loadProgram(emptyvert_tuple, depth_metricfrag_tuple, quadgeom_tuple),
       textures[GPUTexture::DEPTH_METRIC]->texture);
-      check_gl_errorElasticFusion();
-        LOGI("MY elasitcfusion struct createCompute 4 ");
+  check_gl_errorElasticFusion();
+  LOGI("MY elasitcfusion struct createCompute 4 ");
   computePacks[ComputePack::METRIC_FILTERED] = new ComputePack(
       loadProgram(emptyvert_tuple, depth_metricfrag_tuple, quadgeom_tuple),
       textures[GPUTexture::DEPTH_METRIC_FILTERED]->texture);
-check_gl_errorElasticFusion();
+  check_gl_errorElasticFusion();
   LOGI("MY elasitcfusion struct createCompute 5");
 }
 
@@ -249,28 +249,28 @@ void ElasticFusion::createFeedbackBuffers() {
   LOGI("MY elasitcfusion struct createFeedbackBuffers 1 ");
   feedbackBuffers[FeedbackBuffer::RAW] = new FeedbackBuffer(
       loadProgramGeom(vertex_feedbackvert_tuple, vertex_feedbackgeom_tuple));
-      check_gl_errorElasticFusion();
-      LOGI("MY elasitcfusion struct createFeedbackBuffers 2 ");
+  check_gl_errorElasticFusion();
+  LOGI("MY elasitcfusion struct createFeedbackBuffers 2 ");
   feedbackBuffers[FeedbackBuffer::FILTERED] = new FeedbackBuffer(
       loadProgramGeom(vertex_feedbackvert_tuple, vertex_feedbackgeom_tuple));
-      check_gl_errorElasticFusion();
-      LOGI("MY elasitcfusion struct createFeedbackBuffers 3 ");
+  check_gl_errorElasticFusion();
+  LOGI("MY elasitcfusion struct createFeedbackBuffers 3 ");
 }
 
 void ElasticFusion::computeFeedbackBuffers() {
-check_gl_errorElasticFusion();
+  check_gl_errorElasticFusion();
   LOGI("MY elasitcfusion struct computeFeedbackBuffers 1 ");
   TICK("feedbackBuffers");
   feedbackBuffers[FeedbackBuffer::RAW]->compute(
       textures[GPUTexture::RGB]->texture,
       textures[GPUTexture::DEPTH_METRIC]->texture, tick, maxDepthProcessed);
-      check_gl_errorElasticFusion();
-        LOGI("MY elasitcfusion struct computeFeedbackBuffers 2 ");
+  check_gl_errorElasticFusion();
+  LOGI("MY elasitcfusion struct computeFeedbackBuffers 2 ");
   feedbackBuffers[FeedbackBuffer::FILTERED]->compute(
       textures[GPUTexture::RGB]->texture,
       textures[GPUTexture::DEPTH_METRIC_FILTERED]->texture, tick,
       maxDepthProcessed);
-      check_gl_errorElasticFusion();
+  check_gl_errorElasticFusion();
   LOGI("MY elasitcfusion struct computeFeedbackBuffers 3");
   TOCK("feedbackBuffers");
 }
@@ -300,39 +300,39 @@ void ElasticFusion::processFrame(const unsigned char *rgb,
                                  const float weightMultiplier,
                                  const bool bootstrap) {
   TICK("Run");
-check_gl_errorElasticFusion();
+  check_gl_errorElasticFusion();
   LOGI(" ElasticFusion struct Process frame Run 1");
   textures[GPUTexture::DEPTH_RAW]->texture->Upload(
       depth, GL_LUMINANCE_INTEGER_EXT, GL_UNSIGNED_SHORT);
-      check_gl_errorElasticFusion();
-        LOGI(" ElasticFusion struct Process frame Run 2");
+  check_gl_errorElasticFusion();
+  LOGI(" ElasticFusion struct Process frame Run 2");
   // textures[GPUTexture::DEPTH_RAW]->texture->Upload(depth, GL_LUMINANCE,
   // GL_UNSIGNED_SHORT);
   textures[GPUTexture::RGB]->texture->Upload(rgb, GL_RGB, GL_UNSIGNED_BYTE);
-check_gl_errorElasticFusion();
-check_gl_errorElasticFusion();
+  check_gl_errorElasticFusion();
+  check_gl_errorElasticFusion();
   LOGI(" ElasticFusion struct Process frame Preprocess");
   TICK("Preprocess");
 
   filterDepth();
-check_gl_errorElasticFusion();
-  LOGI(" ElasticFusion struct Process frame Preprocess done 1")
+  check_gl_errorElasticFusion();
+  LOGI(" ElasticFusion struct Process frame Preprocess done 1");
   metriciseDepth();
-check_gl_errorElasticFusion();
+  check_gl_errorElasticFusion();
   LOGI(" ElasticFusion struct Process frame Preprocess done 2");
   TOCK("Preprocess");
 
   // First run
   if (tick == 1) {
     computeFeedbackBuffers();
-check_gl_errorElasticFusion();
+    check_gl_errorElasticFusion();
     LOGI(" ElasticFusion struct Process frame computeFeedbackBuffers done");
     globalModel.initialise(*feedbackBuffers[FeedbackBuffer::RAW],
                            *feedbackBuffers[FeedbackBuffer::FILTERED]);
-check_gl_errorElasticFusion();
+    check_gl_errorElasticFusion();
     LOGI(" ElasticFusion struct Process frame globalModel.initialise done");
     frameToModel.initFirstRGB(textures[GPUTexture::RGB]);
-check_gl_errorElasticFusion();
+    check_gl_errorElasticFusion();
     LOGI("ElasticFusion struct Process frame tick 1 done");
   } else {
     Eigen::Matrix4f lastPose = currPose;
@@ -369,7 +369,8 @@ check_gl_errorElasticFusion();
       Eigen::Matrix<float, 3, 3, Eigen::RowMajor> rot =
           currPose.topLeftCorner(3, 3);
       // rgbOnly：只利用 RGB 信息进行跟踪，icpWeight：计算位姿时 icp
-      // 点云配准占的比重  pyramid：配准使用金字塔模式，fastOdom：使用快速跟踪算法
+      // 点云配准占的比重
+      // pyramid：配准使用金字塔模式，fastOdom：使用快速跟踪算法
       TICK("odom");
       frameToModel.getIncrementalTransformation(trans, rot, rgbOnly, icpWeight,
                                                 pyramid, fastOdom, so3);
@@ -441,14 +442,14 @@ check_gl_errorElasticFusion();
         std::max(1.0f - (weighting / largest), minWeight) * weightMultiplier;
 
     std::vector<Ferns::SurfaceConstraint> constraints;
-check_gl_errorElasticFusion();
-  LOGI("ElasticFusion struct Process frame predict 1 ");
+    check_gl_errorElasticFusion();
+    LOGI("ElasticFusion struct Process frame predict 1 ");
     predict();
     check_gl_errorElasticFusion();
-      LOGI("ElasticFusion struct Process frame predict 2 ");
+    LOGI("ElasticFusion struct Process frame predict 2 ");
 
     //----------------------------------------------------------global loop
-    //closure--------------------------------------------------------
+    // closure--------------------------------------------------------
 
     Eigen::Matrix4f recoveryPose = currPose;
 
@@ -497,7 +498,7 @@ check_gl_errorElasticFusion();
       }
     }
     //----------------------------------------------------------local loop
-    //closure--------------------------------------------------------
+    // closure--------------------------------------------------------
 
     // If we didn't match to a fern
     if (!lost && closeLoops && rawGraph.size() == 0) {
@@ -593,7 +594,7 @@ check_gl_errorElasticFusion();
       }
     }
     //----------------------------------------------------------fuse new
-    //data--------------------------------------------------------
+    // data--------------------------------------------------------
 
     if (!rgbOnly && trackingOk && !lost) {
       TICK("indexMap");
@@ -636,7 +637,7 @@ check_gl_errorElasticFusion();
   poseGraph.push_back(
       std::pair<unsigned long long int, Eigen::Matrix4f>(tick, currPose));
   poseLogTimes.push_back(timestamp);
-check_gl_errorElasticFusion();
+  check_gl_errorElasticFusion();
   LOGI(" ElasticFusion struct Process frame  sampleGraph");
   TICK("sampleGraph");
   //在这里初始化 DeformationGraph
@@ -644,9 +645,9 @@ check_gl_errorElasticFusion();
   localDeformation.sampleGraphModel(globalModel.model());
 
   check_gl_errorElasticFusion();
-    LOGI(" ElasticFusion struct Process frame  sampleGraph 1");
+  LOGI(" ElasticFusion struct Process frame  sampleGraph 1");
   globalDeformation.sampleGraphFrom(localDeformation);
-check_gl_errorElasticFusion();
+  check_gl_errorElasticFusion();
   LOGI(" ElasticFusion struct Process frame  sampleGraph done");
   TOCK("sampleGraph");
 
@@ -658,7 +659,7 @@ check_gl_errorElasticFusion();
     processFerns();
     tick++;
   }
-check_gl_errorElasticFusion();
+  check_gl_errorElasticFusion();
   LOGI(" ElasticFusion struct Process frame  run finally done");
   TOCK("Run");
 }
@@ -694,16 +695,16 @@ void ElasticFusion::predict() {
   TICK("FillIn");
   fillIn.vertex(indexMap.vertexTex(), textures[GPUTexture::DEPTH_FILTERED],
                 lost);
-                check_gl_errorElasticFusion();
-                LOGI("MY elasitcfusion struct predict combinedPredict done 1");
+  check_gl_errorElasticFusion();
+  LOGI("MY elasitcfusion struct predict combinedPredict done 1");
   fillIn.normal(indexMap.normalTex(), textures[GPUTexture::DEPTH_FILTERED],
                 lost);
-                check_gl_errorElasticFusion();
-                LOGI("MY elasitcfusion struct predict combinedPredict done 2");
+  check_gl_errorElasticFusion();
+  LOGI("MY elasitcfusion struct predict combinedPredict done 2");
   fillIn.image(indexMap.imageTex(), textures[GPUTexture::RGB],
                lost || frameToFrameRGB);
-               check_gl_errorElasticFusion();
-               LOGI("MY elasitcfusion struct predict combinedPredict done 3");
+  check_gl_errorElasticFusion();
+  LOGI("MY elasitcfusion struct predict combinedPredict done 3");
   TOCK("FillIn");
 
   TOCK("IndexMap::ACTIVE");
@@ -720,12 +721,12 @@ void ElasticFusion::metriciseDepth() {
   LOGI("MY elasitcfusion struct metriciseDepth 2 ");
   computePacks[ComputePack::METRIC]->compute(
       textures[GPUTexture::DEPTH_RAW]->texture, &uniforms);
-      check_gl_errorElasticFusion();
-      LOGI("MY elasitcfusion struct metriciseDepth 3");
+  check_gl_errorElasticFusion();
+  LOGI("MY elasitcfusion struct metriciseDepth 3");
   computePacks[ComputePack::METRIC_FILTERED]->compute(
       textures[GPUTexture::DEPTH_FILTERED]->texture, &uniforms);
-      check_gl_errorElasticFusion();
-      LOGI("MY elasitcfusion struct metriciseDepth 4");
+  check_gl_errorElasticFusion();
+  LOGI("MY elasitcfusion struct metriciseDepth 4");
 }
 
 void ElasticFusion::filterDepth() {
@@ -740,23 +741,23 @@ void ElasticFusion::filterDepth() {
   LOGI("MY elasitcfusion struct filterDepth 2 ");
   computePacks[ComputePack::FILTER]->compute(
       textures[GPUTexture::DEPTH_RAW]->texture, &uniforms);
-      check_gl_errorElasticFusion();
-      LOGI("MY elasitcfusion struct filterDepth 3");
+  check_gl_errorElasticFusion();
+  LOGI("MY elasitcfusion struct filterDepth 3");
 }
 
 void ElasticFusion::normaliseDepth(const float &minVal, const float &maxVal) {
-check_gl_errorElasticFusion();
+  check_gl_errorElasticFusion();
   LOGI("MY elasitcfusion struct normaliseDepth 1");
   std::vector<Uniform> uniforms;
 
   uniforms.push_back(Uniform("maxVal", maxVal * 1000.f));
   uniforms.push_back(Uniform("minVal", minVal * 1000.f));
   check_gl_errorElasticFusion();
-    LOGI("MY elasitcfusion struct normaliseDepth 2");
+  LOGI("MY elasitcfusion struct normaliseDepth 2");
   computePacks[ComputePack::NORM]->compute(
       textures[GPUTexture::DEPTH_RAW]->texture, &uniforms);
-      check_gl_errorElasticFusion();
-        LOGI("MY elasitcfusion struct normaliseDepth 3");
+  check_gl_errorElasticFusion();
+  LOGI("MY elasitcfusion struct normaliseDepth 3");
 }
 
 void ElasticFusion::savePly(Eigen::Vector4f myMapData, unsigned int myLastCount,

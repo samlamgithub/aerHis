@@ -7,7 +7,8 @@
  * make up the software that is ElasticFusion is permitted for
  * non-commercial purposes only.  The full terms and conditions that
  * apply to the code within this file are detailed within the LICENSE.txt
- * file and at <http://www.imperial.ac.uk/dyson-robotics-lab/downloads/elastic-fusion/elastic-fusion-license/>
+ * file and at
+ * <http://www.imperial.ac.uk/dyson-robotics-lab/downloads/elastic-fusion/elastic-fusion-license/>
  * unless explicitly stated.  By downloading this file you agree to
  * comply with these terms.
  *
@@ -19,46 +20,47 @@
 #ifndef FILLIN_H_
 #define FILLIN_H_
 
+#include "../GPUTexture.h"
+#include "../Utils/Intrinsics.h"
+#include "../Utils/Resolution.h"
 #include "Shaders.h"
 #include "Uniform.h"
-#include "../Utils/Resolution.h"
-#include "../Utils/Intrinsics.h"
-#include "../GPUTexture.h"
 #include <glFrameBuffer.h>
 
 #include "../../tango_interface/util.hpp"
 
-class FillIn
-{
-    public:
-        FillIn();
-        virtual ~FillIn();
+class FillIn {
+public:
+  FillIn();
+  virtual ~FillIn();
 
-        void image(GPUTexture * existingRgb, GPUTexture * rawRgb, bool passthrough);
-        void vertex(GPUTexture * existingVertex, GPUTexture * rawDepth, bool passthrough);
-        void normal(GPUTexture * existingNormal, GPUTexture * rawDepth, bool passthrough);
+  void image(GPUTexture *existingRgb, GPUTexture *rawRgb, bool passthrough);
+  void vertex(GPUTexture *existingVertex, GPUTexture *rawDepth,
+              bool passthrough);
+  void normal(GPUTexture *existingNormal, GPUTexture *rawDepth,
+              bool passthrough);
 
-        GPUTexture imageTexture;
-        GPUTexture vertexTexture;
-        GPUTexture normalTexture;
+  GPUTexture imageTexture;
+  GPUTexture vertexTexture;
+  GPUTexture normalTexture;
 
-        std::shared_ptr<Shader> imageProgram;
-        // pangolin::GlRenderBuffer imageRenderBuffer;
-        // pangolin::GlFramebuffer imageFrameBuffer;
-        GlRenderBuffer imageRenderBuffer;
-        GlFramebuffer imageFrameBuffer;
+  std::shared_ptr<Shader> imageProgram;
+  // pangolin::GlRenderBuffer imageRenderBuffer;
+  // pangolin::GlFramebuffer imageFrameBuffer;
+  GlRenderBuffer imageRenderBuffer;
+  GlFramebuffer imageFrameBuffer;
 
-        std::shared_ptr<Shader> vertexProgram;
-        // pangolin::GlRenderBuffer vertexRenderBuffer;
-        // pangolin::GlFramebuffer vertexFrameBuffer;
-        GlRenderBuffer vertexRenderBuffer;
-        GlFramebuffer vertexFrameBuffer;
+  std::shared_ptr<Shader> vertexProgram;
+  // pangolin::GlRenderBuffer vertexRenderBuffer;
+  // pangolin::GlFramebuffer vertexFrameBuffer;
+  GlRenderBuffer vertexRenderBuffer;
+  GlFramebuffer vertexFrameBuffer;
 
-        std::shared_ptr<Shader> normalProgram;
-        // pangolin::GlRenderBuffer normalRenderBuffer;
-        // pangolin::GlFramebuffer normalFrameBuffer;
-        GlRenderBuffer normalRenderBuffer;
-        GlFramebuffer normalFrameBuffer;
+  std::shared_ptr<Shader> normalProgram;
+  // pangolin::GlRenderBuffer normalRenderBuffer;
+  // pangolin::GlFramebuffer normalFrameBuffer;
+  GlRenderBuffer normalRenderBuffer;
+  GlFramebuffer normalFrameBuffer;
 };
 
 #endif /* FILLIN_H_ */

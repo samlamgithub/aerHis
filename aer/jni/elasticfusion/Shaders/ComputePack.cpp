@@ -38,7 +38,7 @@ static const char *glErrorStringComputePack(GLenum err) {
     return "Out of Memory";
   case GL_INVALID_FRAMEBUFFER_OPERATION:
     return "GL_INVALID_FRAMEBUFFER_OPERATION";
-//  case GL_CONTEXT_LOST:
+  //  case GL_CONTEXT_LOST:
   //  return "GL_CONTEXT_LOST";
   //  case GL_TABLE_TOO_LARGE: return "Table too Large";
   default:
@@ -88,14 +88,29 @@ void ComputePack::compute(GlTexture *input,
   LOGI("MY elasitcfusion ComputePack compute 5");
   glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
   check_gl_errorComputePack();
-  GLenum status = glCheckFramebufferStatus(frameBuffer);
-    if (status != GL_FRAMEBUFFER_COMPLETE) {
-        LOGI("MY elasitcfusion ComputePack compute 5: %d", status);
-    } else {
-  LOGI("MY elasitcfusion ComputePack compute 5: complete");
-}
+  GLenum status = glCheckFramebufferStatus(frameBuffer.rbid);
+  if (status == GL_FRAMEBUFFER_COMPLETE) {
+    LOGI("MY elasitcfusion ComputePack compute 5: GL_FRAMEBUFFER_COMPLETE");
+  } else if (status == GL_FRAMEBUFFER_UNDEFINED) {
+    LOGI("MY elasitcfusion ComputePack compute 5: GL_FRAMEBUFFER_UNDEFINED");
+  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT) {
+    LOGI("MY elasitcfusion ComputePack compute 5: "
+         "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT");
+  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT) {
+    LOGI("MY elasitcfusion ComputePack compute 5: "
+         "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT");
+  } else if (status == GL_FRAMEBUFFER_UNSUPPORTED) {
+    LOGI("MY elasitcfusion ComputePack compute 5: GL_FRAMEBUFFER_UNSUPPORTED");
+  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE) {
+    LOGI("MY elasitcfusion ComputePack compute 5: "
+         "GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE");
+  } else if (status == GL_INVALID_ENUM) {
+    LOGI("MY elasitcfusion ComputePack compute 5: GL_INVALID_ENUM");
+  } else {
+    LOGI("MY elasitcfusion ComputePack compute 5: %d", status);
+  }
   LOGI("MY elasitcfusion ComputePack compute 6");
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //here
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // here
   check_gl_errorComputePack();
   LOGI("MY elasitcfusion ComputePack compute 7");
   program->Bind();
@@ -108,7 +123,7 @@ void ComputePack::compute(GlTexture *input,
   }
   check_gl_errorComputePack();
   LOGI("MY elasitcfusion ComputePack compute 9");
-  glDrawArrays(GL_POINTS, 0, 1); //here
+  glDrawArrays(GL_POINTS, 0, 1); // here
   check_gl_errorComputePack();
   LOGI("MY elasitcfusion ComputePack compute 10");
   frameBuffer.Unbind();

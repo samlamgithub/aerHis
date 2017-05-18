@@ -2,125 +2,106 @@
 #ifndef THREADMUTEXOBJECT_HPP_
 #define THREADMUTEXOBJECT_HPP_
 
-#include <boost/thread.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
+#include <boost/thread.hpp>
 #include <boost/thread/condition_variable.hpp>
 
-template <class T>
-class ThreadMutexObject
-{
-    public:
-        ThreadMutexObject()
-        {}
+template <class T> class ThreadMutexObject {
+public:
+  ThreadMutexObject() {}
 
-        ThreadMutexObject(T initialValue)
-         : object(initialValue),
-           lastCopy(initialValue)
-        {}
+  ThreadMutexObject(T initialValue)
+      : object(initialValue), lastCopy(initialValue) {}
 
-        void assignValue(T newValue)
-        {
-            boost::mutex::scoped_lock lock(mutex);
+  void assignValue(T newValue) {
+    boost::mutex::scoped_lock lock(mutex);
 
-            object = lastCopy = newValue;
+    object = lastCopy = newValue;
 
-            lock.unlock();
-        }
+    lock.unlock();
+  }
 
-        boost::mutex & getMutex()
-        {
-            return mutex;
-        }
+  boost::mutex &getMutex() { return mutex; }
 
-        T & getReference()
-        {
-            return object;
-        }
+  T &getReference() { return object; }
 
-        void assignAndNotifyAll(T newValue)
-        {
-            boost::mutex::scoped_lock lock(mutex);
+  void assignAndNotifyAll(T newValue) {
+    boost::mutex::scoped_lock lock(mutex);
 
-            object = newValue;
+    object = newValue;
 
-            signal.notify_all();
+    signal.notify_all();
 
-            lock.unlock();
-        }
+    lock.unlock();
+  }
 
-        void notifyAll()
-        {
-            boost::mutex::scoped_lock lock(mutex);
+  void notifyAll() {
+    boost::mutex::scoped_lock lock(mutex);
 
-            signal.notify_all();
+    signal.notify_all();
 
-            lock.unlock();
-        }
+    lock.unlock();
+  }
 
-        T getValue()
-        {
-            boost::mutex::scoped_lock lock(mutex);
+  T getValue() {
+    boost::mutex::scoped_lock lock(mutex);
 
-            lastCopy = object;
+    lastCopy = object;
 
-            lock.unlock();
+    lock.unlock();
 
-            return lastCopy;
-        }
+    return lastCopy;
+  }
 
-        T waitForSignal()
-        {
-            boost::mutex::scoped_lock lock(mutex);
+  T waitForSignal() {
+    boost::mutex::scoped_lock lock(mutex);
 
-            signal.wait(mutex);
+    signal.wait(mutex);
 
-            lastCopy = object;
+    lastCopy = object;
 
-            lock.unlock();
+    lock.unlock();
 
-            return lastCopy;
-        }
+    return lastCopy;
+  }
 
-        T getValueWait(int wait = 33000)
-        {
-            boost::this_thread::sleep(boost::posix_time::microseconds(wait));
+  T getValueWait(int wait = 33000) {
+    boost::this_thread::sleep(boost::posix_time::microseconds(wait));
 
-            boost::mutex::scoped_lock lock(mutex);
+    boost::mutex::scoped_lock lock(mutex);
 
-            lastCopy = object;
+    lastCopy = object;
 
-            lock.unlock();
+    lock.unlock();
 
-            return lastCopy;
-        }
+    return lastCopy;
+  }
 
-        T & getReferenceWait(int wait = 33000)
-        {
-            boost::this_thread::sleep(boost::posix_time::microseconds(wait));
+  T &getReferenceWait(int wait = 33000) {
+    boost::this_thread::sleep(boost::posix_time::microseconds(wait));
 
-            boost::mutex::scoped_lock lock(mutex);
+    boost::mutex::scoped_lock lock(mutex);
 
-            lastCopy = object;
+    lastCopy = object;
 
-            lock.unlock();
+    lock.unlock();
 
-            return lastCopy;
-        }
+    return lastCopy;
+  }
 
-        void operator++(int)
-        {
-            boost::mutex::scoped_lock lock(mutex);
+  void operator++(int) {
+    boost::mutex::scoped_lock lock(mutex);
 
-            object++;
+    object++;
 
-            lock.unlock();
-        }
+    lock.unlock();
+  }
 
-    private:
-        T object;
-        T lastCopy;
-        boost::mutex mutex;
-        boost::condition_variable_any signal;
+private:
+  T object;
+  T lastCopy;
+  boost::mutex mutex;
+  boost::condition_variable_any signal;
 };
 
 #endif /* THREADMUTEXOBJECT_HPP_ */

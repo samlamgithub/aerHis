@@ -36,7 +36,7 @@ static const char* glErrorStringResize(GLenum err) {
 
 inline void check_gl_errorResize() {
   for (GLint error = glGetError(); error; error = glGetError()) {
-    LOGI("check_gl_errorGlobalModel My elastic-fusion CheckGlDieOnError after %s() glError (0x%x)\n", glErrorStringResize(error), error);
+    LOGI("check_gl_error GlobalModel My elastic-fusion CheckGlDieOnError after %s() glError (0x%x)\n", glErrorStringResize(error), error);
   }
 }
 
@@ -124,10 +124,10 @@ LOGI("MY elasitcfusion resize struct image 1 ");
     glDrawArrays(GL_POINTS, 0, 1);
     check_gl_errorResize();
     LOGI("MY elasitcfusion resize struct image 11 ");
-    glReadPixels(0, 0, imageRenderBuffer.width, imageRenderBuffer.height, GL_RGB, GL_UNSIGNED_BYTE, dest.data);
+    glReadPixels(0, 0, imageRenderBuffer.width, imageRenderBuffer.height, GL_RGB, GL_UNSIGNED_BYTE, dest.data);  // here
     check_gl_errorResize();
     LOGI("MY elasitcfusion resize struct image 12 ");
-    imageFrameBuffer.Unbind(); //here
+    imageFrameBuffer.Unbind();
     check_gl_errorResize();
     LOGI("MY elasitcfusion resize struct image 13 ");
     glBindTexture(GL_TEXTURE_2D, 0);

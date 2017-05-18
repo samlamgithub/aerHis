@@ -7,7 +7,8 @@
  * make up the software that is ElasticFusion is permitted for
  * non-commercial purposes only.  The full terms and conditions that
  * apply to the code within this file are detailed within the LICENSE.txt
- * file and at <http://www.imperial.ac.uk/dyson-robotics-lab/downloads/elastic-fusion/elastic-fusion-license/>
+ * file and at
+ * <http://www.imperial.ac.uk/dyson-robotics-lab/downloads/elastic-fusion/elastic-fusion-license/>
  * unless explicitly stated.  By downloading this file you agree to
  * comply with these terms.
  *
@@ -19,32 +20,24 @@
 #ifndef POSEMATCH_H_
 #define POSEMATCH_H_
 
-#include <Eigen/Core>
 #include "Ferns.h"
+#include <Eigen/Core>
 
-class PoseMatch
-{
-    public:
-        PoseMatch(int firstId,
-                  int secondId,
-                  const Eigen::Matrix4f & first,
-                  const Eigen::Matrix4f & second,
-                  const std::vector<Ferns::SurfaceConstraint> & constraints,
-                  const bool & fern)
-     : firstId(firstId),
-       secondId(secondId),
-       first(first),
-       second(second),
-       constraints(constraints),
-       fern(fern)
-    {}
+class PoseMatch {
+public:
+  PoseMatch(int firstId, int secondId, const Eigen::Matrix4f &first,
+            const Eigen::Matrix4f &second,
+            const std::vector<Ferns::SurfaceConstraint> &constraints,
+            const bool &fern)
+      : firstId(firstId), secondId(secondId), first(first), second(second),
+        constraints(constraints), fern(fern) {}
 
-    int firstId;
-    int secondId;
-    Eigen::Matrix4f first;
-    Eigen::Matrix4f second;
-    std::vector<Ferns::SurfaceConstraint> constraints;
-    bool fern;
+  int firstId;
+  int secondId;
+  Eigen::Matrix4f first;
+  Eigen::Matrix4f second;
+  std::vector<Ferns::SurfaceConstraint> constraints;
+  bool fern;
 };
 
 #endif /* POSEMATCH_H_ */

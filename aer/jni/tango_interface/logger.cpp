@@ -1,12 +1,11 @@
 #include "logger.hpp"
 #include "util.hpp"
 
-#include <ctime>
 #include <cstdarg>
+#include <ctime>
 #include <jni.h>
-#include <tango_client_api.h>
 #include <sys/stat.h>
-
+#include <tango_client_api.h>
 
 namespace tango_interface {
 
@@ -20,30 +19,29 @@ Logger::Logger() {
   }
   // Finish opening the file
   filename += version_suffix;
-  log_file_ = fopen(filename.c_str(),"w+");
+  log_file_ = fopen(filename.c_str(), "w+");
   if (log_file_ == NULL) {
-    LOGE("Logger: There was a problem opening the log file:%s",filename.c_str());
+    LOGE("Logger: There was a problem opening the log file:%s",
+         filename.c_str());
   }
 }
 
-Logger::~Logger() {
-  close();
-}
+Logger::~Logger() { close(); }
 
-bool Logger::log(LogLevel level, const char* log_line, ...) {
+bool Logger::log(LogLevel level, const char *log_line, ...) {
   if (log_file_ != NULL) {
-    fputs(level_string(level).c_str(),log_file_);
-    fputs(current_date_time().c_str(),log_file_);
-    fputs(":     ",log_file_);
+    fputs(level_string(level).c_str(), log_file_);
+    fputs(current_date_time().c_str(), log_file_);
+    fputs(":     ", log_file_);
     // Format the log line
     const int max_log_len = 2048;
     char buffer[max_log_len];
     va_list args;
-    va_start(args,log_line);
+    va_start(args, log_line);
     vsnprintf(buffer, max_log_len, log_line, args);
     va_end(args);
-    fputs(buffer,log_file_);
-    fputs("\n",log_file_);
+    fputs(buffer, log_file_);
+    fputs("\n", log_file_);
     return true;
   }
   return false;
@@ -56,7 +54,7 @@ void Logger::close() {
   }
 }
 
-bool Logger::file_exists(const std::string& filename) const {
+bool Logger::file_exists(const std::string &filename) const {
   struct stat st;
   int result = stat(filename.c_str(), &st);
   return (result == 0);
@@ -64,27 +62,31 @@ bool Logger::file_exists(const std::string& filename) const {
 
 std::string Logger::level_string(LogLevel level) const {
   switch (level) {
-  case kError   : return std::string("ERROR  ");
-  case kWarning : return std::string("WARNING");
-  case kInfo    : return std::string("INFO   ");
-  case kDebug   : return std::string("DEBUG  ");
-  default       : return std::string("UNKNOWN");
+  case kError:
+    return std::string("ERROR  ");
+  case kWarning:
+    return std::string("WARNING");
+  case kInfo:
+    return std::string("INFO   ");
+  case kDebug:
+    return std::string("DEBUG  ");
+  default:
+    return std::string("UNKNOWN");
   }
 }
 
 std::string Logger::current_date_time() const {
-    time_t     now = time(0);
-    struct tm  tstruct;
-    char       buf[80];
-    tstruct = *localtime(&now);
-    strftime(buf, sizeof(buf), "%Y-%m-%d_%H-%M-%S", &tstruct);
-    return std::string(buf);
+  time_t now = time(0);
+  struct tm tstruct;
+  char buf[80];
+  tstruct = *localtime(&now);
+  strftime(buf, sizeof(buf), "%Y-%m-%d_%H-%M-%S", &tstruct);
+  return std::string(buf);
 }
 
 std::string Logger::to_string(int value) const {
   char buf[128];
-  snprintf(buf,128,"%d",value);
+  snprintf(buf, 128, "%d", value);
   return std::string(buf);
 }
-
 }

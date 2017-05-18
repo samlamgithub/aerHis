@@ -7,7 +7,8 @@
  * make up the software that is ElasticFusion is permitted for
  * non-commercial purposes only.  The full terms and conditions that
  * apply to the code within this file are detailed within the LICENSE.txt
- * file and at <http://www.imperial.ac.uk/dyson-robotics-lab/downloads/elastic-fusion/elastic-fusion-license/>
+ * file and at
+ * <http://www.imperial.ac.uk/dyson-robotics-lab/downloads/elastic-fusion/elastic-fusion-license/>
  * unless explicitly stated.  By downloading this file you agree to
  * comply with these terms.
  *
@@ -19,43 +20,42 @@
 #ifndef FEEDBACKBUFFER_H_
 #define FEEDBACKBUFFER_H_
 
+#include "../Utils/Intrinsics.h"
+#include "../Utils/Resolution.h"
 #include "Shaders.h"
 #include "Uniform.h"
 #include "Vertex.h"
-#include "../Utils/Resolution.h"
-#include "../Utils/Intrinsics.h"
 //#include <pangolin/gl/gl.h>
 //#include <pangolin/display/opengl_render_state.h>
 #include <glTexture.h>
 
 #include "../../tango_interface/util.hpp"
 
-class FeedbackBuffer
-{
-    public:
-        FeedbackBuffer(std::shared_ptr<Shader> program);
-        virtual ~FeedbackBuffer();
+class FeedbackBuffer {
+public:
+  FeedbackBuffer(std::shared_ptr<Shader> program);
+  virtual ~FeedbackBuffer();
 
-        std::shared_ptr<Shader> program;
+  std::shared_ptr<Shader> program;
 
-        // void compute(pangolin::GlTexture * color, pangolin::GlTexture * depth,
-        void compute(GlTexture * color, GlTexture * depth,
-                     const int & time,
-                     const float depthCutoff);
+  // void compute(pangolin::GlTexture * color, pangolin::GlTexture * depth,
+  void compute(GlTexture *color, GlTexture *depth, const int &time,
+               const float depthCutoff);
 
-        // void render(pangolin::OpenGlMatrix mvp, const Eigen::Matrix4f & pose, const bool drawNormals, const bool drawColors);
+  // void render(pangolin::OpenGlMatrix mvp, const Eigen::Matrix4f & pose, const
+  // bool drawNormals, const bool drawColors);
 
-        static const std::string RAW, FILTERED;
+  static const std::string RAW, FILTERED;
 
-        GLuint vbo;
-        GLuint fid;
+  GLuint vbo;
+  GLuint fid;
 
-    private:
-        std::shared_ptr<Shader> drawProgram;
-        GLuint uvo;
-        GLuint countQuery;
-        const int bufferSize;
-        unsigned int count;
+private:
+  std::shared_ptr<Shader> drawProgram;
+  GLuint uvo;
+  GLuint countQuery;
+  const int bufferSize;
+  unsigned int count;
 };
 
 #endif /* FEEDBACKBUFFER_H_ */

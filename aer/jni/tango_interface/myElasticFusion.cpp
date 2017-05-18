@@ -21,25 +21,31 @@
 // using namespace cv;
 #include <../elasticfusion/ElasticFusion.h>
 
-
-static const char* glErrorStringef(GLenum err) {
-  switch(err) {
-    case GL_INVALID_ENUM: return "Invalid Enum";
-    case GL_INVALID_VALUE: return "Invalid Value";
-    case GL_INVALID_OPERATION: return "Invalid Operation";
-    case GL_INVALID_FRAMEBUFFER_OPERATION:
-      return "GL_INVALID_FRAMEBUFFER_OPERATION";
-   // case GL_STACK_OVERFLOW: return "Stack Overflow";
-   // case GL_STACK_UNDERFLOW: return "Stack Underflow";
-    case GL_OUT_OF_MEMORY: return "Out of Memory";
+static const char *glErrorStringef(GLenum err) {
+  switch (err) {
+  case GL_INVALID_ENUM:
+    return "Invalid Enum";
+  case GL_INVALID_VALUE:
+    return "Invalid Value";
+  case GL_INVALID_OPERATION:
+    return "Invalid Operation";
+  case GL_INVALID_FRAMEBUFFER_OPERATION:
+    return "GL_INVALID_FRAMEBUFFER_OPERATION";
+  // case GL_STACK_OVERFLOW: return "Stack Overflow";
+  // case GL_STACK_UNDERFLOW: return "Stack Underflow";
+  case GL_OUT_OF_MEMORY:
+    return "Out of Memory";
   //  case GL_TABLE_TOO_LARGE: return "Table too Large";
-    default: return "Unknown Error";
+  default:
+    return "Unknown Error";
   }
 }
 
 inline void check_gl_errorEF() {
   for (GLint error = glGetError(); error; error = glGetError()) {
-    LOGI("check_gl_errorGlobalModel My elastic-fusion CheckGlDieOnError after %s() glError (0x%x)\n", glErrorStringef(error), error);
+    LOGI("check_gl_errorGlobalModel My elastic-fusion CheckGlDieOnError after "
+         "%s() glError (0x%x)\n",
+         glErrorStringef(error), error);
   }
 }
 
@@ -404,15 +410,21 @@ void MyElasticFusion::runEF() {
   //   	  }
   //==================================
   LOGI("MyElasticFusion runEF egl context setup start ...");
-  const EGLint configAttribs[] = {EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
-                                  EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
-                                  EGL_BLUE_SIZE,    8,
-                                  EGL_GREEN_SIZE,   8,
-                                  EGL_RED_SIZE,     8,
-                                  EGL_DEPTH_SIZE,   24,
+  const EGLint configAttribs[] = {EGL_RENDERABLE_TYPE,
+                                  EGL_OPENGL_ES2_BIT,
+                                  EGL_SURFACE_TYPE,
+                                  EGL_WINDOW_BIT,
+                                  EGL_BLUE_SIZE,
+                                  8,
+                                  EGL_GREEN_SIZE,
+                                  8,
+                                  EGL_RED_SIZE,
+                                  8,
+                                  EGL_DEPTH_SIZE,
+                                  24,
                                   EGL_NONE};
 
-  const EGLint contextAttribs[] = {EGL_CONTEXT_CLIENT_VERSION, 3,  EGL_NONE};
+  const EGLint contextAttribs[] = {EGL_CONTEXT_CLIENT_VERSION, 3, EGL_NONE};
 
   EGLDisplay display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
   if (display == EGL_NO_DISPLAY || eglGetError() != EGL_SUCCESS) {
@@ -711,13 +723,19 @@ void MyElasticFusion::runEF() {
         validCount++; //这是个有效的顶点,
       }
     } //调用点云中的每一个点
-    LOGI("MyElasticFusion Log processing result eFusion.globalModel.downloadMap() valid count : %d", validCount);
+    LOGI("MyElasticFusion Log processing result "
+         "eFusion.globalModel.downloadMap() valid count : %d",
+         validCount);
 
-		RGBDOdometry modelToModel = eFusion.getModelToModel();
-		float lastICPError = modelToModel.lastICPError;
-		float lastICPCount = modelToModel.lastICPCount;
-		LOGI("MyElasticFusion Log processing result lastICPError: %f, icpErrThresh: %f", lastICPError, 5e-05);
-		LOGI("MyElasticFusion Log processing result lastICPCount: %f, icpCountThresh: %f",lastICPCount , 35000.00 );
+    RGBDOdometry modelToModel = eFusion.getModelToModel();
+    float lastICPError = modelToModel.lastICPError;
+    float lastICPCount = modelToModel.lastICPCount;
+    LOGI("MyElasticFusion Log processing result lastICPError: %f, "
+         "icpErrThresh: %f",
+         lastICPError, 5e-05);
+    LOGI("MyElasticFusion Log processing result lastICPCount: %f, "
+         "icpCountThresh: %f",
+         lastICPCount, 35000.00);
     //
     // LOGI("saving cloud points..." );
     // eFusion.savePly();			 //保存当前的点云图至ply
@@ -939,7 +957,7 @@ void MyElasticFusion::runEF() {
   // LOGI("Logger close:");
   // fclose(RGBlog_file_);
   // fclose(Depthlog_file_);
-delete &eFusion;
+  delete &eFusion;
   LOGI("ElasticFusion done:");
 }
 }

@@ -8,14 +8,15 @@
 //#include "event_types/accelerometer_event.hpp"
 //#include "event_types/gyroscope_event.hpp"
 //
-//class ASensorEventQueue;
+// class ASensorEventQueue;
 //
-//namespace tango_interface {
+// namespace tango_interface {
 //
-//typedef std::function<void (const AccelerometerEvent& event)> AccelerometerCallBack;
-//typedef std::function<void (const GyroscopeEvent& event)> GyroscopeCallBack;
+// typedef std::function<void (const AccelerometerEvent& event)>
+// AccelerometerCallBack;  typedef std::function<void (const GyroscopeEvent&
+// event)> GyroscopeCallBack;
 //
-//class ImuInterface {
+// class ImuInterface {
 // public:
 //  // Main callback functions
 //  static void register_accelerometer_callback(AccelerometerCallBack function);

@@ -7,7 +7,8 @@
  * make up the software that is ElasticFusion is permitted for
  * non-commercial purposes only.  The full terms and conditions that
  * apply to the code within this file are detailed within the LICENSE.txt
- * file and at <http://www.imperial.ac.uk/dyson-robotics-lab/downloads/elastic-fusion/elastic-fusion-license/>
+ * file and at
+ * <http://www.imperial.ac.uk/dyson-robotics-lab/downloads/elastic-fusion/elastic-fusion-license/>
  * unless explicitly stated.  By downloading this file you agree to
  * comply with these terms.
  *
@@ -20,97 +21,108 @@
 #define GLRENDERBUFFER_H_
 
 #include <GLES3/gl3.h>
-#define __gl2_h_                 // what the f***
+#define __gl2_h_ // what the f***
 #include <GLES2/gl2ext.h>
 #include <GLES3/gl3platform.h>
 
+#include "GLExtensions.h"
 #include <EGL/egl.h>
 #include <EGL/eglext.h>
-#include "GLExtensions.h"
 
-static const char* glErrorStringRB(GLenum err) {
-  switch(err) {
-    case GL_INVALID_ENUM: return "Invalid Enum";
-    case GL_INVALID_VALUE: return "Invalid Value";
-    case GL_INVALID_OPERATION: return "Invalid Operation";
-    case GL_INVALID_FRAMEBUFFER_OPERATION:
-      return "GL_INVALID_FRAMEBUFFER_OPERATION";
-   // case GL_STACK_OVERFLOW: return "Stack Overflow";
-   // case GL_STACK_UNDERFLOW: return "Stack Underflow";
-    case GL_OUT_OF_MEMORY: return "Out of Memory";
+static const char *glErrorStringRB(GLenum err) {
+  switch (err) {
+  case GL_INVALID_ENUM:
+    return "Invalid Enum";
+  case GL_INVALID_VALUE:
+    return "Invalid Value";
+  case GL_INVALID_OPERATION:
+    return "Invalid Operation";
+  case GL_INVALID_FRAMEBUFFER_OPERATION:
+    return "GL_INVALID_FRAMEBUFFER_OPERATION";
+  // case GL_STACK_OVERFLOW: return "Stack Overflow";
+  // case GL_STACK_UNDERFLOW: return "Stack Underflow";
+  case GL_OUT_OF_MEMORY:
+    return "Out of Memory";
   //  case GL_TABLE_TOO_LARGE: return "Table too Large";
-    default: return "Unknown Error";
+  default:
+    return "Unknown Error";
   }
 }
 
 inline void CheckGlDieOnErrorRB() {
-    for (GLint error = glGetError(); error; error = glGetError()) {
-        LOGI("GlRenderBuffer.h CheckGlDieOnError after %s: glError (0x%x)\n", glErrorStringRB(error), error);
-    }
+  for (GLint error = glGetError(); error; error = glGetError()) {
+    LOGI("GlRenderBuffer.h CheckGlDieOnError after %s: glError (0x%x)\n",
+         glErrorStringRB(error), error);
+  }
 }
 
 struct GlRenderBuffer {
-   GlRenderBuffer() : width(0), height(0), rbid(0) {  LOGI("GlRenderBuffer init with nothing");}
-
-   GlRenderBuffer(GLint width, GLint height, GLint internal_format = GL_DEPTH_COMPONENT24 )
-    : width(0), height(0), rbid(0) {
-        CheckGlDieOnErrorRB();
-        LOGI("GlRenderBuffer init start %d, %d, %d, " ,width, height, internal_format);
-        Reinitialise(width,height,internal_format);
-        CheckGlDieOnErrorRB();
-        LOGI("GlRenderBuffer init done");
+  GlRenderBuffer() : width(0), height(0), rbid(0) {
+    LOGI("GlRenderBuffer init with nothing");
   }
 
-   ~GlRenderBuffer() {
-       // We have no GL context whilst exiting.
-       if( width!=0  ) {
-           glDeleteTextures(1, &rbid);
-       }
-   }
+  GlRenderBuffer(GLint width, GLint height,
+                 GLint internal_format = GL_DEPTH_COMPONENT24)
+      : width(0), height(0), rbid(0) {
+    CheckGlDieOnErrorRB();
+    LOGI("GlRenderBuffer init start %d, %d, %d, ", width, height,
+         internal_format);
+    Reinitialise(width, height, internal_format);
+    CheckGlDieOnErrorRB();
+    LOGI("GlRenderBuffer init done");
+  }
 
-   void Reinitialise(GLint width, GLint height, GLint internal_format = GL_DEPTH_COMPONENT24) {
-      CheckGlDieOnErrorRB();
-      LOGI("GlRenderBuffer Reinitialise start");
-	     if( width!=0 ) {
-	      glDeleteTextures(1, &rbid);
-	    }
-      // Use a texture instead...
-      GLint format = internal_format;
-      GLint type = GL_UNSIGNED_SHORT;
-      if (internal_format == GL_DEPTH_COMPONENT24) {
-          format = GL_DEPTH_COMPONENT;
-          type = GL_UNSIGNED_INT;
-      }
-      CheckGlDieOnErrorRB();
-      LOGI("GlRenderBuffer Reinitialise 1");
-	         glGenTextures(1, &rbid);
-	         glBindTexture(GL_TEXTURE_2D, rbid);
-           CheckGlDieOnErrorRB();
-           LOGI("GlRenderBuffer Reinitialise 2");
-	         glTexImage2D(GL_TEXTURE_2D, 0, internal_format,
-	                 width, height,
-	                 0, format, type, NULL);
-                   CheckGlDieOnErrorRB();
-                   LOGI("GlRenderBuffer Reinitialise 3");
-	         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        CheckGlDieOnErrorRB();
-        LOGI("GlRenderBuffer Reinitialise done");
+  ~GlRenderBuffer() {
+    // We have no GL context whilst exiting.
+    if (width != 0) {
+      glDeleteTextures(1, &rbid);
     }
-    //! Move Constructor
-    GlRenderBuffer(GlRenderBuffer&& tex)
-        : width(tex.width), height(tex.height), rbid(tex.rbid) {
-        tex.rbid = tex.width = tex.height = 0;
-    }
+  }
 
-    GLint width;
-    GLint height;
-    GLuint rbid;
+  void Reinitialise(GLint width, GLint height,
+                    GLint internal_format = GL_DEPTH_COMPONENT24) {
+    CheckGlDieOnErrorRB();
+    LOGI("GlRenderBuffer Reinitialise start");
+    if (width != 0) {
+      glDeleteTextures(1, &rbid);
+    }
+    // Use a texture instead...
+    GLint format = internal_format;
+    GLint type = GL_UNSIGNED_SHORT;
+    if (internal_format == GL_DEPTH_COMPONENT24) {
+      format = GL_DEPTH_COMPONENT;
+      type = GL_UNSIGNED_INT;
+    }
+    CheckGlDieOnErrorRB();
+    LOGI("GlRenderBuffer Reinitialise 1");
+    glGenTextures(1, &rbid);
+    glBindTexture(GL_TEXTURE_2D, rbid);
+    CheckGlDieOnErrorRB();
+    LOGI("GlRenderBuffer Reinitialise 2");
+    glTexImage2D(GL_TEXTURE_2D, 0, internal_format, width, height, 0, format,
+                 type, NULL);
+    CheckGlDieOnErrorRB();
+    LOGI("GlRenderBuffer Reinitialise 3");
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    CheckGlDieOnErrorRB();
+    LOGI("GlRenderBuffer Reinitialise done");
+  }
+
+  //! Move Constructor
+  GlRenderBuffer(GlRenderBuffer &&tex)
+      : width(tex.width), height(tex.height), rbid(tex.rbid) {
+    tex.rbid = tex.width = tex.height = 0;
+  }
+
+  GLint width;
+  GLint height;
+  GLuint rbid;
   // private:
-    // Private copy constructor
-    GlRenderBuffer(const GlRenderBuffer&) {}
+  // Private copy constructor
+  GlRenderBuffer(const GlRenderBuffer &) {}
 };
 
 #endif /* GLRENDERBUFFER_H_ */

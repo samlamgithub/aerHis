@@ -7,7 +7,8 @@
  * make up the software that is ElasticFusion is permitted for
  * non-commercial purposes only.  The full terms and conditions that
  * apply to the code within this file are detailed within the LICENSE.txt
- * file and at <http://www.imperial.ac.uk/dyson-robotics-lab/downloads/elastic-fusion/elastic-fusion-license/>
+ * file and at
+ * <http://www.imperial.ac.uk/dyson-robotics-lab/downloads/elastic-fusion/elastic-fusion-license/>
  * unless explicitly stated.  By downloading this file you agree to
  * comply with these terms.
  *
@@ -22,46 +23,44 @@
 //#include <GLES2/gl2ext.h>
 //#include <GLES3/gl3.h>
 #include <GLES3/gl3.h>
-#define __gl2_h_                 // what the f***
+#define __gl2_h_ // what the f***
 #include <GLES2/gl2ext.h>
 #include <GLES3/gl3platform.h>
 
+#include "../tango_interface/util.hpp"
 #include <Shaders/glTexture.h>
-#include <driver_types.h>
 #include <cuda_gl_interop.h>
 #include <cuda_runtime_api.h>
+#include <driver_types.h>
 #include <string>
-#include "../tango_interface/util.hpp"
 
-class GPUTexture
-{
-    public:
-        GPUTexture(const int width,
-                   const int height,
-                   const GLenum internalFormat,
-                   const GLenum format,
-                   const GLenum dataType,
-                   const bool draw = false,
-                   const bool cuda = false);
+class GPUTexture {
+public:
+  GPUTexture(const int width, const int height, const GLenum internalFormat,
+             const GLenum format, const GLenum dataType,
+             const bool draw = false, const bool cuda = false);
 
-        virtual ~GPUTexture();
+  virtual ~GPUTexture();
 
-        static const std::string RGB, DEPTH_RAW, DEPTH_FILTERED, DEPTH_METRIC, DEPTH_METRIC_FILTERED, DEPTH_NORM;
+  static const std::string RGB, DEPTH_RAW, DEPTH_FILTERED, DEPTH_METRIC,
+      DEPTH_METRIC_FILTERED, DEPTH_NORM;
 
-        // pangolin::GlTexture * texture;
-        GlTexture * texture;
+  // pangolin::GlTexture * texture;
+  GlTexture *texture;
 
-        cudaGraphicsResource * cudaRes;
+  cudaGraphicsResource *cudaRes;
 
-        const bool draw;
+  const bool draw;
 
-    private:
-        GPUTexture() : texture(0), cudaRes(0), draw(false), width(0), height(0), internalFormat(0), format(0), dataType(0) {}
-        const int width;
-        const int height;
-        const GLenum internalFormat;
-        const GLenum format;
-        const GLenum dataType;
+private:
+  GPUTexture()
+      : texture(0), cudaRes(0), draw(false), width(0), height(0),
+        internalFormat(0), format(0), dataType(0) {}
+  const int width;
+  const int height;
+  const GLenum internalFormat;
+  const GLenum format;
+  const GLenum dataType;
 };
 
 #endif /* GPUTEXTURE_H_ */
