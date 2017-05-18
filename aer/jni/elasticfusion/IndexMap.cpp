@@ -189,10 +189,12 @@ void IndexMap::predictIndices(const Eigen::Matrix4f &pose, const int &time,
   glClearColor(0, 0, 0, 0);
   check_gl_errorIndexMap();
   LOGI("MY elasitcfusion IndexMap::predictIndices  5");
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // no log
+  check_gl_errorIndexMap();
+  LOGI("MY elasitcfusion IndexMap::predictIndices  6");
   indexProgram->Bind();
-
+  check_gl_errorIndexMap();
+  LOGI("MY elasitcfusion IndexMap::predictIndices  7");
   Eigen::Matrix4f t_inv = pose.inverse();
 
   Eigen::Vector4f cam(Intrinsics::getInstance().cx() * IndexMap::FACTOR,
@@ -255,7 +257,7 @@ void IndexMap::renderDepth(const float depthCutoff) {
   glClearColor(0, 0, 0, 0);
   check_gl_errorIndexMap();
   LOGI("MY elasitcfusion IndexMap::renderDepth  5");
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // no log
   check_gl_errorIndexMap();
   LOGI("MY elasitcfusion IndexMap::renderDepth  6");
   drawDepthProgram->Bind();
@@ -440,7 +442,7 @@ void IndexMap::synthesizeDepth(const Eigen::Matrix4f &pose,
   glClearColor(0, 0, 0, 0);
   check_gl_errorIndexMap();
   LOGI("MY elasitcfusion IndexMap::synthesizeDepth  7");
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // no log
   check_gl_errorIndexMap();
   LOGI("MY elasitcfusion IndexMap::synthesizeDepth 8");
   depthProgram->Bind();

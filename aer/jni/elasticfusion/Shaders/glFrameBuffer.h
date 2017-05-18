@@ -32,6 +32,30 @@
 #include <glRenderBuffer.h>
 #include <glTexture.h>
 
+inline void glCheckFramebufferStatusFramebuffer() {
+  GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+  if (status == GL_FRAMEBUFFER_COMPLETE) {
+    LOGI("MY elasitcfusion Framebuffer GL_FRAMEBUFFER_COMPLETE");
+  } else if (status == GL_FRAMEBUFFER_UNDEFINED) {
+    LOGI("MY elasitcfusion Framebuffer  GL_FRAMEBUFFER_UNDEFINED");
+  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT) {
+    LOGI("MY elasitcfusion Framebuffer "
+         "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT");
+  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT) {
+    LOGI("MY elasitcfusion Framebuffer "
+         "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT");
+  } else if (status == GL_FRAMEBUFFER_UNSUPPORTED) {
+    LOGI("MY elasitcfusion Framebuffer  GL_FRAMEBUFFER_UNSUPPORTED");
+  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE) {
+    LOGI("MY elasitcfusion Framebuffer  "
+         "GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE");
+  } else if (status == GL_INVALID_ENUM) {
+    LOGI("MY elasitcfusion Framebuffer GL_INVALID_ENUM");
+  } else {
+    LOGI("MY elasitcfusion Framebuffer  %d", status);
+  }
+}
+
 static const char *glErrorStringFB(GLenum err) {
   switch (err) {
   case GL_INVALID_ENUM:
@@ -53,6 +77,7 @@ static const char *glErrorStringFB(GLenum err) {
 }
 
 inline void CheckGlDieOnErrorFB() {
+  glCheckFramebufferStatusFramebuffer();
   for (GLint error = glGetError(); error; error = glGetError()) {
     LOGI("GlFramebuffer.h CheckGlDieOnError after %s: glError (0x%x)\n",
          glErrorStringFB(error), error);

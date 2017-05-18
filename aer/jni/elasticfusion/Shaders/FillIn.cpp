@@ -19,6 +19,30 @@
 
 #include "FillIn.h"
 
+inline void glCheckFramebufferStatusFillin() {
+  GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+  if (status == GL_FRAMEBUFFER_COMPLETE) {
+    LOGI("MY elasitcfusion Fillin GL_FRAMEBUFFER_COMPLETE");
+  } else if (status == GL_FRAMEBUFFER_UNDEFINED) {
+    LOGI("MY elasitcfusion Fillin  GL_FRAMEBUFFER_UNDEFINED");
+  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT) {
+    LOGI("MY elasitcfusion Fillin "
+         "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT");
+  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT) {
+    LOGI(
+        "MY elasitcfusion Fillin GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT");
+  } else if (status == GL_FRAMEBUFFER_UNSUPPORTED) {
+    LOGI("MY elasitcfusion Fillin  GL_FRAMEBUFFER_UNSUPPORTED");
+  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE) {
+    LOGI("MY elasitcfusion Fillin  "
+         "GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE");
+  } else if (status == GL_INVALID_ENUM) {
+    LOGI("MY elasitcfusion Fillin GL_INVALID_ENUM");
+  } else {
+    LOGI("MY elasitcfusion Fillin  %d", status);
+  }
+}
+
 static const char *glErrorStringFillIn(GLenum err) {
   switch (err) {
   case GL_INVALID_ENUM:
@@ -40,6 +64,7 @@ static const char *glErrorStringFillIn(GLenum err) {
 }
 
 inline void check_gl_errorFillIn() {
+  glCheckFramebufferStatusFillin();
   for (GLint error = glGetError(); error; error = glGetError()) {
     LOGI("check_gl_errorGlobalModel My elastic-fusion CheckGlDieOnError after "
          "%s() glError (0x%x)\n",
@@ -157,7 +182,7 @@ void FillIn::vertex(GPUTexture *existingVertex, GPUTexture *rawDepth,
   glClearColor(0, 0, 0, 0);
   check_gl_errorFillIn();
   LOGI("MY elasitcfusion FillIn vertex 5 ");
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //keyi
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // keyi
   check_gl_errorFillIn();
   LOGI("MY elasitcfusion FillIn vertex 6 ");
   vertexProgram->Bind();
@@ -166,37 +191,53 @@ void FillIn::vertex(GPUTexture *existingVertex, GPUTexture *rawDepth,
   vertexProgram->setUniform(Uniform("eSampler", 0));
   vertexProgram->setUniform(Uniform("rSampler", 1));
   vertexProgram->setUniform(Uniform("passthrough", (int)passthrough));
-
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn vertex 8 ");
   Eigen::Vector4f cam(Intrinsics::getInstance().cx(),
                       Intrinsics::getInstance().cy(),
                       1.0f / Intrinsics::getInstance().fx(),
                       1.0f / Intrinsics::getInstance().fy());
-
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn vertex 9 ");
   vertexProgram->setUniform(Uniform("cam", cam));
   vertexProgram->setUniform(
       Uniform("cols", (float)Resolution::getInstance().cols()));
   vertexProgram->setUniform(
       Uniform("rows", (float)Resolution::getInstance().rows()));
-
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn vertex 10 ");
   glActiveTexture(GL_TEXTURE0);
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn vertex 11 ");
   glBindTexture(GL_TEXTURE_2D, existingVertex->texture->tid);
-
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn vertex 12");
   glActiveTexture(GL_TEXTURE1);
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn vertex 13 ");
   glBindTexture(GL_TEXTURE_2D, rawDepth->texture->tid);
-
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn vertex 14 ");
   glDrawArrays(GL_POINTS, 0, 1);
-
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn vertex 15 ");
   vertexFrameBuffer.Unbind();
-
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn vertex 16 ");
   glBindTexture(GL_TEXTURE_2D, 0);
-
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn vertex 17 ");
   glActiveTexture(GL_TEXTURE0);
-
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn vertex 18 ");
   vertexProgram->Unbind();
-
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn vertex 19 ");
   // glPopAttrib();
 
   glFinish();
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn vertex 20 ");
 }
 
 void FillIn::normal(GPUTexture *existingNormal, GPUTexture *rawDepth,
@@ -215,7 +256,7 @@ void FillIn::normal(GPUTexture *existingNormal, GPUTexture *rawDepth,
   glClearColor(0, 0, 0, 0);
   check_gl_errorFillIn();
   LOGI("MY elasitcfusion FillIn normal 5 ");
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //keyi
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // keyi
   check_gl_errorFillIn();
   LOGI("MY elasitcfusion FillIn normal 6");
   normalProgram->Bind();
@@ -235,24 +276,38 @@ void FillIn::normal(GPUTexture *existingNormal, GPUTexture *rawDepth,
       Uniform("cols", (float)Resolution::getInstance().cols()));
   normalProgram->setUniform(
       Uniform("rows", (float)Resolution::getInstance().rows()));
-
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn normal 8 ");
   glActiveTexture(GL_TEXTURE0);
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn normal 9 ");
   glBindTexture(GL_TEXTURE_2D, existingNormal->texture->tid);
-
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn normal 10 ");
   glActiveTexture(GL_TEXTURE1);
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn normal 11");
   glBindTexture(GL_TEXTURE_2D, rawDepth->texture->tid);
-
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn normal 12 ");
   glDrawArrays(GL_POINTS, 0, 1);
-
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn normal 13 ");
   normalFrameBuffer.Unbind();
-
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn normal 14");
   glBindTexture(GL_TEXTURE_2D, 0);
-
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn normal 15 ");
   glActiveTexture(GL_TEXTURE0);
-
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn normal 16 ");
   normalProgram->Unbind();
-
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn normal 17 ");
   // glPopAttrib();
 
   glFinish();
+  check_gl_errorFillIn();
+  LOGI("MY elasitcfusion FillIn normal 18 ");
 }

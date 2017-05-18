@@ -63,6 +63,30 @@ const GLfloat kFlipTextureCoords[] = {0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0.0};
 
 } // namespace shader
 
+inline void glCheckFramebufferStatusUtil() {
+  GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+  if (status == GL_FRAMEBUFFER_COMPLETE) {
+    LOGI("MY elasitcfusion gl Util GL_FRAMEBUFFER_COMPLETE");
+  } else if (status == GL_FRAMEBUFFER_UNDEFINED) {
+    LOGI("MY elasitcfusion gl Util  GL_FRAMEBUFFER_UNDEFINED");
+  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT) {
+    LOGI("MY elasitcfusion gl Util "
+         "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT");
+  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT) {
+    LOGI("MY elasitcfusion gl Util "
+         "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT");
+  } else if (status == GL_FRAMEBUFFER_UNSUPPORTED) {
+    LOGI("MY elasitcfusion gl Util  GL_FRAMEBUFFER_UNSUPPORTED");
+  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE) {
+    LOGI("MY elasitcfusion gl Util  "
+         "GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE");
+  } else if (status == GL_INVALID_ENUM) {
+    LOGI("MY elasitcfusion gl Util GL_INVALID_ENUM");
+  } else {
+    LOGI("MY elasitcfusion gl Util  %d", status);
+  }
+}
+
 static const char *glErrorStringUtil(GLenum err) {
   switch (err) {
   case GL_INVALID_ENUM:
@@ -84,6 +108,7 @@ static const char *glErrorStringUtil(GLenum err) {
 }
 
 void check_gl_error(const char *operation) {
+  glCheckFramebufferStatusUtil();
   for (GLint error = glGetError(); error; error = glGetError()) {
     LOGI("glutil.cpp after %s() glError: %s, (0x%x)\n", operation,
          glErrorStringUtil(error), error);
@@ -212,24 +237,33 @@ GlCameraFrame::GlCameraFrame()
   attrib_texture_coords_ =
       glGetAttribLocation(shader_program_, "textureCoords");
   texture_handle_ = glGetUniformLocation(shader_program_, "colorTexture");
-
+  check_gl_error("glutil 1");
   // Setup frame buffer object
   glGenFramebuffers(1, &frame_buffer_object_);
+  check_gl_error("glutil 2");
   glGenTextures(1, &frame_texture_buffer_);
+  check_gl_error("glutil 3");
   glBindTexture(GL_TEXTURE_2D, frame_texture_buffer_);
+  check_gl_error("glutil 4");
   //  glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE, 1280, 720, 0, GL_LUMINANCE,
   //  GL_UNSIGNED_BYTE, NULL);
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 1280, 720, 0, GL_RGB, GL_UNSIGNED_BYTE,
                NULL);
+  check_gl_error("glutil 5");
   glBindFramebuffer(GL_FRAMEBUFFER, frame_buffer_object_);
+  check_gl_error("glutil 6");
   glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D,
                          frame_texture_buffer_, 0);
+  check_gl_error("glutil 7");
   GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+  check_gl_error("glutil 8");
   if (status != GL_FRAMEBUFFER_COMPLETE) {
     LOGE("GlCameraFrame: Incomplete FrameBufferObject");
   }
   glBindTexture(GL_TEXTURE_2D, 0);
+  check_gl_error("glutil 9");
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
+  check_gl_error("glutil 10");
 }
 
 GlCameraFrame::~GlCameraFrame() {
@@ -293,16 +327,26 @@ void GlCameraFrame::render() {
 
   // Draw to the frame buffer object for reading out frame buffer
   if (frame_width_ && frame_height_) {
+    check_gl_error("glutil  2 1");
     glBindFramebuffer(GL_FRAMEBUFFER, frame_buffer_object_);
+    check_gl_error("glutil  2 2");
     glClearColor(0.0, 0.0, 0.0, 1.0);
+    check_gl_error("glutil  2 3");
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    check_gl_error("glutil  2 4");
     glViewport(0, 0, frame_width_, frame_height_);
+    check_gl_error("glutil  2 5");
     glUseProgram(buffer_program_);
+    check_gl_error("glutil  2 6");
     glBindBuffer(GL_ARRAY_BUFFER, render_buffers_[3]);
+    check_gl_error("glutil  2 7");
     glEnableVertexAttribArray(attrib_texture_coords_);
+    check_gl_error("glutil  2 8");
     glVertexAttribPointer(attrib_texture_coords_, 2, GL_FLOAT, GL_FALSE, 0,
                           nullptr);
+    check_gl_error("glutil  2 9");
     glBindBuffer(GL_ARRAY_BUFFER, 0);
+    check_gl_error("glutil  2 10");
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, 0);
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     frame_buffer_dirty_ = true;

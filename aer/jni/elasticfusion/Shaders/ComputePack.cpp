@@ -56,6 +56,30 @@ inline void check_gl_errorComputePack() {
   }
 }
 
+inline void glCheckFramebufferStatusCC() {
+  GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+  if (status == GL_FRAMEBUFFER_COMPLETE) {
+    LOGI("MY elasitcfusion ComputePack GL_FRAMEBUFFER_COMPLETE");
+  } else if (status == GL_FRAMEBUFFER_UNDEFINED) {
+    LOGI("MY elasitcfusion ComputePack  GL_FRAMEBUFFER_UNDEFINED");
+  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT) {
+    LOGI("MY elasitcfusion ComputePack "
+         "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT");
+  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT) {
+    LOGI("MY elasitcfusion ComputePack "
+         "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT");
+  } else if (status == GL_FRAMEBUFFER_UNSUPPORTED) {
+    LOGI("MY elasitcfusion ComputePack  GL_FRAMEBUFFER_UNSUPPORTED");
+  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE) {
+    LOGI("MY elasitcfusion ComputePack  "
+         "GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE");
+  } else if (status == GL_INVALID_ENUM) {
+    LOGI("MY elasitcfusion ComputePack GL_INVALID_ENUM");
+  } else {
+    LOGI("MY elasitcfusion ComputePack  %d", status);
+  }
+}
+
 // ComputePack::ComputePack(std::shared_ptr<Shader> program,
 // pangolin::GlTexture * target)
 ComputePack::ComputePack(std::shared_ptr<Shader> program, GlTexture *target)
@@ -88,30 +112,11 @@ void ComputePack::compute(GlTexture *input,
   LOGI("MY elasitcfusion ComputePack compute 5");
   glClearColor(0, 0, 0, 0);
   check_gl_errorComputePack();
-  GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-  if (status == GL_FRAMEBUFFER_COMPLETE) {
-    LOGI("MY elasitcfusion ComputePack compute 5: GL_FRAMEBUFFER_COMPLETE");
-  } else if (status == GL_FRAMEBUFFER_UNDEFINED) {
-    LOGI("MY elasitcfusion ComputePack compute 5: GL_FRAMEBUFFER_UNDEFINED");
-  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT) {
-    LOGI("MY elasitcfusion ComputePack compute 5: "
-         "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT");
-  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT) {
-    LOGI("MY elasitcfusion ComputePack compute 5: "
-         "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT");
-  } else if (status == GL_FRAMEBUFFER_UNSUPPORTED) {
-    LOGI("MY elasitcfusion ComputePack compute 5: GL_FRAMEBUFFER_UNSUPPORTED");
-  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE) {
-    LOGI("MY elasitcfusion ComputePack compute 5: "
-         "GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE");
-  } else if (status == GL_INVALID_ENUM) {
-    LOGI("MY elasitcfusion ComputePack compute 5: GL_INVALID_ENUM");
-  } else {
-    LOGI("MY elasitcfusion ComputePack compute 5: %d", status);
-  }
+  glCheckFramebufferStatusCC();
   check_gl_errorComputePack();
   LOGI("MY elasitcfusion ComputePack compute 6");
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // here GL_INVALID_FRAMEBUFFER_OPERATION
+  glClear(GL_COLOR_BUFFER_BIT |
+          GL_DEPTH_BUFFER_BIT); // here GL_INVALID_FRAMEBUFFER_OPERATION
   check_gl_errorComputePack();
   LOGI("MY elasitcfusion ComputePack compute 7");
   program->Bind();

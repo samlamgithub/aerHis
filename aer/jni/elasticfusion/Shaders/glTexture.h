@@ -148,7 +148,8 @@ public:
     CheckGlDieOnError();
     LOGI("GlTexture Reinitialise 4");
 
-    if (internal_format == GL_LUMINANCE32UI_EXT || internal_format == GL_LUMINANCE32F_ARB) {
+    if (internal_format == GL_LUMINANCE32UI_EXT ||
+        internal_format == GL_LUMINANCE32F_ARB) {
       internal_format = GL_LUMINANCE;
       glformat = internal_format;
       gltype = GL_UNSIGNED_BYTE;

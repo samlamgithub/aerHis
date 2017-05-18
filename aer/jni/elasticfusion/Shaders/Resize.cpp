@@ -19,6 +19,30 @@
 
 #include "Resize.h"
 
+inline void glCheckFramebufferStatusResize() {
+  GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+  if (status == GL_FRAMEBUFFER_COMPLETE) {
+    LOGI("MY elasitcfusion Resize GL_FRAMEBUFFER_COMPLETE");
+  } else if (status == GL_FRAMEBUFFER_UNDEFINED) {
+    LOGI("MY elasitcfusion Resize  GL_FRAMEBUFFER_UNDEFINED");
+  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT) {
+    LOGI("MY elasitcfusion Resize "
+         "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT");
+  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT) {
+    LOGI(
+        "MY elasitcfusion Resize GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT");
+  } else if (status == GL_FRAMEBUFFER_UNSUPPORTED) {
+    LOGI("MY elasitcfusion Resize  GL_FRAMEBUFFER_UNSUPPORTED");
+  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE) {
+    LOGI("MY elasitcfusion Resize  "
+         "GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE");
+  } else if (status == GL_INVALID_ENUM) {
+    LOGI("MY elasitcfusion Resize GL_INVALID_ENUM");
+  } else {
+    LOGI("MY elasitcfusion Resize  %d", status);
+  }
+}
+
 static const char *glErrorStringResize(GLenum err) {
   switch (err) {
   case GL_INVALID_ENUM:
@@ -40,6 +64,7 @@ static const char *glErrorStringResize(GLenum err) {
 }
 
 inline void check_gl_errorResize() {
+  glCheckFramebufferStatusResize();
   for (GLint error = glGetError(); error; error = glGetError()) {
     LOGI("check_gl_error GlobalModel My elastic-fusion CheckGlDieOnError after "
          "%s() glError (0x%x)\n",
@@ -96,7 +121,7 @@ void Resize::image(GPUTexture *source,
   glClearColor(0, 0, 0, 0);
   check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct image 5 ");
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //keyi
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // keyi
   check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct image 6 ");
   imageProgram->Bind();
@@ -151,8 +176,8 @@ void Resize::vertex(GPUTexture *source, Img<Eigen::Vector4f> &dest) {
   LOGI("MY elasitcfusion resize struct vertex 4");
   glClearColor(0, 0, 0, 0);
   check_gl_errorResize();
-LOGI("MY elasitcfusion resize struct vertex 4 1");
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //keyi
+  LOGI("MY elasitcfusion resize struct vertex 4 1");
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // keyi
   check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct vertex 5");
   vertexProgram->Bind();
@@ -171,7 +196,7 @@ LOGI("MY elasitcfusion resize struct vertex 4 1");
   check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct vertex 10");
   glReadPixels(0, 0, vertexRenderBuffer.width, vertexRenderBuffer.height,
-               GL_RGBA, GL_FLOAT, dest.data);  // no
+               GL_RGBA, GL_FLOAT, dest.data); // no
   check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct vertex 11");
   vertexFrameBuffer.Unbind();
@@ -207,7 +232,7 @@ void Resize::time(GPUTexture *source, Img<unsigned short> &dest) {
   glClearColor(0, 0, 0, 0);
   check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct time 5");
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // no log
   check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct time 6");
   timeProgram->Bind();

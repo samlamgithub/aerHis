@@ -691,27 +691,27 @@ void MyElasticFusion::runEF() {
     GlobalModel gm = eFusion.getGlobalModel(); //全局deformation model:
 
     int CloudPoint_num = gm.lastCount(); //点云的点数量
-    LOGI("MyElasticFusion Log processing eFusion.globalModel.lastCount(): "
+    LOGI("MyElasticFusion Log processing result eFusion.globalModel.lastCount(): "
          "totalPoints :%d ",
          CloudPoint_num);
 
     int totalNodes = eFusion.getLocalDeformation().getGraph().size();
-    LOGI("MyElasticFusion Log processing "
+    LOGI("MyElasticFusion Log processing result "
          "eFusion.getLocalDeformation().getGraph().size(): totalNodes : %d",
          totalNodes);
 
     int totalFerns = eFusion.getFerns().frames.size();
-    LOGI("MyElasticFusion Log processing "
+    LOGI("MyElasticFusion Log processing result "
          "eFusion.getLocalDeformation().getGraph().size(): totalNodes : %d",
          totalNodes);
 
     int totalDefs = eFusion.getDeforms();
-    LOGI("MyElasticFusion Log processing "
+    LOGI("MyElasticFusion Log processing result "
          "eFusion.getDeforms(): totalDefs :%d ",
          totalDefs);
 
     int totalFernDefs = eFusion.getFernDeforms();
-    LOGI("MyElasticFusion Log processing "
+    LOGI("MyElasticFusion Log processing result "
          "eFusion.getFernDeforms(): totalFernDefs :%d ",
          totalFernDefs);
 

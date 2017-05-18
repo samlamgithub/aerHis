@@ -435,7 +435,7 @@ void GlobalModel::fuse(const Eigen::Matrix4f &pose, const int &time,
   glClearColor(0, 0, 0, 0);
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel fuse 1 5");
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // no log
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel fuse 1 6");
   dataProgram->Bind();

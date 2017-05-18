@@ -141,8 +141,11 @@ FeedbackBuffer::~FeedbackBuffer() {
 // * depth,
 void FeedbackBuffer::compute(GlTexture *color, GlTexture *depth,
                              const int &time, const float depthCutoff) {
+  check_gl_errorFeedbackBuffer();
+  LOGI("MY elasitcfusion FeedbackBuffer struct compute 1 ");
   program->Bind();
-
+  check_gl_errorFeedbackBuffer();
+  LOGI("MY elasitcfusion FeedbackBuffer struct compute 2");
   Eigen::Vector4f cam(Intrinsics::getInstance().cx(),
                       Intrinsics::getInstance().cy(),
                       1.0f / Intrinsics::getInstance().fx(),
@@ -156,7 +159,8 @@ void FeedbackBuffer::compute(GlTexture *color, GlTexture *depth,
   program->setUniform(Uniform("gSampler", 0));
   program->setUniform(Uniform("cSampler", 1));
   program->setUniform(Uniform("maxDepth", depthCutoff));
-
+  check_gl_errorFeedbackBuffer();
+  LOGI("MY elasitcfusion FeedbackBuffer struct compute 3 ");
   glEnableVertexAttribArray(0);
   glBindBuffer(GL_ARRAY_BUFFER, uvo);
   glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
@@ -174,9 +178,11 @@ void FeedbackBuffer::compute(GlTexture *color, GlTexture *depth,
 
   glActiveTexture(GL_TEXTURE1);
   glBindTexture(GL_TEXTURE_2D, color->tid);
-
+  check_gl_errorFeedbackBuffer();
+  LOGI("MY elasitcfusion FeedbackBuffer struct compute 4");
   glDrawArrays(GL_POINTS, 0, Resolution::getInstance().numPixels());
-
+  check_gl_errorFeedbackBuffer();
+  LOGI("MY elasitcfusion FeedbackBuffer struct compute 5 ");
   glBindTexture(GL_TEXTURE_2D, 0);
 
   glActiveTexture(GL_TEXTURE0);
