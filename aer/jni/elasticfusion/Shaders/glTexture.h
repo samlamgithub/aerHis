@@ -178,19 +178,24 @@ public:
       internal_format = GL_LUMINANCE;
       glformat = internal_format;
       gltype = GL_UNSIGNED_BYTE;
+      LOGI("GlTexture Reinitialise change 1");
     } else if (internal_format == GL_RGBA32F) {
       glformat = GL_RGBA;
       gltype = GL_FLOAT;
+      LOGI("GlTexture Reinitialise change 2");
     } else if (internal_format == GL_RGBA) {
       glformat = GL_RGBA;
       gltype = GL_UNSIGNED_BYTE;
+      LOGI("GlTexture Reinitialise change 3");
     } else if (internal_format == GL_RGBA32F) {
       glformat = GL_RGBA;
       gltype = GL_FLOAT;
+      LOGI("GlTexture Reinitialise change 4");
     } else if (internal_format == GL_LUMINANCE16UI_EXT) {
       internal_format = GL_LUMINANCE;
       glformat = GL_LUMINANCE;
       gltype = GL_UNSIGNED_BYTE;
+      LOGI("GlTexture Reinitialise change 5");
     }
     // GL_LUMINANCE and GL_FLOAT don't seem to actually affect buffer, but some
     // values are required for call to succeed.
@@ -225,8 +230,11 @@ public:
     if (data_format == GL_LUMINANCE_INTEGER_EXT) {
       data_format = GL_LUMINANCE;
       data_type = GL_UNSIGNED_BYTE;
-    } else if (data_format == GL_RGB && data_type == GL_UNSIGNED_BYTE) {
+      LOGI("GlTexture Upload change 1");
+    } else if (data_format == GL_RGB || data_format == GL_RGBA ) {
       data_format = GL_RGBA;
+      data_type = GL_UNSIGNED_BYTE;
+      LOGI("GlTexture Upload change 2");
     }
     CheckGlDieOnError();
     LOGI("GlTexture Upload 2");
