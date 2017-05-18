@@ -52,7 +52,8 @@ inline void glCheckFramebufferStatusFramebuffer() {
   } else if (status == GL_INVALID_ENUM) {
     LOGI("MY elasitcfusion Framebuffer GL_INVALID_ENUM");
   } else {
-    LOGI("MY elasitcfusion Framebuffer  %d", status);
+    LOGI("MY elasitcfusion Framebuffer glCheckFramebufferStatus else %d",
+         status);
   }
 }
 
@@ -179,7 +180,8 @@ struct GlFramebuffer {
     // glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, color_attachment,
     // GL_TEXTURE_2D, tex.tid, 0); glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
     const GLenum color_attachment = GL_COLOR_ATTACHMENT0 + attachments;
-    glBindFramebuffer(GL_FRAMEBUFFER, fbid); // GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT
+    glBindFramebuffer(GL_FRAMEBUFFER,
+                      fbid); // GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT
     CheckGlDieOnErrorFB();
     LOGI("GlFramebuffer AttachColour start  2");
     glFramebufferTexture2D(GL_FRAMEBUFFER, color_attachment, GL_TEXTURE_2D,

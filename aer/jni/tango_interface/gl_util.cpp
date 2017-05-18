@@ -63,27 +63,30 @@ const GLfloat kFlipTextureCoords[] = {0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0.0};
 
 } // namespace shader
 
-inline void glCheckFramebufferStatusUtil() {
+inline void glCheckFramebufferStatusUtil(const char *operation) {
   GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
   if (status == GL_FRAMEBUFFER_COMPLETE) {
-    LOGI("MY elasitcfusion gl Util GL_FRAMEBUFFER_COMPLETE");
+    LOGI("MY elasitcfusion gl Util GL_FRAMEBUFFER_COMPLETE", % s, operation);
   } else if (status == GL_FRAMEBUFFER_UNDEFINED) {
-    LOGI("MY elasitcfusion gl Util  GL_FRAMEBUFFER_UNDEFINED");
+    LOGI("MY elasitcfusion gl Util  GL_FRAMEBUFFER_UNDEFINED", % s, operation);
   } else if (status == GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT) {
     LOGI("MY elasitcfusion gl Util "
-         "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT");
+         "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT",
+         % s, operation);
   } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT) {
     LOGI("MY elasitcfusion gl Util "
-         "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT");
+         "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT, %s",
+         operation);
   } else if (status == GL_FRAMEBUFFER_UNSUPPORTED) {
-    LOGI("MY elasitcfusion gl Util  GL_FRAMEBUFFER_UNSUPPORTED");
+    LOGI("MY elasitcfusion gl Util  GL_FRAMEBUFFER_UNSUPPORTED, %s", operation);
   } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE) {
     LOGI("MY elasitcfusion gl Util  "
-         "GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE");
+         "GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE, %s",
+         operation);
   } else if (status == GL_INVALID_ENUM) {
-    LOGI("MY elasitcfusion gl Util GL_INVALID_ENUM");
+    LOGI("MY elasitcfusion gl Util GL_INVALID_ENUM, %s", operation);
   } else {
-    LOGI("MY elasitcfusion gl Util  %d", status);
+    LOGI("MY elasitcfusion gl Util  %d, %s", status, operation);
   }
 }
 
@@ -108,7 +111,7 @@ static const char *glErrorStringUtil(GLenum err) {
 }
 
 void check_gl_error(const char *operation) {
-  glCheckFramebufferStatusUtil();
+  glCheckFramebufferStatusUtil(operation);
   for (GLint error = glGetError(); error; error = glGetError()) {
     LOGI("glutil.cpp after %s() glError: %s, (0x%x)\n", operation,
          glErrorStringUtil(error), error);
@@ -156,9 +159,9 @@ GLuint create_program(const char *vertex_source, const char *fragment_source) {
   GLuint program = glCreateProgram();
   if (program) {
     glAttachShader(program, vertex_shader);
-    check_gl_error("glAttachShader");
+    check_gl_error("glAttachShader util  1");
     glAttachShader(program, fragment_shader);
-    check_gl_error("glAttachShader");
+    check_gl_error("glAttachShader util 2");
     glLinkProgram(program);
     GLint link_status = GL_FALSE;
     glGetProgramiv(program, GL_LINK_STATUS, &link_status);
@@ -271,23 +274,34 @@ GlCameraFrame::~GlCameraFrame() {
 }
 
 void GlCameraFrame::render() {
+  check_gl_error("glutil render 1");
   glEnable(GL_DEPTH_TEST);
+  check_gl_error("glutil render 2");
   glEnable(GL_CULL_FACE);
+  check_gl_error("glutil render 3");
   glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+  check_gl_error("glutil render 4");
   glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+  check_gl_error("glutil render 5");
   glDisable(GL_DEPTH_TEST);
+  check_gl_error("glutil render 6");
   glUseProgram(shader_program_);
+  check_gl_error("glutil render 7");
   glViewport(0, 0, display_width_, display_height_);
-
+  check_gl_error("glutil render 8");
   // This is used to allow on the fly updating of camera resolution within the
   // GL context
   if (frame_texture_size_dirty_) {
+    check_gl_error("glutil render 9");
     glBindTexture(GL_TEXTURE_2D, frame_texture_buffer_);
+    check_gl_error("glutil render 10");
     //    glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE, frame_width_,
     //    frame_height_, 0, GL_LUMINANCE, GL_UNSIGNED_BYTE, NULL);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, frame_width_, frame_height_, 0,
                  GL_RGB, GL_UNSIGNED_BYTE, NULL);
+    check_gl_error("glutil render 11");
     glBindTexture(GL_TEXTURE_2D, 0);
+    check_gl_error("glutil render 12");
     frame_texture_size_dirty_ = false;
   }
 
@@ -296,7 +310,9 @@ void GlCameraFrame::render() {
   // not getting any handle from shader neither binding any texture here.
   // Once this is fix, we will need to bind the texture to the correct sampler2D
   // handle.
+  check_gl_error("glutil render 13");
   glEnable(GL_TEXTURE_EXTERNAL_OES);
+  check_gl_error("glutil render 14");
   glUniform1i(texture_handle_, 0);
   glActiveTexture(GL_TEXTURE0);
   glBindTexture(GL_TEXTURE_EXTERNAL_OES, texture_id_);
@@ -361,7 +377,9 @@ void GlCameraFrame::render() {
 std::shared_ptr<unsigned char> GlCameraFrame::get_frame() {
   if (frame_buffer_ && frame_width_ && frame_height_) {
     if (frame_buffer_dirty_) {
+      check_gl_error("glutil get_frame 1");
       glBindFramebuffer(GL_FRAMEBUFFER, frame_buffer_object_);
+      check_gl_error("glutil get_frame 2");
       //      LOGI("  frame_height_, frame_width: %d, %d ", frame_height_,
       //      frame_width_);
       //#define GL_DEPTH_COMPONENT                0x1902
@@ -372,6 +390,7 @@ std::shared_ptr<unsigned char> GlCameraFrame::get_frame() {
       //#define GL_LUMINANCE_ALPHA                0x190A
       glReadPixels(0, 0, frame_width_, frame_height_, GL_RGB, GL_UNSIGNED_BYTE,
                    frame_buffer_.get());
+      check_gl_error("glutil get_frame 3");
       //      NSLog(@"%d", (int)pixels[0]);
       //      LOGI("1: %d, 2: %d, 3: %d, 4: %d, 5:%d, 6: %d, === 1: %d, 2: %d,
       //      3: %d, 4: %d, 5:%d, 6: %d, === 1: %d, 2: %d, 3: %d, 4: %d, 5:%d,
@@ -394,6 +413,7 @@ std::shared_ptr<unsigned char> GlCameraFrame::get_frame() {
       //    		     		  (int)frame_buffer_.get()[2764004],
       //    		     		  (int)frame_buffer_.get()[2764005]);
       glBindFramebuffer(GL_FRAMEBUFFER, 0);
+      check_gl_error("glutil get_frame 4");
       frame_buffer_dirty_ = false;
     }
     return std::shared_ptr<unsigned char>(frame_buffer_);
