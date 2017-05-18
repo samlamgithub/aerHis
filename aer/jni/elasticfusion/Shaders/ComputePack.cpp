@@ -88,7 +88,7 @@ void ComputePack::compute(GlTexture *input,
   LOGI("MY elasitcfusion ComputePack compute 5");
   glClearColor(0, 0, 0, 0);
   check_gl_errorComputePack();
-  GLenum status = glCheckFramebufferStatus(frameBuffer.fbid);
+  GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
   if (status == GL_FRAMEBUFFER_COMPLETE) {
     LOGI("MY elasitcfusion ComputePack compute 5: GL_FRAMEBUFFER_COMPLETE");
   } else if (status == GL_FRAMEBUFFER_UNDEFINED) {
@@ -111,7 +111,7 @@ void ComputePack::compute(GlTexture *input,
   }
   check_gl_errorComputePack();
   LOGI("MY elasitcfusion ComputePack compute 6");
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // here Invalid Enum
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // here GL_INVALID_FRAMEBUFFER_OPERATION
   check_gl_errorComputePack();
   LOGI("MY elasitcfusion ComputePack compute 7");
   program->Bind();
