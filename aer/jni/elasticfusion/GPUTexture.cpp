@@ -93,6 +93,7 @@ GPUTexture::GPUTexture(const int width, const int height,
   LOGI("MY elasitcfusion GPUTexture struct init 1 : %d, %d,  %d,  %d,  %d",
        width, height, internalFormat, format, dataType);
   if (cuda) {
+  LOGI("MY elasitcfusion GPUTexture is cuda");
     cudaError_t err =
         cudaGraphicsGLRegisterImage(&cudaRes, texture->tid, GL_TEXTURE_2D,
                                     cudaGraphicsRegisterFlagsReadOnly);
@@ -103,6 +104,7 @@ GPUTexture::GPUTexture(const int width, const int height,
       LOGI("elasticfusion GPU texture cudaGraphicsGLRegisterImage success");
     }
   } else {
+  LOGI("MY elasitcfusion GPUTexture is not cuda");
     cudaRes = 0;
   }
   LOGI("MY elasitcfusion GPUTexture struct init 2 ");
