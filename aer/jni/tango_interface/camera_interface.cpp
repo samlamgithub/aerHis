@@ -118,7 +118,7 @@ void CameraInterface::onPointCloudAvailable2(
     //	 memcpy(depth_data_buffer, point_cloud->points, point_cloud->num_points
     //* 4 * sizeof(float)); 	     DepthEvent depth_event;
     //	     depth_event.timestamp_nanoseconds =
-    //static_cast<int64_t>((*frame_timestamp_) * 1000000000.0);
+    // static_cast<int64_t>((*frame_timestamp_) * 1000000000.0);
     //	     depth_event.data = depth_data_buffer;
     //	 	          (*depth_callback_)(depth_event);
   }
@@ -327,8 +327,8 @@ void CameraInterface::render() {
       //        if (raw_frame_callback_) {
       ////          RawFrameEvent raw_frame_event;
       ////          raw_frame_event.timestamp_nanoseconds =
-      ///static_cast<int64_t>((*frame_timestamp_) * 1000000000.0); /
-      ///raw_frame_event.data = frame; /
+      /// static_cast<int64_t>((*frame_timestamp_) * 1000000000.0); /
+      /// raw_frame_event.data = frame; /
       ///(*raw_frame_callback_)(raw_frame_event);
       //        }
       //        if (marker_callback_ && ar_initialised_) {
@@ -394,7 +394,7 @@ void CameraInterface::render() {
       //  TangoPoseData pose_color_image_t1_T_depth_image_t0;
       //   if (TangoSupport_calculateRelativePose(
       //		   color_timestamp, TANGO_COORDINATE_FRAME_CAMERA_COLOR,
-      //depth_timestamp,
+      // depth_timestamp,
       //           TANGO_COORDINATE_FRAME_CAMERA_DEPTH,
       //           &pose_color_image_t1_T_depth_image_t0) != TANGO_SUCCESS) {
       //     LOGE(
@@ -438,8 +438,9 @@ void CameraInterface::render() {
         //%f, %f, %f. Orientation: %f, %f, %f, %f",
         //			  pose.timestamp, pose.status_code,
         //	       pose.translation[0], pose.translation[1],
-        //pose.translation[2], 	       pose.orientation[0], pose.orientation[1],
-        //pose.orientation[2], 	       pose.orientation[3]);
+        // pose.translation[2], 	       pose.orientation[0],
+        // pose.orientation[1],  pose.orientation[2],
+        // pose.orientation[3]);
       } else {
         LOGI("TangoService_getPoseAtTime failed");
       }
