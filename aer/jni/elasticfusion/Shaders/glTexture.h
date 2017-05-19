@@ -96,8 +96,8 @@ public:
             GLenum glformat = GL_RGBA, GLenum gltype = GL_UNSIGNED_BYTE,
             GLvoid *data = NULL)
       : internal_format(0), tid(0) {
-    LOGI("GlTexture init 1: %d, %d, %d, %d, %d, %d ", width, height,
-         internal_format, border, glformat, gltype);
+    LOGI("GlTexture init 1: %d, %d, %d, %d, %d, %d : data is null: %d", width, height,
+         internal_format, border, glformat, gltype,  data == NULL);
     CheckGlDieOnError();
     Reinitialise(width, height, internal_format, sampling_linear, border,
                  glformat, gltype, data);
