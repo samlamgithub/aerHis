@@ -229,15 +229,18 @@ public:
     CheckGlDieOnError();
     LOGI("GlTexture Upload Bind done");
     CheckGlDieOnError();
-    if (data_format == GL_LUMINANCE_INTEGER_EXT) {
-      data_format = GL_LUMINANCE;
-      data_type = GL_UNSIGNED_BYTE;
-      LOGI("GlTexture Upload change 1");
-    } else if (data_format == GL_RGB || data_format == GL_RGBA) {
-      data_format = GL_RGBA;
-      data_type = GL_UNSIGNED_BYTE;
-      LOGI("GlTexture Upload change 2");
-    }
+if (data_format == GL_LUMINANCE) {
+  LOGI("GlTexture Upload change ???");
+}
+    // if (data_format == GL_LUMINANCE_INTEGER_EXT) {
+    //   data_format = GL_LUMINANCE;
+    //   data_type = GL_UNSIGNED_BYTE;
+    //   LOGI("GlTexture Upload change 1");
+    // } else if (data_format == GL_RGB || data_format == GL_RGBA) {
+    //   data_format = GL_RGBA;
+    //   data_type = GL_UNSIGNED_BYTE;
+    //   LOGI("GlTexture Upload change 2");
+    // }
     CheckGlDieOnError();
     LOGI("GlTexture Upload 2");
     glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, data_format,
