@@ -947,7 +947,7 @@ void MyElasticFusion::runEF() {
     numFrames++;
     lastProcessed = bufferIndex;
     LOGI("MyElasticFusion: processed one frame, total: %d", numFrames);
-    break;
+    // break;
   }
   // fseek(RGBlog_file_, 0, SEEK_SET);
   // fwrite(&numFrames, sizeof(int32_t), 1, RGBlog_file_);
