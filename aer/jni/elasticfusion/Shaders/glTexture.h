@@ -72,7 +72,7 @@ inline void glCheckFramebufferStatusgltexture() {
   } else if (status == GL_INVALID_ENUM) {
     LOGI("MY elasitcfusion gltexture GL_INVALID_ENUM");
   } else {
-    LOGI("MY elasitcfusion gltexture %d", status);
+    LOGI("MY elasitcfusion gltexture else %d", status);
   }
 }
 
