@@ -68,14 +68,18 @@ GlobalModel::GlobalModel()
       unstableProgram(
           loadProgramGeom(copy_unstablevert_tuple, copy_unstablegeom_tuple)),
       renderBuffer(TEXTURE_DIMENSION, TEXTURE_DIMENSION),
-      updateMapVertsConfs(TEXTURE_DIMENSION, TEXTURE_DIMENSION, GL_RGBA32F,
-                          GL_LUMINANCE, GL_FLOAT),
-      updateMapColorsTime(TEXTURE_DIMENSION, TEXTURE_DIMENSION, GL_RGBA32F,
-                          GL_LUMINANCE, GL_FLOAT),
-      updateMapNormsRadii(TEXTURE_DIMENSION, TEXTURE_DIMENSION, GL_RGBA32F,
-                          GL_LUMINANCE, GL_FLOAT),
-      deformationNodes(NODE_TEXTURE_DIMENSION, 1, GL_LUMINANCE32F_ARB,
-                       GL_LUMINANCE, GL_FLOAT)
+      updateMapVertsConfs(TEXTURE_DIMENSION, TEXTURE_DIMENSION,
+// GL_RGBA32F,  GL_LUMINANCE, GL_FLOAT),
+GL_RGBA32F, GL_RGBA, GL_FLOAT),
+      updateMapColorsTime(TEXTURE_DIMENSION, TEXTURE_DIMENSION,
+// GL_RGBA32F,  GL_LUMINANCE, GL_FLOAT),
+GL_RGBA32F, GL_RGBA, GL_FLOAT),
+      updateMapNormsRadii(TEXTURE_DIMENSION, TEXTURE_DIMENSION,
+ // GL_RGBA32F,  GL_LUMINANCE, GL_FLOAT),
+GL_RGBA32F, GL_RGBA, GL_FLOAT),
+      deformationNodes(NODE_TEXTURE_DIMENSION, 1,
+// GL_LUMINANCE32F_ARB,GL_LUMINANCE, GL_FLOAT)
+GL_RGB, GL_RGB, GL_UNSIGNED_BYTE)
 //   deformationNodes(NODE_TEXTURE_DIMENSION, 1, GL_LUMINANCE32F_EXT,
 //   GL_LUMINANCE, GL_FLOAT)
 {

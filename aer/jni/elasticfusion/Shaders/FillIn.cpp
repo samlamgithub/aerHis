@@ -74,14 +74,17 @@ inline void check_gl_errorFillIn() {
 
 FillIn::FillIn()
     : imageTexture(Resolution::getInstance().width(),
-                   Resolution::getInstance().height(), GL_RGBA, GL_RGB,
-                   GL_UNSIGNED_BYTE, false, true),
+                   Resolution::getInstance().height(),
+// GL_RGBA, GL_RGB, GL_UNSIGNED_BYTE, false, true),
+GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, false, true),
       vertexTexture(Resolution::getInstance().width(),
-                    Resolution::getInstance().height(), GL_RGBA32F,
-                    GL_LUMINANCE, GL_FLOAT, false, true),
+                    Resolution::getInstance().height(),
+ // GL_RGBA32F,GL_LUMINANCE, GL_FLOAT, false, true),
+ GL_RGBA32F, GL_RGBA, GL_FLOAT, false, true),
       normalTexture(Resolution::getInstance().width(),
-                    Resolution::getInstance().height(), GL_RGBA32F,
-                    GL_LUMINANCE, GL_FLOAT, false, true),
+                    Resolution::getInstance().height(),
+ // GL_RGBA32F,GL_LUMINANCE, GL_FLOAT, false, true),
+ GL_RGBA32F, GL_RGBA, GL_FLOAT, false, true),
       imageProgram(
           loadProgram(emptyvert_tuple, fill_rgbfrag_tuple, quadgeom_tuple)),
       imageRenderBuffer(Resolution::getInstance().width(),
