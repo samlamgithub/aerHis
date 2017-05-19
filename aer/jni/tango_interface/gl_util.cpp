@@ -110,7 +110,7 @@ static const char *glErrorStringUtil(GLenum err) {
 }
 
 void check_gl_error(const char *operation) {
-  glCheckFramebufferStatusUtil(operation);
+  // glCheckFramebufferStatusUtil(operation);
   for (GLint error = glGetError(); error; error = glGetError()) {
     LOGI("glutil.cpp after %s() glError: %s, (0x%x)\n", operation,
          glErrorStringUtil(error), error);

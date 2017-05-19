@@ -155,10 +155,12 @@ public:
                             GLenum gltype = GL_UNSIGNED_BYTE,
                             GLvoid *data = NULL) {
     CheckGlDieOnError();
-    LOGI("GlTexture Reinitialise 1");
+    LOGI("GlTexture Reinitialise 1 : data is null: %d", data == NULL);
 
     if (tid != 0) {
       glDeleteTextures(1, &tid);
+      CheckGlDieOnError();
+      LOGI("GlTexture Reinitialise 2");
     }
     CheckGlDieOnError();
     LOGI("GlTexture Reinitialise 2");
@@ -231,7 +233,7 @@ public:
       data_format = GL_LUMINANCE;
       data_type = GL_UNSIGNED_BYTE;
       LOGI("GlTexture Upload change 1");
-    } else if (data_format == GL_RGB || data_format == GL_RGBA ) {
+    } else if (data_format == GL_RGB || data_format == GL_RGBA) {
       data_format = GL_RGBA;
       data_type = GL_UNSIGNED_BYTE;
       LOGI("GlTexture Upload change 2");

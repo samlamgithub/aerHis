@@ -21,6 +21,31 @@
 
 const int IndexMap::FACTOR = 1;
 
+inline void glCheckFramebufferStatusIM() {
+  GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+  if (status == GL_FRAMEBUFFER_COMPLETE) {
+    LOGI("MY elasitcfusion Framebuffer GL_FRAMEBUFFER_COMPLETE");
+  } else if (status == GL_FRAMEBUFFER_UNDEFINED) {
+    LOGI("MY elasitcfusion Framebuffer  GL_FRAMEBUFFER_UNDEFINED");
+  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT) {
+    LOGI("MY elasitcfusion Framebuffer "
+         "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT");
+  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT) {
+    LOGI("MY elasitcfusion Framebuffer "
+         "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT");
+  } else if (status == GL_FRAMEBUFFER_UNSUPPORTED) {
+    LOGI("MY elasitcfusion Framebuffer  GL_FRAMEBUFFER_UNSUPPORTED");
+  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE) {
+    LOGI("MY elasitcfusion Framebuffer  "
+         "GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE");
+  } else if (status == GL_INVALID_ENUM) {
+    LOGI("MY elasitcfusion Framebuffer GL_INVALID_ENUM");
+  } else {
+    LOGI("MY elasitcfusion Framebuffer glCheckFramebufferStatus else %d",
+         status);
+  }
+}
+
 static const char *glErrorStringIndexMap(GLenum err) {
   switch (err) {
   case GL_INVALID_ENUM:
@@ -42,6 +67,7 @@ static const char *glErrorStringIndexMap(GLenum err) {
 }
 
 inline void check_gl_errorIndexMap() {
+glCheckFramebufferStatusIM();
   for (GLint error = glGetError(); error; error = glGetError()) {
     LOGI("check_gl_errorGlobalModel My elastic-fusion CheckGlDieOnError after "
          "%s() glError (0x%x)\n",

@@ -149,6 +149,7 @@ struct GlFramebuffer {
     if (fbid) {
       // glDeleteFramebuffersEXT(1, &fbid);
       glDeleteFramebuffers(1, &fbid);
+      LOGI("GlFramebuffer Reinitialise start 1.5");
     }
     CheckGlDieOnErrorFB();
     LOGI("GlFramebuffer Reinitialise start 1");
@@ -170,7 +171,7 @@ struct GlFramebuffer {
 
   GLenum AttachColour(GlTexture &tex) {
     CheckGlDieOnErrorFB();
-    LOGI("GlFramebuffer AttachColour start");
+    LOGI("GlFramebuffer AttachColour start : attachments: %d",attachments);
     if (!fbid)
       Reinitialise();
     CheckGlDieOnErrorFB();
