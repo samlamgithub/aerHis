@@ -155,7 +155,7 @@ public:
                             GLenum gltype = GL_UNSIGNED_BYTE,
                             GLvoid *data = NULL) {
     CheckGlDieOnError();
-    LOGI("GlTexture Reinitialise 1 : data is null: %d", data == NULL);
+    LOGI("GlTexture Reinitialise 1 : %d, %d, %d, data is null: %d", int_format, gltype, glformat data == NULL);
 
     if (tid != 0) {
       glDeleteTextures(1, &tid);
@@ -222,7 +222,7 @@ public:
 
   void Upload(const void *data, GLenum data_format = GL_LUMINANCE,
               GLenum data_type = GL_FLOAT) {
-    LOGI("GlTexture Upload 1: %d, %d", data_format, data_type);
+    LOGI("GlTexture Upload 1: %d, %d, %d", data_format, data_type, GL_PACK_ALIGNMENT);
     CheckGlDieOnError();
     LOGI("GlTexture Upload Bind start");
     Bind();
@@ -242,7 +242,7 @@ public:
     //   LOGI("GlTexture Upload change 2");
     // }
     CheckGlDieOnError();
-    LOGI("GlTexture Upload 2");
+    LOGI("GlTexture Upload 2: %d, %d",width,height);
     glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, data_format,
                     data_type, data);
     CheckGlDieOnError();
