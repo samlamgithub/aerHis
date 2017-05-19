@@ -49,35 +49,38 @@ static const char *glErrorStringRB(GLenum err) {
   }
 }
 
-inline void glCheckFramebufferStatusRB() {
+inline const char *glCheckFramebufferStatusGlRenderBuffer() {
   GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
   if (status == GL_FRAMEBUFFER_COMPLETE) {
-    LOGI("MY elasitcfusion GlRenderBuffer GL_FRAMEBUFFER_COMPLETE");
+    return "MY elasitcfusion  GL_FRAMEBUFFER_COMPLETE";
   } else if (status == GL_FRAMEBUFFER_UNDEFINED) {
-    LOGI("MY elasitcfusion GlRenderBuffer  GL_FRAMEBUFFER_UNDEFINED");
+    return "MY elasitcfusion   GL_FRAMEBUFFER_UNDEFINED";
   } else if (status == GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT) {
-    LOGI("MY elasitcfusion GlRenderBuffer "
-         "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT");
+    return "MY elasitcfusion  "
+           "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT";
   } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT) {
-    LOGI(
-        "MY elasitcfusion GlRenderBuffer GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT");
+    return "MY elasitcfusion  "
+           "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT";
   } else if (status == GL_FRAMEBUFFER_UNSUPPORTED) {
-    LOGI("MY elasitcfusion GlRenderBuffer  GL_FRAMEBUFFER_UNSUPPORTED");
+    return "MY elasitcfusion   GL_FRAMEBUFFER_UNSUPPORTED";
   } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE) {
-    LOGI("MY elasitcfusion GlRenderBuffer  "
-         "GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE");
+    return "MY elasitcfusion   "
+           "GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE";
   } else if (status == GL_INVALID_ENUM) {
-    LOGI("MY elasitcfusion GlRenderBuffer GL_INVALID_ENUM");
+    return "MY elasitcfusion  GL_INVALID_ENUM";
   } else {
-    LOGI("MY elasitcfusion GlRenderBuffer  %d", status);
+    char integer_string[32];
+    int integer = status;
+    sprintf(integer_string, "%d", status);
+    char other_string[64] = "MY elasitcfusion  else: ";
+    strcat(other_string, integer_string);
+    return other_string;
   }
 }
 
-
 inline void CheckGlDieOnErrorRB() {
-  glCheckFramebufferStatusRB();
   for (GLint error = glGetError(); error; error = glGetError()) {
-    LOGI("GlRenderBuffer.h CheckGlDieOnError after %s: glError (0x%x)\n",
+    LOGI("GlRenderBuffer.h CheckGlDieOnError after: %s, %s: glError (0x%x)\n", glCheckFramebufferStatusGlRenderBuffer(),
          glErrorStringRB(error), error);
   }
 }

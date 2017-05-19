@@ -32,28 +32,32 @@
 #include <glRenderBuffer.h>
 #include <glTexture.h>
 
-inline void glCheckFramebufferStatusFramebuffer() {
+inline const char *glCheckFramebufferStatusGlFramebuffer() {
   GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
   if (status == GL_FRAMEBUFFER_COMPLETE) {
-    LOGI("MY elasitcfusion Framebuffer GL_FRAMEBUFFER_COMPLETE");
+    return "MY elasitcfusion  GL_FRAMEBUFFER_COMPLETE";
   } else if (status == GL_FRAMEBUFFER_UNDEFINED) {
-    LOGI("MY elasitcfusion Framebuffer  GL_FRAMEBUFFER_UNDEFINED");
+    return "MY elasitcfusion   GL_FRAMEBUFFER_UNDEFINED";
   } else if (status == GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT) {
-    LOGI("MY elasitcfusion Framebuffer "
-         "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT");
+    return "MY elasitcfusion  "
+           "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT";
   } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT) {
-    LOGI("MY elasitcfusion Framebuffer "
-         "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT");
+    return "MY elasitcfusion  "
+           "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT";
   } else if (status == GL_FRAMEBUFFER_UNSUPPORTED) {
-    LOGI("MY elasitcfusion Framebuffer  GL_FRAMEBUFFER_UNSUPPORTED");
+    return "MY elasitcfusion   GL_FRAMEBUFFER_UNSUPPORTED";
   } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE) {
-    LOGI("MY elasitcfusion Framebuffer  "
-         "GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE");
+    return "MY elasitcfusion   "
+           "GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE";
   } else if (status == GL_INVALID_ENUM) {
-    LOGI("MY elasitcfusion Framebuffer GL_INVALID_ENUM");
+    return "MY elasitcfusion  GL_INVALID_ENUM";
   } else {
-    LOGI("MY elasitcfusion Framebuffer glCheckFramebufferStatus else %d",
-         status);
+    char integer_string[32];
+    int integer = status;
+    sprintf(integer_string, "%d", status);
+    char other_string[64] = "MY elasitcfusion  else: ";
+    strcat(other_string, integer_string);
+    return other_string;
   }
 }
 
@@ -80,13 +84,12 @@ static const char *glErrorStringFB(GLenum err) {
 inline void CheckGlDieOnErrorFB() {
   glCheckFramebufferStatusFramebuffer();
   for (GLint error = glGetError(); error; error = glGetError()) {
-    LOGI("GlFramebuffer.h CheckGlDieOnError after %s: glError (0x%x)\n",
+    LOGI("GlFramebuffer.h CheckGlDieOnError after: %s, %s: glError (0x%x)\n", glCheckFramebufferStatusGlFramebuffer(),
          glErrorStringFB(error), error);
   }
 }
 
 struct GlFramebuffer {
-
   GlFramebuffer() : fbid(0), attachments(0) {
     CheckGlDieOnErrorFB();
     LOGI("GlFramebuffer init 1");
@@ -156,7 +159,7 @@ struct GlFramebuffer {
     // glGenFramebuffersEXT(1, &fbid);
     glGenFramebuffers(1, &fbid);
     CheckGlDieOnErrorFB();
-    LOGI("GlFramebuffer Reinitialise start 2");
+    LOGI("GlFramebuffer Reinitialise done 2");
   }
 
   void Unbind() const {

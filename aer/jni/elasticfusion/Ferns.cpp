@@ -19,6 +19,64 @@
 
 #include "Ferns.h"
 
+
+static const char *glErrorStringFerns(GLenum err) {
+  switch (err) {
+  case GL_INVALID_ENUM:
+    return "Invalid Enum";
+  case GL_INVALID_VALUE:
+    return "Invalid Value";
+  case GL_INVALID_OPERATION:
+    return "Invalid Operation";
+  // case GL_STACK_OVERFLOW: return "Stack Overflow";
+  // case GL_STACK_UNDERFLOW: return "Stack Underflow";
+  case GL_OUT_OF_MEMORY:
+    return "Out of Memory";
+  case GL_INVALID_FRAMEBUFFER_OPERATION:
+    return "GL_INVALID_FRAMEBUFFER_OPERATION";
+  //  case GL_TABLE_TOO_LARGE: return "Table too Large";
+  default:
+    return "Unknown Error";
+  }
+}
+
+inline const char *glCheckFramebufferStatusFerns() {
+  GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+  if (status == GL_FRAMEBUFFER_COMPLETE) {
+    return "MY elasitcfusion  GL_FRAMEBUFFER_COMPLETE";
+  } else if (status == GL_FRAMEBUFFER_UNDEFINED) {
+    return "MY elasitcfusion   GL_FRAMEBUFFER_UNDEFINED";
+  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT) {
+    return "MY elasitcfusion  "
+           "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT";
+  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT) {
+    return "MY elasitcfusion  "
+           "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT";
+  } else if (status == GL_FRAMEBUFFER_UNSUPPORTED) {
+    return "MY elasitcfusion   GL_FRAMEBUFFER_UNSUPPORTED";
+  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE) {
+    return "MY elasitcfusion   "
+           "GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE";
+  } else if (status == GL_INVALID_ENUM) {
+    return "MY elasitcfusion  GL_INVALID_ENUM";
+  } else {
+    char integer_string[32];
+    int integer = status;
+    sprintf(integer_string, "%d", status);
+    char other_string[64] = "MY elasitcfusion  else: ";
+    strcat(other_string, integer_string);
+    return other_string;
+  }
+}
+
+inline void check_gl_errorFerns() {
+  for (GLint error = glGetError(); error; error = glGetError()) {
+    LOGI("check_gl_error ferns.cpp My elastic-fusion CheckGlDieOnError after "
+         ": %s, %s glError (0x%x)\n", glCheckFramebufferStatusFerns();
+         glErrorStringFerns(error), error);
+  }
+}
+
 Ferns::Ferns(int n, int maxDepth, const float photoThresh)
     : num(n), factor(8), width(Resolution::getInstance().width() / factor),
       height(Resolution::getInstance().height() / factor), maxDepth(maxDepth),
@@ -47,10 +105,12 @@ colorFern(width, height, GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, false, true),
              Resolution::getInstance().height(), width, height),
       imageBuff(width, height), vertBuff(width, height),
       normBuff(width, height) {
-  LOGI("MY elasitcfusion Ferns struct init 1 ");
+check_gl_errorFerns();
+  LOGI("MY elasitcfusion Ferns struct init start 1 ");
   random.seed(time(0));
   generateFerns();
-  LOGI("MY elasitcfusion Ferns struct init 2 ");
+  check_gl_errorFerns();
+  LOGI("MY elasitcfusion Ferns struct init done 2 ");
 }
 
 Ferns::~Ferns() {

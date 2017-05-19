@@ -39,36 +39,40 @@ static const char *glErrorStringEF(GLenum err) {
   }
 }
 
-inline void glCheckFramebufferStatusEFCPP() {
+inline const char *glCheckFramebufferStatusEFCPP() {
   GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
   if (status == GL_FRAMEBUFFER_COMPLETE) {
-    LOGI("MY elasitcfusion ElasticFusion.cpp GL_FRAMEBUFFER_COMPLETE");
+    return "MY elasitcfusion  GL_FRAMEBUFFER_COMPLETE";
   } else if (status == GL_FRAMEBUFFER_UNDEFINED) {
-    LOGI("MY elasitcfusion ElasticFusion.cpp  GL_FRAMEBUFFER_UNDEFINED");
+    return "MY elasitcfusion   GL_FRAMEBUFFER_UNDEFINED";
   } else if (status == GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT) {
-    LOGI("MY elasitcfusion ElasticFusion.cpp "
-         "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT");
+    return "MY elasitcfusion  "
+           "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT";
   } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT) {
-    LOGI("MY elasitcfusion ElasticFusion.cpp "
-         "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT");
+    return "MY elasitcfusion  "
+           "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT";
   } else if (status == GL_FRAMEBUFFER_UNSUPPORTED) {
-    LOGI("MY elasitcfusion ElasticFusion.cpp  GL_FRAMEBUFFER_UNSUPPORTED");
+    return "MY elasitcfusion   GL_FRAMEBUFFER_UNSUPPORTED";
   } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE) {
-    LOGI("MY elasitcfusion ElasticFusion.cpp  "
-         "GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE");
+    return "MY elasitcfusion   "
+           "GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE";
   } else if (status == GL_INVALID_ENUM) {
-    LOGI("MY elasitcfusion ElasticFusion.cpp GL_INVALID_ENUM");
+    return "MY elasitcfusion  GL_INVALID_ENUM";
   } else {
-    LOGI("MY elasitcfusion ElasticFusion.cpp glCheckFramebufferStatus else %d",
-         status);
+    char integer_string[32];
+    int integer = status;
+    sprintf(integer_string, "%d", status);
+    char other_string[64] = "MY elasitcfusion  else: ";
+    strcat(other_string, integer_string);
+    return other_string;
   }
 }
 
+
 inline void check_gl_errorElasticFusion() {
-  glCheckFramebufferStatusEFCPP();
   for (GLint error = glGetError(); error; error = glGetError()) {
     LOGI("check_gl_error ElasticFusion.cpp My elastic-fusion CheckGlDieOnError after "
-         "%s() glError (0x%x)\n",
+         ": %s, %s() glError (0x%x)\n", glCheckFramebufferStatusEFCPP(),
          glErrorStringEF(error), error);
   }
 }
@@ -110,7 +114,7 @@ ElasticFusion::ElasticFusion(const int timeDelta, const int countThresh,
       confidenceThreshold(confidence), fernThresh(fernThresh), so3(so3),
       frameToFrameRGB(frameToFrameRGB), depthCutoff(depthCut) {
   check_gl_errorElasticFusion();
-  LOGI("MY elasitcfusion struct init 1 ");
+  LOGI("MY elasitcfusion struct init start 1 ");
   createTextures();
   check_gl_errorElasticFusion();
   LOGI("MY elasitcfusion struct init 2 ");
@@ -130,7 +134,7 @@ ElasticFusion::ElasticFusion(const int timeDelta, const int countThresh,
 
   Stopwatch::getInstance().setCustomSignature(12431231);
   check_gl_errorElasticFusion();
-  LOGI("MY elasitcfusion struct init 5 ");
+  LOGI("MY elasitcfusion struct init 5 done");
 }
 
 ElasticFusion::~ElasticFusion() {
@@ -201,7 +205,7 @@ ElasticFusion::~ElasticFusion() {
 
 void ElasticFusion::createTextures() {
   check_gl_errorElasticFusion();
-  LOGI("MY elasitcfusion struct createTextures 1 ");
+  LOGI("MY elasitcfusion struct createTextures start 1 ");
   textures[GPUTexture::RGB] = new GPUTexture(
       Resolution::getInstance().width(), Resolution::getInstance().height(),
       // GL_RGBA, GL_RGB, GL_UNSIGNED_BYTE, true, true);
@@ -243,7 +247,7 @@ void ElasticFusion::createTextures() {
 
 void ElasticFusion::createCompute() {
   check_gl_errorElasticFusion();
-  LOGI("MY elasitcfusion struct createCompute 1 ");
+  LOGI("MY elasitcfusion struct createCompute start 1 ");
   computePacks[ComputePack::NORM] = new ComputePack(
       loadProgram(emptyvert_tuple, depth_normfrag_tuple, quadgeom_tuple),
       textures[GPUTexture::DEPTH_NORM]->texture);
@@ -263,12 +267,12 @@ void ElasticFusion::createCompute() {
       loadProgram(emptyvert_tuple, depth_metricfrag_tuple, quadgeom_tuple),
       textures[GPUTexture::DEPTH_METRIC_FILTERED]->texture);
   check_gl_errorElasticFusion();
-  LOGI("MY elasitcfusion struct createCompute 5");
+  LOGI("MY elasitcfusion struct createCompute 5 done");
 }
 
 void ElasticFusion::createFeedbackBuffers() {
   check_gl_errorElasticFusion();
-  LOGI("MY elasitcfusion struct createFeedbackBuffers 1 ");
+  LOGI("MY elasitcfusion struct createFeedbackBuffers start 1 ");
   feedbackBuffers[FeedbackBuffer::RAW] = new FeedbackBuffer(
       loadProgramGeom(vertex_feedbackvert_tuple, vertex_feedbackgeom_tuple));
   check_gl_errorElasticFusion();
@@ -276,12 +280,12 @@ void ElasticFusion::createFeedbackBuffers() {
   feedbackBuffers[FeedbackBuffer::FILTERED] = new FeedbackBuffer(
       loadProgramGeom(vertex_feedbackvert_tuple, vertex_feedbackgeom_tuple));
   check_gl_errorElasticFusion();
-  LOGI("MY elasitcfusion struct createFeedbackBuffers 3 ");
+  LOGI("MY elasitcfusion struct createFeedbackBuffers 3 done");
 }
 
 void ElasticFusion::computeFeedbackBuffers() {
   check_gl_errorElasticFusion();
-  LOGI("MY elasitcfusion struct computeFeedbackBuffers 1 ");
+  LOGI("MY elasitcfusion struct computeFeedbackBuffers 1 start");
   TICK("feedbackBuffers");
   feedbackBuffers[FeedbackBuffer::RAW]->compute(
       textures[GPUTexture::RGB]->texture,
@@ -293,14 +297,14 @@ void ElasticFusion::computeFeedbackBuffers() {
       textures[GPUTexture::DEPTH_METRIC_FILTERED]->texture, tick,
       maxDepthProcessed);
   check_gl_errorElasticFusion();
-  LOGI("MY elasitcfusion struct computeFeedbackBuffers 3");
+  LOGI("MY elasitcfusion struct computeFeedbackBuffers 3 done");
   TOCK("feedbackBuffers");
 }
 
 bool ElasticFusion::denseEnough(
     const Img<Eigen::Matrix<unsigned char, 3, 1>> &img) {
   check_gl_errorElasticFusion();
-  LOGI("MY elasitcfusion struct denseEnough 1 ");
+  LOGI("MY elasitcfusion struct denseEnough 1 start");
   int sum = 0;
 
   for (int i = 0; i < img.rows; i++) {
@@ -311,7 +315,7 @@ bool ElasticFusion::denseEnough(
     }
   }
   check_gl_errorElasticFusion();
-  LOGI("MY elasitcfusion struct denseEnough 2 ");
+  LOGI("MY elasitcfusion struct denseEnough 2 done");
   return float(sum) / float(img.rows * img.cols) > 0.75f;
 }
 
@@ -323,7 +327,7 @@ void ElasticFusion::processFrame(const unsigned char *rgb,
                                  const bool bootstrap) {
   TICK("Run");
   check_gl_errorElasticFusion();
-  LOGI(" ElasticFusion struct Process frame Run 1");
+  LOGI(" ElasticFusion struct Process frame Run 1 start");
   textures[GPUTexture::DEPTH_RAW]->texture->Upload(depth, GL_LUMINANCE,
                                                    GL_UNSIGNED_BYTE);
   // textures[GPUTexture::DEPTH_RAW]->texture->Upload(
@@ -359,36 +363,50 @@ void ElasticFusion::processFrame(const unsigned char *rgb,
     check_gl_errorElasticFusion();
     LOGI("ElasticFusion struct Process frame tick 1 done");
   } else {
+    check_gl_errorElasticFusion();
+    LOGI(" ElasticFusion struct Process frame else 1");
     Eigen::Matrix4f lastPose = currPose;
 
     bool trackingOk = true;
 
     if (bootstrap || !inPose) {
+      check_gl_errorElasticFusion();
+      LOGI(" ElasticFusion struct Process frame else 2");
       TICK("autoFill");
       resize.image(indexMap.imageTex(), imageBuff);
+      check_gl_errorElasticFusion();
+      LOGI(" ElasticFusion struct Process frame else 3");
       bool shouldFillIn = !denseEnough(imageBuff);
       TOCK("autoFill");
-
+      check_gl_errorElasticFusion();
+      LOGI(" ElasticFusion struct Process frame else 4");
       TICK("odomInit");
       // WARNING initICP* must be called before initRGB*
       frameToModel.initICPModel(
           shouldFillIn ? &fillIn.vertexTexture : indexMap.vertexTex(),
           shouldFillIn ? &fillIn.normalTexture : indexMap.normalTex(),
           maxDepthProcessed, currPose);
+          check_gl_errorElasticFusion();
+          LOGI(" ElasticFusion struct Process frame else 5");
       frameToModel.initRGBModel((shouldFillIn || frameToFrameRGB)
                                     ? &fillIn.imageTexture
                                     : indexMap.imageTex());
-
+                                    check_gl_errorElasticFusion();
+                                    LOGI(" ElasticFusion struct Process frame else 6");
       frameToModel.initICP(textures[GPUTexture::DEPTH_FILTERED],
                            maxDepthProcessed);
+                           check_gl_errorElasticFusion();
+                           LOGI(" ElasticFusion struct Process frame else 7");
       frameToModel.initRGB(textures[GPUTexture::RGB]);
       TOCK("odomInit");
-
+      check_gl_errorElasticFusion();
+      LOGI(" ElasticFusion struct Process frame else 8");
       if (bootstrap) {
         assert(inPose);
         currPose = currPose * (*inPose);
       }
-
+      check_gl_errorElasticFusion();
+      LOGI(" ElasticFusion struct Process frame else 8");
       Eigen::Vector3f trans = currPose.topRightCorner(3, 1);
       Eigen::Matrix<float, 3, 3, Eigen::RowMajor> rot =
           currPose.topLeftCorner(3, 3);
@@ -396,14 +414,19 @@ void ElasticFusion::processFrame(const unsigned char *rgb,
       // 点云配准占的比重
       // pyramid：配准使用金字塔模式，fastOdom：使用快速跟踪算法
       TICK("odom");
+      check_gl_errorElasticFusion();
+      LOGI(" ElasticFusion struct Process frame else 9");
       frameToModel.getIncrementalTransformation(trans, rot, rgbOnly, icpWeight,
                                                 pyramid, fastOdom, so3);
       TOCK("odom");
-
+      check_gl_errorElasticFusion();
+      LOGI(" ElasticFusion struct Process frame else 10");
       trackingOk = !reloc || frameToModel.lastICPError < 1e-04;
 
       if (reloc) {
         if (!lost) {
+          check_gl_errorElasticFusion();
+          LOGI(" ElasticFusion struct Process frame else 11");
           Eigen::MatrixXd covariance = frameToModel.getCovariance();
 
           for (int i = 0; i < 6; i++) {
@@ -422,7 +445,11 @@ void ElasticFusion::processFrame(const unsigned char *rgb,
           } else {
             trackingCount = 0;
           }
+          check_gl_errorElasticFusion();
+          LOGI(" ElasticFusion struct Process frame else 12");
         } else if (lastFrameRecovery) {
+          check_gl_errorElasticFusion();
+          LOGI(" ElasticFusion struct Process frame else 13");
           Eigen::MatrixXd covariance = frameToModel.getCovariance();
 
           for (int i = 0; i < 6; i++) {
@@ -439,14 +466,18 @@ void ElasticFusion::processFrame(const unsigned char *rgb,
 
           lastFrameRecovery = false;
         }
+        check_gl_errorElasticFusion();
+        LOGI(" ElasticFusion struct Process frame else 14");
       }
-
+      check_gl_errorElasticFusion();
+      LOGI(" ElasticFusion struct Process frame else 15");
       currPose.topRightCorner(3, 1) = trans;
       currPose.topLeftCorner(3, 3) = rot;
     } else {
       currPose = *inPose;
     }
-
+    check_gl_errorElasticFusion();
+    LOGI(" ElasticFusion struct Process frame else 16");
     Eigen::Matrix4f diff = currPose.inverse() * lastPose;
 
     Eigen::Vector3f diffTrans = diff.topRightCorner(3, 1);
@@ -454,7 +485,8 @@ void ElasticFusion::processFrame(const unsigned char *rgb,
 
     // Weight by velocity
     float weighting = std::max(diffTrans.norm(), rodrigues2(diffRot).norm());
-
+    check_gl_errorElasticFusion();
+    LOGI(" ElasticFusion struct Process frame else 17");
     float largest = 0.01;
     float minWeight = 0.5;
 
@@ -464,33 +496,40 @@ void ElasticFusion::processFrame(const unsigned char *rgb,
 
     weighting =
         std::max(1.0f - (weighting / largest), minWeight) * weightMultiplier;
-
+        check_gl_errorElasticFusion();
+        LOGI(" ElasticFusion struct Process frame else 18");
     std::vector<Ferns::SurfaceConstraint> constraints;
     check_gl_errorElasticFusion();
-    LOGI("ElasticFusion struct Process frame predict 1 ");
+    LOGI("ElasticFusion struct Process frame predict 1");
     predict();
     check_gl_errorElasticFusion();
     LOGI("ElasticFusion struct Process frame predict 2 ");
 
     //----------------------------------------------------------global loop
     // closure--------------------------------------------------------
-
+    check_gl_errorElasticFusion();
+    LOGI(" ElasticFusion struct Process frame else 20");
     Eigen::Matrix4f recoveryPose = currPose;
 
     if (closeLoops) {
+      check_gl_errorElasticFusion();
+      LOGI(" ElasticFusion struct Process frame else 21");
       lastFrameRecovery = false;
 
       TICK("Ferns::findFrame");
       recoveryPose = ferns.findFrame(
           constraints, currPose, &fillIn.vertexTexture, &fillIn.normalTexture,
           &fillIn.imageTexture, tick, lost);
+          check_gl_errorElasticFusion();
+          LOGI(" ElasticFusion struct Process frame else 22");
       TOCK("Ferns::findFrame");
     }
 
     std::vector<float> rawGraph;
 
     bool fernAccepted = false;
-
+    check_gl_errorElasticFusion();
+    LOGI(" ElasticFusion struct Process frame else 23");
     if (closeLoops && ferns.lastClosest != -1) {
       if (lost) {
         currPose = recoveryPose;
@@ -501,10 +540,13 @@ void ElasticFusion::processFrame(const unsigned char *rgb,
               constraints.at(i).sourcePoint, constraints.at(i).targetPoint,
               tick, ferns.frames.at(ferns.lastClosest)->srcTime, true);
         }
-
+        check_gl_errorElasticFusion();
+        LOGI(" ElasticFusion struct Process frame else 24");
         for (size_t i = 0; i < relativeCons.size(); i++) {
           globalDeformation.addConstraint(relativeCons.at(i));
         }
+        check_gl_errorElasticFusion();
+        LOGI(" ElasticFusion struct Process frame else 25");
         // rawGraph 保存了控制点坐标和优化之后的 R和t
         if (globalDeformation.constrain(ferns.frames, rawGraph, tick, true,
                                         poseGraph, true)) {
@@ -523,34 +565,46 @@ void ElasticFusion::processFrame(const unsigned char *rgb,
     }
     //----------------------------------------------------------local loop
     // closure--------------------------------------------------------
-
+    check_gl_errorElasticFusion();
+    LOGI(" ElasticFusion struct Process frame else 26");
     // If we didn't match to a fern
     if (!lost && closeLoops && rawGraph.size() == 0) {
       // Only predict old view, since we just predicted the current view for the
       // ferns (which failed!)
+      check_gl_errorElasticFusion();
+      LOGI(" ElasticFusion struct Process frame else 27");
       TICK("IndexMap::INACTIVE");
       indexMap.combinedPredict(currPose, globalModel.model(), maxDepthProcessed,
                                confidenceThreshold, 0, tick - timeDelta,
                                timeDelta, IndexMap::INACTIVE);
       TOCK("IndexMap::INACTIVE");
-
+      check_gl_errorElasticFusion();
+      LOGI(" ElasticFusion struct Process frame else 28");
       // WARNING initICP* must be called before initRGB*
       modelToModel.initICPModel(indexMap.oldVertexTex(),
                                 indexMap.oldNormalTex(), maxDepthProcessed,
                                 currPose);
+                                check_gl_errorElasticFusion();
+                                LOGI(" ElasticFusion struct Process frame else 29");
       modelToModel.initRGBModel(indexMap.oldImageTex());
-
+      check_gl_errorElasticFusion();
+      LOGI(" ElasticFusion struct Process frame else 30");
       modelToModel.initICP(indexMap.vertexTex(), indexMap.normalTex(),
                            maxDepthProcessed);
+                           check_gl_errorElasticFusion();
+                           LOGI(" ElasticFusion struct Process frame else 31");
       modelToModel.initRGB(indexMap.imageTex());
-
+      check_gl_errorElasticFusion();
+      LOGI(" ElasticFusion struct Process frame else 32");
       Eigen::Vector3f trans = currPose.topRightCorner(3, 1);
       Eigen::Matrix<float, 3, 3, Eigen::RowMajor> rot =
           currPose.topLeftCorner(3, 3);
-
+          check_gl_errorElasticFusion();
+          LOGI(" ElasticFusion struct Process frame else 33");
       modelToModel.getIncrementalTransformation(trans, rot, false, 10, pyramid,
                                                 fastOdom, false);
-
+                                                check_gl_errorElasticFusion();
+                                                LOGI(" ElasticFusion struct Process frame else 34");
       Eigen::MatrixXd covar = modelToModel.getCovariance();
       bool covOk = true;
 
@@ -568,9 +622,12 @@ void ElasticFusion::processFrame(const unsigned char *rgb,
 
       if (covOk && modelToModel.lastICPCount > icpCountThresh &&
           modelToModel.lastICPError < icpErrThresh) {
+            check_gl_errorElasticFusion();
+            LOGI(" ElasticFusion struct Process frame else 35");
         resize.vertex(indexMap.vertexTex(), consBuff);
         resize.time(indexMap.oldTimeTex(), timesBuff);
-
+        check_gl_errorElasticFusion();
+        LOGI(" ElasticFusion struct Process frame else 36");
         for (int i = 0; i < consBuff.cols; i++) {
           for (int j = 0; j < consBuff.rows; j++) {
             if (consBuff.at<Eigen::Vector4f>(j, i)(2) > 0 &&
@@ -581,23 +638,27 @@ void ElasticFusion::processFrame(const unsigned char *rgb,
                   Eigen::Vector4f(consBuff.at<Eigen::Vector4f>(j, i)(0),
                                   consBuff.at<Eigen::Vector4f>(j, i)(1),
                                   consBuff.at<Eigen::Vector4f>(j, i)(2), 1.0f);
-
+                                  check_gl_errorElasticFusion();
+                                  LOGI(" ElasticFusion struct Process frame else 37");
               Eigen::Vector4f worldModelPoint =
                   estPose *
                   Eigen::Vector4f(consBuff.at<Eigen::Vector4f>(j, i)(0),
                                   consBuff.at<Eigen::Vector4f>(j, i)(1),
                                   consBuff.at<Eigen::Vector4f>(j, i)(2), 1.0f);
-
+                                  check_gl_errorElasticFusion();
+                                  LOGI(" ElasticFusion struct Process frame else 38");
               constraints.push_back(
                   Ferns::SurfaceConstraint(worldRawPoint, worldModelPoint));
-
+                  check_gl_errorElasticFusion();
+                  LOGI(" ElasticFusion struct Process frame else 39");
               localDeformation.addConstraint(
                   worldRawPoint, worldModelPoint, tick,
                   timesBuff.at<unsigned short>(j, i), deforms == 0);
             }
           }
         }
-
+        check_gl_errorElasticFusion();
+        LOGI(" ElasticFusion struct Process frame else 40");
         std::vector<Deformation::Constraint> newRelativeCons;
         // newRelativeCons 只有在 localDeformation 时才会产生
         if (localDeformation.constrain(ferns.frames, rawGraph, tick, false,
@@ -619,40 +680,50 @@ void ElasticFusion::processFrame(const unsigned char *rgb,
     }
     //----------------------------------------------------------fuse new
     // data--------------------------------------------------------
-
+    check_gl_errorElasticFusion();
+    LOGI(" ElasticFusion struct Process frame else 41");
     if (!rgbOnly && trackingOk && !lost) {
       TICK("indexMap");
       indexMap.predictIndices(currPose, tick, globalModel.model(),
                               maxDepthProcessed, timeDelta);
       TOCK("indexMap");
-
+      check_gl_errorElasticFusion();
+      LOGI(" ElasticFusion struct Process frame else 42");
       globalModel.fuse(currPose, tick, textures[GPUTexture::RGB],
                        textures[GPUTexture::DEPTH_METRIC],
                        textures[GPUTexture::DEPTH_METRIC_FILTERED],
                        indexMap.indexTex(), indexMap.vertConfTex(),
                        indexMap.colorTimeTex(), indexMap.normalRadTex(),
                        maxDepthProcessed, confidenceThreshold, weighting);
-
+                       check_gl_errorElasticFusion();
+                       LOGI(" ElasticFusion struct Process frame else 43");
       TICK("indexMap");
       indexMap.predictIndices(currPose, tick, globalModel.model(),
                               maxDepthProcessed, timeDelta);
+                              check_gl_errorElasticFusion();
+                              LOGI(" ElasticFusion struct Process frame else 44");
       TOCK("indexMap");
 
       // If we're deforming we need to predict the depth again to figure out
       // which  points to update the timestamp's of, since a deformation means a
       // second pose update  this loop
+      check_gl_errorElasticFusion();
+      LOGI(" ElasticFusion struct Process frame else 45");
       if (rawGraph.size() > 0 && !fernAccepted) {
         indexMap.synthesizeDepth(currPose, globalModel.model(),
                                  maxDepthProcessed, confidenceThreshold, tick,
                                  tick - timeDelta,
                                  std::numeric_limits<unsigned short>::max());
       }
-
+      check_gl_errorElasticFusion();
+      LOGI(" ElasticFusion struct Process frame else 46");
       globalModel.clean(currPose, tick, indexMap.indexTex(),
                         indexMap.vertConfTex(), indexMap.colorTimeTex(),
                         indexMap.normalRadTex(), indexMap.depthTex(),
                         confidenceThreshold, rawGraph, timeDelta,
                         maxDepthProcessed, fernAccepted);
+                        check_gl_errorElasticFusion();
+                        LOGI(" ElasticFusion struct Process frame else 47");
     }
   }
   check_gl_errorElasticFusion();
@@ -681,6 +752,8 @@ void ElasticFusion::processFrame(const unsigned char *rgb,
   //如果没跟丢则检测是否将当前帧添加为关键帧
   if (!lost) {
     processFerns();
+    check_gl_errorElasticFusion();
+    LOGI(" ElasticFusion struct Process frame   processFerns");
     tick++;
   }
   check_gl_errorElasticFusion();
@@ -690,32 +763,36 @@ void ElasticFusion::processFrame(const unsigned char *rgb,
 
 void ElasticFusion::processFerns() {
   check_gl_errorElasticFusion();
-  LOGI("MY elasitcfusion struct processFerns 1 ");
+  LOGI("MY elasitcfusion struct processFerns 1 start ");
   TICK("Ferns::addFrame");
   ferns.addFrame(&fillIn.imageTexture, &fillIn.vertexTexture,
                  &fillIn.normalTexture, currPose, tick, fernThresh);
   TOCK("Ferns::addFrame");
   check_gl_errorElasticFusion();
-  LOGI("MY elasitcfusion struct processFerns 2 ");
+  LOGI("MY elasitcfusion struct processFerns 2 done");
 }
 
 void ElasticFusion::predict() {
   TICK("IndexMap::ACTIVE");
   check_gl_errorElasticFusion();
-  LOGI("MY elasitcfusion struct predict 1   1111");
+  LOGI("MY elasitcfusion struct predict 1  start 1111");
   if (lastFrameRecovery) {
     indexMap.combinedPredict(currPose, globalModel.model(), maxDepthProcessed,
                              confidenceThreshold, 0, tick, timeDelta,
                              IndexMap::ACTIVE);
+                             check_gl_errorElasticFusion();
+                             LOGI("MY elasitcfusion struct predict 1   1111 a");
   } else {
     indexMap.combinedPredict(currPose, globalModel.model(), maxDepthProcessed,
                              confidenceThreshold, tick, tick, timeDelta,
                              IndexMap::ACTIVE);
+                             check_gl_errorElasticFusion();
+                             LOGI("MY elasitcfusion struct predict 1   1111 b");
   }
   //当跟丢的时候，使用当前帧的信息为下一帧配准，passthrough 传递的参数为 lsot
   //当参数没有跟丢时，使用模型投影获取的图像对下一帧图像配准，当模型投影有残缺值时，使用当前帧的图像做补丁
   check_gl_errorElasticFusion();
-  LOGI("MY elasitcfusion struct predict combinedPredict done ");
+  LOGI("MY elasitcfusion struct predict combinedPredict done 0");
   TICK("FillIn");
   fillIn.vertex(indexMap.vertexTex(), textures[GPUTexture::DEPTH_FILTERED],
                 lost);
@@ -732,7 +809,8 @@ void ElasticFusion::predict() {
   TOCK("FillIn");
 
   TOCK("IndexMap::ACTIVE");
-  LOGI("MY elasitcfusion struct predict 2 ");
+  check_gl_errorElasticFusion();
+  LOGI("MY elasitcfusion struct predict 2 doen done ");
 }
 
 void ElasticFusion::metriciseDepth() {
@@ -754,7 +832,7 @@ void ElasticFusion::metriciseDepth() {
 
 void ElasticFusion::filterDepth() {
   check_gl_errorElasticFusion();
-  LOGI("MY elasitcfusion struct filterDepth 1 ");
+  LOGI("MY elasitcfusion struct filterDepth 1 start ");
   std::vector<Uniform> uniforms;
 
   uniforms.push_back(Uniform("cols", (float)Resolution::getInstance().cols()));
@@ -765,12 +843,12 @@ void ElasticFusion::filterDepth() {
   computePacks[ComputePack::FILTER]->compute(
       textures[GPUTexture::DEPTH_RAW]->texture, &uniforms);
   check_gl_errorElasticFusion();
-  LOGI("MY elasitcfusion struct filterDepth 3");
+  LOGI("MY elasitcfusion struct filterDepth 3 done ");
 }
 
 void ElasticFusion::normaliseDepth(const float &minVal, const float &maxVal) {
   check_gl_errorElasticFusion();
-  LOGI("MY elasitcfusion struct normaliseDepth 1");
+  LOGI("MY elasitcfusion struct normaliseDepth 1 start");
   std::vector<Uniform> uniforms;
 
   uniforms.push_back(Uniform("maxVal", maxVal * 1000.f));
@@ -780,15 +858,19 @@ void ElasticFusion::normaliseDepth(const float &minVal, const float &maxVal) {
   computePacks[ComputePack::NORM]->compute(
       textures[GPUTexture::DEPTH_RAW]->texture, &uniforms);
   check_gl_errorElasticFusion();
-  LOGI("MY elasitcfusion struct normaliseDepth 3");
+  LOGI("MY elasitcfusion struct normaliseDepth 3 done");
 }
 
 void ElasticFusion::savePly(Eigen::Vector4f myMapData, unsigned int myLastCount,
                             float myConfidenceThreshold) {
   // TODO: save PLY
+  check_gl_errorElasticFusion();
+  LOGI("MY elasitcfusion struct savePly 1 start");
   myMapData = *globalModel.downloadMap();
   myLastCount = globalModel.lastCount();
   myConfidenceThreshold = confidenceThreshold;
+  check_gl_errorElasticFusion();
+  LOGI("MY elasitcfusion struct savePly 1 done");
   //===========
   // std::string filename = saveFilename;
   // filename.append(".ply");
@@ -899,7 +981,8 @@ void ElasticFusion::savePly(Eigen::Vector4f myMapData, unsigned int myLastCount,
 }
 
 Eigen::Vector3f ElasticFusion::rodrigues2(const Eigen::Matrix3f &matrix) {
-  LOGI("MY elasitcfusion struct rodrigues2 1");
+  check_gl_errorElasticFusion();
+  LOGI("MY elasitcfusion struct rodrigues2 start 1");
   Eigen::JacobiSVD<Eigen::Matrix3f> svd(matrix, Eigen::ComputeFullV |
                                                     Eigen::ComputeFullU);
   Eigen::Matrix3f R = svd.matrixU() * svd.matrixV().transpose();
@@ -943,7 +1026,8 @@ Eigen::Vector3f ElasticFusion::rodrigues2(const Eigen::Matrix3f &matrix) {
     rz *= vth;
   }
   return Eigen::Vector3d(rx, ry, rz).cast<float>();
-  LOGI("MY elasitcfusion struct rodrigues2 2");
+  check_gl_errorElasticFusion();
+  LOGI("MY elasitcfusion struct rodrigues2 done 1");
 }
 
 // Sad times ahead

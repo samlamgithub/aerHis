@@ -41,7 +41,7 @@ RGBDOdometry::RGBDOdometry(int width,
   height(height),
   cx(cx), cy(cy), fx(fx), fy(fy)
 {
-	LOGI("MY elasitcfusion RGBDOdometry struct init 1 ");
+	LOGI("MY elasitcfusion RGBDOdometry struct init start 1 ");
     sumDataSE3.create(MAX_THREADS);
     outDataSE3.create(1);
     sumResidualRGB.create(MAX_THREADS);
@@ -109,7 +109,7 @@ RGBDOdometry::RGBDOdometry(int width,
     minimumGradientMagnitudes[0] = 5;
     minimumGradientMagnitudes[1] = 3;
     minimumGradientMagnitudes[2] = 1;
-    LOGI("MY elasitcfusion RGBDOdometry struct init 2 ");
+    LOGI("MY elasitcfusion RGBDOdometry struct init done 2 ");
 }
 
 RGBDOdometry::~RGBDOdometry()
@@ -119,7 +119,7 @@ RGBDOdometry::~RGBDOdometry()
 
 void RGBDOdometry::initICP(GPUTexture * filteredDepth, const float depthCutoff)
 {
-LOGI("MY elasitcfusion RGBDOdometry initICP 1");
+LOGI("MY elasitcfusion RGBDOdometry initICP start 1");
     cudaArray * textPtr;
 
     cudaGraphicsMapResources(1, &filteredDepth->cudaRes);
@@ -142,12 +142,12 @@ LOGI("MY elasitcfusion RGBDOdometry initICP 1");
     }
 
     cudaDeviceSynchronize();
-LOGI("MY elasitcfusion RGBDOdometry initICP 2");
+LOGI("MY elasitcfusion RGBDOdometry initICP done 2");
 }
 
 void RGBDOdometry::initICP(GPUTexture * predictedVertices, GPUTexture * predictedNormals, const float depthCutoff)
 {
-LOGI("MY elasitcfusion RGBDOdometry initICP 3");
+LOGI("MY elasitcfusion RGBDOdometry initICP start 3");
     cudaArray * textPtr;
 
     cudaGraphicsMapResources(1, &predictedVertices->cudaRes);
@@ -170,7 +170,7 @@ LOGI("MY elasitcfusion RGBDOdometry initICP 3");
     }
 
     cudaDeviceSynchronize();
-LOGI("MY elasitcfusion RGBDOdometry initICP 4");
+LOGI("MY elasitcfusion RGBDOdometry initICP done 4");
 }
 
 void RGBDOdometry::initICPModel(GPUTexture * predictedVertices,
@@ -178,7 +178,7 @@ void RGBDOdometry::initICPModel(GPUTexture * predictedVertices,
                                 const float depthCutoff,
                                 const Eigen::Matrix4f & modelPose)
 {
-LOGI("MY elasitcfusion RGBDOdometry initICPModel 1");
+LOGI("MY elasitcfusion RGBDOdometry initICPModel start 1");
     cudaArray * textPtr;
 
     cudaGraphicsMapResources(1, &predictedVertices->cudaRes);
@@ -211,14 +211,14 @@ LOGI("MY elasitcfusion RGBDOdometry initICPModel 1");
     }
 
     cudaDeviceSynchronize();
-LOGI("MY elasitcfusion RGBDOdometry initICPModel 2");
+LOGI("MY elasitcfusion RGBDOdometry initICPModel done 2");
 }
 
 void RGBDOdometry::populateRGBDData(GPUTexture * rgb,
                                     DeviceArray2D<float> * destDepths,
                                     DeviceArray2D<unsigned char> * destImages)
 {
-LOGI("MY elasitcfusion RGBDOdometry populateRGBDData 1");
+LOGI("MY elasitcfusion RGBDOdometry populateRGBDData start 1");
     verticesToDepth(vmaps_tmp, destDepths[0], maxDepthRGB);
 
     for(int i = 0; i + 1 < NUM_PYRS; i++)
@@ -242,29 +242,29 @@ LOGI("MY elasitcfusion RGBDOdometry populateRGBDData 1");
     }
 
     cudaDeviceSynchronize();
-LOGI("MY elasitcfusion RGBDOdometry populateRGBDData 2");
+LOGI("MY elasitcfusion RGBDOdometry populateRGBDData done 2");
 }
 
 void RGBDOdometry::initRGBModel(GPUTexture * rgb)
 {
-LOGI("MY elasitcfusion RGBDOdometry initRGBModel 1");
+LOGI("MY elasitcfusion RGBDOdometry initRGBModel start  1");
     //NOTE: This depends on vmaps_tmp containing the corresponding depth from initICPModel
     populateRGBDData(rgb, &lastDepth[0], &lastImage[0]);
-    LOGI("MY elasitcfusion RGBDOdometry initRGBModel 2");
+    LOGI("MY elasitcfusion RGBDOdometry initRGBModel  done 2");
 
 }
 
 void RGBDOdometry::initRGB(GPUTexture * rgb)
 {
-  LOGI("MY elasitcfusion RGBDOdometry initRGB 1");
+  LOGI("MY elasitcfusion RGBDOdometry initRGB start 1");
     //NOTE: This depends on vmaps_tmp containing the corresponding depth from initICP
     populateRGBDData(rgb, &nextDepth[0], &nextImage[0]);
-    LOGI("MY elasitcfusion RGBDOdometry initRGB 2");
+    LOGI("MY elasitcfusion RGBDOdometry initRGB done 2");
 }
 
 void RGBDOdometry::initFirstRGB(GPUTexture * rgb)
 {
-	LOGI(" ElasticFusionRGBDOdometry initFirstRGB 1 ");
+	LOGI(" ElasticFusionRGBDOdometry initFirstRGB start 1 ");
     cudaArray * textPtr;
     LOGI(" ElasticFusionRGBDOdometry initFirstRGB 2 ");
 cudaError_t err = cudaGraphicsMapResources(1, &rgb->cudaRes);
@@ -285,7 +285,7 @@ cudaError_t err = cudaGraphicsMapResources(1, &rgb->cudaRes);
     {
         pyrDownUcharGauss(lastNextImage[i], lastNextImage[i + 1]);
     }
-    LOGI(" ElasticFusionRGBDOdometry initFirstRGB 7 ");
+    LOGI(" ElasticFusionRGBDOdometry initFirstRGB done 7 ");
 }
 
 void RGBDOdometry::getIncrementalTransformation(Eigen::Vector3f & trans,
@@ -296,7 +296,7 @@ void RGBDOdometry::getIncrementalTransformation(Eigen::Vector3f & trans,
                                                 const bool & fastOdom,
                                                 const bool & so3)
 {
-LOGI(" ElasticFusionRGBDOdometry getIncrementalTransformation 1 ");
+LOGI(" ElasticFusionRGBDOdometry getIncrementalTransformation start 1 ");
     bool icp = !rgbOnly && icpWeight > 0;
     bool rgb = rgbOnly || icpWeight < 100;
 
@@ -628,7 +628,7 @@ LOGI(" ElasticFusionRGBDOdometry getIncrementalTransformation 1 ");
 
     trans = tcurr;
     rot = Rcurr;
-LOGI(" ElasticFusionRGBDOdometry getIncrementalTransformation 2 ");
+LOGI(" ElasticFusionRGBDOdometry getIncrementalTransformation 2 done ");
 }
 
 Eigen::MatrixXd RGBDOdometry::getCovariance()

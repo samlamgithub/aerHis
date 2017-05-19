@@ -42,10 +42,39 @@ static const char *glErrorStringFeedbackBuffer(GLenum err) {
   }
 }
 
+inline const char *glCheckFramebufferStatusFeedbackBuffer() {
+  GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+  if (status == GL_FRAMEBUFFER_COMPLETE) {
+    return "MY elasitcfusion  GL_FRAMEBUFFER_COMPLETE";
+  } else if (status == GL_FRAMEBUFFER_UNDEFINED) {
+    return "MY elasitcfusion   GL_FRAMEBUFFER_UNDEFINED";
+  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT) {
+    return "MY elasitcfusion  "
+           "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT";
+  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT) {
+    return "MY elasitcfusion  "
+           "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT";
+  } else if (status == GL_FRAMEBUFFER_UNSUPPORTED) {
+    return "MY elasitcfusion   GL_FRAMEBUFFER_UNSUPPORTED";
+  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE) {
+    return "MY elasitcfusion   "
+           "GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE";
+  } else if (status == GL_INVALID_ENUM) {
+    return "MY elasitcfusion  GL_INVALID_ENUM";
+  } else {
+    char integer_string[32];
+    int integer = status;
+    sprintf(integer_string, "%d", status);
+    char other_string[64] = "MY elasitcfusion  else: ";
+    strcat(other_string, integer_string);
+    return other_string;
+  }
+}
+
 inline void check_gl_errorFeedbackBuffer() {
   for (GLint error = glGetError(); error; error = glGetError()) {
-    LOGI("check_gl_error FeedbackBuffer cpp My elastic-fusion CheckGlDieOnError after "
-         "%s() glError (0x%x)\n",
+    LOGI("check_gl_error FeedbackBuffer cpp My elastic-fusion CheckGlDieOnError after: %s, "
+         "%s() glError (0x%x)\n", glCheckFramebufferStatusFeedbackBuffer(),
          glErrorStringFeedbackBuffer(error), error);
   }
 }
@@ -56,26 +85,26 @@ FeedbackBuffer::FeedbackBuffer(std::shared_ptr<Shader> program)
       bufferSize(Resolution::getInstance().numPixels() * Vertex::SIZE),
       count(0) {
   check_gl_errorFeedbackBuffer();
-  LOGI("MY elasitcfusion FeedbackBuffer struct init 1 ");
+  LOGI("MY elasitcfusion FeedbackBuffer struct init start 1 ");
   float *vertices = new float[bufferSize];
 
   memset(&vertices[0], 0, bufferSize);
 
   glGenTransformFeedbacks(1, &fid);
   check_gl_errorFeedbackBuffer();
-  LOGI("MY elasitcfusion FeedbackBuffer struct init 1 ");
+  LOGI("MY elasitcfusion FeedbackBuffer struct init 2 ");
   glGenBuffers(1, &vbo);
   check_gl_errorFeedbackBuffer();
-  LOGI("MY elasitcfusion FeedbackBuffer struct init 1 ");
+  LOGI("MY elasitcfusion FeedbackBuffer struct init 3 ");
   glBindBuffer(GL_ARRAY_BUFFER, vbo);
   check_gl_errorFeedbackBuffer();
-  LOGI("MY elasitcfusion FeedbackBuffer struct init 1 ");
+  LOGI("MY elasitcfusion FeedbackBuffer struct init 4 ");
   glBufferData(GL_ARRAY_BUFFER, bufferSize, &vertices[0], GL_STREAM_DRAW);
   check_gl_errorFeedbackBuffer();
-  LOGI("MY elasitcfusion FeedbackBuffer struct init 1 ");
+  LOGI("MY elasitcfusion FeedbackBuffer struct init 5 ");
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   check_gl_errorFeedbackBuffer();
-  LOGI("MY elasitcfusion FeedbackBuffer struct init 1 ");
+  LOGI("MY elasitcfusion FeedbackBuffer struct init 6");
 
   delete[] vertices;
 
@@ -91,43 +120,43 @@ FeedbackBuffer::FeedbackBuffer(std::shared_ptr<Shader> program)
     }
   }
   check_gl_errorFeedbackBuffer();
-  LOGI("MY elasitcfusion FeedbackBuffer struct init 1 ");
+  LOGI("MY elasitcfusion FeedbackBuffer struct init 7 ");
   glGenBuffers(1, &uvo);
   check_gl_errorFeedbackBuffer();
-  LOGI("MY elasitcfusion FeedbackBuffer struct init 2 ");
+  LOGI("MY elasitcfusion FeedbackBuffer struct init 8 ");
   glBindBuffer(GL_ARRAY_BUFFER, uvo);
   check_gl_errorFeedbackBuffer();
-  LOGI("MY elasitcfusion FeedbackBuffer struct init 3 ");
+  LOGI("MY elasitcfusion FeedbackBuffer struct init 9 ");
   glBufferData(GL_ARRAY_BUFFER, uv.size() * sizeof(Eigen::Vector2f), &uv[0],
                GL_STATIC_DRAW);
   check_gl_errorFeedbackBuffer();
-  LOGI("MY elasitcfusion FeedbackBuffer struct init 4 ");
+  LOGI("MY elasitcfusion FeedbackBuffer struct init 10 ");
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   check_gl_errorFeedbackBuffer();
-  LOGI("MY elasitcfusion FeedbackBuffer struct init 5 ");
+  LOGI("MY elasitcfusion FeedbackBuffer struct init 11 ");
   program->Bind();
   check_gl_errorFeedbackBuffer();
-  LOGI("MY elasitcfusion FeedbackBuffer struct init 6 ");
+  LOGI("MY elasitcfusion FeedbackBuffer struct init 12 ");
   int loc[3] = {
       glGetVaryingLocationNV(program->programId(), "vPosition0"),
       glGetVaryingLocationNV(program->programId(), "vColor0"),
       glGetVaryingLocationNV(program->programId(), "vNormRad0"),
   };
   check_gl_errorFeedbackBuffer();
-  LOGI("MY elasitcfusion FeedbackBuffer struct init 7 ");
+  LOGI("MY elasitcfusion FeedbackBuffer struct init 13 ");
   GLchar *vars[3] = {"vPosition0", "vColor0", "vNormRad0"};
   glTransformFeedbackVaryings(program->programId(), 3, vars,
                               GL_INTERLEAVED_ATTRIBS);
   // glTransformFeedbackVaryingsNV(program->programId(), 3, loc,
   // INTERLEAVED_ATTRIBS_NV);
   check_gl_errorFeedbackBuffer();
-  LOGI("MY elasitcfusion FeedbackBuffer struct init 8 ");
+  LOGI("MY elasitcfusion FeedbackBuffer struct init 14 ");
   program->Unbind();
   check_gl_errorFeedbackBuffer();
-  LOGI("MY elasitcfusion FeedbackBuffer struct init 9 ");
+  LOGI("MY elasitcfusion FeedbackBuffer struct init 15 ");
   glGenQueries(1, &countQuery);
   check_gl_errorFeedbackBuffer();
-  LOGI("MY elasitcfusion FeedbackBuffer struct init 10 ");
+  LOGI("MY elasitcfusion FeedbackBuffer struct init 16 done ");
 }
 
 FeedbackBuffer::~FeedbackBuffer() {
@@ -142,7 +171,7 @@ FeedbackBuffer::~FeedbackBuffer() {
 void FeedbackBuffer::compute(GlTexture *color, GlTexture *depth,
                              const int &time, const float depthCutoff) {
   check_gl_errorFeedbackBuffer();
-  LOGI("MY elasitcfusion FeedbackBuffer struct compute 1 ");
+  LOGI("MY elasitcfusion FeedbackBuffer struct compute start 1 ");
   program->Bind();
   check_gl_errorFeedbackBuffer();
   LOGI("MY elasitcfusion FeedbackBuffer struct compute 2");
@@ -162,42 +191,64 @@ void FeedbackBuffer::compute(GlTexture *color, GlTexture *depth,
   check_gl_errorFeedbackBuffer();
   LOGI("MY elasitcfusion FeedbackBuffer struct compute 3 ");
   glEnableVertexAttribArray(0);
-  glBindBuffer(GL_ARRAY_BUFFER, uvo);
-  glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
-
-  glEnable(GL_RASTERIZER_DISCARD);
-
-  glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, fid);
-
-  glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, vbo);
-
-  glBeginTransformFeedback(GL_POINTS);
-
-  glActiveTexture(GL_TEXTURE0);
-  glBindTexture(GL_TEXTURE_2D, depth->tid);
-
-  glActiveTexture(GL_TEXTURE1);
-  glBindTexture(GL_TEXTURE_2D, color->tid);
   check_gl_errorFeedbackBuffer();
   LOGI("MY elasitcfusion FeedbackBuffer struct compute 4");
-  glDrawArrays(GL_POINTS, 0, Resolution::getInstance().numPixels());
+  glBindBuffer(GL_ARRAY_BUFFER, uvo);
   check_gl_errorFeedbackBuffer();
   LOGI("MY elasitcfusion FeedbackBuffer struct compute 5 ");
-  glBindTexture(GL_TEXTURE_2D, 0);
-
+  glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
+  check_gl_errorFeedbackBuffer();
+  LOGI("MY elasitcfusion FeedbackBuffer struct compute 6");
+  glEnable(GL_RASTERIZER_DISCARD);
+  check_gl_errorFeedbackBuffer();
+  LOGI("MY elasitcfusion FeedbackBuffer struct compute 7 ");
+  glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, fid);
+  check_gl_errorFeedbackBuffer();
+  LOGI("MY elasitcfusion FeedbackBuffer struct compute 8 ");
+  glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, vbo);
+  check_gl_errorFeedbackBuffer();
+  LOGI("MY elasitcfusion FeedbackBuffer struct compute 9 ");
+  glBeginTransformFeedback(GL_POINTS);
+  check_gl_errorFeedbackBuffer();
+  LOGI("MY elasitcfusion FeedbackBuffer struct compute 10 ");
   glActiveTexture(GL_TEXTURE0);
-
+  check_gl_errorFeedbackBuffer();
+  LOGI("MY elasitcfusion FeedbackBuffer struct compute 11 ");
+  glBindTexture(GL_TEXTURE_2D, depth->tid);
+  check_gl_errorFeedbackBuffer();
+  LOGI("MY elasitcfusion FeedbackBuffer struct compute 12 ");
+  glActiveTexture(GL_TEXTURE1);
+  check_gl_errorFeedbackBuffer();
+  LOGI("MY elasitcfusion FeedbackBuffer struct compute 13 ");
+  glBindTexture(GL_TEXTURE_2D, color->tid);
+  check_gl_errorFeedbackBuffer();
+  LOGI("MY elasitcfusion FeedbackBuffer struct compute 14 ");
+  glDrawArrays(GL_POINTS, 0, Resolution::getInstance().numPixels());
+  check_gl_errorFeedbackBuffer();
+  LOGI("MY elasitcfusion FeedbackBuffer struct compute 15 ");
+  glBindTexture(GL_TEXTURE_2D, 0);
+  check_gl_errorFeedbackBuffer();
+  LOGI("MY elasitcfusion FeedbackBuffer struct compute 16 ");
+  glActiveTexture(GL_TEXTURE0);
+  check_gl_errorFeedbackBuffer();
+  LOGI("MY elasitcfusion FeedbackBuffer struct compute 17 ");
   glEndTransformFeedback();
-
+  check_gl_errorFeedbackBuffer();
+  LOGI("MY elasitcfusion FeedbackBuffer struct compute 18 ");
   glDisable(GL_RASTERIZER_DISCARD);
-
+  check_gl_errorFeedbackBuffer();
+  LOGI("MY elasitcfusion FeedbackBuffer struct compute 19 ");
   glDisableVertexAttribArray(0);
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, 0);
-
+  check_gl_errorFeedbackBuffer();
+  LOGI("MY elasitcfusion FeedbackBuffer struct compute 20 ");
   program->Unbind();
-
+  check_gl_errorFeedbackBuffer();
+  LOGI("MY elasitcfusion FeedbackBuffer struct compute 21 ");
   glFinish();
+  check_gl_errorFeedbackBuffer();
+  LOGI("MY elasitcfusion FeedbackBuffer struct compute done ");
 }
 //
 // void FeedbackBuffer::render(pangolin::OpenGlMatrix mvp,

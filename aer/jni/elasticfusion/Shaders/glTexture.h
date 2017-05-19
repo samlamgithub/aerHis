@@ -52,34 +52,39 @@ static const char *glErrorString(GLenum err) {
   }
 }
 
-inline void glCheckFramebufferStatusgltexture() {
+inline const char *glCheckFramebufferStatusGlTexture() {
   GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
   if (status == GL_FRAMEBUFFER_COMPLETE) {
-    LOGI("MY elasitcfusion gltexture GL_FRAMEBUFFER_COMPLETE");
+    return "MY elasitcfusion  GL_FRAMEBUFFER_COMPLETE";
   } else if (status == GL_FRAMEBUFFER_UNDEFINED) {
-    LOGI("MY elasitcfusion gltexture  GL_FRAMEBUFFER_UNDEFINED");
+    return "MY elasitcfusion   GL_FRAMEBUFFER_UNDEFINED";
   } else if (status == GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT) {
-    LOGI("MY elasitcfusion gltexture "
-         "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT");
+    return "MY elasitcfusion  "
+           "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT";
   } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT) {
-    LOGI("MY elasitcfusion gltexture "
-         "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT");
+    return "MY elasitcfusion  "
+           "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT";
   } else if (status == GL_FRAMEBUFFER_UNSUPPORTED) {
-    LOGI("MY elasitcfusion gltexture  GL_FRAMEBUFFER_UNSUPPORTED");
+    return "MY elasitcfusion   GL_FRAMEBUFFER_UNSUPPORTED";
   } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE) {
-    LOGI("MY elasitcfusion gltexture  "
-         "GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE");
+    return "MY elasitcfusion   "
+           "GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE";
   } else if (status == GL_INVALID_ENUM) {
-    LOGI("MY elasitcfusion gltexture GL_INVALID_ENUM");
+    return "MY elasitcfusion  GL_INVALID_ENUM";
   } else {
-    LOGI("MY elasitcfusion gltexture else %d", status);
+    char integer_string[32];
+    int integer = status;
+    sprintf(integer_string, "%d", status);
+    char other_string[64] = "MY elasitcfusion  else: ";
+    strcat(other_string, integer_string);
+    return other_string;
   }
 }
 
 inline void CheckGlDieOnError() {
   glCheckFramebufferStatusgltexture();
   for (GLint error = glGetError(); error; error = glGetError()) {
-    LOGI("glTexture.h CheckGlDieOnError after %s: glError (0x%x)\n",
+    LOGI("glTexture.h CheckGlDieOnError after, %s, %s: glError (0x%x)\n", glCheckFramebufferStatusGlTexture(),
          glErrorString(error), error);
   }
 }
@@ -96,7 +101,7 @@ public:
             GLenum glformat = GL_RGBA, GLenum gltype = GL_UNSIGNED_BYTE,
             GLvoid *data = NULL)
       : internal_format(0), tid(0) {
-    LOGI("GlTexture init 1: %d, %d, %d, %d, %d, %d : data is null: %d", width,
+    LOGI("GlTexture init  start 1: %d, %d, %d, %d, %d, %d : data is null: %d", width,
          height, internal_format, border, glformat, gltype, data == NULL);
     CheckGlDieOnError();
     Reinitialise(width, height, internal_format, sampling_linear, border,
@@ -155,7 +160,7 @@ public:
                             GLenum gltype = GL_UNSIGNED_BYTE,
                             GLvoid *data = NULL) {
     CheckGlDieOnError();
-    LOGI("GlTexture Reinitialise 1 : %d, %d, %d, data is null: %d", int_format,
+    LOGI("GlTexture Reinitialise start 1 : %d, %d, %d, data is null: %d", int_format,
          glformat, gltype, data == NULL);
 
     if (tid != 0) {
@@ -218,14 +223,14 @@ public:
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     CheckGlDieOnError();
-    LOGI("GlTexture Reinitialise 7");
+    LOGI("GlTexture Reinitialise 7 done");
   }
 
   void Upload(const void *data, GLenum data_format = GL_LUMINANCE,
               GLenum data_type = GL_FLOAT) {
     int align = 0;
     glGetIntegerv(GL_PACK_ALIGNMENT, &align);
-    LOGI("GlTexture Upload 1: %d, %d, %d", data_format, data_type, align);
+    LOGI("GlTexture Upload start 1: %d, %d, %d", data_format, data_type, align);
     CheckGlDieOnError();
     LOGI("GlTexture Upload Bind start");
     Bind();
@@ -249,7 +254,7 @@ public:
     glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, data_format,
                     data_type, data);
     CheckGlDieOnError();
-    LOGI("GlTexture Upload 3");
+    LOGI("GlTexture Upload done 3");
   }
 
   //  void Upload(

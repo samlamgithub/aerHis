@@ -92,12 +92,14 @@ ComputePack::ComputePack(std::shared_ptr<Shader> program, GlTexture *target)
     : program(program), renderBuffer(Resolution::getInstance().width(),
                                      Resolution::getInstance().height()),
       target(target) {
+LOGI("MY elasitcfusion ComputePack struct ComputePack init start");
 LOGI("MY elasitcfusion ComputePack struct ComputePack AttachColour(*target); start ");
   frameBuffer.AttachColour(*target);
 LOGI("MY elasitcfusion ComputePack struct ComputePack AttachColour(*target); done ");
 LOGI("MY elasitcfusion ComputePack struct ComputePack AttachDepth(renderBuffer); start ");
 frameBuffer.AttachDepth(renderBuffer);
 LOGI("MY elasitcfusion ComputePack struct ComputePack AttachDepth(renderBuffer); done ");
+LOGI("MY elasitcfusion ComputePack struct ComputePack init done");
 }
 
 ComputePack::~ComputePack() {}
@@ -153,5 +155,5 @@ void ComputePack::compute(GlTexture *input,
   LOGI("MY elasitcfusion ComputePack compute 13");
   glFinish();
   check_gl_errorComputePack();
-  LOGI("MY elasitcfusion ComputePack compute  done");
+  LOGI("MY elasitcfusion ComputePack compute 14 done");
 }

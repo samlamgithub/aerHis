@@ -19,27 +19,32 @@
 
 #include "Resize.h"
 
-inline void glCheckFramebufferStatusResize() {
+inline const char *glCheckFramebufferStatusResize() {
   GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
   if (status == GL_FRAMEBUFFER_COMPLETE) {
-    LOGI("MY elasitcfusion Resize GL_FRAMEBUFFER_COMPLETE");
+    return "MY elasitcfusion  GL_FRAMEBUFFER_COMPLETE";
   } else if (status == GL_FRAMEBUFFER_UNDEFINED) {
-    LOGI("MY elasitcfusion Resize  GL_FRAMEBUFFER_UNDEFINED");
+    return "MY elasitcfusion   GL_FRAMEBUFFER_UNDEFINED";
   } else if (status == GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT) {
-    LOGI("MY elasitcfusion Resize "
-         "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT");
+    return "MY elasitcfusion  "
+           "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT";
   } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT) {
-    LOGI(
-        "MY elasitcfusion Resize GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT");
+    return "MY elasitcfusion  "
+           "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT";
   } else if (status == GL_FRAMEBUFFER_UNSUPPORTED) {
-    LOGI("MY elasitcfusion Resize  GL_FRAMEBUFFER_UNSUPPORTED");
+    return "MY elasitcfusion   GL_FRAMEBUFFER_UNSUPPORTED";
   } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE) {
-    LOGI("MY elasitcfusion Resize  "
-         "GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE");
+    return "MY elasitcfusion   "
+           "GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE";
   } else if (status == GL_INVALID_ENUM) {
-    LOGI("MY elasitcfusion Resize GL_INVALID_ENUM");
+    return "MY elasitcfusion  GL_INVALID_ENUM";
   } else {
-    LOGI("MY elasitcfusion Resize  %d", status);
+    char integer_string[32];
+    int integer = status;
+    sprintf(integer_string, "%d", status);
+    char other_string[64] = "MY elasitcfusion  else: ";
+    strcat(other_string, integer_string);
+    return other_string;
   }
 }
 
@@ -67,7 +72,7 @@ inline void check_gl_errorResize() {
   glCheckFramebufferStatusResize();
   for (GLint error = glGetError(); error; error = glGetError()) {
     LOGI("check_gl_error GlobalModel My elastic-fusion CheckGlDieOnError after "
-         "%s() glError (0x%x)\n",
+         ":%s ,%s() glError (0x%x)\n",  glCheckFramebufferStatusResize();
          glErrorStringResize(error), error);
   }
 }
@@ -88,7 +93,7 @@ timeTexture(destWidth, destHeight, GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, false, tr
       timeProgram(
           loadProgram(emptyvert_tuple, resizefrag_tuple, quadgeom_tuple)),
       timeRenderBuffer(destWidth, destHeight) {
-  LOGI("MY elasitcfusion resize struct init 1 ");
+  LOGI("MY elasitcfusion resize struct init start 1 ");
   LOGI("MY elasitcfusion Resize struct Resize "
        "AttachColour(*imageTexture.texture); start ");
   imageFrameBuffer.AttachColour(*imageTexture.texture);
@@ -119,7 +124,7 @@ timeTexture(destWidth, destHeight, GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, false, tr
   timeFrameBuffer.AttachDepth(timeRenderBuffer);
   LOGI("MY elasitcfusion Resize struct Resize AttachDepth(timeRenderBuffer); "
        "done ");
-  LOGI("MY elasitcfusion resize struct init 2 ");
+  LOGI("MY elasitcfusion resize struct init done 2 ");
 }
 
 Resize::~Resize() {}
@@ -127,7 +132,7 @@ Resize::~Resize() {}
 void Resize::image(GPUTexture *source,
                    Img<Eigen::Matrix<unsigned char, 3, 1>> &dest) {
   check_gl_errorResize();
-  LOGI("MY elasitcfusion resize struct image 1 ");
+  LOGI("MY elasitcfusion resize struct image 1 start");
   imageFrameBuffer.Bind();
   check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct image 2 ");
@@ -175,15 +180,14 @@ void Resize::image(GPUTexture *source,
   check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct image 16 ");
   // glPopAttrib();
-
   glFinish();
   check_gl_errorResize();
-  LOGI("MY elasitcfusion resize struct image 17 ");
+  LOGI("MY elasitcfusion resize struct image 17 done");
 }
 
 void Resize::vertex(GPUTexture *source, Img<Eigen::Vector4f> &dest) {
   check_gl_errorResize();
-  LOGI("MY elasitcfusion resize struct vertex 1 ");
+  LOGI("MY elasitcfusion resize struct vertex 1 start");
   vertexFrameBuffer.Bind();
   check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct vertex 2 ");
@@ -238,7 +242,7 @@ void Resize::vertex(GPUTexture *source, Img<Eigen::Vector4f> &dest) {
 
 void Resize::time(GPUTexture *source, Img<unsigned short> &dest) {
   check_gl_errorResize();
-  LOGI("MY elasitcfusion resize struct time 1");
+  LOGI("MY elasitcfusion resize struct time 1 start");
   timeFrameBuffer.Bind();
   check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct time 2");

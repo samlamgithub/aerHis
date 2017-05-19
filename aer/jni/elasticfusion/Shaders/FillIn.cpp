@@ -19,27 +19,32 @@
 
 #include "FillIn.h"
 
-inline void glCheckFramebufferStatusFillin() {
+inline const char *glCheckFramebufferStatusFillin() {
   GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
   if (status == GL_FRAMEBUFFER_COMPLETE) {
-    LOGI("MY elasitcfusion Fillin GL_FRAMEBUFFER_COMPLETE");
+    return "MY elasitcfusion  GL_FRAMEBUFFER_COMPLETE";
   } else if (status == GL_FRAMEBUFFER_UNDEFINED) {
-    LOGI("MY elasitcfusion Fillin  GL_FRAMEBUFFER_UNDEFINED");
+    return "MY elasitcfusion   GL_FRAMEBUFFER_UNDEFINED";
   } else if (status == GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT) {
-    LOGI("MY elasitcfusion Fillin "
-         "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT");
+    return "MY elasitcfusion  "
+           "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT";
   } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT) {
-    LOGI(
-        "MY elasitcfusion Fillin GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT");
+    return "MY elasitcfusion  "
+           "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT";
   } else if (status == GL_FRAMEBUFFER_UNSUPPORTED) {
-    LOGI("MY elasitcfusion Fillin  GL_FRAMEBUFFER_UNSUPPORTED");
+    return "MY elasitcfusion   GL_FRAMEBUFFER_UNSUPPORTED";
   } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE) {
-    LOGI("MY elasitcfusion Fillin  "
-         "GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE");
+    return "MY elasitcfusion   "
+           "GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE";
   } else if (status == GL_INVALID_ENUM) {
-    LOGI("MY elasitcfusion Fillin GL_INVALID_ENUM");
+    return "MY elasitcfusion  GL_INVALID_ENUM";
   } else {
-    LOGI("MY elasitcfusion Fillin  %d", status);
+    char integer_string[32];
+    int integer = status;
+    sprintf(integer_string, "%d", status);
+    char other_string[64] = "MY elasitcfusion  else: ";
+    strcat(other_string, integer_string);
+    return other_string;
   }
 }
 
@@ -64,10 +69,8 @@ static const char *glErrorStringFillIn(GLenum err) {
 }
 
 inline void check_gl_errorFillIn() {
-  glCheckFramebufferStatusFillin();
   for (GLint error = glGetError(); error; error = glGetError()) {
-    LOGI("check_gl_error FillIn cpp My elastic-fusion CheckGlDieOnError after "
-         "%s() glError (0x%x)\n",
+    LOGI("check_gl_error FillIn cpp My elastic-fusion CheckGlDieOnError after: %s, %s() glError (0x%x)\n",glCheckFramebufferStatusFillin(),
          glErrorStringFillIn(error), error);
   }
 }
@@ -97,7 +100,7 @@ GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, false, true),
           loadProgram(emptyvert_tuple, fill_normalfrag_tuple, quadgeom_tuple)),
       normalRenderBuffer(Resolution::getInstance().width(),
                          Resolution::getInstance().height()) {
-  LOGI("MY elasitcfusion FillIn struct init 1 ");
+  LOGI("MY elasitcfusion FillIn struct init start 1 ");
   LOGI("MY elasitcfusion FillIn struct FillIn "
        "AttachColour(*imageTexture.texture); start ");
   imageFrameBuffer.AttachColour(*imageTexture.texture);
@@ -128,7 +131,7 @@ GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, false, true),
   normalFrameBuffer.AttachDepth(normalRenderBuffer);
   LOGI("MY elasitcfusion FillIn struct FillIn AttachDepth(normalRenderBuffer); "
        "done ");
-  LOGI("MY elasitcfusion FillIn struct init 2 ");
+  LOGI("MY elasitcfusion FillIn struct init done 2 ");
 }
 
 FillIn::~FillIn() {}
@@ -136,7 +139,7 @@ FillIn::~FillIn() {}
 void FillIn::image(GPUTexture *existingRgb, GPUTexture *rawRgb,
                    bool passthrough) {
   check_gl_errorFillIn();
-  LOGI("MY elasitcfusion FillIn image 1 ");
+  LOGI("MY elasitcfusion FillIn image start 1 ");
   imageFrameBuffer.Bind();
   check_gl_errorFillIn();
   LOGI("MY elasitcfusion FillIn image 2 ");
@@ -188,13 +191,13 @@ void FillIn::image(GPUTexture *existingRgb, GPUTexture *rawRgb,
   LOGI("MY elasitcfusion FillIn image 16 ");
   glFinish();
   check_gl_errorFillIn();
-  LOGI("MY elasitcfusion FillIn image 17 ");
+  LOGI("MY elasitcfusion FillIn image 17 done");
 }
 
 void FillIn::vertex(GPUTexture *existingVertex, GPUTexture *rawDepth,
                     bool passthrough) {
   check_gl_errorFillIn();
-  LOGI("MY elasitcfusion FillIn vertex 1 ");
+  LOGI("MY elasitcfusion FillIn vertex 1 start");
   vertexFrameBuffer.Bind();
   check_gl_errorFillIn();
   LOGI("MY elasitcfusion FillIn vertex 2");
@@ -259,16 +262,15 @@ void FillIn::vertex(GPUTexture *existingVertex, GPUTexture *rawDepth,
   check_gl_errorFillIn();
   LOGI("MY elasitcfusion FillIn vertex 19 ");
   // glPopAttrib();
-
   glFinish();
   check_gl_errorFillIn();
-  LOGI("MY elasitcfusion FillIn vertex 20 ");
+  LOGI("MY elasitcfusion FillIn vertex 20 done ");
 }
 
 void FillIn::normal(GPUTexture *existingNormal, GPUTexture *rawDepth,
                     bool passthrough) {
   check_gl_errorFillIn();
-  LOGI("MY elasitcfusion FillIn normal 1 ");
+  LOGI("MY elasitcfusion FillIn normal 1 start ");
   normalFrameBuffer.Bind();
   check_gl_errorFillIn();
   LOGI("MY elasitcfusion FillIn normal 2 ");
@@ -331,8 +333,7 @@ void FillIn::normal(GPUTexture *existingNormal, GPUTexture *rawDepth,
   check_gl_errorFillIn();
   LOGI("MY elasitcfusion FillIn normal 17 ");
   // glPopAttrib();
-
   glFinish();
   check_gl_errorFillIn();
-  LOGI("MY elasitcfusion FillIn normal 18 ");
+  LOGI("MY elasitcfusion FillIn normal 18 done");
 }

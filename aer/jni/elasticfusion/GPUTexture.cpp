@@ -46,35 +46,38 @@ static const char *glErrorStringGT(GLenum err) {
   }
 }
 
-inline void glCheckFramebufferStatusGT() {
+inline const char *glCheckFramebufferStatusGT() {
   GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
   if (status == GL_FRAMEBUFFER_COMPLETE) {
-    LOGI("MY elasitcfusion GPUTexture GL_FRAMEBUFFER_COMPLETE");
+    return "MY elasitcfusion  GL_FRAMEBUFFER_COMPLETE";
   } else if (status == GL_FRAMEBUFFER_UNDEFINED) {
-    LOGI("MY elasitcfusion GPUTexture  GL_FRAMEBUFFER_UNDEFINED");
+    return "MY elasitcfusion   GL_FRAMEBUFFER_UNDEFINED";
   } else if (status == GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT) {
-    LOGI("MY elasitcfusion GPUTexture "
-         "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT");
+    return "MY elasitcfusion  "
+           "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT";
   } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT) {
-    LOGI("MY elasitcfusion GPUTexture "
-         "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT");
+    return "MY elasitcfusion  "
+           "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT";
   } else if (status == GL_FRAMEBUFFER_UNSUPPORTED) {
-    LOGI("MY elasitcfusion GPUTexture  GL_FRAMEBUFFER_UNSUPPORTED");
+    return "MY elasitcfusion   GL_FRAMEBUFFER_UNSUPPORTED";
   } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE) {
-    LOGI("MY elasitcfusion GPUTexture  "
-         "GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE");
+    return "MY elasitcfusion   "
+           "GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE";
   } else if (status == GL_INVALID_ENUM) {
-    LOGI("MY elasitcfusion GPUTexture GL_INVALID_ENUM");
+    return "MY elasitcfusion  GL_INVALID_ENUM";
   } else {
-    LOGI("MY elasitcfusion GPUTexture glCheckFramebufferStatus else %d",
-         status);
+    char integer_string[32];
+    int integer = status;
+    sprintf(integer_string, "%d", status);
+    char other_string[64] = "MY elasitcfusion  else: ";
+    strcat(other_string, integer_string);
+    return other_string;
   }
 }
 
 inline void CheckGlDieOnErrorGT() {
-    glCheckFramebufferStatusGT();
   for (GLint error = glGetError(); error; error = glGetError()) {
-    LOGI("GPUTexture.cpp CheckGlDieOnError after %s: glError (0x%x)\n",
+    LOGI("GPUTexture.cpp CheckGlDieOnError after : %s, %s: glError (0x%x)\n",     glCheckFramebufferStatusGT(),
          glErrorStringGT(error), error);
   }
 }
@@ -89,7 +92,7 @@ GPUTexture::GPUTexture(const int width, const int height,
       draw(draw), width(width), height(height), internalFormat(internalFormat),
       format(format), dataType(dataType) {
   CheckGlDieOnErrorGT();
-  LOGI("MY elasitcfusion GPUTexture struct init 1 : %d, %d,  %d,  %d,  %d",
+  LOGI("MY elasitcfusion GPUTexture struct start init 1 : %d, %d,  %d,  %d,  %d",
        width, height, internalFormat, format, dataType);
   if (cuda) {
   LOGI("MY elasitcfusion GPUTexture is cuda");
@@ -106,7 +109,7 @@ GPUTexture::GPUTexture(const int width, const int height,
   LOGI("MY elasitcfusion GPUTexture is not cuda");
     cudaRes = 0;
   }
-  LOGI("MY elasitcfusion GPUTexture struct init 2 ");
+  LOGI("MY elasitcfusion GPUTexture struct init 2 done ");
   CheckGlDieOnErrorGT();
 }
 
