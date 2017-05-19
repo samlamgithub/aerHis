@@ -229,9 +229,9 @@ public:
     CheckGlDieOnError();
     LOGI("GlTexture Upload Bind done");
     CheckGlDieOnError();
-if (data_format == GL_LUMINANCE) {
-  LOGI("GlTexture Upload change ???");
-}
+    if (data_format == GL_LUMINANCE) {
+      LOGI("GlTexture Upload change ???");
+    }
     // if (data_format == GL_LUMINANCE_INTEGER_EXT) {
     //   data_format = GL_LUMINANCE;
     //   data_type = GL_UNSIGNED_BYTE;

@@ -301,7 +301,9 @@ void ElasticFusion::processFrame(const unsigned char *rgb,
   check_gl_errorElasticFusion();
   LOGI(" ElasticFusion struct Process frame Run 1");
   textures[GPUTexture::DEPTH_RAW]->texture->Upload(
-      depth, GL_LUMINANCE_INTEGER_EXT, GL_UNSIGNED_SHORT);
+      depth, GL_RGBA, GL_UNSIGNED_BYTE);
+  // textures[GPUTexture::DEPTH_RAW]->texture->Upload(
+  //     depth, GL_LUMINANCE_INTEGER_EXT, GL_UNSIGNED_SHORT);
   // textures[GPUTexture::DEPTH_RAW]->texture->Upload(depth, GL_LUMINANCE,
   // GL_UNSIGNED_SHORT);
   check_gl_errorElasticFusion();
