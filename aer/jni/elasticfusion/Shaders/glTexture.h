@@ -160,10 +160,10 @@ public:
     if (tid != 0) {
       glDeleteTextures(1, &tid);
       CheckGlDieOnError();
-      LOGI("GlTexture Reinitialise 2");
+      LOGI("GlTexture Reinitialise 2 1");
     }
     CheckGlDieOnError();
-    LOGI("GlTexture Reinitialise 2");
+    LOGI("GlTexture Reinitialise 2 2");
     internal_format = int_format;
     width = w;
     height = h;
