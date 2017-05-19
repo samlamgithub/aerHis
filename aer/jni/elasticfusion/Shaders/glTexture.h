@@ -175,30 +175,30 @@ public:
     CheckGlDieOnError();
     LOGI("GlTexture Reinitialise 4");
 
-    if (internal_format == GL_LUMINANCE32UI_EXT ||
-        internal_format == GL_LUMINANCE32F_ARB) {
-      internal_format = GL_LUMINANCE;
-      glformat = internal_format;
-      gltype = GL_UNSIGNED_BYTE;
-      LOGI("GlTexture Reinitialise change 1");
-    } else if (internal_format == GL_RGBA32F) {
-      glformat = GL_RGBA;
-      gltype = GL_FLOAT;
-      LOGI("GlTexture Reinitialise change 2");
-    } else if (internal_format == GL_RGBA) {
-      glformat = GL_RGBA;
-      gltype = GL_UNSIGNED_BYTE;
-      LOGI("GlTexture Reinitialise change 3");
-    } else if (internal_format == GL_RGBA32F) {
-      glformat = GL_RGBA;
-      gltype = GL_FLOAT;
-      LOGI("GlTexture Reinitialise change 4");
-    } else if (internal_format == GL_LUMINANCE16UI_EXT) {
-      internal_format = GL_LUMINANCE;
-      glformat = GL_LUMINANCE;
-      gltype = GL_UNSIGNED_BYTE;
-      LOGI("GlTexture Reinitialise change 5");
-    }
+    // if (internal_format == GL_LUMINANCE32UI_EXT ||
+    //     internal_format == GL_LUMINANCE32F_ARB) {
+    //   internal_format = GL_LUMINANCE;
+    //   glformat = internal_format;
+    //   gltype = GL_UNSIGNED_BYTE;
+    //   LOGI("GlTexture Reinitialise change 1");
+    // } else if (internal_format == GL_RGBA32F) {
+    //   glformat = GL_RGBA;
+    //   gltype = GL_FLOAT;
+    //   LOGI("GlTexture Reinitialise change 2");
+    // } else if (internal_format == GL_RGBA) {
+    //   glformat = GL_RGBA;
+    //   gltype = GL_UNSIGNED_BYTE;
+    //   LOGI("GlTexture Reinitialise change 3");
+    // } else if (internal_format == GL_RGBA32F) {
+    //   glformat = GL_RGBA;
+    //   gltype = GL_FLOAT;
+    //   LOGI("GlTexture Reinitialise change 4");
+    // } else if (internal_format == GL_LUMINANCE16UI_EXT) {
+    //   internal_format = GL_LUMINANCE;
+    //   glformat = GL_LUMINANCE;
+    //   gltype = GL_UNSIGNED_BYTE;
+    //   LOGI("GlTexture Reinitialise change 5");
+    // }
     // GL_LUMINANCE and GL_FLOAT don't seem to actually affect buffer, but some
     // values are required for call to succeed.
     glTexImage2D(GL_TEXTURE_2D, 0, internal_format, width, height, border,

@@ -49,7 +49,33 @@ static const char *glErrorStringRB(GLenum err) {
   }
 }
 
+inline void glCheckFramebufferStatusRB() {
+  GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+  if (status == GL_FRAMEBUFFER_COMPLETE) {
+    LOGI("MY elasitcfusion GlRenderBuffer GL_FRAMEBUFFER_COMPLETE");
+  } else if (status == GL_FRAMEBUFFER_UNDEFINED) {
+    LOGI("MY elasitcfusion GlRenderBuffer  GL_FRAMEBUFFER_UNDEFINED");
+  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT) {
+    LOGI("MY elasitcfusion GlRenderBuffer "
+         "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT");
+  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT) {
+    LOGI(
+        "MY elasitcfusion GlRenderBuffer GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT");
+  } else if (status == GL_FRAMEBUFFER_UNSUPPORTED) {
+    LOGI("MY elasitcfusion GlRenderBuffer  GL_FRAMEBUFFER_UNSUPPORTED");
+  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE) {
+    LOGI("MY elasitcfusion GlRenderBuffer  "
+         "GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE");
+  } else if (status == GL_INVALID_ENUM) {
+    LOGI("MY elasitcfusion GlRenderBuffer GL_INVALID_ENUM");
+  } else {
+    LOGI("MY elasitcfusion GlRenderBuffer  %d", status);
+  }
+}
+
+
 inline void CheckGlDieOnErrorRB() {
+  glCheckFramebufferStatusRB();
   for (GLint error = glGetError(); error; error = glGetError()) {
     LOGI("GlRenderBuffer.h CheckGlDieOnError after %s: glError (0x%x)\n",
          glErrorStringRB(error), error);
@@ -90,12 +116,15 @@ struct GlRenderBuffer {
     GLint format = internal_format;
     GLint type = GL_UNSIGNED_SHORT;
     if (internal_format == GL_DEPTH_COMPONENT24) {
+  LOGI("GlRenderBuffer Reinitialise change");
       format = GL_DEPTH_COMPONENT;
       type = GL_UNSIGNED_INT;
     }
     CheckGlDieOnErrorRB();
     LOGI("GlRenderBuffer Reinitialise 1");
     glGenTextures(1, &rbid);
+    CheckGlDieOnErrorRB();
+    LOGI("GlRenderBuffer Reinitialise 1 2");
     glBindTexture(GL_TEXTURE_2D, rbid);
     CheckGlDieOnErrorRB();
     LOGI("GlRenderBuffer Reinitialise 2");
