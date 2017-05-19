@@ -96,8 +96,8 @@ public:
             GLenum glformat = GL_RGBA, GLenum gltype = GL_UNSIGNED_BYTE,
             GLvoid *data = NULL)
       : internal_format(0), tid(0) {
-    LOGI("GlTexture init 1: %d, %d, %d, %d, %d, %d : data is null: %d", width, height,
-         internal_format, border, glformat, gltype,  data == NULL);
+    LOGI("GlTexture init 1: %d, %d, %d, %d, %d, %d : data is null: %d", width,
+         height, internal_format, border, glformat, gltype, data == NULL);
     CheckGlDieOnError();
     Reinitialise(width, height, internal_format, sampling_linear, border,
                  glformat, gltype, data);
@@ -155,7 +155,8 @@ public:
                             GLenum gltype = GL_UNSIGNED_BYTE,
                             GLvoid *data = NULL) {
     CheckGlDieOnError();
-    LOGI("GlTexture Reinitialise 1 : %d, %d, %d, data is null: %d", int_format, glformat, gltype, data == NULL);
+    LOGI("GlTexture Reinitialise 1 : %d, %d, %d, data is null: %d", int_format,
+         glformat, gltype, data == NULL);
 
     if (tid != 0) {
       glDeleteTextures(1, &tid);
@@ -222,7 +223,8 @@ public:
 
   void Upload(const void *data, GLenum data_format = GL_LUMINANCE,
               GLenum data_type = GL_FLOAT) {
-int align=0; glGetIntegerv(GL_PACK_ALIGNMENT, &align);
+    int align = 0;
+    glGetIntegerv(GL_PACK_ALIGNMENT, &align);
     LOGI("GlTexture Upload 1: %d, %d, %d", data_format, data_type, align);
     CheckGlDieOnError();
     LOGI("GlTexture Upload Bind start");
@@ -243,7 +245,7 @@ int align=0; glGetIntegerv(GL_PACK_ALIGNMENT, &align);
     //   LOGI("GlTexture Upload change 2");
     // }
     CheckGlDieOnError();
-    LOGI("GlTexture Upload 2: %d, %d",width,height);
+    LOGI("GlTexture Upload 2: %d, %d", width, height);
     glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, data_format,
                     data_type, data);
     CheckGlDieOnError();
