@@ -41,9 +41,35 @@ static const char *glErrorStringef(GLenum err) {
   }
 }
 
+inline void glCheckFramebufferStatusMyElasticFusioncpp() {
+  GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+  if (status == GL_FRAMEBUFFER_COMPLETE) {
+    LOGI("MY elasitcfusion MyElasticFusioncpp GL_FRAMEBUFFER_COMPLETE");
+  } else if (status == GL_FRAMEBUFFER_UNDEFINED) {
+    LOGI("MY elasitcfusion MyElasticFusioncpp  GL_FRAMEBUFFER_UNDEFINED");
+  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT) {
+    LOGI("MY elasitcfusion MyElasticFusioncpp "
+         "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT");
+  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT) {
+    LOGI("MY elasitcfusion MyElasticFusioncpp "
+         "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT");
+  } else if (status == GL_FRAMEBUFFER_UNSUPPORTED) {
+    LOGI("MY elasitcfusion MyElasticFusioncpp  GL_FRAMEBUFFER_UNSUPPORTED");
+  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE) {
+    LOGI("MY elasitcfusion MyElasticFusioncpp  "
+         "GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE");
+  } else if (status == GL_INVALID_ENUM) {
+    LOGI("MY elasitcfusion MyElasticFusioncpp GL_INVALID_ENUM");
+  } else {
+    LOGI("MY elasitcfusion MyElasticFusioncpp glCheckFramebufferStatus else %d",
+         status);
+  }
+}
+
 inline void check_gl_errorEF() {
+  glCheckFramebufferStatusMyElasticFusioncpp();
   for (GLint error = glGetError(); error; error = glGetError()) {
-    LOGI("check_gl_errorGlobalModel My elastic-fusion CheckGlDieOnError after "
+    LOGI("check_gl_error MyElasticFusion cpp My elastic-fusion CheckGlDieOnError after "
          "%s() glError (0x%x)\n",
          glErrorStringef(error), error);
   }
@@ -541,7 +567,7 @@ void MyElasticFusion::runEF() {
       continue;
     }
     //==============================================
-    LOGI("MyElasticFusion thread Processing start ");
+    LOGI("MyElasticFusion thread Processing start ,bufferIndex: %d, lastProcessed: %d",bufferIndex , lastProcessed);
     // double depth_timestamp = 0.0;
     //  depth_timestamp = pointcloud_buffer->timestamp;
     double depth_timestamp = frameBuffers[bufferIndex].pointCloudTimestamp;
@@ -674,7 +700,8 @@ void MyElasticFusion::runEF() {
     check_gl_errorEF();
     Eigen::Matrix4f currPose = eFusion.getCurrPose();
     posesEigen.push_back(currPose);
-    //        LOGI("current pose is : " <<currPose);
+    IOFormat CleanFmt(4, 0, ", ", "\n", "[", "]");
+    LOGI("current pose is : %s",currPose.format(CleanFmt));
     LOGI("MyElasticFusion Processing frames done.");
     LOGI("MyElasticFusion Log processing result start.");
     //查看处理的结果
@@ -958,6 +985,6 @@ void MyElasticFusion::runEF() {
   // fclose(RGBlog_file_);
   // fclose(Depthlog_file_);
   delete &eFusion;
-  LOGI("ElasticFusion done:");
+  LOGI("ElasticFusion done: done");
 }
 }

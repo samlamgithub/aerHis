@@ -39,9 +39,35 @@ static const char *glErrorStringEF(GLenum err) {
   }
 }
 
+inline void glCheckFramebufferStatusEFCPP() {
+  GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+  if (status == GL_FRAMEBUFFER_COMPLETE) {
+    LOGI("MY elasitcfusion ElasticFusion.cpp GL_FRAMEBUFFER_COMPLETE");
+  } else if (status == GL_FRAMEBUFFER_UNDEFINED) {
+    LOGI("MY elasitcfusion ElasticFusion.cpp  GL_FRAMEBUFFER_UNDEFINED");
+  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT) {
+    LOGI("MY elasitcfusion ElasticFusion.cpp "
+         "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT");
+  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT) {
+    LOGI("MY elasitcfusion ElasticFusion.cpp "
+         "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT");
+  } else if (status == GL_FRAMEBUFFER_UNSUPPORTED) {
+    LOGI("MY elasitcfusion ElasticFusion.cpp  GL_FRAMEBUFFER_UNSUPPORTED");
+  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE) {
+    LOGI("MY elasitcfusion ElasticFusion.cpp  "
+         "GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE");
+  } else if (status == GL_INVALID_ENUM) {
+    LOGI("MY elasitcfusion ElasticFusion.cpp GL_INVALID_ENUM");
+  } else {
+    LOGI("MY elasitcfusion ElasticFusion.cpp glCheckFramebufferStatus else %d",
+         status);
+  }
+}
+
 inline void check_gl_errorElasticFusion() {
+  glCheckFramebufferStatusEFCPP();
   for (GLint error = glGetError(); error; error = glGetError()) {
-    LOGI("check_gl_errorGlobalModel My elastic-fusion CheckGlDieOnError after "
+    LOGI("check_gl_error ElasticFusion.cpp My elastic-fusion CheckGlDieOnError after "
          "%s() glError (0x%x)\n",
          glErrorStringEF(error), error);
   }

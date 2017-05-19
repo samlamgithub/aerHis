@@ -69,7 +69,7 @@ static const char *glErrorStringIndexMap(GLenum err) {
 inline void check_gl_errorIndexMap() {
   glCheckFramebufferStatusIM();
   for (GLint error = glGetError(); error; error = glGetError()) {
-    LOGI("check_gl_errorGlobalModel My elastic-fusion CheckGlDieOnError after "
+    LOGI("check_gl_error IndexMap cpp My elastic-fusion CheckGlDieOnError after "
          "%s() glError (0x%x)\n",
          glErrorStringIndexMap(error), error);
   }
@@ -332,35 +332,59 @@ void IndexMap::predictIndices(const Eigen::Matrix4f &pose, const int &time,
       "rows", (float)Resolution::getInstance().rows() * IndexMap::FACTOR));
   indexProgram->setUniform(Uniform("time", time));
   indexProgram->setUniform(Uniform("timeDelta", timeDelta));
-
+  check_gl_errorIndexMap();
+  LOGI("MY elasitcfusion IndexMap::predictIndices  8");
   glBindBuffer(GL_ARRAY_BUFFER, model.first);
-
+  check_gl_errorIndexMap();
+  LOGI("MY elasitcfusion IndexMap::predictIndices  9");
   glEnableVertexAttribArray(0);
+  check_gl_errorIndexMap();
+  LOGI("MY elasitcfusion IndexMap::predictIndices  10");
   glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, Vertex::SIZE, 0);
-
+  check_gl_errorIndexMap();
+  LOGI("MY elasitcfusion IndexMap::predictIndices  11");
   glEnableVertexAttribArray(1);
+  check_gl_errorIndexMap();
+  LOGI("MY elasitcfusion IndexMap::predictIndices  12");
   glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, Vertex::SIZE,
                         reinterpret_cast<GLvoid *>(sizeof(Eigen::Vector4f)));
-
+                        check_gl_errorIndexMap();
+                        LOGI("MY elasitcfusion IndexMap::predictIndices  13");
   glEnableVertexAttribArray(2);
+  check_gl_errorIndexMap();
+  LOGI("MY elasitcfusion IndexMap::predictIndices  14");
   glVertexAttribPointer(
       2, 4, GL_FLOAT, GL_FALSE, Vertex::SIZE,
       reinterpret_cast<GLvoid *>(sizeof(Eigen::Vector4f) * 2));
-
+      check_gl_errorIndexMap();
+      LOGI("MY elasitcfusion IndexMap::predictIndices  15");
   glDrawTransformFeedback(GL_POINTS, model.second);
-
+  check_gl_errorIndexMap();
+  LOGI("MY elasitcfusion IndexMap::predictIndices  16");
   glDisableVertexAttribArray(0);
+  check_gl_errorIndexMap();
+  LOGI("MY elasitcfusion IndexMap::predictIndices  17");
   glDisableVertexAttribArray(1);
+  check_gl_errorIndexMap();
+  LOGI("MY elasitcfusion IndexMap::predictIndices  18");
   glDisableVertexAttribArray(2);
+  check_gl_errorIndexMap();
+  LOGI("MY elasitcfusion IndexMap::predictIndices  19");
   glBindBuffer(GL_ARRAY_BUFFER, 0);
-
+  check_gl_errorIndexMap();
+  LOGI("MY elasitcfusion IndexMap::predictIndices  20");
   indexFrameBuffer.Unbind();
-
+  check_gl_errorIndexMap();
+  LOGI("MY elasitcfusion IndexMap::predictIndices  21");
   indexProgram->Unbind();
-
+  check_gl_errorIndexMap();
+  LOGI("MY elasitcfusion IndexMap::predictIndices  22");
   // glPopAttrib();
-
+  check_gl_errorIndexMap();
+  LOGI("MY elasitcfusion IndexMap::predictIndices  23");
   glFinish();
+  check_gl_errorIndexMap();
+  LOGI("MY elasitcfusion IndexMap::predictIndices  done 24");
 }
 
 void IndexMap::renderDepth(const float depthCutoff) {
@@ -461,11 +485,9 @@ void IndexMap::combinedPredict(const Eigen::Matrix4f &pose,
   check_gl_errorIndexMap();
   LOGI("MY elasitcfusion IndexMap::combinedPredict 9");
   Eigen::Matrix4f t_inv = pose.inverse();
-
   Eigen::Vector4f cam(
       Intrinsics::getInstance().cx(), Intrinsics::getInstance().cy(),
       Intrinsics::getInstance().fx(), Intrinsics::getInstance().fy());
-
   combinedProgram->setUniform(Uniform("t_inv", t_inv));
   combinedProgram->setUniform(Uniform("cam", cam));
   combinedProgram->setUniform(Uniform("maxDepth", depthCutoff));
@@ -504,7 +526,7 @@ void IndexMap::combinedPredict(const Eigen::Matrix4f &pose,
       reinterpret_cast<GLvoid *>(sizeof(Eigen::Vector4f) * 2));
   check_gl_errorIndexMap();
   LOGI("MY elasitcfusion IndexMap::combinedPredict 17");
-  glDrawTransformFeedback(GL_POINTS, model.second);
+  glDrawTransformFeedback(GL_POINTS, model.second); //Invalid Value()
   check_gl_errorIndexMap();
   LOGI("MY elasitcfusion IndexMap::combinedPredict 18");
   glDisableVertexAttribArray(0);

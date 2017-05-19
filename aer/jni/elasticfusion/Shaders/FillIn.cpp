@@ -66,7 +66,7 @@ static const char *glErrorStringFillIn(GLenum err) {
 inline void check_gl_errorFillIn() {
   glCheckFramebufferStatusFillin();
   for (GLint error = glGetError(); error; error = glGetError()) {
-    LOGI("check_gl_errorGlobalModel My elastic-fusion CheckGlDieOnError after "
+    LOGI("check_gl_error FillIn cpp My elastic-fusion CheckGlDieOnError after "
          "%s() glError (0x%x)\n",
          glErrorStringFillIn(error), error);
   }

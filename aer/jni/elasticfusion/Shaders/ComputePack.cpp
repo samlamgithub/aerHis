@@ -46,37 +46,40 @@ static const char *glErrorStringComputePack(GLenum err) {
   }
 }
 
-
-inline void glCheckFramebufferStatusCC() {
+inline const char * glCheckFramebufferStatusCC() {
   GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
   if (status == GL_FRAMEBUFFER_COMPLETE) {
-    LOGI("MY elasitcfusion ComputePack GL_FRAMEBUFFER_COMPLETE");
+    return "MY elasitcfusion ComputePack GL_FRAMEBUFFER_COMPLETE";
   } else if (status == GL_FRAMEBUFFER_UNDEFINED) {
-    LOGI("MY elasitcfusion ComputePack  GL_FRAMEBUFFER_UNDEFINED");
+    return "MY elasitcfusion ComputePack  GL_FRAMEBUFFER_UNDEFINED";
   } else if (status == GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT) {
-    LOGI("MY elasitcfusion ComputePack "
-         "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT");
+    return "MY elasitcfusion ComputePack "
+         "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT";
   } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT) {
-    LOGI("MY elasitcfusion ComputePack "
-         "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT");
+    return "MY elasitcfusion ComputePack "
+         "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT";
   } else if (status == GL_FRAMEBUFFER_UNSUPPORTED) {
-    LOGI("MY elasitcfusion ComputePack  GL_FRAMEBUFFER_UNSUPPORTED");
+    return "MY elasitcfusion ComputePack  GL_FRAMEBUFFER_UNSUPPORTED";
   } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE) {
-    LOGI("MY elasitcfusion ComputePack  "
-         "GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE");
+    return "MY elasitcfusion ComputePack  "
+         "GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE";
   } else if (status == GL_INVALID_ENUM) {
-    LOGI("MY elasitcfusion ComputePack GL_INVALID_ENUM");
+    return "MY elasitcfusion ComputePack GL_INVALID_ENUM";
   } else {
-    LOGI("MY elasitcfusion ComputePack  %d", status);
+	  char integer_string[32];
+	  int integer = status;
+	  sprintf(integer_string, "%d", status);
+	  char other_string[64] = "MY elasitcfusion ComputePack else: ";
+	  strcat(other_string, integer_string);
+	  return other_string;
   }
 }
 
 inline void check_gl_errorComputePack() {
-  glCheckFramebufferStatusCC();
   for (GLint error = glGetError(); error; error = glGetError()) {
     if (error != GL_NO_ERROR) {
-      LOGI("ComputePack My elastic-fusion  CheckGlDieOnError after %s() "
-           "glError (0x%x)\n",
+      LOGI("ComputePack My elastic-fusion  CheckGlDieOnError after %s, %s() "
+           "glError (0x%x)\n", glCheckFramebufferStatusCC(),
            glErrorStringComputePack(error), error);
     }
   }

@@ -47,10 +47,36 @@ static const char *glErrorStringGlobalModel(GLenum err) {
   }
 }
 
+inline void glCheckFramebufferStatusGlobalModel() {
+  GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+  if (status == GL_FRAMEBUFFER_COMPLETE) {
+    LOGI("MY elasitcfusion GlobalModel GL_FRAMEBUFFER_COMPLETE");
+  } else if (status == GL_FRAMEBUFFER_UNDEFINED) {
+    LOGI("MY elasitcfusion GlobalModel  GL_FRAMEBUFFER_UNDEFINED");
+  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT) {
+    LOGI("MY elasitcfusion GlobalModel "
+         "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT");
+  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT) {
+    LOGI("MY elasitcfusion GlobalModel "
+         "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT");
+  } else if (status == GL_FRAMEBUFFER_UNSUPPORTED) {
+    LOGI("MY elasitcfusion GlobalModel  GL_FRAMEBUFFER_UNSUPPORTED");
+  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE) {
+    LOGI("MY elasitcfusion GlobalModel  "
+         "GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE");
+  } else if (status == GL_INVALID_ENUM) {
+    LOGI("MY elasitcfusion GlobalModel GL_INVALID_ENUM");
+  } else {
+    LOGI("MY elasitcfusion GlobalModel glCheckFramebufferStatus else %d",
+         status);
+  }
+}
+
 inline void check_gl_errorGlobalModel() {
+  glCheckFramebufferStatusGlobalModel();
   for (GLint error = glGetError(); error; error = glGetError()) {
     LOGI("check_gl_errorGlobalModel My elastic-fusion CheckGlDieOnError after "
-         "%s() glError (0x%x)\n",
+         "%s glError (0x%x)\n",
          glErrorStringGlobalModel(error), error);
   }
 }
@@ -455,7 +481,7 @@ void GlobalModel::fuse(const Eigen::Matrix4f &pose, const int &time,
   glClearColor(0, 0, 0, 0);
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel fuse 1 5");
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // no log
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // no log GL_INVALID_FRAMEBUFFER_OPERATION
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel fuse 1 6");
   dataProgram->Bind();
@@ -499,7 +525,7 @@ void GlobalModel::fuse(const Eigen::Matrix4f &pose, const int &time,
   glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel fuse 5");
-  glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, newUnstableFid);
+  glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, newUnstableFid); // Invalid Operation()
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel fuse 6");
   glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, newUnstableVbo);
@@ -536,7 +562,7 @@ void GlobalModel::fuse(const Eigen::Matrix4f &pose, const int &time,
   glBeginTransformFeedback(GL_POINTS);
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel fuse 15");
-  glDrawArrays(GL_POINTS, 0, uvSize);
+  glDrawArrays(GL_POINTS, 0, uvSize); //GL_INVALID_FRAMEBUFFER_OPERATION
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel fuse 16");
   glEndTransformFeedback();
@@ -600,53 +626,53 @@ void GlobalModel::fuse(const Eigen::Matrix4f &pose, const int &time,
   glEnable(GL_RASTERIZER_DISCARD);
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel fuse 31");
-  glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, vbos[renderSource].second);
+  glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, vbos[renderSource].second); //GL_INVALID_FRAMEBUFFER_OPERATION
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel fuse 31");
+  LOGI("MY elasitcfusion GlobalModel fuse 32");
   glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, vbos[renderSource].first);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel fuse 31");
+  LOGI("MY elasitcfusion GlobalModel fuse 33");
   glBeginTransformFeedback(GL_POINTS);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel fuse 31");
+  LOGI("MY elasitcfusion GlobalModel fuse 34");
   glActiveTexture(GL_TEXTURE0);
   glBindTexture(GL_TEXTURE_2D, updateMapVertsConfs.texture->tid);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel fuse 31");
+  LOGI("MY elasitcfusion GlobalModel fuse 35");
   glActiveTexture(GL_TEXTURE1);
   glBindTexture(GL_TEXTURE_2D, updateMapColorsTime.texture->tid);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel fuse 31");
+  LOGI("MY elasitcfusion GlobalModel fuse 36");
   glActiveTexture(GL_TEXTURE2);
   glBindTexture(GL_TEXTURE_2D, updateMapNormsRadii.texture->tid);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel fuse 31");
+  LOGI("MY elasitcfusion GlobalModel fuse 37");
   glDrawTransformFeedback(GL_POINTS, vbos[target].second);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel fuse 31");
+  LOGI("MY elasitcfusion GlobalModel fuse 38");
   glEndTransformFeedback();
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel fuse 31");
+  LOGI("MY elasitcfusion GlobalModel fuse 39");
   glDisable(GL_RASTERIZER_DISCARD);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel fuse 31");
+  LOGI("MY elasitcfusion GlobalModel fuse 40");
   glBindTexture(GL_TEXTURE_2D, 0);
   glActiveTexture(GL_TEXTURE0);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel fuse 31");
+  LOGI("MY elasitcfusion GlobalModel fuse 41");
   glDisableVertexAttribArray(0);
   glDisableVertexAttribArray(1);
   glDisableVertexAttribArray(2);
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, 0);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel fuse 31");
+  LOGI("MY elasitcfusion GlobalModel fuse 42");
   updateProgram->Unbind();
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel fuse 31");
+  LOGI("MY elasitcfusion GlobalModel fuse 43");
   std::swap(target, renderSource);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel fuse 31");
+  LOGI("MY elasitcfusion GlobalModel fuse 44");
   glFinish();
   TOCK("Fuse::Update");
 }
@@ -665,6 +691,7 @@ void GlobalModel::clean(const Eigen::Matrix4f &pose, const int &time,
                         GPUTexture *depthMap, const float confThreshold,
                         std::vector<float> &graph, const int timeDelta,
                         const float maxDepth, const bool isFern) {
+  LOGI("MY elasitcfusion GlobalModel clean start 1");
   assert(graph.size() / 16 < MAX_NODES);
 
   if (graph.size() > 0) {
@@ -790,6 +817,7 @@ void GlobalModel::clean(const Eigen::Matrix4f &pose, const int &time,
 
   glFinish();
   TOCK("Fuse::Copy");
+LOGI("MY elasitcfusion GlobalModel clean done ");
 }
 
 unsigned int GlobalModel::lastCount() { return count; }

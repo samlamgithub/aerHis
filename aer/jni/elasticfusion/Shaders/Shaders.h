@@ -90,8 +90,8 @@ inline void glCheckFramebufferStatusShader() {
 inline void check_gl_error2(const char *operation) {
 glCheckFramebufferStatusShader();
   for (GLint error = glGetError(); error; error = glGetError()) {
-    LOGI("Shader.h My elastic-fusion shader CheckGlDieOnError after %s() "
-         "glError (0x%x)\n",
+    LOGI("Shader.h My elastic-fusion shader CheckGlDieOnError :%s, after %s() "
+         "glError (0x%x)\n", operation,
          glErrorString2(error), error);
   }
 }

@@ -46,7 +46,6 @@ static const char *glErrorStringGT(GLenum err) {
   }
 }
 
-
 inline void glCheckFramebufferStatusGT() {
   GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
   if (status == GL_FRAMEBUFFER_COMPLETE) {

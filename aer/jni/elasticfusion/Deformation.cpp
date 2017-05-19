@@ -41,7 +41,7 @@ static const char *glErrorStringDeformation(GLenum err) {
 
 inline void check_gl_errorDeformation() {
   for (GLint error = glGetError(); error; error = glGetError()) {
-    LOGI("check_gl_errorGlobalModel My elastic-fusion CheckGlDieOnError after "
+    LOGI("check_gl_error Deformation cpp My elastic-fusion CheckGlDieOnError after "
          "%s() glError (0x%x)\n",
          glErrorStringDeformation(error), error);
   }
