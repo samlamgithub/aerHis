@@ -128,7 +128,7 @@ IndexMap::IndexMap()
                  GL_RGBA32F, GL_RGBA, GL_FLOAT, false, true),
       timeTexture(Resolution::getInstance().width(),
                   Resolution::getInstance().height(),
-GL_RGB, GL_RGB,  GL_UNSIGNED_BYTE, false, true),
+GL_RGBA, GL_RGBA,  GL_UNSIGNED_BYTE, false, true),
       // GL_LUMINANCE16UI_EXT,  GL_LUMINANCE_INTEGER_EXT,  GL_UNSIGNED_SHORT,
       // false, true),
       oldRenderBuffer(Resolution::getInstance().width(),

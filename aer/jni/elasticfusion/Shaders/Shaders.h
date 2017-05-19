@@ -61,7 +61,34 @@ static const char *glErrorString2(GLenum err) {
   }
 }
 
+inline void glCheckFramebufferStatusShader() {
+  GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+  if (status == GL_FRAMEBUFFER_COMPLETE) {
+    LOGI("MY elasitcfusion Shader GL_FRAMEBUFFER_COMPLETE");
+  } else if (status == GL_FRAMEBUFFER_UNDEFINED) {
+    LOGI("MY elasitcfusion Shader  GL_FRAMEBUFFER_UNDEFINED");
+  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT) {
+    LOGI("MY elasitcfusion Shader "
+         "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT");
+  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT) {
+    LOGI("MY elasitcfusion Shader "
+         "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT");
+  } else if (status == GL_FRAMEBUFFER_UNSUPPORTED) {
+    LOGI("MY elasitcfusion Shader  GL_FRAMEBUFFER_UNSUPPORTED");
+  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE) {
+    LOGI("MY elasitcfusion Shader  "
+         "GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE");
+  } else if (status == GL_INVALID_ENUM) {
+    LOGI("MY elasitcfusion Shader GL_INVALID_ENUM");
+  } else {
+    LOGI("MY elasitcfusion Shader glCheckFramebufferStatus else %d",
+         status);
+  }
+}
+
+
 inline void check_gl_error2(const char *operation) {
+glCheckFramebufferStatusShader();
   for (GLint error = glGetError(); error; error = glGetError()) {
     LOGI("Shader.h My elastic-fusion shader CheckGlDieOnError after %s() "
          "glError (0x%x)\n",
@@ -152,6 +179,7 @@ public:
 
   bool Link() {
     LOGI("MY elasitcfusion Shader Link 1");
+      check_gl_error2("MY elasitcfusion Shader Link 1:");
     glLinkProgram(prog);
     GLint link_status = GL_FALSE;
     glGetProgramiv(prog, GL_LINK_STATUS, &link_status);
@@ -169,9 +197,11 @@ public:
       glDeleteProgram(prog);
       prog = 0;
       LOGI("MY elasitcfusion Shader Link false");
+check_gl_error2("MY elasitcfusion Shader Link 2:");
       return false;
     }
     LOGI("MY elasitcfusion Shader Link true");
+check_gl_error2("MY elasitcfusion Shader Link 3:");
     return true;
   }
 
