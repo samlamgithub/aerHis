@@ -245,7 +245,7 @@ public:
    * Saves out a .ply mesh file of the current model
    */
   // void savePly();
-  void savePly(Eigen::Vector4f myMapData, unsigned int myLastCount,
+  void savePly(*Eigen::Vector4f myMapData, unsigned int myLastCount,
                float myConfidenceThreshold);
 
   /**

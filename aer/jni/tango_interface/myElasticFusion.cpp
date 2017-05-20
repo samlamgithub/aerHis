@@ -704,7 +704,7 @@ void MyElasticFusion::runEF() {
     Eigen::IOFormat CleanFmt(4, 0, ", ", "\n", "[", "]");
     std::stringstream ss;
     ss << currPose.format(CleanFmt);
-    string str(ss.str());
+    std::string str(ss.str());
     LOGI("current pose is : %s", str.c_str());
     LOGI("MyElasticFusion Processing frames done.");
     LOGI("MyElasticFusion Log processing result start.");
