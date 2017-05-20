@@ -779,12 +779,13 @@ void MyElasticFusion::runEF() {
       Eigen::Vector4f *mapData;
       unsigned int lastCount;
       float confidenceThreshold;
+      LOGI("ElasticFusion start to save frame. 0");
       eFusion.savePly(*mapData, lastCount, confidenceThreshold);
-
+      LOGI("ElasticFusion start to save frame 1.");
       std::string plyFilename("/sdcard/ElasticFusionPly_" +
                               current_date_time());
       plyFilename.append(".ply");
-
+        LOGI("ElasticFusion start to save frame 1 1");
       // Open file
       std::ofstream fs;
       fs.open(plyFilename.c_str());
@@ -793,7 +794,7 @@ void MyElasticFusion::runEF() {
         LOGE("There was a problem opening the ply file:%s",
              plyFilename.c_str());
       }
-
+      LOGI("ElasticFusion start to save frame. 2");
       int validCount = 0;
 
       for (unsigned int i = 0; i < lastCount; i++) {
@@ -803,7 +804,7 @@ void MyElasticFusion::runEF() {
           validCount++;
         }
       }
-
+      LOGI("ElasticFusion start to save frame. 3");
       // Write header
       fs << "ply";
       fs << "\nformat "
@@ -830,11 +831,11 @@ void MyElasticFusion::runEF() {
 
       // Close the file
       fs.close();
-
+      LOGI("ElasticFusion start to save frame. 4");
       // Open file in binary appendable
       std::ofstream fpout(plyFilename.c_str(),
                           std::ios::app | std::ios::binary);
-
+      LOGI("ElasticFusion start to save frame. 5");
       for (unsigned int i = 0; i < lastCount; i++) {
         Eigen::Vector4f pos = mapData[(i * 3) + 0];
 
@@ -880,10 +881,10 @@ void MyElasticFusion::runEF() {
           fpout.write(reinterpret_cast<const char *>(&value), sizeof(float));
         }
       }
-
+      LOGI("ElasticFusion start to save frame 6.");
       // Close file
       fs.close();
-
+      LOGI("ElasticFusion start to save frame. 7");
       delete[] mapData;
       shouldSavePly.assignValue(false);
       LOGI("MyElasticFusion save frame done.");

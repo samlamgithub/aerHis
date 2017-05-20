@@ -400,13 +400,14 @@ void ElasticFusion::processFrame(const unsigned char *rgb,
       frameToModel.initRGB(textures[GPUTexture::RGB]);
       TOCK("odomInit");
       check_gl_errorElasticFusion();
-      LOGI(" ElasticFusion struct Process frame else 8");
+      LOGI(" ElasticFusion struct Process frame else 8 1 ");
       if (bootstrap) {
+        LOGI(" ElasticFusion struct Process frame else 8 2");
         assert(inPose);
         currPose = currPose * (*inPose);
       }
       check_gl_errorElasticFusion();
-      LOGI(" ElasticFusion struct Process frame else 8");
+      LOGI(" ElasticFusion struct Process frame else 8 3");
       Eigen::Vector3f trans = currPose.topRightCorner(3, 1);
       Eigen::Matrix<float, 3, 3, Eigen::RowMajor> rot =
           currPose.topLeftCorner(3, 3);
@@ -474,6 +475,7 @@ void ElasticFusion::processFrame(const unsigned char *rgb,
       currPose.topRightCorner(3, 1) = trans;
       currPose.topLeftCorner(3, 3) = rot;
     } else {
+        LOGI(" ElasticFusion struct Process frame else 15 2");
       currPose = *inPose;
     }
     check_gl_errorElasticFusion();
