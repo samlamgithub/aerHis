@@ -201,10 +201,10 @@ void FeedbackBuffer::compute(GlTexture *color, GlTexture *depth,
   LOGI("MY elasitcfusion FeedbackBuffer struct compute 6");
   glEnable(GL_RASTERIZER_DISCARD);
   check_gl_errorFeedbackBuffer();
-  LOGI("MY elasitcfusion FeedbackBuffer struct compute 7 ");
+  LOGI("MY elasitcfusion FeedbackBuffer struct compute 7 glBindTransformFeedback fid: %d", fid);
   glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, fid);
   check_gl_errorFeedbackBuffer();
-  LOGI("MY elasitcfusion FeedbackBuffer struct compute 8 ");
+  LOGI("MY elasitcfusion FeedbackBuffer struct compute 8 glBindTransformFeedback fid: %d", fid);
   glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, vbo);
   check_gl_errorFeedbackBuffer();
   LOGI("MY elasitcfusion FeedbackBuffer struct compute 9 ");
@@ -239,10 +239,14 @@ void FeedbackBuffer::compute(GlTexture *color, GlTexture *depth,
   check_gl_errorFeedbackBuffer();
   LOGI("MY elasitcfusion FeedbackBuffer struct compute 19 ");
   glDisableVertexAttribArray(0);
+  check_gl_errorFeedbackBuffer();
+  LOGI("MY elasitcfusion FeedbackBuffer struct compute 19 1");
   glBindBuffer(GL_ARRAY_BUFFER, 0);
+  check_gl_errorFeedbackBuffer();
+  LOGI("MY elasitcfusion FeedbackBuffer struct compute 19 2 glBindTransformFeedback");
   glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, 0);
   check_gl_errorFeedbackBuffer();
-  LOGI("MY elasitcfusion FeedbackBuffer struct compute 20 ");
+  LOGI("MY elasitcfusion FeedbackBuffer struct compute 20 glBindTransformFeedback");
   program->Unbind();
   check_gl_errorFeedbackBuffer();
   LOGI("MY elasitcfusion FeedbackBuffer struct compute 21 ");

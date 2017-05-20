@@ -120,54 +120,53 @@ GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE)
   LOGI("MY elasitcfusion GlobalModel struct init 3");
   memset(&vertices[0], 0, bufferSize);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 4");
+  LOGI("MY elasitcfusion GlobalModel struct init 4 vbos[0].first: %d, vbos[0].second: %d", vbos[0].first, vbos[0].second);
   glGenTransformFeedbacks(1, &vbos[0].second);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 5");
+  LOGI("MY elasitcfusion GlobalModel struct init 5 vbos[0].first: %d, vbos[0].second: %d", vbos[0].first, vbos[0].second);
   glGenBuffers(1, &vbos[0].first);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 7");
+  LOGI("MY elasitcfusion GlobalModel struct init 6 vbos[0].first: %d, vbos[0].second: %d", vbos[0].first, vbos[0].second);
   glBindBuffer(GL_ARRAY_BUFFER, vbos[0].first);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 6");
+  LOGI("MY elasitcfusion GlobalModel struct init 7 vbos[0].first: %d, vbos[0].second: %d", vbos[0].first, vbos[0].second);
   glBufferData(GL_ARRAY_BUFFER, bufferSize, &vertices[0], GL_STREAM_DRAW);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 7");
+  LOGI("MY elasitcfusion GlobalModel struct init 8");
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 7");
+  LOGI("MY elasitcfusion GlobalModel struct init 9 vbos[1].first: %d, vbos[1].second: %d", vbos[1].first, vbos[1].second);
   glGenTransformFeedbacks(1, &vbos[1].second);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 7");
+  LOGI("MY elasitcfusion GlobalModel struct init 10 vbos[1].first: %d, vbos[1].second: %d", vbos[1].first, vbos[1].second);
   glGenBuffers(1, &vbos[1].first);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 7");
+  LOGI("MY elasitcfusion GlobalModel struct init 11 vbos[1].first: %d, vbos[1].second: %d", vbos[1].first, vbos[1].second);
   glBindBuffer(GL_ARRAY_BUFFER, vbos[1].first);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 7");
+  LOGI("MY elasitcfusion GlobalModel struct init 12 vbos[1].first: %d, vbos[1].second: %d", vbos[1].first, vbos[1].second);
   glBufferData(GL_ARRAY_BUFFER, bufferSize, &vertices[0], GL_STREAM_DRAW);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 7");
+  LOGI("MY elasitcfusion GlobalModel struct init 13");
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 7");
+  LOGI("MY elasitcfusion GlobalModel struct init 14");
   delete[] vertices;
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 1 2");
+  LOGI("MY elasitcfusion GlobalModel struct init 15");
   vertices = new float[Resolution::getInstance().numPixels() * Vertex::SIZE];
-
   memset(&vertices[0], 0, Resolution::getInstance().numPixels() * Vertex::SIZE);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 7 glGenTransformFeedbacks newUnstableFid: %d", newUnstableFid);
+  LOGI("MY elasitcfusion GlobalModel struct init 16 glGenTransformFeedbacks newUnstableFid: %d", newUnstableFid);
   glGenTransformFeedbacks(1, &newUnstableFid);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 7 glGenTransformFeedbacks newUnstableFid: %d", newUnstableFid);
+  LOGI("MY elasitcfusion GlobalModel struct init 17 glGenTransformFeedbacks newUnstableFid: %d", newUnstableFid);
   glGenBuffers(1, &newUnstableVbo);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 7");
+  LOGI("MY elasitcfusion GlobalModel struct init 18");
   glBindBuffer(GL_ARRAY_BUFFER, newUnstableVbo);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 7");
+  LOGI("MY elasitcfusion GlobalModel struct init 19");
   glBufferData(GL_ARRAY_BUFFER,
                Resolution::getInstance().numPixels() * Vertex::SIZE,
                &vertices[0], GL_STREAM_DRAW);
@@ -175,14 +174,14 @@ GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE)
                LOGI("MY elasitcfusion GlobalModel struct init 7");
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 7");
+  LOGI("MY elasitcfusion GlobalModel struct init 20");
   delete[] vertices;
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 1 3 ");
+  LOGI("MY elasitcfusion GlobalModel struct init 21 ");
 
   std::vector<Eigen::Vector2f> uv;
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 7");
+  LOGI("MY elasitcfusion GlobalModel struct init 22");
   for (int i = 0; i < Resolution::getInstance().width(); i++) {
     for (int j = 0; j < Resolution::getInstance().height(); j++) {
       uv.push_back(Eigen::Vector2f(
@@ -193,163 +192,172 @@ GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE)
     }
   }
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 7");
+  LOGI("MY elasitcfusion GlobalModel struct init 23");
   uvSize = uv.size();
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 1 4 ");
+  LOGI("MY elasitcfusion GlobalModel struct init 24 ");
   glGenBuffers(1, &uvo);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 7");
+  LOGI("MY elasitcfusion GlobalModel struct init 25");
   glBindBuffer(GL_ARRAY_BUFFER, uvo);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 7");
+  LOGI("MY elasitcfusion GlobalModel struct init 26");
   glBufferData(GL_ARRAY_BUFFER, uvSize * sizeof(Eigen::Vector2f), &uv[0],
                GL_STATIC_DRAW);
                check_gl_errorGlobalModel();
-               LOGI("MY elasitcfusion GlobalModel struct init 7");
+               LOGI("MY elasitcfusion GlobalModel struct init 27");
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 7");
-  LOGI("MY elasitcfusion GlobalModel struct init "
+  LOGI("MY elasitcfusion GlobalModel struct init 28");
+  LOGI("MY elasitcfusion GlobalModel struct init 29"
        "AttachColour(*updateMapVertsConfs.texture); start ");
   frameBuffer.AttachColour(*updateMapVertsConfs.texture);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init "
+  LOGI("MY elasitcfusion GlobalModel struct init 30 "
        "AttachColour(*updateMapVertsConfs.texture); done ");
-  LOGI("MY elasitcfusion GlobalModel struct init "
+  LOGI("MY elasitcfusion GlobalModel struct init 31"
        "AttachColour(*updateMapColorsTime.texture); start ");
   frameBuffer.AttachColour(*updateMapColorsTime.texture);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init "
+  LOGI("MY elasitcfusion GlobalModel struct init 32"
        "AttachColour(*updateMapColorsTime.texture); done ");
-  LOGI("MY elasitcfusion GlobalModel struct init "
+  LOGI("MY elasitcfusion GlobalModel struct init 33"
        "AttachColour(*updateMapNormsRadii.texture); start ");
   frameBuffer.AttachColour(*updateMapNormsRadii.texture);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init "
+  LOGI("MY elasitcfusion GlobalModel struct init 34"
        "AttachColour(*updateMapNormsRadii.texture); done ");
   LOGI("MY elasitcfusion GlobalModel struct init "
        "AttachDepthrenderBuffer); start ");
   check_gl_errorGlobalModel();
   frameBuffer.AttachDepth(renderBuffer);
-  LOGI("MY elasitcfusion GlobalModel struct init "
+  LOGI("MY elasitcfusion GlobalModel struct init 35"
        "AttachDepth(renderBuffer); done ");
-
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 1 5 ");
+  LOGI("MY elasitcfusion GlobalModel struct init 36 ");
   updateProgram->Bind();
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init check 1 ");
+  LOGI("MY elasitcfusion GlobalModel struct init check 37 ");
   int locUpdate[3] = {
       glGetVaryingLocationNV(updateProgram->programId(), "vPosition0"),
       glGetVaryingLocationNV(updateProgram->programId(), "vColor0"),
       glGetVaryingLocationNV(updateProgram->programId(), "vNormRad0"),
   };
   check_gl_errorGlobalModel();
+LOGI("MY elasitcfusion GlobalModel struct init check 28 ");
   GLchar *vars[3] = {"vPosition0", "vColor0", "vNormRad0"};
-  LOGI("MY elasitcfusion GlobalModel struct init check 2: %d, %d, %d: ",
-       locUpdate[0], locUpdate[1], locUpdate[2]);
   glTransformFeedbackVaryings(updateProgram->programId(), 3, vars,
                               GL_INTERLEAVED_ATTRIBS);
   // glTransformFeedbackVaryingsNV(updateProgram->programId(), 3, locUpdate,
   // INTERLEAVED_ATTRIBS_NV);
-
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init check 3 ");
-  LOGI("MY elasitcfusion GlobalModel struct init 1 6 ");
+  LOGI("MY elasitcfusion GlobalModel struct init 39");
   updateProgram->Unbind();
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init check 4 ");
+  LOGI("MY elasitcfusion GlobalModel struct init check 40 ");
   dataProgram->Bind();
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init check 5 ");
+  LOGI("MY elasitcfusion GlobalModel struct init check 41 ");
   int dataUpdate[3] = {
       glGetVaryingLocationNV(dataProgram->programId(), "vPosition0"),
       glGetVaryingLocationNV(dataProgram->programId(), "vColor0"),
       glGetVaryingLocationNV(dataProgram->programId(), "vNormRad0"),
   };
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init check 6 ");
+  LOGI("MY elasitcfusion GlobalModel struct init check 42");
   glTransformFeedbackVaryings(dataProgram->programId(), 3, vars,
                               GL_INTERLEAVED_ATTRIBS);
   // glTransformFeedbackVaryingsNV(dataProgram->programId(), 3, dataUpdate,
   // INTERLEAVED_ATTRIBS_NV);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init check 6  1");
+  LOGI("MY elasitcfusion GlobalModel struct init check 43");
   dataProgram->Unbind();
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init check 6  2");
+  LOGI("MY elasitcfusion GlobalModel struct init check 44");
   unstableProgram->Bind();
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init check 6  3");
+  LOGI("MY elasitcfusion GlobalModel struct init check 45");
   int unstableUpdate[3] = {
       glGetVaryingLocationNV(unstableProgram->programId(), "vPosition0"),
       glGetVaryingLocationNV(unstableProgram->programId(), "vColor0"),
       glGetVaryingLocationNV(unstableProgram->programId(), "vNormRad0"),
   };
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init check 6  4");
+  LOGI("MY elasitcfusion GlobalModel struct init check 46");
   glTransformFeedbackVaryings(unstableProgram->programId(), 3, vars,
                               GL_INTERLEAVED_ATTRIBS);
   // glTransformFeedbackVaryingsNV(unstableProgram->programId(), 3,
   // unstableUpdate, INTERLEAVED_ATTRIBS_NV);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init check 6  5");
+  LOGI("MY elasitcfusion GlobalModel struct init check 47");
   unstableProgram->Unbind();
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init check 6  6");
+  LOGI("MY elasitcfusion GlobalModel struct init check 48");
   initProgram->Bind();
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init check 6  7");
+  LOGI("MY elasitcfusion GlobalModel struct init check 49");
   int locInit[3] = {
       glGetVaryingLocationNV(initProgram->programId(), "vPosition0"),
       glGetVaryingLocationNV(initProgram->programId(), "vColor0"),
       glGetVaryingLocationNV(initProgram->programId(), "vNormRad0"),
   };
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init check 6  8");
+  LOGI("MY elasitcfusion GlobalModel struct init check 50");
   glTransformFeedbackVaryings(initProgram->programId(), 3, vars,
                               GL_INTERLEAVED_ATTRIBS);
   // glTransformFeedbackVaryingsNV(initProgram->programId(), 3, locInit,
   // INTERLEAVED_ATTRIBS_NV);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 1 7 ");
+  LOGI("MY elasitcfusion GlobalModel struct init 51 ");
   glGenQueries(1, &countQuery);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 1 8 ");
+  LOGI("MY elasitcfusion GlobalModel struct init 52 ");
   // Empty both transform feedbacks
   glEnable(GL_RASTERIZER_DISCARD);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 1 9 ");
+  LOGI("MY elasitcfusion GlobalModel struct init 53  glBindTransformFeedback vbos[0].first: %d, vbos[0].second: %d", vbos[0].first, vbos[0].second);
   glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, vbos[0].second);
   check_gl_errorGlobalModel();
+  LOGI("MY elasitcfusion GlobalModel struct init 54  glBindTransformFeedback vbos[0].first: %d, vbos[0].second: %d", vbos[0].first, vbos[0].second);
   glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, vbos[0].first);
   check_gl_errorGlobalModel();
+  LOGI("MY elasitcfusion GlobalModel struct init 55  vbos[0].first: %d, vbos[0].second: %d", vbos[0].first, vbos[0].second);
   glBeginTransformFeedback(GL_POINTS);
   check_gl_errorGlobalModel();
+LOGI("MY elasitcfusion GlobalModel struct init 56 ");
   glDrawArrays(GL_POINTS, 0, 0);
   check_gl_errorGlobalModel();
+LOGI("MY elasitcfusion GlobalModel struct init 57 ");
   glEndTransformFeedback();
   check_gl_errorGlobalModel();
+LOGI("MY elasitcfusion GlobalModel struct init 58 glBindTransformFeedback");
   glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, 0);
   check_gl_errorGlobalModel();
+  LOGI("MY elasitcfusion GlobalModel struct init 59  glBindTransformFeedback vbos[1].first: %d, vbos[1].second: %d", vbos[1].first, vbos[1].second);
   glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, vbos[1].second);
   check_gl_errorGlobalModel();
+  LOGI("MY elasitcfusion GlobalModel struct init 60 glBindTransformFeedback vbos[1].first: %d, vbos[1].second: %d", vbos[1].first, vbos[1].second);
   glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, vbos[1].first);
   check_gl_errorGlobalModel();
+  LOGI("MY elasitcfusion GlobalModel struct init 61  vbos[1].first: %d, vbos[1].second: %d", vbos[1].first, vbos[1].second);
   glBeginTransformFeedback(GL_POINTS);
   check_gl_errorGlobalModel();
+LOGI("MY elasitcfusion GlobalModel struct init 62 ");
   glDrawArrays(GL_POINTS, 0, 0);
   check_gl_errorGlobalModel();
+LOGI("MY elasitcfusion GlobalModel struct init 63 ");
   glEndTransformFeedback();
   check_gl_errorGlobalModel();
+LOGI("MY elasitcfusion GlobalModel struct init 64 ");
   glDisable(GL_RASTERIZER_DISCARD);
   check_gl_errorGlobalModel();
+LOGI("MY elasitcfusion GlobalModel struct init 65 glBindTransformFeedback");
   glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, 0);
   check_gl_errorGlobalModel();
+LOGI("MY elasitcfusion GlobalModel struct init 66 glBindTransformFeedback");
   initProgram->Unbind();
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 2");
+  LOGI("MY elasitcfusion GlobalModel struct init 67 done ");
 }
 
 GlobalModel::~GlobalModel() {
@@ -374,7 +382,7 @@ GlobalModel::~GlobalModel() {
 void GlobalModel::initialise(const FeedbackBuffer &rawFeedback,
                              const FeedbackBuffer &filteredFeedback) {
 check_gl_errorGlobalModel();
- LOGI("MY elasitcfusion GlobalModel struct initialise start 1model: rawFeedback.vbo %d, rawFeedback.fid: %d, filteredFeedback.vbo: %d", rawFeedback.vbo, rawFeedback.fid, filteredFeedback.vbo);
+ LOGI("MY elasitcfusion GlobalModel struct initialise start 1 model: rawFeedback.vbo %d, rawFeedback.fid: %d, filteredFeedback.vbo: %d", rawFeedback.vbo, rawFeedback.fid, filteredFeedback.vbo);
   initProgram->Bind();
   check_gl_errorGlobalModel();
    LOGI("MY elasitcfusion GlobalModel struct initialise 2");
@@ -407,10 +415,10 @@ check_gl_errorGlobalModel();
        LOGI("MY elasitcfusion GlobalModel struct initialise 9");
   glEnable(GL_RASTERIZER_DISCARD);
   check_gl_errorGlobalModel();
-   LOGI("MY elasitcfusion GlobalModel struct initialise 10");
+   LOGI("MY elasitcfusion GlobalModel struct initialise 10 glBindTransformFeedback vbos[target].second: %d", vbos[target].second);
   glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, vbos[target].second);
   check_gl_errorGlobalModel();
-   LOGI("MY elasitcfusion GlobalModel struct initialise 11");
+   LOGI("MY elasitcfusion GlobalModel struct initialise 11 glBindTransformFeedback vbos[target].second: %d", vbos[target].second);
   glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, vbos[target].first);
   check_gl_errorGlobalModel();
    LOGI("MY elasitcfusion GlobalModel struct initialise 12");
@@ -444,10 +452,10 @@ check_gl_errorGlobalModel();
    LOGI("MY elasitcfusion GlobalModel struct initialise 20");
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   check_gl_errorGlobalModel();
-   LOGI("MY elasitcfusion GlobalModel struct initialise 21");
+   LOGI("MY elasitcfusion GlobalModel struct initialise 21 glBindTransformFeedback");
   glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, 0);
   check_gl_errorGlobalModel();
-   LOGI("MY elasitcfusion GlobalModel struct initialise 22");
+   LOGI("MY elasitcfusion GlobalModel struct initialise 22 glBindTransformFeedback");
   initProgram->Unbind();
   check_gl_errorGlobalModel();
    LOGI("MY elasitcfusion GlobalModel struct initialise 23");
@@ -657,10 +665,10 @@ void GlobalModel::fuse(const Eigen::Matrix4f &pose, const int &time,
   LOGI("MY elasitcfusion GlobalModel fuse 20 1");
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel fuse 20 2");
+  LOGI("MY elasitcfusion GlobalModel fuse 20 2 glBindTransformFeedback");
   glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, 0);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel fuse 21");
+  LOGI("MY elasitcfusion GlobalModel fuse 21 glBindTransformFeedback");
   dataProgram->Unbind();
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel fuse 22");
@@ -706,10 +714,10 @@ void GlobalModel::fuse(const Eigen::Matrix4f &pose, const int &time,
   LOGI("MY elasitcfusion GlobalModel fuse 30");
   glEnable(GL_RASTERIZER_DISCARD);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel fuse 31");
+  LOGI("MY elasitcfusion GlobalModel fuse 31 glBindTransformFeedback vbos[renderSource].second: %d", vbos[renderSource].second);
   glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, vbos[renderSource].second); //GL_INVALID_FRAMEBUFFER_OPERATION , Invalid Operation glError
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel fuse 32");
+  LOGI("MY elasitcfusion GlobalModel fuse 32 glBindTransformFeedback vbos[renderSource].second: %d", vbos[renderSource].second);
   glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, vbos[renderSource].first);
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel fuse 33");
@@ -748,10 +756,10 @@ void GlobalModel::fuse(const Eigen::Matrix4f &pose, const int &time,
   LOGI("MY elasitcfusion GlobalModel fuse 41 1");
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel fuse 41 2");
+  LOGI("MY elasitcfusion GlobalModel fuse 41 2 glBindTransformFeedback");
   glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, 0);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel fuse 42");
+  LOGI("MY elasitcfusion GlobalModel fuse 42 glBindTransformFeedback");
   updateProgram->Unbind();
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel fuse 43");
@@ -854,10 +862,10 @@ check_gl_errorGlobalModel();
         LOGI("MY elasitcfusion GlobalModel clean 11");
   glEnable(GL_RASTERIZER_DISCARD);
   check_gl_errorGlobalModel();
-    LOGI("MY elasitcfusion GlobalModel clean 12 glBindTransformFeedback");
+    LOGI("MY elasitcfusion GlobalModel clean 12 glBindTransformFeedback vbos[renderSource].second: %d", vbos[renderSource].second);
   glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, vbos[renderSource].second);// GL_FRAMEBUFFER_COMPLETE, Invalid Operation glError
   check_gl_errorGlobalModel();
-    LOGI("MY elasitcfusion GlobalModel clean 13 glBindTransformFeedback");
+    LOGI("MY elasitcfusion GlobalModel clean 13 glBindTransformFeedback vbos[renderSource].second: %d", vbos[renderSource].second);
   glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, vbos[renderSource].first);
   check_gl_errorGlobalModel();
     LOGI("MY elasitcfusion GlobalModel clean 14");
@@ -944,10 +952,10 @@ check_gl_errorGlobalModel();
     LOGI("MY elasitcfusion GlobalModel clean 36");
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   check_gl_errorGlobalModel();
-    LOGI("MY elasitcfusion GlobalModel clean 37");
+    LOGI("MY elasitcfusion GlobalModel clean 37 glBindTransformFeedback");
   glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, 0);
   check_gl_errorGlobalModel();
-    LOGI("MY elasitcfusion GlobalModel clean 38");
+    LOGI("MY elasitcfusion GlobalModel clean 38 glBindTransformFeedback");
   unstableProgram->Unbind();
   check_gl_errorGlobalModel();
     LOGI("MY elasitcfusion GlobalModel clean 39");
