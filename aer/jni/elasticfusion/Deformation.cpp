@@ -325,7 +325,7 @@ void Deformation::sampleGraphFrom(Deformation &other) {
 // localDeformation 每 5000 个点采一个点，总共设置了 1024 个 node
 void Deformation::sampleGraphModel(const std::pair<GLuint, GLuint> &model) {
 check_gl_errorDeformation();
-  LOGI("MY elasitcfusion Deformation struct sampleGraphModel start 1 model: %d, %d", model.first, model.second);
+  LOGI("MY elasitcfusion Deformation struct sampleGraphModel start 1 model:first: %d, second: %d", model.first, model.second);
   sampleProgram->Bind();
   check_gl_errorDeformation();
     LOGI("MY elasitcfusion Deformation struct sampleGraphModel 2 ");

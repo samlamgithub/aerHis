@@ -113,38 +113,38 @@ GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE)
 //   GL_LUMINANCE, GL_FLOAT)
 {
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init start 1 ");
+  LOGI("MY elasitcfusion GlobalModel struct init start 1 : target: %d, renderSource:   %d,  vbos[target].first : %d,  vbos[target].second : %d, vbos[renderSource].first: %d , vbos[renderSource].second: %d", target, renderSource,  vbos[target].first,  vbos[target].second, vbos[renderSource].first, vbos[renderSource].second);
   vbos = new std::pair<GLuint, GLuint>[2];
   LOGI("MY elasitcfusion GlobalModel struct init 2 : %d", bufferSize);
   float *vertices = new float[bufferSize];
-  LOGI("MY elasitcfusion GlobalModel struct init 3");
+  LOGI("MY elasitcfusion GlobalModel struct init 3 : target: %d, renderSource:   %d,  vbos[target].first : %d,  vbos[target].second : %d, vbos[renderSource].first: %d , vbos[renderSource].second: %d", target, renderSource,  vbos[target].first,  vbos[target].second, vbos[renderSource].first, vbos[renderSource].second);
   memset(&vertices[0], 0, bufferSize);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 4 vbos[0].first: %d, vbos[0].second: %d", vbos[0].first, vbos[0].second);
+  LOGI("MY elasitcfusion GlobalModel struct init 4 : target: %d, renderSource:   %d,  vbos[target].first : %d,  vbos[target].second : %d, vbos[renderSource].first: %d , vbos[renderSource].second: %d", target, renderSource,  vbos[target].first,  vbos[target].second, vbos[renderSource].first, vbos[renderSource].second);
   glGenTransformFeedbacks(1, &vbos[0].second);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 5 vbos[0].first: %d, vbos[0].second: %d", vbos[0].first, vbos[0].second);
+  LOGI("MY elasitcfusion GlobalModel struct init 5 : target: %d, renderSource:   %d,  vbos[target].first : %d,  vbos[target].second : %d, vbos[renderSource].first: %d , vbos[renderSource].second: %d", target, renderSource,  vbos[target].first,  vbos[target].second, vbos[renderSource].first, vbos[renderSource].second);
   glGenBuffers(1, &vbos[0].first);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 6 vbos[0].first: %d, vbos[0].second: %d", vbos[0].first, vbos[0].second);
+  LOGI("MY elasitcfusion GlobalModel struct init 6 : target: %d, renderSource:   %d,  vbos[target].first : %d,  vbos[target].second : %d, vbos[renderSource].first: %d , vbos[renderSource].second: %d", target, renderSource,  vbos[target].first,  vbos[target].second, vbos[renderSource].first, vbos[renderSource].second);
   glBindBuffer(GL_ARRAY_BUFFER, vbos[0].first);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 7 vbos[0].first: %d, vbos[0].second: %d", vbos[0].first, vbos[0].second);
+  LOGI("MY elasitcfusion GlobalModel struct init 7 : target: %d, renderSource:   %d,  vbos[target].first : %d,  vbos[target].second : %d, vbos[renderSource].first: %d , vbos[renderSource].second: %d", target, renderSource,  vbos[target].first,  vbos[target].second, vbos[renderSource].first, vbos[renderSource].second);
   glBufferData(GL_ARRAY_BUFFER, bufferSize, &vertices[0], GL_STREAM_DRAW);
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel struct init 8");
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 9 vbos[1].first: %d, vbos[1].second: %d", vbos[1].first, vbos[1].second);
+  LOGI("MY elasitcfusion GlobalModel struct init 9 : target: %d, renderSource:   %d,  vbos[target].first : %d,  vbos[target].second : %d, vbos[renderSource].first: %d , vbos[renderSource].second: %d", target, renderSource,  vbos[target].first,  vbos[target].second, vbos[renderSource].first, vbos[renderSource].second);
   glGenTransformFeedbacks(1, &vbos[1].second);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 10 vbos[1].first: %d, vbos[1].second: %d", vbos[1].first, vbos[1].second);
+  LOGI("MY elasitcfusion GlobalModel struct init 10 : target: %d, renderSource:   %d,  vbos[target].first : %d,  vbos[target].second : %d, vbos[renderSource].first: %d , vbos[renderSource].second: %d", target, renderSource,  vbos[target].first,  vbos[target].second, vbos[renderSource].first, vbos[renderSource].second);
   glGenBuffers(1, &vbos[1].first);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 11 vbos[1].first: %d, vbos[1].second: %d", vbos[1].first, vbos[1].second);
+  LOGI("MY elasitcfusion GlobalModel struct init 11 : target: %d, renderSource:   %d,  vbos[target].first : %d,  vbos[target].second : %d, vbos[renderSource].first: %d , vbos[renderSource].second: %d", target, renderSource,  vbos[target].first,  vbos[target].second, vbos[renderSource].first, vbos[renderSource].second);
   glBindBuffer(GL_ARRAY_BUFFER, vbos[1].first);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 12 vbos[1].first: %d, vbos[1].second: %d", vbos[1].first, vbos[1].second);
+  LOGI("MY elasitcfusion GlobalModel struct init 12 : target: %d, renderSource:   %d,  vbos[target].first : %d,  vbos[target].second : %d, vbos[renderSource].first: %d , vbos[renderSource].second: %d", target, renderSource,  vbos[target].first,  vbos[target].second, vbos[renderSource].first, vbos[renderSource].second);
   glBufferData(GL_ARRAY_BUFFER, bufferSize, &vertices[0], GL_STREAM_DRAW);
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel struct init 13");
@@ -315,13 +315,13 @@ LOGI("MY elasitcfusion GlobalModel struct init check 28 ");
   // Empty both transform feedbacks
   glEnable(GL_RASTERIZER_DISCARD);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 53  glBindTransformFeedback vbos[0].first: %d, vbos[0].second: %d", vbos[0].first, vbos[0].second);
+  LOGI("MY elasitcfusion GlobalModel struct init 53  glBindTransformFeedback : target: %d, renderSource:   %d,  vbos[target].first : %d,  vbos[target].second : %d, vbos[renderSource].first: %d , vbos[renderSource].second: %d", target, renderSource,  vbos[target].first,  vbos[target].second, vbos[renderSource].first, vbos[renderSource].second);
   glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, vbos[0].second);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 54  glBindTransformFeedback vbos[0].first: %d, vbos[0].second: %d", vbos[0].first, vbos[0].second);
+  LOGI("MY elasitcfusion GlobalModel struct init 54  glBindTransformFeedback : target: %d, renderSource:   %d,  vbos[target].first : %d,  vbos[target].second : %d, vbos[renderSource].first: %d , vbos[renderSource].second: %d", target, renderSource,  vbos[target].first,  vbos[target].second, vbos[renderSource].first, vbos[renderSource].second);
   glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, vbos[0].first);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 55  vbos[0].first: %d, vbos[0].second: %d", vbos[0].first, vbos[0].second);
+  LOGI("MY elasitcfusion GlobalModel struct init 55  : target: %d, renderSource:   %d,  vbos[target].first : %d,  vbos[target].second : %d, vbos[renderSource].first: %d , vbos[renderSource].second: %d", target, renderSource,  vbos[target].first,  vbos[target].second, vbos[renderSource].first, vbos[renderSource].second);
   glBeginTransformFeedback(GL_POINTS);
   check_gl_errorGlobalModel();
 LOGI("MY elasitcfusion GlobalModel struct init 56 ");
@@ -333,13 +333,13 @@ LOGI("MY elasitcfusion GlobalModel struct init 57 ");
 LOGI("MY elasitcfusion GlobalModel struct init 58 glBindTransformFeedback");
   glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, 0);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 59  glBindTransformFeedback vbos[1].first: %d, vbos[1].second: %d", vbos[1].first, vbos[1].second);
+  LOGI("MY elasitcfusion GlobalModel struct init 59  glBindTransformFeedback : target: %d, renderSource:   %d,  vbos[target].first : %d,  vbos[target].second : %d, vbos[renderSource].first: %d , vbos[renderSource].second: %d", target, renderSource,  vbos[target].first,  vbos[target].second, vbos[renderSource].first, vbos[renderSource].second);
   glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, vbos[1].second);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 60 glBindTransformFeedback vbos[1].first: %d, vbos[1].second: %d", vbos[1].first, vbos[1].second);
+  LOGI("MY elasitcfusion GlobalModel struct init 60 glBindTransformFeedback : target: %d, renderSource:   %d,  vbos[target].first : %d,  vbos[target].second : %d, vbos[renderSource].first: %d , vbos[renderSource].second: %d", target, renderSource,  vbos[target].first,  vbos[target].second, vbos[renderSource].first, vbos[renderSource].second);
   glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, vbos[1].first);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 61  vbos[1].first: %d, vbos[1].second: %d", vbos[1].first, vbos[1].second);
+  LOGI("MY elasitcfusion GlobalModel struct init 61  : target: %d, renderSource:   %d,  vbos[target].first : %d,  vbos[target].second : %d, vbos[renderSource].first: %d , vbos[renderSource].second: %d", target, renderSource,  vbos[target].first,  vbos[target].second, vbos[renderSource].first, vbos[renderSource].second);
   glBeginTransformFeedback(GL_POINTS);
   check_gl_errorGlobalModel();
 LOGI("MY elasitcfusion GlobalModel struct init 62 ");
@@ -415,13 +415,13 @@ check_gl_errorGlobalModel();
        LOGI("MY elasitcfusion GlobalModel struct initialise 9");
   glEnable(GL_RASTERIZER_DISCARD);
   check_gl_errorGlobalModel();
-   LOGI("MY elasitcfusion GlobalModel struct initialise 10 glBindTransformFeedback vbos[target].second: %d", vbos[target].second);
+   LOGI("MY elasitcfusion GlobalModel struct initialise 10 glBindTransformFeedback : target: %d, renderSource:   %d,  vbos[target].first : %d,  vbos[target].second : %d, vbos[renderSource].first: %d , vbos[renderSource].second: %d", target, renderSource,  vbos[target].first,  vbos[target].second, vbos[renderSource].first, vbos[renderSource].second);
   glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, vbos[target].second);
   check_gl_errorGlobalModel();
-   LOGI("MY elasitcfusion GlobalModel struct initialise 11 glBindTransformFeedback vbos[target].second: %d", vbos[target].second);
+   LOGI("MY elasitcfusion GlobalModel struct initialise 11 glBindTransformFeedback : target: %d, renderSource:   %d,  vbos[target].first : %d,  vbos[target].second : %d, vbos[renderSource].first: %d , vbos[renderSource].second: %d", target, renderSource,  vbos[target].first,  vbos[target].second, vbos[renderSource].first, vbos[renderSource].second);
   glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, vbos[target].first);
   check_gl_errorGlobalModel();
-   LOGI("MY elasitcfusion GlobalModel struct initialise 12");
+   LOGI("MY elasitcfusion GlobalModel struct initialise 12 : target: %d, renderSource:   %d,  vbos[target].first : %d,  vbos[target].second : %d, vbos[renderSource].first: %d , vbos[renderSource].second: %d", target, renderSource,  vbos[target].first,  vbos[target].second, vbos[renderSource].first, vbos[renderSource].second);
   glBeginTransformFeedback(GL_POINTS);
   check_gl_errorGlobalModel();
    LOGI("MY elasitcfusion GlobalModel struct initialise 13 glBeginQuery");
@@ -523,8 +523,7 @@ check_gl_errorGlobalModel();
 // }
 
 const std::pair<GLuint, GLuint> &GlobalModel::model() {
-LOGI("MY elasitcfusion GlobalModel model(): target: %d, : %d, %d",
- target,vbos[target].first, vbos[target].second);
+LOGI("MY elasitcfusion GlobalModel model(): : target: %d, renderSource:   %d,  vbos[target].first : %d,  vbos[target].second : %d, vbos[renderSource].first: %d , vbos[renderSource].second: %d", target, renderSource,  vbos[target].first,  vbos[target].second, vbos[renderSource].first, vbos[renderSource].second);
 return vbos[target];
 }
 
@@ -691,10 +690,10 @@ void GlobalModel::fuse(const Eigen::Matrix4f &pose, const int &time,
   updateProgram->setUniform(Uniform("texDim", (float)TEXTURE_DIMENSION));
   updateProgram->setUniform(Uniform("time", time));
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel fuse 26");
+  LOGI("MY elasitcfusion GlobalModel fuse 26 : target: %d, renderSource:   %d,  vbos[target].first : %d,  vbos[target].second : %d, vbos[renderSource].first: %d , vbos[renderSource].second: %d", target, renderSource,  vbos[target].first,  vbos[target].second, vbos[renderSource].first, vbos[renderSource].second);
   glBindBuffer(GL_ARRAY_BUFFER, vbos[target].first);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel fuse 27");
+  LOGI("MY elasitcfusion GlobalModel fuse 27 : target: %d, renderSource:   %d,  vbos[target].first : %d,  vbos[target].second : %d, vbos[renderSource].first: %d , vbos[renderSource].second: %d", target, renderSource,  vbos[target].first,  vbos[target].second, vbos[renderSource].first, vbos[renderSource].second);
   glEnableVertexAttribArray(0);
   glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, Vertex::SIZE, 0);
   check_gl_errorGlobalModel();
@@ -714,13 +713,13 @@ void GlobalModel::fuse(const Eigen::Matrix4f &pose, const int &time,
   LOGI("MY elasitcfusion GlobalModel fuse 30");
   glEnable(GL_RASTERIZER_DISCARD);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel fuse 31 glBindTransformFeedback vbos[renderSource].second: %d", vbos[renderSource].second);
+  LOGI("MY elasitcfusion GlobalModel fuse 31 glBindTransformFeedback : target: %d, renderSource:   %d,  vbos[target].first : %d,  vbos[target].second : %d, vbos[renderSource].first: %d , vbos[renderSource].second: %d", target, renderSource,  vbos[target].first,  vbos[target].second, vbos[renderSource].first, vbos[renderSource].second);
   glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, vbos[renderSource].second); //GL_INVALID_FRAMEBUFFER_OPERATION , Invalid Operation glError
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel fuse 32 glBindTransformFeedback vbos[renderSource].second: %d", vbos[renderSource].second);
+  LOGI("MY elasitcfusion GlobalModel fuse 32 glBindTransformFeedback : target: %d, renderSource:   %d,  vbos[target].first : %d,  vbos[target].second : %d, vbos[renderSource].first: %d , vbos[renderSource].second: %d", target, renderSource,  vbos[target].first,  vbos[target].second, vbos[renderSource].first, vbos[renderSource].second);
   glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, vbos[renderSource].first);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel fuse 33");
+  LOGI("MY elasitcfusion GlobalModel fuse 33 : target: %d, renderSource:   %d,  vbos[target].first : %d,  vbos[target].second : %d, vbos[renderSource].first: %d , vbos[renderSource].second: %d", target, renderSource,  vbos[target].first,  vbos[target].second, vbos[renderSource].first, vbos[renderSource].second);
   glBeginTransformFeedback(GL_POINTS);
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel fuse 34");
@@ -735,10 +734,10 @@ void GlobalModel::fuse(const Eigen::Matrix4f &pose, const int &time,
   glActiveTexture(GL_TEXTURE2);
   glBindTexture(GL_TEXTURE_2D, updateMapNormsRadii.texture->tid);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel fuse 37 glDrawTransformFeedback, vbos[target].second: %d", vbos[target].second);
+  LOGI("MY elasitcfusion GlobalModel fuse 37 glDrawTransformFeedback, : target: %d, renderSource:   %d,  vbos[target].first : %d,  vbos[target].second : %d, vbos[renderSource].first: %d , vbos[renderSource].second: %d", target, renderSource,  vbos[target].first,  vbos[target].second, vbos[renderSource].first, vbos[renderSource].second);
   glDrawTransformFeedback(GL_POINTS, vbos[target].second); // GL_FRAMEBUFFER_COMPLETE, Invalid Value glError
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel fuse 38 glDrawTransformFeedback");
+  LOGI("MY elasitcfusion GlobalModel fuse 38 glDrawTransformFeedback : target: %d, renderSource:   %d,  vbos[target].first : %d,  vbos[target].second : %d, vbos[renderSource].first: %d , vbos[renderSource].second: %d", target, renderSource,  vbos[target].first,  vbos[target].second, vbos[renderSource].first, vbos[renderSource].second);
   glEndTransformFeedback();
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel fuse 39");
@@ -835,10 +834,10 @@ check_gl_errorGlobalModel();
   unstableProgram->setUniform(
       Uniform("rows", (float)Resolution::getInstance().rows()));
       check_gl_errorGlobalModel();
-        LOGI("MY elasitcfusion GlobalModel clean 5");
+        LOGI("MY elasitcfusion GlobalModel clean 5 : target: %d, renderSource:   %d,  vbos[target].first : %d,  vbos[target].second : %d, vbos[renderSource].first: %d , vbos[renderSource].second: %d", target, renderSource,  vbos[target].first,  vbos[target].second, vbos[renderSource].first, vbos[renderSource].second);
   glBindBuffer(GL_ARRAY_BUFFER, vbos[target].first);
   check_gl_errorGlobalModel();
-    LOGI("MY elasitcfusion GlobalModel clean 6");
+    LOGI("MY elasitcfusion GlobalModel clean 6 : target: %d, renderSource:   %d,  vbos[target].first : %d,  vbos[target].second : %d, vbos[renderSource].first: %d , vbos[renderSource].second: %d", target, renderSource,  vbos[target].first,  vbos[target].second, vbos[renderSource].first, vbos[renderSource].second);
   glEnableVertexAttribArray(0);
   check_gl_errorGlobalModel();
     LOGI("MY elasitcfusion GlobalModel clean 7");
@@ -862,13 +861,13 @@ check_gl_errorGlobalModel();
         LOGI("MY elasitcfusion GlobalModel clean 11");
   glEnable(GL_RASTERIZER_DISCARD);
   check_gl_errorGlobalModel();
-    LOGI("MY elasitcfusion GlobalModel clean 12 glBindTransformFeedback vbos[renderSource].second: %d", vbos[renderSource].second);
+    LOGI("MY elasitcfusion GlobalModel clean 12 glBindTransformFeedback : target: %d, renderSource:   %d,  vbos[target].first : %d,  vbos[target].second : %d, vbos[renderSource].first: %d , vbos[renderSource].second: %d", target, renderSource,  vbos[target].first,  vbos[target].second, vbos[renderSource].first, vbos[renderSource].second);
   glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, vbos[renderSource].second);// GL_FRAMEBUFFER_COMPLETE, Invalid Operation glError
   check_gl_errorGlobalModel();
-    LOGI("MY elasitcfusion GlobalModel clean 13 glBindTransformFeedback vbos[renderSource].second: %d", vbos[renderSource].second);
+    LOGI("MY elasitcfusion GlobalModel clean 13 glBindTransformFeedback : target: %d, renderSource:   %d,  vbos[target].first : %d,  vbos[target].second : %d, vbos[renderSource].first: %d , vbos[renderSource].second: %d", target, renderSource,  vbos[target].first,  vbos[target].second, vbos[renderSource].first, vbos[renderSource].second);
   glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, vbos[renderSource].first);
   check_gl_errorGlobalModel();
-    LOGI("MY elasitcfusion GlobalModel clean 14");
+    LOGI("MY elasitcfusion GlobalModel clean 14 : target: %d, renderSource:   %d,  vbos[target].first : %d,  vbos[target].second : %d, vbos[renderSource].first: %d , vbos[renderSource].second: %d", target, renderSource,  vbos[target].first,  vbos[target].second, vbos[renderSource].first, vbos[renderSource].second);
   glBeginTransformFeedback(GL_POINTS);
   check_gl_errorGlobalModel();
     LOGI("MY elasitcfusion GlobalModel clean 15");
@@ -898,10 +897,10 @@ check_gl_errorGlobalModel();
     LOGI("MY elasitcfusion GlobalModel clean 21 glBeginQuery");
   glBeginQuery(GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN, countQuery); //GL_FRAMEBUFFER_COMPLETE, Invalid Operation glError
   check_gl_errorGlobalModel();
-    LOGI("MY elasitcfusion GlobalModel clean 22 glDrawTransformFeedback glBeginQuery: vbos[target].second: %d", vbos[target].second);
+    LOGI("MY elasitcfusion GlobalModel clean 22 glDrawTransformFeedback glBeginQuery: : target: %d, renderSource:   %d,  vbos[target].first : %d,  vbos[target].second : %d, vbos[renderSource].first: %d , vbos[renderSource].second: %d", target, renderSource,  vbos[target].first,  vbos[target].second, vbos[renderSource].first, vbos[renderSource].second);
   glDrawTransformFeedback(GL_POINTS, vbos[target].second); //GL_FRAMEBUFFER_COMPLETE, Invalid Value glError
   check_gl_errorGlobalModel();
-    LOGI("MY elasitcfusion GlobalModel clean 23 glDrawTransformFeedback");
+    LOGI("MY elasitcfusion GlobalModel clean 23 glDrawTransformFeedback : target: %d, renderSource:   %d,  vbos[target].first : %d,  vbos[target].second : %d, vbos[renderSource].first: %d , vbos[renderSource].second: %d", target, renderSource,  vbos[target].first,  vbos[target].second, vbos[renderSource].first, vbos[renderSource].second);
   glBindBuffer(GL_ARRAY_BUFFER, newUnstableVbo);
   check_gl_errorGlobalModel();
     LOGI("MY elasitcfusion GlobalModel clean 24");
@@ -980,10 +979,10 @@ Eigen::Vector4f *GlobalModel::downloadMap() {
     LOGI("MY elasitcfusion GlobalModel downloadMap 3");
   memset(&vertices[0], 0, count * Vertex::SIZE);
   check_gl_errorGlobalModel();
-    LOGI("MY elasitcfusion GlobalModel downloadMap 4");
+    LOGI("MY elasitcfusion GlobalModel downloadMap 4 : target: %d, renderSource:   %d,  vbos[target].first : %d,  vbos[target].second : %d, vbos[renderSource].first: %d , vbos[renderSource].second: %d", target, renderSource,  vbos[target].first,  vbos[target].second, vbos[renderSource].first, vbos[renderSource].second);
   glBindBuffer(GL_ARRAY_BUFFER, vbos[renderSource].first);
   check_gl_errorGlobalModel();
-    LOGI("MY elasitcfusion GlobalModel downloadMap 5 glGetBufferSubData 0");
+    LOGI("MY elasitcfusion GlobalModel downloadMap 5 glGetBufferSubData 0 : target: %d, renderSource:   %d,  vbos[target].first : %d,  vbos[target].second : %d, vbos[renderSource].first: %d , vbos[renderSource].second: %d", target, renderSource,  vbos[target].first,  vbos[target].second, vbos[renderSource].first, vbos[renderSource].second);
   // glGetBufferSubData(GL_ARRAY_BUFFER, 0, count * Vertex::SIZE, vertices); // Invalid Operation glError
   Eigen::Vector4f * ver = (Eigen::Vector4f *)glMapBufferRange(GL_ARRAY_BUFFER, 0, count *
   Vertex::SIZE, GL_MAP_READ_BIT);

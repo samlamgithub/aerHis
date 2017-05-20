@@ -306,7 +306,7 @@ void IndexMap::predictIndices(const Eigen::Matrix4f &pose, const int &time,
                               const std::pair<GLuint, GLuint> &model,
                               const float depthCutoff, const int timeDelta) {
   check_gl_errorIndexMap();
-  LOGI("MY elasitcfusion IndexMap::predictIndices start 1 model: %d, %d", model.first, model.second);
+  LOGI("MY elasitcfusion IndexMap::predictIndices start 1 model:first:  %d, second: %d", model.first, model.second);
   indexFrameBuffer.Bind();
   check_gl_errorIndexMap();
   LOGI("MY elasitcfusion IndexMap::predictIndices 2");
@@ -461,7 +461,7 @@ void IndexMap::combinedPredict(const Eigen::Matrix4f &pose,
                                const int maxTime, const int timeDelta,
                                IndexMap::Prediction predictionType) {
   check_gl_errorIndexMap();
-  LOGI("MY elasitcfusion IndexMap::combinedPredict start 1 model: %d, %d", model.first, model.second);
+  LOGI("MY elasitcfusion IndexMap::combinedPredict start 1 model:first:  %d, second: %d", model.first, model.second);
   // glEnable(GL_PROGRAM_POINT_SIZE); // here
   check_gl_errorIndexMap();
   LOGI("MY elasitcfusion IndexMap::combinedPredict  2");
@@ -595,7 +595,7 @@ void IndexMap::synthesizeDepth(const Eigen::Matrix4f &pose,
                                const float confThreshold, const int time,
                                const int maxTime, const int timeDelta) {
   check_gl_errorIndexMap();
-  LOGI("MY elasitcfusion IndexMap::synthesizeDepth  start 1 model: %d, %d", model.first, model.second);
+  LOGI("MY elasitcfusion IndexMap::synthesizeDepth  start 1 model:first:  %d, second: %d", model.first, model.second);
   // glEnable(GL_PROGRAM_POINT_SIZE);
   check_gl_errorIndexMap();
   LOGI("MY elasitcfusion IndexMap::synthesizeDepth  2");
