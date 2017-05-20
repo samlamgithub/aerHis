@@ -514,7 +514,11 @@ check_gl_errorGlobalModel();
 //     program->Unbind();
 // }
 
-const std::pair<GLuint, GLuint> &GlobalModel::model() { return vbos[target]; }
+const std::pair<GLuint, GLuint> &GlobalModel::model() {
+LOGI("MY elasitcfusion GlobalModel model(): target: %d, : %d, %d",
+ target,vbos[target].first, vbos[target].second);
+return vbos[target];
+}
 
 // dataProgram: data.vert data.frag data.geom
 // updateProgram: update.vert
@@ -973,7 +977,7 @@ Eigen::Vector4f *GlobalModel::downloadMap() {
   check_gl_errorGlobalModel();
     LOGI("MY elasitcfusion GlobalModel downloadMap 5 glGetBufferSubData 0");
   // glGetBufferSubData(GL_ARRAY_BUFFER, 0, count * Vertex::SIZE, vertices); // Invalid Operation glError
-  Eigen::Vector4f * ver = glMapBufferRange(GL_ARRAY_BUFFER, 0, count *
+  Eigen::Vector4f * ver = (Eigen::Vector4f *)glMapBufferRange(GL_ARRAY_BUFFER, 0, count *
   Vertex::SIZE, GL_MAP_READ_BIT);
   check_gl_errorGlobalModel();
     LOGI("MY elasitcfusion GlobalModel downloadMap 5 glGetBufferSubData 1");
