@@ -158,10 +158,10 @@ GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE)
 
   memset(&vertices[0], 0, Resolution::getInstance().numPixels() * Vertex::SIZE);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 7 glGenTransformFeedbacks newUnstableFid: %d". newUnstableFid);
+  LOGI("MY elasitcfusion GlobalModel struct init 7 glGenTransformFeedbacks newUnstableFid: %d", newUnstableFid);
   glGenTransformFeedbacks(1, &newUnstableFid);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 7 glGenTransformFeedbacks newUnstableFid: %d". newUnstableFid);
+  LOGI("MY elasitcfusion GlobalModel struct init 7 glGenTransformFeedbacks newUnstableFid: %d", newUnstableFid);
   glGenBuffers(1, &newUnstableVbo);
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel struct init 7");
@@ -430,10 +430,10 @@ check_gl_errorGlobalModel();
    LOGI("MY elasitcfusion GlobalModel struct initialise 16");
   glEndQuery(GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN);
   check_gl_errorGlobalModel();
-   LOGI("MY elasitcfusion GlobalModel struct initialise 17 glGetQueryObjectuiv");
+   LOGI("MY elasitcfusion GlobalModel struct initialise 17 glGetQueryObjectuiv: countQuery: %d, count: %d",countQuery,count );
   glGetQueryObjectuiv(countQuery, GL_QUERY_RESULT, &count);
   check_gl_errorGlobalModel();
-   LOGI("MY elasitcfusion GlobalModel struct initialise 18 glGetQueryObjectuiv");
+   LOGI("MY elasitcfusion GlobalModel struct initialise 18 glGetQueryObjectuiv: countQuery: %d, count: %d",countQuery,count );
   glDisable(GL_RASTERIZER_DISCARD);
   check_gl_errorGlobalModel();
    LOGI("MY elasitcfusion GlobalModel struct initialise 19");
@@ -551,10 +551,10 @@ void GlobalModel::fuse(const Eigen::Matrix4f &pose, const int &time,
   LOGI("MY elasitcfusion GlobalModel fuse 1 4");
   glClearColor(0, 0, 0, 0);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel fuse 1 5");
+  LOGI("MY elasitcfusion GlobalModel fuse 1 5 glClear");
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT GL_INVALID_FRAMEBUFFER_OPERATION
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel fuse 1 6");
+  LOGI("MY elasitcfusion GlobalModel fuse 1 6 glClear");
   dataProgram->Bind();
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel fuse 1 7");
@@ -595,10 +595,10 @@ void GlobalModel::fuse(const Eigen::Matrix4f &pose, const int &time,
   LOGI("MY elasitcfusion GlobalModel fuse 3");
   glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel fuse 5 glBindTransformFeedback newUnstableFid: %d". newUnstableFid);
+  LOGI("MY elasitcfusion GlobalModel fuse 5 glBindTransformFeedback newUnstableFid: %d", newUnstableFid);
   glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, newUnstableFid); // GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT Invalid Operation()
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel fuse 6 glBindTransformFeedback newUnstableFid: %d". newUnstableFid);
+  LOGI("MY elasitcfusion GlobalModel fuse 6 glBindTransformFeedback newUnstableFid: %d", newUnstableFid);
   glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, newUnstableVbo);
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel fuse 7");
@@ -632,10 +632,10 @@ void GlobalModel::fuse(const Eigen::Matrix4f &pose, const int &time,
   LOGI("MY elasitcfusion GlobalModel fuse 14");
   glBeginTransformFeedback(GL_POINTS);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel fuse 15");
+  LOGI("MY elasitcfusion GlobalModel fuse 15 glDrawArrays");
   glDrawArrays(GL_POINTS, 0, uvSize); //GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT GL_INVALID_FRAMEBUFFER_OPERATION
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel fuse 16");
+  LOGI("MY elasitcfusion GlobalModel fuse 16 glDrawArrays");
   glEndTransformFeedback();
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel fuse 17");
@@ -917,7 +917,7 @@ check_gl_errorGlobalModel();
     LOGI("MY elasitcfusion GlobalModel clean 29 glDrawTransformFeedback glEndQuery");
   glEndQuery(GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN);//GL_FRAMEBUFFER_COMPLETE, Invalid Operation
   check_gl_errorGlobalModel();
-    LOGI("MY elasitcfusion GlobalModel clean 30 glEndQuery glGetQueryObjectuiv");
+    LOGI("MY elasitcfusion GlobalModel clean 30 glEndQuery glGetQueryObjectuiv: countQuery: %d, count: %d",countQuery,count );
   glGetQueryObjectuiv(countQuery, GL_QUERY_RESULT, &count);//GL_FRAMEBUFFER_COMPLETE, Invalid Operation
   check_gl_errorGlobalModel();
     LOGI("MY elasitcfusion GlobalModel clean 31 glGetQueryObjectuiv : countQuery: %d, count: %d",countQuery,count );

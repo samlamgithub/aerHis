@@ -31,6 +31,7 @@
 #include "../../tango_interface/util.hpp"
 #include "GLExtensions.h"
 #include <utility>
+#include <string>
 
 static const char *glErrorString(GLenum err) {
   switch (err) {

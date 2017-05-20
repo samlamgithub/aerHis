@@ -72,7 +72,7 @@ inline void check_gl_errorResize() {
   glCheckFramebufferStatusResize();
   for (GLint error = glGetError(); error; error = glGetError()) {
     LOGI("check_gl_error GlobalModel My elastic-fusion CheckGlDieOnError after "
-         ":%s ,%s() glError (0x%x)\n",  glCheckFramebufferStatusResize();
+         ":%s ,%s() glError (0x%x)\n",  glCheckFramebufferStatusResize(),
          glErrorStringResize(error), error);
   }
 }
@@ -163,6 +163,7 @@ void Resize::image(GPUTexture *source,
   glDrawArrays(GL_POINTS, 0, 1);
   check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct image 11 glReadPixels");
+// glReadPixels(0, 0, imageRenderBuffer.width, imageRenderBuffer.height, GL_RGB,
   glReadPixels(0, 0, imageRenderBuffer.width, imageRenderBuffer.height, GL_RGBA,
                GL_UNSIGNED_BYTE, dest.data); // here Invalid Operation()
   check_gl_errorResize();

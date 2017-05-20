@@ -376,10 +376,10 @@ check_gl_errorDeformation();
     LOGI("MY elasitcfusion Deformation struct sampleGraphModel 15 glEndQuery");
   glEndQuery(GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN);// GL_FRAMEBUFFER_COMPLETE, Invalid Operation
   check_gl_errorDeformation();
-    LOGI("MY elasitcfusion Deformation struct sampleGraphModel 16 glEndQueryglEndQuery glGetQueryObjectuiv");
+    LOGI("MY elasitcfusion Deformation struct sampleGraphModel 16 glEndQueryglEndQuery glGetQueryObjectuiv: countQuery: %d, count: %d",countQuery,count );
   glGetQueryObjectuiv(countQuery, GL_QUERY_RESULT, &count);// GL_FRAMEBUFFER_COMPLETE, Invalid Operation
   check_gl_errorDeformation();
-    LOGI("MY elasitcfusion Deformation struct sampleGraphModel 17 glGetQueryObjectuiv");
+    LOGI("MY elasitcfusion Deformation struct sampleGraphModel 17 glGetQueryObjectuiv: countQuery: %d, count: %d",countQuery,count );
   glDisable(GL_RASTERIZER_DISCARD);
   check_gl_errorDeformation();
     LOGI("MY elasitcfusion Deformation struct sampleGraphModel 18 ");
