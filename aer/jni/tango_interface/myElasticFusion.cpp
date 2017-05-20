@@ -557,6 +557,7 @@ void MyElasticFusion::runEF() {
   //    LOGI("Logger puts: %d", result);
   LOGI("MyElasticFusion runEF elasticfusion: good");
   while (runningElasticFusion.getValueWait(1)) {
+    LOGI("MyElasticFusion runEF elasticfusion: while loop in");
     int bufferIndex = latestBufferIndex.getValue();
     if (bufferIndex == -1) {
       continue;
@@ -984,6 +985,7 @@ void MyElasticFusion::runEF() {
   // LOGI("Logger close:");
   // fclose(RGBlog_file_);
   // fclose(Depthlog_file_);
+LOGI("MyElasticFusion deleting");
   delete &eFusion;
   LOGI("ElasticFusion done: done");
 }

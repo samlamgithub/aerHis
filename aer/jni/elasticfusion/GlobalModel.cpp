@@ -113,7 +113,7 @@ GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE)
 //   GL_LUMINANCE, GL_FLOAT)
 {
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init start 1 : target: %d, renderSource:   %d,  vbos[target].first : %d,  vbos[target].second : %d, vbos[renderSource].first: %d , vbos[renderSource].second: %d", target, renderSource,  vbos[target].first,  vbos[target].second, vbos[renderSource].first, vbos[renderSource].second);
+  LOGI("MY elasitcfusion GlobalModel struct init start 1 ");
   vbos = new std::pair<GLuint, GLuint>[2];
   LOGI("MY elasitcfusion GlobalModel struct init 2 : %d", bufferSize);
   float *vertices = new float[bufferSize];
@@ -361,20 +361,25 @@ LOGI("MY elasitcfusion GlobalModel struct init 66 glBindTransformFeedback");
 }
 
 GlobalModel::~GlobalModel() {
+  LOGI("MY elasitcfusion GlobalModel is free start 1");
   glDeleteBuffers(1, &vbos[0].first);
+LOGI("MY elasitcfusion GlobalModel is free 2");
   glDeleteTransformFeedbacks(1, &vbos[0].second);
-
+LOGI("MY elasitcfusion GlobalModel is free 3");
   glDeleteBuffers(1, &vbos[1].first);
+LOGI("MY elasitcfusion GlobalModel is free 4");
   glDeleteTransformFeedbacks(1, &vbos[1].second);
-
+LOGI("MY elasitcfusion GlobalModel is free 5");
   glDeleteQueries(1, &countQuery);
-
+LOGI("MY elasitcfusion GlobalModel is free 6");
   glDeleteBuffers(1, &uvo);
-
+LOGI("MY elasitcfusion GlobalModel is free 7");
   glDeleteTransformFeedbacks(1, &newUnstableFid);
+LOGI("MY elasitcfusion GlobalModel is free 8");
   glDeleteBuffers(1, &newUnstableVbo);
-
+LOGI("MY elasitcfusion GlobalModel is free 9");
   delete[] vbos;
+LOGI("MY elasitcfusion GlobalModel is free 10");
 }
 
 // init_unstable.vert
@@ -568,7 +573,7 @@ void GlobalModel::fuse(const Eigen::Matrix4f &pose, const int &time,
   LOGI("MY elasitcfusion GlobalModel fuse 1 6 glClear");
   dataProgram->Bind();
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel fuse 1 7");
+  LOGI("MY elasitcfusion GlobalModel fuse 1 7 1");
   dataProgram->setUniform(Uniform("cSampler", 0));
   dataProgram->setUniform(Uniform("drSampler", 1));
   dataProgram->setUniform(Uniform("drfSampler", 2));
@@ -597,7 +602,7 @@ void GlobalModel::fuse(const Eigen::Matrix4f &pose, const int &time,
   // ID 等信息），和新捕获的图像进行对比，得到哪些模型点需要更新, uvo
   // 的维度和输入图像的维度相同
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel fuse 1 7");
+  LOGI("MY elasitcfusion GlobalModel fuse 1 7 2");
   glEnableVertexAttribArray(0);
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel fuse 2");

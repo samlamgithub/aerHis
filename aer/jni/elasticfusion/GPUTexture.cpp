@@ -114,11 +114,15 @@ GPUTexture::GPUTexture(const int width, const int height,
 }
 
 GPUTexture::~GPUTexture() {
+  LOGI("MY elasitcfusion GPUTexture is free start 1");
   if (texture) {
+LOGI("MY elasitcfusion GPUTexture is free texture");
     delete texture;
   }
 
   if (cudaRes) {
+LOGI("MY elasitcfusion GPUTexture is free cudaRes");
     cudaGraphicsUnregisterResource(cudaRes);
   }
+LOGI("MY elasitcfusion GPUTexture is free done");
 }
