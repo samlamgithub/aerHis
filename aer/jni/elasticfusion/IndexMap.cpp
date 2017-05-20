@@ -306,7 +306,7 @@ void IndexMap::predictIndices(const Eigen::Matrix4f &pose, const int &time,
                               const std::pair<GLuint, GLuint> &model,
                               const float depthCutoff, const int timeDelta) {
   check_gl_errorIndexMap();
-  LOGI("MY elasitcfusion IndexMap::predictIndices start 1");
+  LOGI("MY elasitcfusion IndexMap::predictIndices start 1 model: %d, %d", model.first, model.second);
   indexFrameBuffer.Bind();
   check_gl_errorIndexMap();
   LOGI("MY elasitcfusion IndexMap::predictIndices 2");
@@ -361,15 +361,15 @@ void IndexMap::predictIndices(const Eigen::Matrix4f &pose, const int &time,
                         LOGI("MY elasitcfusion IndexMap::predictIndices  13");
   glEnableVertexAttribArray(2);
   check_gl_errorIndexMap();
-  LOGI("MY elasitcfusion IndexMap::predictIndices  14");
+  LOGI("MY elasitcfusion IndexMap::predictIndices 14");
   glVertexAttribPointer(
       2, 4, GL_FLOAT, GL_FALSE, Vertex::SIZE,
       reinterpret_cast<GLvoid *>(sizeof(Eigen::Vector4f) * 2));
       check_gl_errorIndexMap();
-      LOGI("MY elasitcfusion IndexMap::predictIndices  15");
-  glDrawTransformFeedback(GL_POINTS, model.second);
+      LOGI("MY elasitcfusion IndexMap::predictIndices 15 glDrawTransformFeedback model.second: %d", model.second);
+  glDrawTransformFeedback(GL_POINTS, model.second);//Invalid Value()
   check_gl_errorIndexMap();
-  LOGI("MY elasitcfusion IndexMap::predictIndices  16");
+  LOGI("MY elasitcfusion IndexMap::predictIndices  16 glDrawTransformFeedback");
   glDisableVertexAttribArray(0);
   check_gl_errorIndexMap();
   LOGI("MY elasitcfusion IndexMap::predictIndices  17");
@@ -461,7 +461,7 @@ void IndexMap::combinedPredict(const Eigen::Matrix4f &pose,
                                const int maxTime, const int timeDelta,
                                IndexMap::Prediction predictionType) {
   check_gl_errorIndexMap();
-  LOGI("MY elasitcfusion IndexMap::combinedPredict start 1");
+  LOGI("MY elasitcfusion IndexMap::combinedPredict start 1 model: %d, %d", model.first, model.second);
   // glEnable(GL_PROGRAM_POINT_SIZE); // here
   check_gl_errorIndexMap();
   LOGI("MY elasitcfusion IndexMap::combinedPredict  2");
@@ -500,7 +500,7 @@ void IndexMap::combinedPredict(const Eigen::Matrix4f &pose,
   glClearColor(0, 0, 0, 0);
   check_gl_errorIndexMap();
   LOGI("MY elasitcfusion IndexMap::combinedPredict 7");
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // here GL_INVALID_FRAMEBUFFER_OPERATION
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //  GL_INVALID_FRAMEBUFFER_OPERATION
   check_gl_errorIndexMap();
   LOGI("MY elasitcfusion IndexMap::combinedPredict 8");
   combinedProgram->Bind();
@@ -547,10 +547,10 @@ void IndexMap::combinedPredict(const Eigen::Matrix4f &pose,
       2, 4, GL_FLOAT, GL_FALSE, Vertex::SIZE,
       reinterpret_cast<GLvoid *>(sizeof(Eigen::Vector4f) * 2));
   check_gl_errorIndexMap();
-  LOGI("MY elasitcfusion IndexMap::combinedPredict 17");
-  glDrawTransformFeedback(GL_POINTS, model.second); //Invalid Value()
+  LOGI("MY elasitcfusion IndexMap::combinedPredict 17 glDrawTransformFeedback:  model.second: %d",  model.second);
+  glDrawTransformFeedback(GL_POINTS, model.second); // Invalid Value()
   check_gl_errorIndexMap();
-  LOGI("MY elasitcfusion IndexMap::combinedPredict 18");
+  LOGI("MY elasitcfusion IndexMap::combinedPredict 18 glDrawTransformFeedback");
   glDisableVertexAttribArray(0);
   glDisableVertexAttribArray(1);
   glDisableVertexAttribArray(2);
@@ -595,7 +595,7 @@ void IndexMap::synthesizeDepth(const Eigen::Matrix4f &pose,
                                const float confThreshold, const int time,
                                const int maxTime, const int timeDelta) {
   check_gl_errorIndexMap();
-  LOGI("MY elasitcfusion IndexMap::synthesizeDepth  start 1");
+  LOGI("MY elasitcfusion IndexMap::synthesizeDepth  start 1 model: %d, %d", model.first, model.second);
   // glEnable(GL_PROGRAM_POINT_SIZE);
   check_gl_errorIndexMap();
   LOGI("MY elasitcfusion IndexMap::synthesizeDepth  2");
@@ -663,10 +663,10 @@ void IndexMap::synthesizeDepth(const Eigen::Matrix4f &pose,
       2, 4, GL_FLOAT, GL_FALSE, Vertex::SIZE,
       reinterpret_cast<GLvoid *>(sizeof(Eigen::Vector4f) * 2));
       check_gl_errorIndexMap();
-      LOGI("MY elasitcfusion IndexMap::synthesizeDepth 17");
+      LOGI("MY elasitcfusion IndexMap::synthesizeDepth 17 glDrawTransformFeedback: model.second: %d", model.second);
   glDrawTransformFeedback(GL_POINTS, model.second);
   check_gl_errorIndexMap();
-  LOGI("MY elasitcfusion IndexMap::synthesizeDepth  18");
+  LOGI("MY elasitcfusion IndexMap::synthesizeDepth  18 glDrawTransformFeedback");
   glDisableVertexAttribArray(0);
   glDisableVertexAttribArray(1);
   glDisableVertexAttribArray(2);

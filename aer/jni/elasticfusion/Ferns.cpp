@@ -72,7 +72,7 @@ inline const char *glCheckFramebufferStatusFerns() {
 inline void check_gl_errorFerns() {
   for (GLint error = glGetError(); error; error = glGetError()) {
     LOGI("check_gl_error ferns.cpp My elastic-fusion CheckGlDieOnError after "
-         ": %s, %s glError (0x%x)\n", glCheckFramebufferStatusFerns();
+         ": %s, %s glError (0x%x)\n", glCheckFramebufferStatusFerns(),
          glErrorStringFerns(error), error);
   }
 }

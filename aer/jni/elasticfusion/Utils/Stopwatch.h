@@ -142,13 +142,13 @@ class Stopwatch
 
         void tick(std::string name, unsigned long long int start)
         {
-LOGI("tick %s", name);
+LOGI("tick %s", name.c_str());
         	tickTimings[name] = start;
         }
 
         void tock(std::string name, unsigned long long int end)
         {
-LOGI("tock %s", name);
+LOGI("tock %s", name.c_str());
         	float duration = (float)(end - tickTimings[name]) / 1000.0f;
 
             if(duration > 0)

@@ -777,17 +777,19 @@ void ElasticFusion::predict() {
   check_gl_errorElasticFusion();
   LOGI("MY elasitcfusion struct predict 1  start 1111");
   if (lastFrameRecovery) {
+   LOGI("MY elasitcfusion struct predict 1   1111 a start");
     indexMap.combinedPredict(currPose, globalModel.model(), maxDepthProcessed,
                              confidenceThreshold, 0, tick, timeDelta,
                              IndexMap::ACTIVE);
                              check_gl_errorElasticFusion();
-                             LOGI("MY elasitcfusion struct predict 1   1111 a");
+                             LOGI("MY elasitcfusion struct predict 1   1111 a done");
   } else {
+ LOGI("MY elasitcfusion struct predict 1   1111 b start");
     indexMap.combinedPredict(currPose, globalModel.model(), maxDepthProcessed,
                              confidenceThreshold, tick, tick, timeDelta,
                              IndexMap::ACTIVE);
                              check_gl_errorElasticFusion();
-                             LOGI("MY elasitcfusion struct predict 1   1111 b");
+                             LOGI("MY elasitcfusion struct predict 1   1111 b done");
   }
   //当跟丢的时候，使用当前帧的信息为下一帧配准，passthrough 传递的参数为 lsot
   //当参数没有跟丢时，使用模型投影获取的图像对下一帧图像配准，当模型投影有残缺值时，使用当前帧的图像做补丁

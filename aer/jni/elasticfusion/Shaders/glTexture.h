@@ -82,7 +82,6 @@ inline const char *glCheckFramebufferStatusGlTexture() {
 }
 
 inline void CheckGlDieOnError() {
-  glCheckFramebufferStatusgltexture();
   for (GLint error = glGetError(); error; error = glGetError()) {
     LOGI("glTexture.h CheckGlDieOnError after, %s, %s: glError (0x%x)\n", glCheckFramebufferStatusGlTexture(),
          glErrorString(error), error);
@@ -230,7 +229,7 @@ public:
               GLenum data_type = GL_FLOAT) {
     int align = 0;
     glGetIntegerv(GL_PACK_ALIGNMENT, &align);
-    LOGI("GlTexture Upload start 1: %d, %d, %d", data_format, data_type, align);
+    LOGI("GlTexture Upload start 1 GL_PACK_ALIGNMENT: %d, %d, %d", data_format, data_type, align);
     CheckGlDieOnError();
     LOGI("GlTexture Upload Bind start");
     Bind();

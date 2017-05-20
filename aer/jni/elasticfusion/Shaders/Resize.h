@@ -39,7 +39,7 @@ public:
 
   GPUTexture imageTexture;
   GPUTexture vertexTexture;
-  GPUTexture timeTexture;re
+  GPUTexture timeTexture;
 
   std::shared_ptr<Shader> imageProgram;
   // pangolin::GlRenderBuffer imageRenderBuffer;

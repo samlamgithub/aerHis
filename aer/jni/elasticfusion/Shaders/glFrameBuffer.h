@@ -82,7 +82,6 @@ static const char *glErrorStringFB(GLenum err) {
 }
 
 inline void CheckGlDieOnErrorFB() {
-  glCheckFramebufferStatusFramebuffer();
   for (GLint error = glGetError(); error; error = glGetError()) {
     LOGI("GlFramebuffer.h CheckGlDieOnError after: %s, %s: glError (0x%x)\n", glCheckFramebufferStatusGlFramebuffer(),
          glErrorStringFB(error), error);
