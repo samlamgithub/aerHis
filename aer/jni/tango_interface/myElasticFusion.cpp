@@ -704,7 +704,8 @@ void MyElasticFusion::runEF() {
     Eigen::IOFormat CleanFmt(4, 0, ", ", "\n", "[", "]");
     std::stringstream ss;
     ss << currPose.format(CleanFmt);
-    LOGI("current pose is : %s",ss.str());
+    string str(ss.str());
+    LOGI("current pose is : %s", str.c_str());
     LOGI("MyElasticFusion Processing frames done.");
     LOGI("MyElasticFusion Log processing result start.");
     //查看处理的结果
@@ -715,7 +716,7 @@ void MyElasticFusion::runEF() {
     //  Ferns keyfern = eFusion.getFerns();//关键帧dataset
 
     int ld_num = eFusion.getDeforms(); //局部deformations的数量
-    Deformation ld = eFusion.getLocalDeformation(); //局部deformation图
+    // Deformation ld = eFusion.getLocalDeformation(); //局部deformation图
 
     int gd_num = eFusion.getFernDeforms();     //全局deformations的数量
     // GlobalModel gm = eFusion.getGlobalModel(); //全局deformation model:
@@ -757,9 +758,9 @@ void MyElasticFusion::runEF() {
     //      "eFusion.globalModel.downloadMap() valid count : %d",
     //      validCount);
 
-    RGBDOdometry modelToModel = eFusion.getModelToModel();
-    float lastICPError = modelToModel.lastICPError;
-    float lastICPCount = modelToModel.lastICPCount;
+    // RGBDOdometry modelToModel = eFusion.getModelToModel();
+    float lastICPError = eFusion.getModelToModel().lastICPError;
+    float lastICPCount = eFusion.getModelToModel().lastICPCount;
     LOGI("MyElasticFusion Log processing result lastICPError: %f, "
          "icpErrThresh: %f",
          lastICPError, 5e-05);
