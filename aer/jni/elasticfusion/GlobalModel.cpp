@@ -971,13 +971,16 @@ Eigen::Vector4f *GlobalModel::downloadMap() {
     LOGI("MY elasitcfusion GlobalModel downloadMap 4");
   glBindBuffer(GL_ARRAY_BUFFER, vbos[renderSource].first);
   check_gl_errorGlobalModel();
-    LOGI("MY elasitcfusion GlobalModel downloadMap 5");
-  glGetBufferSubData(GL_ARRAY_BUFFER, 0, count * Vertex::SIZE, vertices); // Invalid Operation glError
-  // Eigen::Vector4f * ver = glMapBufferRange(GL_ARRAY_BUFFER, 0, count *
-  // Vertex::SIZE, GL_MAP_READ_BIT); vertices = ver;
+    LOGI("MY elasitcfusion GlobalModel downloadMap 5 glGetBufferSubData 0");
+  // glGetBufferSubData(GL_ARRAY_BUFFER, 0, count * Vertex::SIZE, vertices); // Invalid Operation glError
+  Eigen::Vector4f * ver = glMapBufferRange(GL_ARRAY_BUFFER, 0, count *
+  Vertex::SIZE, GL_MAP_READ_BIT);
+  check_gl_errorGlobalModel();
+    LOGI("MY elasitcfusion GlobalModel downloadMap 5 glGetBufferSubData 1");
+  vertices = ver;
   // glUnmapBuffer(GL_ARRAY_BUFFER);
   check_gl_errorGlobalModel();
-    LOGI("MY elasitcfusion GlobalModel downloadMap 6");
+    LOGI("MY elasitcfusion GlobalModel downloadMap 6 glGetBufferSubData 2");
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   check_gl_errorGlobalModel();
     LOGI("MY elasitcfusion GlobalModel downloadMap 7");

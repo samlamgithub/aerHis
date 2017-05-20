@@ -404,15 +404,15 @@ check_gl_errorDeformation();
   if ((int)count > def.k) {
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     check_gl_errorDeformation();
-      LOGI("MY elasitcfusion Deformation struct sampleGraphModel 24 ");
-    glGetBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(Eigen::Vector4f) * count,
-                       vertices);
-                       check_gl_errorDeformation();
-                         LOGI("MY elasitcfusion Deformation struct sampleGraphModel 25 ");
-    // Eigen::Vector4f * ver = (Eigen::Vector4f *
-    // )glMapBufferRange(GL_ARRAY_BUFFER, 0, sizeof(Eigen::Vector4f) * count,
-    // GL_MAP_READ_BIT); vertices = ver; glUnmapBuffer(GL_ARRAY_BUFFER);
-
+      LOGI("MY elasitcfusion Deformation struct sampleGraphModel 24 glGetBufferSubData");
+    // glGetBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(Eigen::Vector4f) * count,
+    //                    vertices);
+    Eigen::Vector4f * ver = (Eigen::Vector4f *)glMapBufferRange(GL_ARRAY_BUFFER, 0, sizeof(Eigen::Vector4f) * count,
+    GL_MAP_READ_BIT);
+    check_gl_errorDeformation();
+      LOGI("MY elasitcfusion Deformation struct sampleGraphModel 25 glGetBufferSubData");
+vertices = ver;
+// glUnmapBuffer(GL_ARRAY_BUFFER);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     check_gl_errorDeformation();
       LOGI("MY elasitcfusion Deformation struct sampleGraphModel 26 ");
