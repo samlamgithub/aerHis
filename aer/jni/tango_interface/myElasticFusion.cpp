@@ -701,8 +701,10 @@ void MyElasticFusion::runEF() {
     check_gl_errorEF();
     Eigen::Matrix4f currPose = eFusion.getCurrPose();
     posesEigen.push_back(currPose);
-    IOFormat CleanFmt(4, 0, ", ", "\n", "[", "]");
-    LOGI("current pose is : %s",currPose.format(CleanFmt));
+    Eigen::IOFormat CleanFmt(4, 0, ", ", "\n", "[", "]");
+    std::stringstream ss;
+    ss << currPose.format(CleanFmt);
+    LOGI("current pose is : %s",ss.str());
     LOGI("MyElasticFusion Processing frames done.");
     LOGI("MyElasticFusion Log processing result start.");
     //查看处理的结果
@@ -716,9 +718,9 @@ void MyElasticFusion::runEF() {
     Deformation ld = eFusion.getLocalDeformation(); //局部deformation图
 
     int gd_num = eFusion.getFernDeforms();     //全局deformations的数量
-    GlobalModel gm = eFusion.getGlobalModel(); //全局deformation model:
+    // GlobalModel gm = eFusion.getGlobalModel(); //全局deformation model:
 
-    int CloudPoint_num = gm.lastCount(); //点云的点数量
+    int CloudPoint_num = eFusion.getGlobalModel().lastCount(); //点云的点数量
     LOGI("MyElasticFusion Log processing result eFusion.globalModel.lastCount(): "
          "totalPoints :%d ",
          CloudPoint_num);
@@ -743,17 +745,17 @@ void MyElasticFusion::runEF() {
          "eFusion.getFernDeforms(): totalFernDefs :%d ",
          totalFernDefs);
 
-    Eigen::Vector4f *mapData = gm.downloadMap(); //点云图
-    int validCount = 0;
-    for (unsigned int i = 0; i < CloudPoint_num; i++) {
-      Eigen::Vector4f pos = mapData[(i * 3) + 0];
-      if (pos[3] > confidence) {
-        validCount++; //这是个有效的顶点,
-      }
-    } //调用点云中的每一个点
-    LOGI("MyElasticFusion Log processing result "
-         "eFusion.globalModel.downloadMap() valid count : %d",
-         validCount);
+    // Eigen::Vector4f *mapData = gm.downloadMap(); //点云图
+    // int validCount = 0;
+    // for (unsigned int i = 0; i < CloudPoint_num; i++) {
+    //   Eigen::Vector4f pos = mapData[(i * 3) + 0];
+    //   if (pos[3] > confidence) {
+    //     validCount++; //这是个有效的顶点,
+    //   }
+    // } //调用点云中的每一个点
+    // LOGI("MyElasticFusion Log processing result "
+    //      "eFusion.globalModel.downloadMap() valid count : %d",
+    //      validCount);
 
     RGBDOdometry modelToModel = eFusion.getModelToModel();
     float lastICPError = modelToModel.lastICPError;

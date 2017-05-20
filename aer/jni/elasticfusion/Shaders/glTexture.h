@@ -120,7 +120,7 @@ public:
   void Delete() {
     // We have no GL context whilst exiting.
     // if(internal_format!=0 && !pangolin::ShouldQuit() ) {
-LOGI("GlTexture Delete start 1");
+LOGI("GlTexture Delete start 1, tid: %d", tid);
     if (internal_format != 0) {
 LOGI("GlTexture Delete  2");
       glDeleteTextures(1, &tid);
@@ -134,7 +134,7 @@ LOGI("GlTexture Delete done");
   }
 
   ~GlTexture() {
-LOGI("GlTexture free start 1");
+LOGI("GlTexture free start 1, tid: %d", tid);
     // We have no GL context whilst exiting.
     // if(internal_format!=0 && !pangolin::ShouldQuit() ) {
     if (internal_format != 0) {

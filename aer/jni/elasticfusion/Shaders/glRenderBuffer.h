@@ -113,6 +113,7 @@ struct GlRenderBuffer {
     CheckGlDieOnErrorRB();
     LOGI("GlRenderBuffer Reinitialise start");
     if (width != 0) {
+        LOGI("GlRenderBuffer Reinitialise start glDeleteTextures");
       glDeleteTextures(1, &rbid);
     }
     // Use a texture instead...

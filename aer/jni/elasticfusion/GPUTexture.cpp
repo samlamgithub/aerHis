@@ -72,12 +72,12 @@ inline const char *glCheckFramebufferStatusGT() {
     char other_string[64] = "MY elasitcfusion  else: ";
     strcat(other_string, integer_string);
     return other_string;
-  }
+}
 }
 
 inline void CheckGlDieOnErrorGT() {
   for (GLint error = glGetError(); error; error = glGetError()) {
-    LOGI("GPUTexture.cpp CheckGlDieOnError after : %s, %s: glError (0x%x)\n",     glCheckFramebufferStatusGT(),
+    LOGI("GPUTexture.cpp CheckGlDieOnError after : %s, %s: glError (0x%x)\n", glCheckFramebufferStatusGT(),
          glErrorStringGT(error), error);
   }
 }
