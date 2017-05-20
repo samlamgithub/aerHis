@@ -120,21 +120,28 @@ public:
   void Delete() {
     // We have no GL context whilst exiting.
     // if(internal_format!=0 && !pangolin::ShouldQuit() ) {
+LOGI("GlTexture Delete start 1");
     if (internal_format != 0) {
+LOGI("GlTexture Delete  2");
       glDeleteTextures(1, &tid);
+LOGI("GlTexture Delete  3");
       internal_format = 0;
       tid = 0;
       width = 0;
       height = 0;
     }
+LOGI("GlTexture Delete done");
   }
 
   ~GlTexture() {
+LOGI("GlTexture free start 1");
     // We have no GL context whilst exiting.
     // if(internal_format!=0 && !pangolin::ShouldQuit() ) {
     if (internal_format != 0) {
+LOGI("GlTexture free  2");
       glDeleteTextures(1, &tid);
     }
+LOGI("GlTexture free done");
   }
 
   void Bind() const {

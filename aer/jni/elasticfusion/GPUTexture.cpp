@@ -119,7 +119,7 @@ GPUTexture::~GPUTexture() {
 LOGI("MY elasitcfusion GPUTexture is free texture");
     delete texture;
   }
-
+  LOGI("MY elasitcfusion GPUTexture is free start 2");
   if (cudaRes) {
 LOGI("MY elasitcfusion GPUTexture is free cudaRes");
     cudaGraphicsUnregisterResource(cudaRes);

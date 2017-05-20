@@ -379,7 +379,7 @@ LOGI("MY elasitcfusion GlobalModel is free 8");
   glDeleteBuffers(1, &newUnstableVbo);
 LOGI("MY elasitcfusion GlobalModel is free 9");
   delete[] vbos;
-LOGI("MY elasitcfusion GlobalModel is free 10");
+LOGI("MY elasitcfusion GlobalModel is free done 10");
 }
 
 // init_unstable.vert
