@@ -999,6 +999,7 @@ void MyElasticFusion::runEF() {
   // fclose(Depthlog_file_);
   LOGI("MyElasticFusion deleting");
   delete &eFusion;
+  eFusion = NULL;
   LOGI("ElasticFusion done: done");
 }
 }
