@@ -138,6 +138,7 @@ ElasticFusion::ElasticFusion(const int timeDelta, const int countThresh,
 }
 
 ElasticFusion::~ElasticFusion() {
+    LOGI("MY elasitcfusion struct free start 1");
   //    if(iclnuim)
   //    {
   //        savePly();
@@ -184,23 +185,24 @@ ElasticFusion::~ElasticFusion() {
        it != textures.end(); ++it) {
     delete it->second;
   }
-
+    LOGI("MY elasitcfusion struct free  2");
   textures.clear();
-
+  LOGI("MY elasitcfusion struct free  3");
   for (std::map<std::string, ComputePack *>::iterator it = computePacks.begin();
        it != computePacks.end(); ++it) {
     delete it->second;
   }
-
+  LOGI("MY elasitcfusion struct free  4");
   computePacks.clear();
-
+  LOGI("MY elasitcfusion struct free  5");
   for (std::map<std::string, FeedbackBuffer *>::iterator it =
            feedbackBuffers.begin();
        it != feedbackBuffers.end(); ++it) {
     delete it->second;
   }
-
+  LOGI("MY elasitcfusion struct free  6");
   feedbackBuffers.clear();
+  LOGI("MY elasitcfusion struct free done");
 }
 
 void ElasticFusion::createTextures() {
