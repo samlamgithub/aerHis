@@ -245,8 +245,7 @@ public:
    * Saves out a .ply mesh file of the current model
    */
   // void savePly();
-  void savePly(Eigen::Vector4f *myMapData, unsigned int myLastCount,
-               float myConfidenceThreshold);
+  unsigned int savePly(Eigen::Vector4f *myMapData, float myConfidenceThreshold);
 
   /**
    * Renders a normalised view of the input raw depth for displaying as an

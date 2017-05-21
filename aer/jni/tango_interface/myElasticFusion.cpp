@@ -697,6 +697,7 @@ void MyElasticFusion::runEF() {
     check_gl_errorEF();
     eFusion.processFrame(rgbImageForEF, depthForEF, timeStampleForEF,
                          currentPose);
+    delete &trans;
     delete currentPose;
     // eFusion.processFrame(rgb, dep, timestamp);
     check_gl_errorEF();
@@ -712,7 +713,7 @@ void MyElasticFusion::runEF() {
     LOGI("MyElasticFusion Processing frames done.");
     LOGI("MyElasticFusion Log processing result start.");
     //查看处理的结果
-
+    delete &currPose;
     int time = eFusion.getTick(); //查看此时eFusion的系统时间
     LOGI("MyElasticFusion Log processing result time : %d ", time);
 
@@ -781,11 +782,13 @@ void MyElasticFusion::runEF() {
     if (shouldSavePly.getValueWait()) {
       LOGI("ElasticFusion start to save frame.");
       Eigen::Vector4f *mapData;
-      unsigned int lastCount;
+
       float confidenceThreshold;
       LOGI("ElasticFusion start to save frame. 0");
-      eFusion.savePly(mapData, lastCount, confidenceThreshold);
-      LOGI("ElasticFusion start to save frame 1. lastCount: %d, confidenceThreshold: %f", lastCount, confidenceThreshold);
+      unsigned int lastCount = eFusion.savePly(mapData, confidenceThreshold);
+      LOGI("ElasticFusion start to save frame 1. lastCount: %d, "
+           "confidenceThreshold: %f",
+           lastCount, confidenceThreshold);
       std::string plyFilename("/sdcard/ElasticFusionPly_" +
                               current_date_time());
       plyFilename.append(".ply");
