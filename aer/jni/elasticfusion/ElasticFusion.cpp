@@ -871,12 +871,15 @@ unsigned int ElasticFusion::savePly(Eigen::Vector4f *myMapData,
                                     float myConfidenceThreshold) {
   // TODO: save PLY
   check_gl_errorElasticFusion();
-  LOGI("MY elasitcfusion struct savePly 1 start");
+  LOGI("MY elasitcfusion struct savePly 1 start confidenceThreshold: %f",
+       confidenceThreshold);
+  unsigned int count = globalModel.lastCount();
   myMapData = globalModel.downloadMap();
   myConfidenceThreshold = confidenceThreshold;
   check_gl_errorElasticFusion();
-  LOGI("MY elasitcfusion struct savePly 1 done");
-  return globalModel.lastCount();
+  LOGI("MY elasitcfusion struct savePly 1 done, count: %d, myConfidenceThreshold: %f",
+       count, myConfidenceThreshold);
+  return count;
   //===========
   // std::string filename = saveFilename;
   // filename.append(".ply");

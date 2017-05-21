@@ -1196,10 +1196,12 @@ Eigen::Vector4f *GlobalModel::downloadMap() {
       GL_ARRAY_BUFFER, 0, count * Vertex::SIZE, GL_MAP_READ_BIT);
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel downloadMap 5 glGetBufferSubData 1");
-  vertices = ver;
-  // glUnmapBuffer(GL_ARRAY_BUFFER);
+  memcpy(vertices, ver, count * Vertex::SIZE);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel downloadMap 6 glGetBufferSubData 2");
+  LOGI("MY elasitcfusion GlobalModel downloadMap 5 glGetBufferSubData 2");
+  glUnmapBuffer(GL_ARRAY_BUFFER);
+  check_gl_errorGlobalModel();
+  LOGI("MY elasitcfusion GlobalModel downloadMap 6 glGetBufferSubData 3");
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel downloadMap 7");

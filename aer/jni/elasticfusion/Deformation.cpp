@@ -453,6 +453,7 @@ void Deformation::sampleGraphModel(const std::pair<GLuint, GLuint> &model) {
       //时间存进 vector
       graphPoseTimes.push_back(vertices[i](3));
     }
+    glUnmapBuffer(GL_ARRAY_BUFFER);
     check_gl_errorDeformation();
     LOGI("MY elasitcfusion Deformation struct sampleGraphModel 27 ");
     def.initialiseGraph(graphPosePoints, &graphPoseTimes);

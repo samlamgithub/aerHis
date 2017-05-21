@@ -783,7 +783,7 @@ void MyElasticFusion::runEF() {
       LOGI("ElasticFusion start to save frame.");
       Eigen::Vector4f *mapData;
 
-      float confidenceThreshold;
+      float confidenceThreshold = 0.0;
       LOGI("ElasticFusion start to save frame. 0");
       unsigned int lastCount = eFusion.savePly(mapData, confidenceThreshold);
       LOGI("ElasticFusion start to save frame 1. lastCount: %d, "
