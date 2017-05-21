@@ -785,7 +785,7 @@ void MyElasticFusion::runEF() {
       float confidenceThreshold;
       LOGI("ElasticFusion start to save frame. 0");
       eFusion.savePly(mapData, lastCount, confidenceThreshold);
-      LOGI("ElasticFusion start to save frame 1.");
+      LOGI("ElasticFusion start to save frame 1. lastCount: %d, confidenceThreshold: %f", lastCount, confidenceThreshold);
       std::string plyFilename("/sdcard/ElasticFusionPly_" +
                               current_date_time());
       plyFilename.append(".ply");
