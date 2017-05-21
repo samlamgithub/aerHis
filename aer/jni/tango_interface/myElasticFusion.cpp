@@ -440,15 +440,16 @@ void MyElasticFusion::runEF() {
   const EGLint configAttribs[] = {EGL_RENDERABLE_TYPE,
                                   EGL_OPENGL_ES2_BIT,
                                   EGL_SURFACE_TYPE,
-                                  EGL_WINDOW_BIT,
+                                  EGL_PBUFFER_BIT,
                                   EGL_BLUE_SIZE,
                                   8,
                                   EGL_GREEN_SIZE,
                                   8,
                                   EGL_RED_SIZE,
                                   8,
+                                   EGL_ALPHA_SIZE, 8,
                                   EGL_DEPTH_SIZE,
-                                  24,
+                                  16,
                                   EGL_NONE};
 
   const EGLint contextAttribs[] = {EGL_CONTEXT_CLIENT_VERSION, 3, EGL_NONE};
@@ -462,7 +463,7 @@ void MyElasticFusion::runEF() {
   if (!eglInitialize(display, &major, &minor) || eglGetError() != EGL_SUCCESS) {
     LOGI("MyElasticFusion runEF egl  eglInitialize failed");
   }
-
+  LOGI("MyElasticFusion  runEFEGL init with version %d.%d", major, minor);
   EGLint numConfigs;
   EGLConfig config;
   if (!eglChooseConfig(display, configAttribs, &config, 1, &numConfigs) ||
@@ -471,9 +472,14 @@ void MyElasticFusion::runEF() {
   }
 
   EGLSurface surface;
+  const EGLint surfaceAttr[] = {
+         EGL_WIDTH, 1280,
+         EGL_HEIGHT, 720,
+         EGL_NONE
+     };
 
   // PixmapSurface和PBufferSurface
-  surface = eglCreatePbufferSurface(display, config, NULL);
+  surface = eglCreatePbufferSurface(display, config, surfaceAttr);
   //	    surface = eglCreateWindowSurface(display, config, mWindow, NULL);
   if (surface == EGL_NO_SURFACE || eglGetError() != EGL_SUCCESS) {
     LOGI("MyElasticFusion runEF egl eglCreatePbufferSurface failed");
