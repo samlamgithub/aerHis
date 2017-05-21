@@ -37,7 +37,7 @@ static const char *glErrorStringGT(GLenum err) {
   // case GL_STACK_OVERFLOW: return "Stack Overflow";
   // case GL_STACK_UNDERFLOW: return "Stack Underflow";
   case GL_OUT_OF_MEMORY:
-    return "Out of Memory";
+    return "error Out of Memory";
   case GL_INVALID_FRAMEBUFFER_OPERATION:
     return "GL_INVALID_FRAMEBUFFER_OPERATION";
   //  case GL_TABLE_TOO_LARGE: return "Table too Large";
