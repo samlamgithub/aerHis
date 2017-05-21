@@ -84,8 +84,7 @@ ElasticFusion::ElasticFusion(const int timeDelta, const int countThresh,
                              const float confidence, const float depthCut,
                              const float icpThresh, const bool fastOdom,
                              const float fernThresh, const bool so3,
-                             const bool frameToFrameRGB,
-                             const std::string fileName)
+                             const bool frameToFrameRGB)
     : frameToModel(
           Resolution::getInstance().width(), Resolution::getInstance().height(),
           Intrinsics::getInstance().cx(), Intrinsics::getInstance().cy(),
@@ -94,7 +93,7 @@ ElasticFusion::ElasticFusion(const int timeDelta, const int countThresh,
           Resolution::getInstance().width(), Resolution::getInstance().height(),
           Intrinsics::getInstance().cx(), Intrinsics::getInstance().cy(),
           Intrinsics::getInstance().fx(), Intrinsics::getInstance().fy()),
-      ferns(500, depthCut * 1000, photoThresh), saveFilename(fileName),
+      ferns(500, depthCut * 1000, photoThresh),
       currPose(Eigen::Matrix4f::Identity()), tick(1), timeDelta(timeDelta),
       icpCountThresh(countThresh), icpErrThresh(errThresh),
       covThresh(covThresh), deforms(0), fernDeforms(0), consSample(20),
@@ -867,8 +866,7 @@ void ElasticFusion::normaliseDepth(const float &minVal, const float &maxVal) {
   LOGI("MY elasitcfusion struct normaliseDepth 3 done");
 }
 
-unsigned int ElasticFusion::savePly(Eigen::Vector4f *myMapData,
-                                    float myConfidenceThreshold) {
+unsigned int ElasticFusion::savePly(Eigen::Vector4f *myMapData,) {
   // TODO: save PLY
   check_gl_errorElasticFusion();
   LOGI("MY elasitcfusion struct savePly 1 start confidenceThreshold: %f",

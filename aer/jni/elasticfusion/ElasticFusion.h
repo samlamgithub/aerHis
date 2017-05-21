@@ -48,8 +48,7 @@ public:
                 const float confidence = 10, const float depthCut = 3,
                 const float icpThresh = 10, const bool fastOdom = false,
                 const float fernThresh = 0.3095, const bool so3 = true,
-                const bool frameToFrameRGB = false,
-                const std::string fileName = "");
+                const bool frameToFrameRGB = false);
 
   virtual ~ElasticFusion();
 
@@ -245,7 +244,7 @@ public:
    * Saves out a .ply mesh file of the current model
    */
   // void savePly();
-  unsigned int savePly(Eigen::Vector4f *myMapData, float myConfidenceThreshold);
+  unsigned int savePly(Eigen::Vector4f *myMapData);
 
   /**
    * Renders a normalised view of the input raw depth for displaying as an

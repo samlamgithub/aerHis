@@ -1196,6 +1196,9 @@ Eigen::Vector4f *GlobalModel::downloadMap() {
       GL_ARRAY_BUFFER, 0, count * Vertex::SIZE, GL_MAP_READ_BIT);
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel downloadMap 5 glGetBufferSubData 1");
+  if (!ver) {
+      LOGI("MY elasitcfusion GlobalModel downloadMap 5 glGetBufferSubData is NULL");
+  }
   memcpy(vertices, ver, count * Vertex::SIZE);
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel downloadMap 5 glGetBufferSubData 2");
