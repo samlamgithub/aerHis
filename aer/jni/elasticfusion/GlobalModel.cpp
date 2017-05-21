@@ -1192,7 +1192,7 @@ Eigen::Vector4f *GlobalModel::downloadMap() {
   GLint isMapped = 0;
     glGetBufferParameteriv(GL_ARRAY_BUFFER, GL_BUFFER_MAPPED, &isMapped);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel downloadMap is Mapped!!!: %d", isMapped);
+  LOGI("MY elasitcfusion GlobalModel downloadMap is Mapped 1!!!: %d", isMapped);
   LOGI("MY elasitcfusion GlobalModel downloadMap 5 glGetBufferSubData 0 : "
        "target: %d, renderSource:   %d,  vbos[target].first : %d,  "
        "vbos[target].second : %d, vbos[renderSource].first: %d , "
@@ -1208,6 +1208,8 @@ Eigen::Vector4f *GlobalModel::downloadMap() {
   if (!ver) {
       LOGI("MY elasitcfusion GlobalModel downloadMap 5 glGetBufferSubData is NULL");
   }
+    glGetBufferParameteriv(GL_ARRAY_BUFFER, GL_BUFFER_MAPPED, &isMapped);
+  LOGI("MY elasitcfusion GlobalModel downloadMap is Mapped 2!!!: %d", isMapped);
   memcpy(vertices, ver, count * Vertex::SIZE);
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel downloadMap 5 glGetBufferSubData 2");

@@ -1004,8 +1004,8 @@ void MyElasticFusion::runEF() {
   // fclose(RGBlog_file_);
   // fclose(Depthlog_file_);
   LOGI("MyElasticFusion deleting");
-  delete &eFusion;
-  eFusion = NULL;
+  // delete &eFusion;
+  // eFusion = NULL;
   LOGI("ElasticFusion done: done");
 }
 }
