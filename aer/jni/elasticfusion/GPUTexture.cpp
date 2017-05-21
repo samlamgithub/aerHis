@@ -72,13 +72,13 @@ inline const char *glCheckFramebufferStatusGT() {
     char other_string[64] = "MY elasitcfusion  else: ";
     strcat(other_string, integer_string);
     return other_string;
-}
+  }
 }
 
 inline void CheckGlDieOnErrorGT() {
   for (GLint error = glGetError(); error; error = glGetError()) {
-    LOGI("GPUTexture.cpp CheckGlDieOnError after : %s, %s: glError (0x%x)\n", glCheckFramebufferStatusGT(),
-         glErrorStringGT(error), error);
+    LOGI("GPUTexture.cpp CheckGlDieOnError after : %s, %s: glError (0x%x)\n",
+         glCheckFramebufferStatusGT(), glErrorStringGT(error), error);
   }
 }
 
@@ -92,10 +92,11 @@ GPUTexture::GPUTexture(const int width, const int height,
       draw(draw), width(width), height(height), internalFormat(internalFormat),
       format(format), dataType(dataType) {
   CheckGlDieOnErrorGT();
-  LOGI("MY elasitcfusion GPUTexture struct start init 1 : %d, %d,  %d,  %d,  %d",
-       width, height, internalFormat, format, dataType);
+  LOGI(
+      "MY elasitcfusion GPUTexture struct start init 1 : %d, %d,  %d,  %d,  %d",
+      width, height, internalFormat, format, dataType);
   if (cuda) {
-  LOGI("MY elasitcfusion GPUTexture is cuda");
+    LOGI("MY elasitcfusion GPUTexture is cuda");
     cudaError_t err =
         cudaGraphicsGLRegisterImage(&cudaRes, texture->tid, GL_TEXTURE_2D,
                                     cudaGraphicsRegisterFlagsReadOnly);
@@ -106,7 +107,7 @@ GPUTexture::GPUTexture(const int width, const int height,
       LOGI("elasticfusion GPU texture cudaGraphicsGLRegisterImage success");
     }
   } else {
-  LOGI("MY elasitcfusion GPUTexture is not cuda");
+    LOGI("MY elasitcfusion GPUTexture is not cuda");
     cudaRes = 0;
   }
   LOGI("MY elasitcfusion GPUTexture struct init 2 done ");
@@ -116,13 +117,13 @@ GPUTexture::GPUTexture(const int width, const int height,
 GPUTexture::~GPUTexture() {
   LOGI("MY elasitcfusion GPUTexture is free start 1");
   if (texture) {
-LOGI("MY elasitcfusion GPUTexture is free texture");
+    LOGI("MY elasitcfusion GPUTexture is free texture");
     delete texture;
   }
   LOGI("MY elasitcfusion GPUTexture is free start 2");
   if (cudaRes) {
-LOGI("MY elasitcfusion GPUTexture is free cudaRes");
+    LOGI("MY elasitcfusion GPUTexture is free cudaRes");
     cudaGraphicsUnregisterResource(cudaRes);
   }
-LOGI("MY elasitcfusion GPUTexture is free done");
+  LOGI("MY elasitcfusion GPUTexture is free done");
 }

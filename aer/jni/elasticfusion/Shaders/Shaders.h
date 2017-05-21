@@ -92,9 +92,11 @@ inline const char *glCheckFramebufferStatusShader() {
 
 inline void check_gl_error2(const char *operation) {
   for (GLint error = glGetError(); error; error = glGetError()) {
-    LOGI("Shader.h My elastic-fusion shader CheckGlDieOnError :%s, %s, after %s() "
-         "glError (0x%x)\n", glCheckFramebufferStatusShader(), operation,
-         glErrorString2(error), error);
+    LOGI("Shader.h My elastic-fusion shader CheckGlDieOnError :%s, %s, after "
+         "%s() "
+         "glError (0x%x)\n",
+         glCheckFramebufferStatusShader(), operation, glErrorString2(error),
+         error);
   }
 }
 
@@ -167,7 +169,7 @@ public:
         glDeleteShader(shader);
         shader = 0;
       }
-          check_gl_error2("MY elasitcfusion Shader false");
+      check_gl_error2("MY elasitcfusion Shader false");
       LOGI("MY elasitcfusion Shader AddShader false");
       return false;
     } else {
@@ -175,7 +177,7 @@ public:
       check_gl_error2("glAttachShader");
       shaders.push_back(shader);
       linked = false;
-  check_gl_error2("MY elasitcfusion Shader true");
+      check_gl_error2("MY elasitcfusion Shader true");
       LOGI("MY elasitcfusion Shader AddShader true");
       return true;
     }
@@ -183,7 +185,7 @@ public:
 
   bool Link() {
     LOGI("MY elasitcfusion Shader Link 1");
-      check_gl_error2("MY elasitcfusion Shader Link 1:");
+    check_gl_error2("MY elasitcfusion Shader Link 1:");
     glLinkProgram(prog);
     GLint link_status = GL_FALSE;
     glGetProgramiv(prog, GL_LINK_STATUS, &link_status);
@@ -201,11 +203,11 @@ public:
       glDeleteProgram(prog);
       prog = 0;
       LOGI("MY elasitcfusion Shader Link false");
-check_gl_error2("MY elasitcfusion Shader Link 2:");
+      check_gl_error2("MY elasitcfusion Shader Link 2:");
       return false;
     }
     LOGI("MY elasitcfusion Shader Link true");
-check_gl_error2("MY elasitcfusion Shader Link 3:");
+    check_gl_error2("MY elasitcfusion Shader Link 3:");
     return true;
   }
 
@@ -220,7 +222,7 @@ check_gl_error2("MY elasitcfusion Shader Link 3:");
 
   void Unbind() {
     LOGI("MY elasitcfusion Shader Unbind start");
-  check_gl_error2("MY elasitcfusion Shader Unbind start");
+    check_gl_error2("MY elasitcfusion Shader Unbind start");
     glUseProgram(prev_prog);
     check_gl_error2("MY elasitcfusion Shader Unbind:");
     LOGI("MY elasitcfusion Shader Unbind done");
@@ -277,7 +279,7 @@ loadProgram(std::tuple<std::string, std::string> vertex_shader_file) {
   LOGI("MY elasitcfusion Shader loadProgramGeom empty_fragment_shader_source "
        "done");
   program->Link();
-check_gl_error2("MY elasitcfusion Shader loadProgram done");
+  check_gl_error2("MY elasitcfusion Shader loadProgram done");
   LOGI("MY elasitcfusion Shader loadProgram done");
   return program;
 }
@@ -299,7 +301,7 @@ loadProgram(std::tuple<std::string, std::string> vertex_shader_file,
   program->AddShader(GL_FRAGMENT_SHADER, fragment_shader_source);
   LOGI("MY elasitcfusion Shader loadProgram 1 GL_FRAGMENT_SHADER done  %s", f);
   program->Link();
-check_gl_error2("MY elasitcfusion Shader loadProgram 1 done");
+  check_gl_error2("MY elasitcfusion Shader loadProgram 1 done");
   LOGI("MY elasitcfusion Shader loadProgram 1 done");
   return program;
 }
@@ -328,7 +330,7 @@ loadProgram(std::tuple<std::string, std::string> vertex_shader_file,
   program->AddShader(GL_FRAGMENT_SHADER, fragment_shader_source);
   LOGI("MY elasitcfusion Shader loadProgram 2 GL_FRAGMENT_SHADER done  %s", f);
   program->Link();
-check_gl_error2("MY elasitcfusion Shader loadProgram 2 done");
+  check_gl_error2("MY elasitcfusion Shader loadProgram 2 done");
   LOGI("MY elasitcfusion Shader loadProgram 2 done");
   return program;
 }

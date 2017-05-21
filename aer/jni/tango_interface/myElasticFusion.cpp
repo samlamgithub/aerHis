@@ -69,7 +69,8 @@ inline void glCheckFramebufferStatusMyElasticFusioncpp() {
 inline void check_gl_errorEF() {
   glCheckFramebufferStatusMyElasticFusioncpp();
   for (GLint error = glGetError(); error; error = glGetError()) {
-    LOGI("check_gl_error MyElasticFusion cpp My elastic-fusion CheckGlDieOnError after "
+    LOGI("check_gl_error MyElasticFusion cpp My elastic-fusion "
+         "CheckGlDieOnError after "
          "%s() glError (0x%x)\n",
          glErrorStringef(error), error);
   }
@@ -568,7 +569,9 @@ void MyElasticFusion::runEF() {
       continue;
     }
     //==============================================
-    LOGI("MyElasticFusion thread Processing start ,bufferIndex: %d, lastProcessed: %d",bufferIndex , lastProcessed);
+    LOGI("MyElasticFusion thread Processing start ,bufferIndex: %d, "
+         "lastProcessed: %d",
+         bufferIndex, lastProcessed);
     // double depth_timestamp = 0.0;
     //  depth_timestamp = pointcloud_buffer->timestamp;
     double depth_timestamp = frameBuffers[bufferIndex].pointCloudTimestamp;
@@ -718,11 +721,12 @@ void MyElasticFusion::runEF() {
     int ld_num = eFusion.getDeforms(); //局部deformations的数量
     // Deformation ld = eFusion.getLocalDeformation(); //局部deformation图
 
-    int gd_num = eFusion.getFernDeforms();     //全局deformations的数量
+    int gd_num = eFusion.getFernDeforms(); //全局deformations的数量
     // GlobalModel gm = eFusion.getGlobalModel(); //全局deformation model:
 
     int CloudPoint_num = eFusion.getGlobalModel().lastCount(); //点云的点数量
-    LOGI("MyElasticFusion Log processing result eFusion.globalModel.lastCount(): "
+    LOGI("MyElasticFusion Log processing result "
+         "eFusion.globalModel.lastCount(): "
          "totalPoints :%d ",
          CloudPoint_num);
 
@@ -785,7 +789,7 @@ void MyElasticFusion::runEF() {
       std::string plyFilename("/sdcard/ElasticFusionPly_" +
                               current_date_time());
       plyFilename.append(".ply");
-        LOGI("ElasticFusion start to save frame 1 1");
+      LOGI("ElasticFusion start to save frame 1 1");
       // Open file
       std::ofstream fs;
       fs.open(plyFilename.c_str());
@@ -831,7 +835,7 @@ void MyElasticFusion::runEF() {
 
       // Close the file
       fs.close();
-      delete [] mapData;
+      delete[] mapData;
       LOGI("ElasticFusion start to save frame. 4");
       // Open file in binary appendable
       std::ofstream fpout(plyFilename.c_str(),
@@ -990,7 +994,7 @@ void MyElasticFusion::runEF() {
   // LOGI("Logger close:");
   // fclose(RGBlog_file_);
   // fclose(Depthlog_file_);
-LOGI("MyElasticFusion deleting");
+  LOGI("MyElasticFusion deleting");
   delete &eFusion;
   LOGI("ElasticFusion done: done");
 }
