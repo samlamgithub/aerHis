@@ -1184,6 +1184,15 @@ Eigen::Vector4f *GlobalModel::downloadMap() {
        vbos[renderSource].first, vbos[renderSource].second);
   glBindBuffer(GL_ARRAY_BUFFER, vbos[renderSource].first);
   check_gl_errorGlobalModel();
+  LOGI("MY elasitcfusion GlobalModel downloadMap 4  2: target: %d, renderSource: "
+       "  %d,  vbos[target].first : %d,  vbos[target].second : %d, "
+       "vbos[renderSource].first: %d , vbos[renderSource].second: %d",
+       target, renderSource, vbos[target].first, vbos[target].second,
+       vbos[renderSource].first, vbos[renderSource].second);
+  GLint isMapped = 0;
+    glGetBufferParameteriv(GL_ARRAY_BUFFER, GL_BUFFER_MAPPED, &isMapped);
+  check_gl_errorGlobalModel();
+  LOGI("MY elasitcfusion GlobalModel downloadMap is Mapped!!!: %d", isMapped);
   LOGI("MY elasitcfusion GlobalModel downloadMap 5 glGetBufferSubData 0 : "
        "target: %d, renderSource:   %d,  vbos[target].first : %d,  "
        "vbos[target].second : %d, vbos[renderSource].first: %d , "
