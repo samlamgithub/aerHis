@@ -780,7 +780,7 @@ void MyElasticFusion::runEF() {
       unsigned int lastCount;
       float confidenceThreshold;
       LOGI("ElasticFusion start to save frame. 0");
-      eFusion.savePly(*mapData, lastCount, confidenceThreshold);
+      eFusion.savePly(mapData, lastCount, confidenceThreshold);
       LOGI("ElasticFusion start to save frame 1.");
       std::string plyFilename("/sdcard/ElasticFusionPly_" +
                               current_date_time());
@@ -831,6 +831,7 @@ void MyElasticFusion::runEF() {
 
       // Close the file
       fs.close();
+      delete [] mapData;
       LOGI("ElasticFusion start to save frame. 4");
       // Open file in binary appendable
       std::ofstream fpout(plyFilename.c_str(),
