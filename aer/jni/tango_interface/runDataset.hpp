@@ -25,19 +25,29 @@
 #include <../elasticfusion/Utils/Resolution.h>
 #include <../elasticfusion/Utils/Stopwatch.h>
 
-#include <opencv2/opencv.hpp>
 #include "ThreadMutexObject.hpp"
 #include "util.hpp"
 #include <GLES3/gl3.h>
 #include <cassert>
+#include <cstdarg>
+#include <ctime>
+#include <fstream>
+#include <iomanip>
 #include <iostream>
+#include <jni.h>
+#include <limits>
+#include <memory>
+#include <opencv2/opencv.hpp>
 #include <poll.h>
 #include <stack>
 #include <stdio.h>
 #include <string>
 #include <sys/stat.h>
+#include <vector>
 #include <zlib.h>
 #define __gl2_h_ // what the f***
+#include <Eigen/Core>
+#include <Eigen/Geometry>
 #include <GLES2/gl2ext.h>
 #include <GLES3/gl3platform.h>
 #include <boost/date_time/posix_time/posix_time.hpp>
@@ -46,7 +56,6 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/thread.hpp>
 #include <boost/thread/condition_variable.hpp>
-
 // #include "JPEGLoader.hpp"
 
 #include <EGL/egl.h>
@@ -56,7 +65,7 @@ namespace tango_interface {
 
 class RunDatasetEF {
 public:
-  RunDatasetEF(std::string file);
+  RunDatasetEF();
 
   virtual ~RunDatasetEF();
 
@@ -81,8 +90,8 @@ public:
   void setAuto(bool value);
 
   void savePly();
-  void startElasticFusionDataSet();
-  void stopElasticFusionDataSet();
+  void startRunDatasetEFDataSet();
+  void stopRunDatasetEFDataSet();
   boost::thread *elasticFusionThread;
   ThreadMutexObject<bool> runningElasticFusion;
   ThreadMutexObject<bool> shouldSavePly;

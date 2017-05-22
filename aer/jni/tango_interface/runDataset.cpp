@@ -240,8 +240,9 @@ void RunDatasetEF::runEF() {
   currentFrame = 0;
 
   assert(fread(&numFrames, sizeof(int32_t), 1, fp));
-  LOGI("RunDatasetEF this dataset has num frame: %d", numFrames)
-      : depthReadBuffer = new unsigned char[numPixels * 2];
+  LOGI("RunDatasetEF this dataset has num frame: %d", numFrames);
+
+  depthReadBuffer = new unsigned char[numPixels * 2];
   imageReadBuffer = new unsigned char[numPixels * 3];
   decompressionBufferDepth =
       new Bytef[Resolution::getInstance().numPixels() * 2];
@@ -285,7 +286,7 @@ void RunDatasetEF::runEF() {
                         iclnuim, reloc, photoThresh, confidence, depth, icp,
                         fastOdom, fernThresh, so3, frameToFrameRGB);
   LOGI("RunDatasetEF RunDatasetEF Building eFusion done");
-  check_gl_errorEF();
+  check_gl_errorDS();
   //待处理文件的位置和下标
   // std::string filedir = "../pic/";
   // int file_start = 1;
@@ -296,27 +297,27 @@ void RunDatasetEF::runEF() {
   // LOGI("Logger fwrite: %d", result1);
   //    int result = fputs("\n:testest     \n", log_file_);
   //    LOGI("Logger puts: %d", result);
-  check_gl_errorEF();
+  check_gl_errorDS();
   LOGI("RunDatasetEF RunDatasetEF: good");
 
   // start of while loop
   while (runningRunDatasetEF.getValueWait(1)) {
-    check_gl_errorEF();
+    check_gl_errorDS();
     LOGI("RunDatasetEF RunDatasetEF: outter while loop in");
 
     while (hasMore()) {
-      check_gl_errorEF();
+      check_gl_errorDS();
       LOGI("RunDatasetEF RunDatasetEF: hasMore while loop in");
       getNext();
       // Eigen::Matrix4f *currentPose = 0;
-      eFusion->processFrame(rgb, depth, timestamp);
+      eFusion.processFrame(rgb, depth, timestamp);
       // if (currentPose) {
       //   delete currentPose;
       // }
 
-      check_gl_errorEF();
+      check_gl_errorDS();
       LOGI("RunDatasetEF Processing frames ready done.");
-      check_gl_errorEF();
+      check_gl_errorDS();
       Eigen::Matrix4f currPose = eFusion.getCurrPose();
       posesEigen.push_back(currPose);
       Eigen::IOFormat CleanFmt(4, 0, ", ", "\n", "[", "]");
@@ -562,13 +563,13 @@ void RunDatasetEF::getCore() {
     // // Create a Size(1, nSize) Mat object of 8-bit, single-byte elements
     cv::Mat rawData = cv::Mat(1, numPixels * 3, CV_8UC1, imageReadBuffer);
     //
-    cv::Mat decodedImage = cv::imdecode(rawData /*, flags */);
+    cv::Mat decodedImage = imdecode(rawData /*, flags */);
     if (decodedImage.data == NULL) {
       LOGI("RunDatasetEF decodedImage.data == NULL");
       memset(&decompressionBufferImage[0], 0, numPixels * 3);
       // Error reading raw image data
     } else {
-      &decompressionBufferImage[0] = (unsigned char *)decodedImage.data;
+      decompressionBufferImage = (Bytef *)decodedImage.data;
     }
   } else {
     memset(&decompressionBufferImage[0], 0, numPixels * 3);
