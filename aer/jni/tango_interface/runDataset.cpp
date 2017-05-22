@@ -309,11 +309,11 @@ void RunDatasetEF::runEF() {
       check_gl_errorDS();
       LOGI("RunDatasetEF RunDatasetEF: hasMore while loop in");
       getNext();
-      // Eigen::Matrix4f *currentPose = 0;
-      eFusion.processFrame(rgb, depth, timestamp);
-      // if (currentPose) {
-      //   delete currentPose;
-      // }
+      Eigen::Matrix4f *currentPose = 0;
+      eFusion.processFrame(rgb, depth, timestamp, currentPose);
+      if (currentPose) {
+        delete currentPose;
+      }
 
       check_gl_errorDS();
       LOGI("RunDatasetEF Processing frames ready done.");
@@ -563,7 +563,7 @@ void RunDatasetEF::getCore() {
     // // Create a Size(1, nSize) Mat object of 8-bit, single-byte elements
     cv::Mat rawData = cv::Mat(1, numPixels * 3, CV_8UC1, imageReadBuffer);
     //
-    cv::Mat decodedImage = imdecode(rawData /*, flags */);
+    cv::Mat decodedImage = cv::imdecode(rawData , 1/*, flags */);
     if (decodedImage.data == NULL) {
       LOGI("RunDatasetEF decodedImage.data == NULL");
       memset(&decompressionBufferImage[0], 0, numPixels * 3);

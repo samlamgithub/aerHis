@@ -92,8 +92,8 @@ public:
   void savePly();
   void startRunDatasetEFDataSet();
   void stopRunDatasetEFDataSet();
-  boost::thread *elasticFusionThread;
-  ThreadMutexObject<bool> runningElasticFusion;
+  boost::thread *RunDatasetEFThread;
+  ThreadMutexObject<bool> runningRunDatasetEF;
   ThreadMutexObject<bool> shouldSavePly;
   void runEF();
 
@@ -114,7 +114,7 @@ private:
   int32_t depthSize;
   int32_t imageSize;
 
-  const std::string file;
+  std::string file;
   FILE *fp;
   int32_t numFrames;
   int width;
