@@ -65,12 +65,10 @@ public:
   // void writing_callback();
   // void elasticfusion_callback();
 
-  void aerStartWriting(bool startWriting);
+  bool aerStartWriting(bool startWriting);
 
   // Run ElasticFusion
-  void aerStartElasticFusion(bool startElasticFusion);
-
-  bool aerStartWriting(bool startWriting);
+  bool aerStartElasticFusion(bool startElasticFusion);
 
   bool aerStartRundataset(bool startRundataset);
   bool savePlyFile();
@@ -79,7 +77,6 @@ public:
   tango_interface::MyElasticFusion myElasticFusion;
   tango_interface::RunDatasetEF runDatasetEF;
 
-  void savePlyFile();
 
   ThreadMutexObject<int> userMode;
 

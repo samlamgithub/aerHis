@@ -47,7 +47,7 @@
 #include <boost/thread.hpp>
 #include <boost/thread/condition_variable.hpp>
 
-#include "JPEGLoader.hpp"
+// #include "JPEGLoader.hpp"
 
 #include <EGL/egl.h>
 #include <EGL/eglext.h>
@@ -112,7 +112,7 @@ private:
   int height;
   int numPixels;
 
-  JPEGLoader jpeg;
+  // JPEGLoader jpeg;
   void getCore();
 };
 }
