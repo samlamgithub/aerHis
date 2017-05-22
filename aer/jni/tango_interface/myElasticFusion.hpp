@@ -31,6 +31,7 @@
 #include "glm/gtc/type_ptr.hpp"
 #include "glm/gtx/matrix_decompose.hpp"
 
+#include <../elasticfusion/ElasticFusion.h>
 #include <Eigen/Core>
 #include <Eigen/Geometry>
 

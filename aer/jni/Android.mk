@@ -192,6 +192,7 @@ LOCAL_CFLAGS += -std=c++11 -O3 -g -D__ANDROID__ -DANDROID -pthread -DLOAD__EXT_g
 LOCAL_SRC_FILES += jni_interface.cpp \
                           tango_interface/logger.cpp \
                           tango_interface/mylogger.cpp \
+													tango_interface/runDataset.cpp \
                           tango_interface/gui_interface.cpp \
                           tango_interface/myElasticFusion.cpp \
                           tango_interface/imu_interface.cpp \

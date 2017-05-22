@@ -12,6 +12,30 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import android.app.Activity;
+import android.app.ActivityManager;
+import android.app.ActivityManager.MemoryInfo;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.opengl.GLSurfaceView;
+import android.os.Bundle;
+import android.view.Gravity;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.view.WindowManager;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.ToggleButton;
+import android.widget.Button;
+import android.util.Log;
 import android.widget.ToggleButton;
 import android.widget.Button;
 import android.util.Log;
@@ -52,8 +76,12 @@ public class MainActivity extends Activity implements OnClickListener {
   private Button savePlybutton;
   private static final int savePlybuttonID = 9002;
 
+  private ToggleButton runDataSetButton;
+  private static final int runDataSetbuttonID = 9003;
+
   private TextView infoView;
-  private static final int infoViewID = 9003;
+  private static final int infoViewID = 9004;
+
   String text = "";
   Thread infoThread;
 
@@ -118,11 +146,21 @@ public class MainActivity extends Activity implements OnClickListener {
     //    savePlybutton.setWidth(250);
     savePlybutton.setOnClickListener(this);
 
+    runDataSetButton = new ToggleButton(this);
+    runDataSetButton.setTextOn("Tap to stop Run dataset");
+    runDataSetButton.setBackgroundColor(Color.WHITE);
+    runDataSetButton.setTextColor(Color.BLACK);
+    runDataSetButton.setId(runDataSetbuttonID);
+    runDataSetButton.setTextOff("Tap to Run dataset");
+    runDataSetButton.setChecked(false);
+    runDataSetButton.setOnClickListener(this);
+
     LinearLayout ll = new LinearLayout(this);
     ll.setBackgroundColor(Color.WHITE);
     ll.setOrientation(LinearLayout.HORIZONTAL);
     ll.addView(writingSwitcher);
     ll.addView(elasticFusionSwitcher);
+    ll.addView(runDataSetButton);
     ll.addView(savePlybutton);
     ll.addView(infoView);
 
@@ -241,13 +279,44 @@ public class MainActivity extends Activity implements OnClickListener {
   public void onClick(View view) {
     switch (view.getId()) {
     case writingSwitcherID:
-      JNIInterface.setWriting(writingSwitcher.isChecked());
+      boolean b = JNIInterface.setWriting(writingSwitcher.isChecked());
+      if (!b) {
+        String action = "start";
+        if (!writingSwitcher.isChecked()) {
+          action = "stop";
+        }
+        popError("Unable to " + action + " write log data.");
+        writingSwitcher.setChecked(!writingSwitcher.isChecked());
+      }
       break;
     case elasticFusionSwitcherID:
-      JNIInterface.setElasticFusion(elasticFusionSwitcher.isChecked());
+      boolean b2 =
+          JNIInterface.setElasticFusion(elasticFusionSwitcher.isChecked());
+      if (!b2) {
+        String action = "start";
+        if (!elasticFusionSwitcher.isChecked()) {
+          action = "stop";
+        }
+        popError("Unable to " + action + " elasticfusion.");
+        elasticFusionSwitcher.setChecked(!elasticFusionSwitcher.isChecked());
+      }
+      break;
+    case runDataSetbuttonID:
+      boolean b3 = JNIInterface.setRunDataSet(runDataSetButton.isChecked());
+      if (!b3) {
+        String action = "start";
+        if (!runDataSetButton.isChecked()) {
+          action = "stop";
+        }
+        popError("Unable to " + action + " run dataset.");
+        runDataSetButton.setChecked(!runDataSetButton.isChecked());
+      }
       break;
     case savePlybuttonID:
-      JNIInterface.savePly();
+      boolean b4 = JNIInterface.savePly();
+      if (!b4) {
+        popError("Unable to savePly");
+      }
       break;
     default:
       break;

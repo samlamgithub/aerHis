@@ -72,22 +72,30 @@ Java_ac_uk_imperial_aer_JNIInterface_cameraRender(JNIEnv*,
 //  tango_interface::ImuInterface::resume();
 //}
 
-JNIEXPORT void JNICALL
+
+JNIEXPORT jboolean JNICALL
 Java_ac_uk_imperial_aer_JNIInterface_setWriting(
-    JNIEnv*, jobject, jboolean startWriting) {
-  app.aerStartWriting(startWriting);
+		JNIEnv*, jobject, jboolean startWriting) {
+	return app.aerStartWriting(startWriting);
 }
 
-JNIEXPORT void JNICALL
+JNIEXPORT jboolean JNICALL
 Java_ac_uk_imperial_aer_JNIInterface_setElasticFusion(
-  JNIEnv*, jobject, jboolean startElasticFusion) {
-  app.aerStartElasticFusion(startElasticFusion);
+		JNIEnv*, jobject, jboolean startElasticFusion) {
+	return app.aerStartElasticFusion(startElasticFusion);
 }
 
-JNIEXPORT void JNICALL
+//Toogle Run dataset button
+JNIEXPORT jboolean JNICALL
+Java_ac_uk_imperial_aer_JNIInterface_setRunDataSet(
+		JNIEnv*, jobject, jboolean startRundataset) {
+  return app.aerStartRundataset(startRundataset);
+}
+
+JNIEXPORT jboolean JNICALL
 Java_ac_uk_imperial_aer_JNIInterface_savePly(
-  JNIEnv*, jobject) {
-  app.savePlyFile();
+		JNIEnv*, jobject) {
+  return app.savePlyFile();
 }
 
 #ifdef __cplusplus

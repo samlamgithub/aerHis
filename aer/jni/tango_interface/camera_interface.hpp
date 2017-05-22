@@ -30,8 +30,9 @@
 
 #include <opencv2/opencv.hpp>
 
-// #include "mylogger.hpp"
+#include "mylogger.hpp"
 #include "myElasticFusion.hpp"
+#include "runDataset.hpp"
 
 // test
 #include "../cudatest/nativeCUDA.cuh"

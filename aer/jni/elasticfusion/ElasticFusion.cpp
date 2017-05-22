@@ -866,17 +866,16 @@ void ElasticFusion::normaliseDepth(const float &minVal, const float &maxVal) {
   LOGI("MY elasitcfusion struct normaliseDepth 3 done");
 }
 
-unsigned int ElasticFusion::savePly(Eigen::Vector4f *myMapData,) {
+unsigned int ElasticFusion::savePly(Eigen::Vector4f *myMapData) {
   // TODO: save PLY
   check_gl_errorElasticFusion();
   LOGI("MY elasitcfusion struct savePly 1 start confidenceThreshold: %f",
        confidenceThreshold);
   unsigned int count = globalModel.lastCount();
   myMapData = globalModel.downloadMap();
-  myConfidenceThreshold = confidenceThreshold;
   check_gl_errorElasticFusion();
-  LOGI("MY elasitcfusion struct savePly 1 done, count: %d, myConfidenceThreshold: %f",
-       count, myConfidenceThreshold);
+  LOGI("MY elasitcfusion struct savePly 1 done, count: %d, confidenceThreshold: %f",
+       count, confidenceThreshold);
   return count;
   //===========
   // std::string filename = saveFilename;

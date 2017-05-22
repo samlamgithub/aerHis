@@ -18,9 +18,6 @@
 //#include <opencv2/imgproc/types_c.h>
 //#include <opencv2/highgui/highgui_c.h>
 
-// using namespace cv;
-#include <../elasticfusion/ElasticFusion.h>
-
 static const char *glErrorStringef(GLenum err) {
   switch (err) {
   case GL_INVALID_ENUM:
@@ -447,7 +444,8 @@ void MyElasticFusion::runEF() {
                                   8,
                                   EGL_RED_SIZE,
                                   8,
-                                   EGL_ALPHA_SIZE, 8,
+                                  EGL_ALPHA_SIZE,
+                                  8,
                                   EGL_DEPTH_SIZE,
                                   16,
                                   EGL_NONE};
@@ -472,11 +470,7 @@ void MyElasticFusion::runEF() {
   }
 
   EGLSurface surface;
-  const EGLint surfaceAttr[] = {
-         EGL_WIDTH, 1280,
-         EGL_HEIGHT, 720,
-         EGL_NONE
-     };
+  const EGLint surfaceAttr[] = {EGL_WIDTH, 1280, EGL_HEIGHT, 720, EGL_NONE};
 
   // PixmapSurface和PBufferSurface
   surface = eglCreatePbufferSurface(display, config, surfaceAttr);
@@ -536,7 +530,6 @@ void MyElasticFusion::runEF() {
   bool so3 = 0;             // SO(3) pre-alignment in tracking：不开启
   bool frameToFrameRGB = 0; //只做rgb图像的tracking：不开启
   int timestamp = 0;
-  std::string savefilename = "testElasticFusion";
   LOGI("MyElasticFusion runEF elasticfusion Setting parameters done.");
   LOGI("MyElasticFusion runEF elasticfusion Building eFusion...");
   // pangolin::Params windowParams;
@@ -545,11 +538,11 @@ void MyElasticFusion::runEF() {
   // pangolin::CreateWindowAndBind("Main", width, height, windowParams);
   glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
   glPixelStorei(GL_PACK_ALIGNMENT, 1);
-  ElasticFusion eFusion(
-      openLoop ? std::numeric_limits<int>::max() / 2 : timeDelta,
-      icpCountThresh, icpErrThresh, covThresh, !openLoop, iclnuim, reloc,
-      photoThresh, confidence, depth, icp, fastOdom, fernThresh, so3,
-      frameToFrameRGB, savefilename);
+  ElasticFusion eFusion(openLoop ? std::numeric_limits<int>::max() / 2
+                                 : timeDelta,
+                        icpCountThresh, icpErrThresh, covThresh, !openLoop,
+                        iclnuim, reloc, photoThresh, confidence, depth, icp,
+                        fastOdom, fernThresh, so3, frameToFrameRGB);
   LOGI("MyElasticFusion runEF elasticfusion Building eFusion done");
   check_gl_errorEF();
   //待处理文件的位置和下标

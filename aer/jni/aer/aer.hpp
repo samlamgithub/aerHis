@@ -12,9 +12,13 @@
 
 // #include <tango_interface/mylogger.hpp>
 #include <tango_interface/myElasticFusion.hpp>
+#include <tango_interface/mylogger.hpp>
 
+#include <elasticfusion/ElasticFusion.h>
+#include <tango_interface/runDataset.hpp>
+
+#include "tango_interface/ThreadMutexObject.hpp"
 #include <tango_client_api.h>
-
 // test
 //#include <pangolin/gl/gl.h>
 //#include <pangolin/pangolin.h>
@@ -25,6 +29,10 @@
 //#include <suitesparse/cholmod.h>
 
 namespace aer {
+
+const int WRITEDATAMODE = 0;
+const int EFMODE = 1;
+const int DATASETMODE = 2;
 
 class Aer {
 public:
@@ -55,26 +63,28 @@ public:
                     double cameraTime, TangoPoseData pose);
   //  void marker_callback(const tango_interface::MarkerEvent& event);
   // void writing_callback();
-  void elasticfusion_callback();
+  // void elasticfusion_callback();
 
   void aerStartWriting(bool startWriting);
-  // tango_interface::Mylogger mylogger;
 
   // Run ElasticFusion
   void aerStartElasticFusion(bool startElasticFusion);
+
+  bool aerStartWriting(bool startWriting);
+
+  bool aerStartRundataset(bool startRundataset);
+  bool savePlyFile();
+
+  tango_interface::Mylogger mylogger;
   tango_interface::MyElasticFusion myElasticFusion;
-  void elasticFusion();
+  tango_interface::RunDatasetEF runDatasetEF;
 
   void savePlyFile();
 
-private:
-  std::thread elasticFusion_thread;
+  ThreadMutexObject<int> userMode;
 
-  // test
-  // cholmod_common Common;
-  // cholmod_sparse * L;
-  // cholmod_factor *factor;
-  // cholmod_dense * d;
+private:
+  // std::thread elasticFusion_thread;
 
   //  Eigen::VectorXd &residual;
   //  pangolin::GlTexture * depth;
