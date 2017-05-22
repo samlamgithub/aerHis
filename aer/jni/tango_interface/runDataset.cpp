@@ -251,7 +251,7 @@ void RunDatasetEF::runEF() {
   LOGI("RunDatasetEF RunDatasetEF Initialising done ...");
   LOGI("RunDatasetEF RunDatasetEF Setting parameters...");
   float confidence = 10.0f;   // fusion的confidence阈值
-  float depth = 3.0f;         //去掉depth大于某个阈值的帧
+  float depthThre = 3.0f;         //去掉depth大于某个阈值的帧
   float icp = 10.0f;          // icp的阈值
   float icpErrThresh = 5e-05; // icp错误阈值
   float covThresh = 1e-05;
@@ -283,7 +283,7 @@ void RunDatasetEF::runEF() {
   ElasticFusion eFusion(openLoop ? std::numeric_limits<int>::max() / 2
                                  : timeDelta,
                         icpCountThresh, icpErrThresh, covThresh, !openLoop,
-                        iclnuim, reloc, photoThresh, confidence, depth, icp,
+                        iclnuim, reloc, photoThresh, confidence, depthThre, icp,
                         fastOdom, fernThresh, so3, frameToFrameRGB);
   LOGI("RunDatasetEF RunDatasetEF Building eFusion done");
   check_gl_errorDS();
@@ -309,11 +309,11 @@ void RunDatasetEF::runEF() {
       check_gl_errorDS();
       LOGI("RunDatasetEF RunDatasetEF: hasMore while loop in");
       getNext();
-      Eigen::Matrix4f *currentPose = 0;
-      eFusion.processFrame(rgb, depth, timestamp, currentPose);
-      if (currentPose) {
-        delete currentPose;
-      }
+      // Eigen::Matrix4f *currentPose = 0;
+      eFusion.processFrame(rgb, depth, timestamp);
+      // if (currentPose) {
+      //   delete currentPose;
+      // }
 
       check_gl_errorDS();
       LOGI("RunDatasetEF Processing frames ready done.");
