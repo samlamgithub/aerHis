@@ -278,7 +278,7 @@ void RunDatasetEF::runEF() {
   // pangolin::CreateWindowAndBind("Main", width, height, windowParams);
   glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
   glPixelStorei(GL_PACK_ALIGNMENT, 1);
-  RunDatasetEF eFusion(openLoop ? std::numeric_limits<int>::max() / 2
+  ElasticFusion eFusion(openLoop ? std::numeric_limits<int>::max() / 2
                                 : timeDelta,
                        icpCountThresh, icpErrThresh, covThresh, !openLoop,
                        iclnuim, reloc, photoThresh, confidence, depth, icp,
