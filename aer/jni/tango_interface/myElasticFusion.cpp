@@ -353,6 +353,16 @@ void MyElasticFusion::UpSampleDepthAroundPoint(
 }
 
 void MyElasticFusion::startElasticFusion() {
+  if (elasticFusionThread) {
+    LOGI("MyElasticFusion startElasticFusion elasticFusionThread yes");
+  } else {
+      LOGI("MyElasticFusion startElasticFusion elasticFusionThread no");
+  }
+  if (runningElasticFusion.getValue()) {
+    LOGI("MyElasticFusion startElasticFusion runningElasticFusion yes");
+  } else {
+      LOGI("MyElasticFusion startElasticFusion runningElasticFusion no");
+  }
   assert(!elasticFusionThread && !runningElasticFusion.getValue());
   LOGI("MyElasticFusion startElasticFusion running");
   //    this->filename = filename;

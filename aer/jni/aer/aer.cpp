@@ -419,10 +419,10 @@ bool Aer::aerStartWriting(bool startWriting) {
     mylogger.startWriting();
     return true;
   } else if (!startWriting && (userMode.getValue() == aer::WRITEDATAMODE)) {
-    mylogger.stopWriting();
     LOGI("mylogger.stopWriting();");
     LOGI("aer logger stop weriting in aerStartWriting");
     userMode.assignValue(-1);
+    mylogger.stopWriting();
     return true;
   } else {
     return false;
@@ -436,15 +436,15 @@ bool Aer::aerStartElasticFusion(bool startElasticFusion) {
   LOGI("AER ElasticFusion start called: %d", startElasticFusion);
   if (startElasticFusion && (userMode.getValue() == -1)) {
     LOGI("AER ElasticFusion starting");
-    myElasticFusion.startElasticFusion();
     LOGI("myElasticFusion.startElasticFusion();");
     userMode.assignValue(aer::EFMODE);
+    myElasticFusion.startElasticFusion();
     return true;
   } else if (!startElasticFusion && (userMode.getValue() == aer::EFMODE)) {
     LOGI("AER ElasticFusion stopping");
     LOGI("myElasticFusion.stopElasticFusion();");
-    myElasticFusion.stopElasticFusion();
     userMode.assignValue(-1);
+    myElasticFusion.stopElasticFusion();
     return true;
   } else {
     return false;
@@ -454,9 +454,9 @@ bool Aer::aerStartElasticFusion(bool startElasticFusion) {
 bool Aer::aerStartRundataset(bool startRundataset) {
   LOGI("AER ElasticFusion start run data set called: %d", startRundataset);
   if (startRundataset && (userMode.getValue() == -1)) {
-    runDatasetEF.startRunDatasetEFDataSet();
     LOGI("runDatasetEF.startRunDatasetEFDataSet();");
     userMode.assignValue(aer::DATASETMODE);
+    runDatasetEF.startRunDatasetEFDataSet();
     return true;
   } else if (!startRundataset && (userMode.getValue() == aer::DATASETMODE)) {
     runDatasetEF.stopRunDatasetEFDataSet();

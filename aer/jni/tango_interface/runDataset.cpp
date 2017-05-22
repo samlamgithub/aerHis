@@ -232,6 +232,9 @@ void RunDatasetEF::runEF() {
   file = "/sdcard/dataset.klg";
   struct stat st;
   int result = stat(file.c_str(), &st);
+  if (result != 0) {
+  LOGI("RunDatasetEF RunDatasetEF file not exist");
+  }
   assert(result == 0);
   // assert(pangolin::FileExists(file.c_str()));
 
@@ -305,7 +308,7 @@ void RunDatasetEF::runEF() {
     check_gl_errorDS();
     LOGI("RunDatasetEF RunDatasetEF: outter while loop in");
 
-    while (hasMore()) {
+    while (hasMore() && runningRunDatasetEF.getValueWait(1)) {
       check_gl_errorDS();
       LOGI("RunDatasetEF RunDatasetEF: hasMore while loop in");
       getNext();
