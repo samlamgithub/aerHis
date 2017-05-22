@@ -165,6 +165,11 @@ LOCAL_STATIC_LIBRARIES += libsuitesparse_config  liblapack libblas libf2c  libam
 include $(PREBUILT_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
+LOCAL_MODULE := libjpeg
+LOCAL_SRC_FILES := 3rdparty/libs/armeabi-v7a/liblibjpeg.a
+include $(PREBUILD_STATIC_LIBRARY)
+
+include $(CLEAR_VARS)
 LOCAL_MODULE := aer
 
 LOCAL_SHARED_LIBRARIES += tango_client_api \

@@ -47,6 +47,7 @@
 #include <boost/thread/condition_variable.hpp>
 
 #include "JPEGLoader.hpp"
+
 #include <EGL/egl.h>
 #include <EGL/eglext.h>
 

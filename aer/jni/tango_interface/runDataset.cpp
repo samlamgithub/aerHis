@@ -558,6 +558,19 @@ void RunDatasetEF::getCore() {
     memset(&decompressionBufferImage[0], 0, numPixels * 3);
   }
 
+  // int    nSize = ...       // Size of buffer
+  // uchar* pcBuffer = ...    // Raw buffer data
+  //
+  //
+  // // Create a Size(1, nSize) Mat object of 8-bit, single-byte elements
+  // Mat rawData  =  Mat( 1, size, CV_8UC1, pcBuffer );
+  //
+  // Mat decodedImage  =  imdecode( rawData /*, flags */ );
+  // if ( decodedImage.data == NULL )
+  // {
+  //     // Error reading raw image data
+  // }
+
   depth = (unsigned short *)decompressionBufferDepth;
   rgb = (unsigned char *)&decompressionBufferImage[0];
 
