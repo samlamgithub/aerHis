@@ -323,6 +323,18 @@ public class MainActivity extends Activity implements OnClickListener {
     }
   }
 
+  public void popError(String error) {
+    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    builder.setMessage(error).setPositiveButton(
+        "OK", new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int id) {
+            dialog.dismiss();
+          }
+        });
+
+    builder.show();
+  }
+
   @Override
   protected void onResume() {
     super.onResume();
