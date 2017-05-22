@@ -25,6 +25,7 @@
 #include <../elasticfusion/Utils/Resolution.h>
 #include <../elasticfusion/Utils/Stopwatch.h>
 
+#include <opencv2/opencv.hpp>
 #include "ThreadMutexObject.hpp"
 #include "util.hpp"
 #include <GLES3/gl3.h>

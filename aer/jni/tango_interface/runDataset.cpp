@@ -76,9 +76,10 @@ const int myWidth = 640;
 const int myHeight = 380;
 
 RunDatasetEF::RunDatasetEF()
-    : RunDatasetEFThread(0), numFrames(0), timestamp(0), depth(0), rgb(0), currentFrame(0),
-      decompressionBufferDepth(0), decompressionBufferImage(0), file("file"),
-      width(myWidth), height(myHeight), numPixels(myWidth * myHeight) {
+    : RunDatasetEFThread(0), numFrames(0), timestamp(0), depth(0), rgb(0),
+      currentFrame(0), decompressionBufferDepth(0), decompressionBufferImage(0),
+      file("file"), width(myWidth), height(myHeight),
+      numPixels(myWidth * myHeight) {
 
   runningRunDatasetEF.assignValue(false);
   shouldSavePly.assignValue(false);
@@ -279,10 +280,10 @@ void RunDatasetEF::runEF() {
   glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
   glPixelStorei(GL_PACK_ALIGNMENT, 1);
   ElasticFusion eFusion(openLoop ? std::numeric_limits<int>::max() / 2
-                                : timeDelta,
-                       icpCountThresh, icpErrThresh, covThresh, !openLoop,
-                       iclnuim, reloc, photoThresh, confidence, depth, icp,
-                       fastOdom, fernThresh, so3, frameToFrameRGB);
+                                 : timeDelta,
+                        icpCountThresh, icpErrThresh, covThresh, !openLoop,
+                        iclnuim, reloc, photoThresh, confidence, depth, icp,
+                        fastOdom, fernThresh, so3, frameToFrameRGB);
   LOGI("RunDatasetEF RunDatasetEF Building eFusion done");
   check_gl_errorEF();
   //待处理文件的位置和下标
@@ -502,10 +503,10 @@ void RunDatasetEF::runEF() {
     delete[] decompressionBufferImage;
 
     fclose(fp);
-    LOGI("MyElasticFusion deleting");
+    LOGI("RunDatasetEF deleting");
     // delete &eFusion;
     // eFusion = NULL;
-    LOGI("ElasticFusion done: done");
+    LOGI("RunDatasetEF done: done");
     break;
   }
   // end of while loop
@@ -552,24 +553,26 @@ void RunDatasetEF::getCore() {
   if (imageSize == numPixels * 3) {
     memcpy(&decompressionBufferImage[0], imageReadBuffer, numPixels * 3);
   } else if (imageSize > 0) {
-    jpeg.readData(imageReadBuffer, imageSize,
-                  (unsigned char *)&decompressionBufferImage[0]);
+    // jpeg.readData(imageReadBuffer, imageSize,
+    // (unsigned char *)&decompressionBufferImage[0]);
+    // int    nSize = ...       // Size of buffer
+    // uchar* pcBuffer = ...    // Raw buffer data
+    //
+    //
+    // // Create a Size(1, nSize) Mat object of 8-bit, single-byte elements
+    cv::Mat rawData = cv::Mat(1, numPixels * 3, CV_8UC1, imageReadBuffer);
+    //
+    cv::Mat decodedImage = cv::imdecode(rawData /*, flags */);
+    if (decodedImage.data == NULL) {
+      LOGI("RunDatasetEF decodedImage.data == NULL");
+      memset(&decompressionBufferImage[0], 0, numPixels * 3);
+      // Error reading raw image data
+    } else {
+      &decompressionBufferImage[0] = (unsigned char *)decodedImage.data;
+    }
   } else {
     memset(&decompressionBufferImage[0], 0, numPixels * 3);
   }
-
-  // int    nSize = ...       // Size of buffer
-  // uchar* pcBuffer = ...    // Raw buffer data
-  //
-  //
-  // // Create a Size(1, nSize) Mat object of 8-bit, single-byte elements
-  // Mat rawData  =  Mat( 1, size, CV_8UC1, pcBuffer );
-  //
-  // Mat decodedImage  =  imdecode( rawData /*, flags */ );
-  // if ( decodedImage.data == NULL )
-  // {
-  //     // Error reading raw image data
-  // }
 
   depth = (unsigned short *)decompressionBufferDepth;
   rgb = (unsigned char *)&decompressionBufferImage[0];
