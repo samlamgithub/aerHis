@@ -500,6 +500,7 @@ __global__ void pyrDownKernelIntensityGauss(const PtrStepSz<unsigned char> src, 
 
 void pyrDownUcharGauss(const DeviceArray2D<unsigned char>& src, DeviceArray2D<unsigned char> & dst)
 {
+LOGI("My elasticfusion cuda pyrDownUcharGauss start 1");
     dst.create (src.rows () / 2, src.cols () / 2);
 
     dim3 block (32, 8);
@@ -512,14 +513,16 @@ void pyrDownUcharGauss(const DeviceArray2D<unsigned char>& src, DeviceArray2D<un
                     1, 4, 6, 4, 1};
 
     float * gauss_cuda;
-
+LOGI("My elasticfusion cuda pyrDownUcharGauss start 2");
     cudaMalloc((void**) &gauss_cuda, sizeof(float) * 25);
+LOGI("My elasticfusion cuda pyrDownUcharGauss start 3");
     cudaMemcpy(gauss_cuda, &gaussKernel[0], sizeof(float) * 25, cudaMemcpyHostToDevice);
-
+LOGI("My elasticfusion cuda pyrDownUcharGauss start 4");
     pyrDownKernelIntensityGauss<<<grid, block>>>(src, dst, gauss_cuda);
     cudaSafeCall ( cudaGetLastError () );
-
+LOGI("My elasticfusion cuda pyrDownUcharGauss start 5");
     cudaFree(gauss_cuda);
+LOGI("My elasticfusion cuda pyrDownUcharGauss done");
 };
 
 __global__ void verticesToDepthKernel(const float * vmap_src, PtrStepSz<float> dst, float cutOff)

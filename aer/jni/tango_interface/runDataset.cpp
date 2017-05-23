@@ -529,12 +529,15 @@ void RunDatasetEF::getBack() {
 }
 
 void RunDatasetEF::getNext() {
+  LOGI("RunDatasetEF run Dataset getNext: start");
   filePointers.push(ftell(fp));
 
   getCore();
+  LOGI("RunDatasetEF run Dataset getNext: done");
 }
 
 void RunDatasetEF::getCore() {
+  LOGI("RunDatasetEF run Dataset getCore: start");
   assert(fread(&timestamp, sizeof(int64_t), 1, fp));
 
   assert(fread(&depthSize, sizeof(int32_t), 1, fp));
@@ -555,8 +558,10 @@ void RunDatasetEF::getCore() {
   }
 
   if (imageSize == numPixels * 3) {
+    LOGI("RunDatasetEF run Dataset getCore: rgb not compressed");
     memcpy(&decompressionBufferImage[0], imageReadBuffer, numPixels * 3);
   } else if (imageSize > 0) {
+    LOGI("RunDatasetEF run Dataset getCore: rgb  compressed");
     // jpeg.readData(imageReadBuffer, imageSize,
     // (unsigned char *)&decompressionBufferImage[0]);
     // int    nSize = ...       // Size of buffer
@@ -572,9 +577,15 @@ void RunDatasetEF::getCore() {
       memset(&decompressionBufferImage[0], 0, numPixels * 3);
       // Error reading raw image data
     } else {
-      memcpy(&decompressionBufferImage[0], decodedImage.data, decodedImage.total() * decodedImage.elemSize());
+      LOGI("RunDatasetEF run Dataset getCore: rgb  uncompress: numPixels * 3: "
+           "%d, imageSize: %d, cv size: %d",
+           numPixels * 3, imageSize,
+           decodedImage.total() * decodedImage.elemSize());
+      memcpy(&decompressionBufferImage[0], decodedImage.data,
+             decodedImage.total() * decodedImage.elemSize());
     }
   } else {
+    LOGI("RunDatasetEF run Dataset getCore: rgb  failed");
     memset(&decompressionBufferImage[0], 0, numPixels * 3);
   }
 

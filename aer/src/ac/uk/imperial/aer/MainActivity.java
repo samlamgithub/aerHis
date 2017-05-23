@@ -229,7 +229,7 @@ public class MainActivity extends Activity implements OnClickListener {
           String cpuUsageStr = String.valueOf(cpuUsage);
           text = availableMegsStr + " " + percentAvailStr + " " +
                  availHeapSizeInMBStr + " " + cpuUsageStr;
-          Log.v("info", text);
+          Log.v("usage info", text);
 
           runOnUiThread(new Runnable() {
 
