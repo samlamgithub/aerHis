@@ -56,7 +56,7 @@ inline const char *glCheckFramebufferStatusDS() {
     char integer_string[32];
     int integer = status;
     sprintf(integer_string, "%d", status);
-    char other_string[64] = "run dataset else: ";
+    char other_string[64] = "run dataset glCheckFramebufferStatus else: ";
     strcat(other_string, integer_string);
     return other_string;
   }

@@ -55,7 +55,7 @@ inline const char *glCheckFramebufferStatusGlFramebuffer() {
     char integer_string[32];
     int integer = status;
     sprintf(integer_string, "%d", status);
-    char other_string[64] = "MY elasitcfusion  else: ";
+    char other_string[64] = "MY elasitcfusion glCheckFramebufferStatus else: ";
     strcat(other_string, integer_string);
     return other_string;
   }
