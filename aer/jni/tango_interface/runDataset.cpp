@@ -581,8 +581,11 @@ void RunDatasetEF::getCore() {
            "%d, imageSize: %d, cv size: %d",
            numPixels * 3, imageSize,
            decodedImage.total() * decodedImage.elemSize());
+ // decompressionBufferImage = (Bytef *)decodedImage.data;
       memcpy(&decompressionBufferImage[0], decodedImage.data,
-             decodedImage.total() * decodedImage.elemSize());
+             numPixels * 3);
+            //  memcpy(&decompressionBufferImage[0], decodedImage.data,
+            //         imageSize);
     }
   } else {
     LOGI("RunDatasetEF run Dataset getCore: rgb  failed");

@@ -170,76 +170,76 @@ public class MainActivity extends Activity implements OnClickListener {
 
     addContentView(ll, layoutParams);
 
-    infoThread = new Thread() {
-      public void run() {
-        while (true) {
-          MemoryInfo mi = new MemoryInfo();
-          ActivityManager activityManager =
-              (ActivityManager)getSystemService(ACTIVITY_SERVICE);
-          activityManager.getMemoryInfo(mi);
-          double availableMegs = mi.availMem / 0x100000L;
-          // Percentage can be calculated for API 16+
-          double percentAvail = mi.availMem / (double)mi.totalMem;
-
-          final Runtime runtime = Runtime.getRuntime();
-          long freeSize = runtime.freeMemory();
-          long totalSize = runtime.totalMemory();
-          final long usedMemInMB = (totalSize - freeSize) / 1048576L;
-          final long maxHeapSizeInMB = runtime.maxMemory() / 1048576L;
-          final long availHeapSizeInMB = maxHeapSizeInMB - usedMemInMB;
-
-          float cpuUsage = 0;
-
-          try {
-            RandomAccessFile reader = new RandomAccessFile("/proc/stat", "r");
-            String load = reader.readLine();
-
-            String[] toks = load.split(" +"); // Split on one or
-                                              // more spaces
-            long idle1 = Long.parseLong(toks[4]);
-            long cpu1 = Long.parseLong(toks[2]) + Long.parseLong(toks[3]) +
-                        Long.parseLong(toks[5]) + Long.parseLong(toks[6]) +
-                        Long.parseLong(toks[7]) + Long.parseLong(toks[8]);
-
-            try {
-              Thread.sleep(360);
-            } catch (Exception e) {
-            }
-
-            reader.seek(0);
-            load = reader.readLine();
-            reader.close();
-
-            toks = load.split(" +");
-
-            long idle2 = Long.parseLong(toks[4]);
-            long cpu2 = Long.parseLong(toks[2]) + Long.parseLong(toks[3]) +
-                        Long.parseLong(toks[5]) + Long.parseLong(toks[6]) +
-                        Long.parseLong(toks[7]) + Long.parseLong(toks[8]);
-
-            cpuUsage = (float)(cpu2 - cpu1) / ((cpu2 + idle2) - (cpu1 + idle1));
-
-          } catch (IOException ex) {
-            ex.printStackTrace();
-          }
-
-          String availableMegsStr = String.valueOf(availableMegs);
-          String percentAvailStr = String.valueOf(percentAvail);
-          String availHeapSizeInMBStr = String.valueOf(availHeapSizeInMB);
-          String cpuUsageStr = String.valueOf(cpuUsage);
-          text = availableMegsStr + " " + percentAvailStr + " " +
-                 availHeapSizeInMBStr + " " + cpuUsageStr;
-          Log.v("usage info", text);
-
-          runOnUiThread(new Runnable() {
-
-            public void run() { infoView.setText(text); }
-          });
-        }
-      }
-    };
-
-    infoThread.start();
+    // infoThread = new Thread() {
+    //   public void run() {
+    //     while (true) {
+    //       MemoryInfo mi = new MemoryInfo();
+    //       ActivityManager activityManager =
+    //           (ActivityManager)getSystemService(ACTIVITY_SERVICE);
+    //       activityManager.getMemoryInfo(mi);
+    //       double availableMegs = mi.availMem / 0x100000L;
+    //       // Percentage can be calculated for API 16+
+    //       double percentAvail = mi.availMem / (double)mi.totalMem;
+    //
+    //       final Runtime runtime = Runtime.getRuntime();
+    //       long freeSize = runtime.freeMemory();
+    //       long totalSize = runtime.totalMemory();
+    //       final long usedMemInMB = (totalSize - freeSize) / 1048576L;
+    //       final long maxHeapSizeInMB = runtime.maxMemory() / 1048576L;
+    //       final long availHeapSizeInMB = maxHeapSizeInMB - usedMemInMB;
+    //
+    //       float cpuUsage = 0;
+    //
+    //       try {
+    //         RandomAccessFile reader = new RandomAccessFile("/proc/stat", "r");
+    //         String load = reader.readLine();
+    //
+    //         String[] toks = load.split(" +"); // Split on one or
+    //                                           // more spaces
+    //         long idle1 = Long.parseLong(toks[4]);
+    //         long cpu1 = Long.parseLong(toks[2]) + Long.parseLong(toks[3]) +
+    //                     Long.parseLong(toks[5]) + Long.parseLong(toks[6]) +
+    //                     Long.parseLong(toks[7]) + Long.parseLong(toks[8]);
+    //
+    //         try {
+    //           Thread.sleep(360);
+    //         } catch (Exception e) {
+    //         }
+    //
+    //         reader.seek(0);
+    //         load = reader.readLine();
+    //         reader.close();
+    //
+    //         toks = load.split(" +");
+    //
+    //         long idle2 = Long.parseLong(toks[4]);
+    //         long cpu2 = Long.parseLong(toks[2]) + Long.parseLong(toks[3]) +
+    //                     Long.parseLong(toks[5]) + Long.parseLong(toks[6]) +
+    //                     Long.parseLong(toks[7]) + Long.parseLong(toks[8]);
+    //
+    //         cpuUsage = (float)(cpu2 - cpu1) / ((cpu2 + idle2) - (cpu1 + idle1));
+    //
+    //       } catch (IOException ex) {
+    //         ex.printStackTrace();
+    //       }
+    //
+    //       String availableMegsStr = String.valueOf(availableMegs);
+    //       String percentAvailStr = String.valueOf(percentAvail);
+    //       String availHeapSizeInMBStr = String.valueOf(availHeapSizeInMB);
+    //       String cpuUsageStr = String.valueOf(cpuUsage);
+    //       text = availableMegsStr + " " + percentAvailStr + " " +
+    //              availHeapSizeInMBStr + " " + cpuUsageStr;
+    //       Log.v("usage info", text);
+    //
+    //       runOnUiThread(new Runnable() {
+    //
+    //         public void run() { infoView.setText(text); }
+    //       });
+    //     }
+    //   }
+    // };
+    //
+    // infoThread.start();
 
     //    addContentView(writingSwitcher, new
     //    LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
