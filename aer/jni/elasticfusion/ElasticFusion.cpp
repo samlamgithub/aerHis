@@ -59,6 +59,7 @@ inline const char *glCheckFramebufferStatusEFCPP() {
   } else if (status == GL_INVALID_ENUM) {
     return "MY elasitcfusion  GL_INVALID_ENUM";
   } else {
+      LOGI("glCheckFramebufferStatus else: %d", status);
     char integer_string[32];
     int integer = status;
     sprintf(integer_string, "%d", status);

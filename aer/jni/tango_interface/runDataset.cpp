@@ -53,6 +53,7 @@ inline const char *glCheckFramebufferStatusDS() {
   } else if (status == GL_INVALID_ENUM) {
     return "run dataset GL_INVALID_ENUM";
   } else {
+    LOGI("glCheckFramebufferStatus else: %d", status);
     char integer_string[32];
     int integer = status;
     sprintf(integer_string, "%d", status);
@@ -233,7 +234,7 @@ void RunDatasetEF::runEF() {
   struct stat st;
   int result = stat(file.c_str(), &st);
   if (result != 0) {
-  LOGI("RunDatasetEF RunDatasetEF file not exist");
+    LOGI("RunDatasetEF RunDatasetEF file not exist");
   }
   assert(result == 0);
   // assert(pangolin::FileExists(file.c_str()));
@@ -254,7 +255,7 @@ void RunDatasetEF::runEF() {
   LOGI("RunDatasetEF RunDatasetEF Initialising done ...");
   LOGI("RunDatasetEF RunDatasetEF Setting parameters...");
   float confidence = 10.0f;   // fusion的confidence阈值
-  float depthThre = 3.0f;         //去掉depth大于某个阈值的帧
+  float depthThre = 3.0f;     //去掉depth大于某个阈值的帧
   float icp = 10.0f;          // icp的阈值
   float icpErrThresh = 5e-05; // icp错误阈值
   float covThresh = 1e-05;
@@ -312,15 +313,15 @@ void RunDatasetEF::runEF() {
       check_gl_errorDS();
       LOGI("RunDatasetEF RunDatasetEF: hasMore while loop in");
       getNext();
+      check_gl_errorDS();
+      LOGI("RunDatasetEF Processing frames ready done.");
       // Eigen::Matrix4f *currentPose = 0;
       eFusion.processFrame(rgb, depth, timestamp);
       // if (currentPose) {
       //   delete currentPose;
       // }
-
       check_gl_errorDS();
-      LOGI("RunDatasetEF Processing frames ready done.");
-      check_gl_errorDS();
+      LOGI("RunDatasetEF Processing frames done.");
       Eigen::Matrix4f currPose = eFusion.getCurrPose();
       posesEigen.push_back(currPose);
       Eigen::IOFormat CleanFmt(4, 0, ", ", "\n", "[", "]");
@@ -328,7 +329,6 @@ void RunDatasetEF::runEF() {
       ss << currPose.format(CleanFmt);
       std::string str(ss.str());
       LOGI("current pose is : %s", str.c_str());
-      LOGI("RunDatasetEF Processing frames done.");
       LOGI("RunDatasetEF Log processing result start.");
       //查看处理的结果
       delete &currPose;
@@ -566,13 +566,13 @@ void RunDatasetEF::getCore() {
     // // Create a Size(1, nSize) Mat object of 8-bit, single-byte elements
     cv::Mat rawData = cv::Mat(1, numPixels * 3, CV_8UC1, imageReadBuffer);
     //
-    cv::Mat decodedImage = cv::imdecode(rawData , 1/*, flags */);
+    cv::Mat decodedImage = cv::imdecode(rawData, 1 /*, flags */);
     if (decodedImage.data == NULL) {
       LOGI("RunDatasetEF decodedImage.data == NULL");
       memset(&decompressionBufferImage[0], 0, numPixels * 3);
       // Error reading raw image data
     } else {
-      decompressionBufferImage = (Bytef *)decodedImage.data;
+      memcpy(&decompressionBufferImage[0], decodedImage.data, decodedImage.total() * decodedImage.elemSize());
     }
   } else {
     memset(&decompressionBufferImage[0], 0, numPixels * 3);

@@ -61,6 +61,7 @@ inline const char *glCheckFramebufferStatusIM() {
   } else if (status == GL_INVALID_ENUM) {
     return "MY elasitcfusion  GL_INVALID_ENUM";
   } else {
+    LOGI("glCheckFramebufferStatus else: %d", status);
     char integer_string[32];
     int integer = status;
     sprintf(integer_string, "%d", status);
@@ -72,9 +73,10 @@ inline const char *glCheckFramebufferStatusIM() {
 
 inline void check_gl_errorIndexMap() {
   for (GLint error = glGetError(); error; error = glGetError()) {
-    LOGI("check_gl_error IndexMap cpp My elastic-fusion CheckGlDieOnError after "
-         ": %s, %s() glError (0x%x)\n", glCheckFramebufferStatusIM(),
-         glErrorStringIndexMap(error), error);
+    LOGI(
+        "check_gl_error IndexMap cpp My elastic-fusion CheckGlDieOnError after "
+        ": %s, %s() glError (0x%x)\n",
+        glCheckFramebufferStatusIM(), glErrorStringIndexMap(error), error);
   }
 }
 
@@ -104,8 +106,8 @@ IndexMap::IndexMap()
       drawRenderBuffer(Resolution::getInstance().width(),
                        Resolution::getInstance().height()),
       drawTexture(Resolution::getInstance().width(),
-                  Resolution::getInstance().height(),
-      GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, false),
+                  Resolution::getInstance().height(), GL_RGBA, GL_RGBA,
+                  GL_UNSIGNED_BYTE, false),
       // GL_RGBA, GL_RGB, GL_UNSIGNED_BYTE, false),
       depthProgram(loadProgram(splatvert_tuple, depth_splatfrag_tuple)),
       depthRenderBuffer(Resolution::getInstance().width(),
@@ -113,7 +115,7 @@ IndexMap::IndexMap()
       depthTexture(Resolution::getInstance().width(),
                    Resolution::getInstance().height(),
                    // GL_LUMINANCE32F_ARB, GL_LUMINANCE, GL_FLOAT, false, true),
-                    GL_RGBA32F, GL_RGBA, GL_FLOAT, false, true),
+                   GL_RGBA32F, GL_RGBA, GL_FLOAT, false, true),
       combinedProgram(loadProgram(splatvert_tuple, combo_splatfrag_tuple)),
       combinedRenderBuffer(Resolution::getInstance().width(),
                            Resolution::getInstance().height()),
@@ -124,14 +126,14 @@ IndexMap::IndexMap()
       vertexTexture(Resolution::getInstance().width(),
                     Resolution::getInstance().height(),
                     // GL_RGBA32F,  GL_LUMINANCE, GL_FLOAT, false, true),
-                   GL_RGBA32F, GL_RGBA, GL_FLOAT, false, true),
+                    GL_RGBA32F, GL_RGBA, GL_FLOAT, false, true),
       normalTexture(Resolution::getInstance().width(),
                     Resolution::getInstance().height(),
                     // GL_RGBA32F,  GL_LUMINANCE, GL_FLOAT, false, true),
-                 GL_RGBA32F, GL_RGBA, GL_FLOAT, false, true),
+                    GL_RGBA32F, GL_RGBA, GL_FLOAT, false, true),
       timeTexture(Resolution::getInstance().width(),
-                  Resolution::getInstance().height(),
-GL_RGBA, GL_RGBA,  GL_UNSIGNED_BYTE, false, true),
+                  Resolution::getInstance().height(), GL_RGBA, GL_RGBA,
+                  GL_UNSIGNED_BYTE, false, true),
       // GL_LUMINANCE16UI_EXT,  GL_LUMINANCE_INTEGER_EXT,  GL_UNSIGNED_SHORT,
       // false, true),
       oldRenderBuffer(Resolution::getInstance().width(),
@@ -147,7 +149,7 @@ GL_RGBA, GL_RGBA,  GL_UNSIGNED_BYTE, false, true),
       oldNormalTexture(Resolution::getInstance().width(),
                        Resolution::getInstance().height(),
                        // GL_RGBA32F,GL_LUMINANCE, GL_FLOAT, false, true),
-                   GL_RGBA32F, GL_RGBA, GL_FLOAT, false, true),
+                       GL_RGBA32F, GL_RGBA, GL_FLOAT, false, true),
       oldTimeTexture(Resolution::getInstance().width(),
                      Resolution::getInstance().height(),
                      // GL_LUMINANCE16UI_EXT, GL_LUMINANCE_INTEGER_EXT,
@@ -162,29 +164,29 @@ GL_RGBA, GL_RGBA,  GL_UNSIGNED_BYTE, false, true),
       vertexInfoTexture(Resolution::getInstance().width() * IndexMap::FACTOR,
                         Resolution::getInstance().height() * IndexMap::FACTOR,
                         // GL_RGBA32F, GL_LUMINANCE, GL_FLOAT),
-                       GL_RGBA32F, GL_RGBA, GL_FLOAT),
+                        GL_RGBA32F, GL_RGBA, GL_FLOAT),
       normalInfoTexture(Resolution::getInstance().width() * IndexMap::FACTOR,
                         Resolution::getInstance().height() * IndexMap::FACTOR,
                         // GL_RGBA32F, GL_LUMINANCE, GL_FLOAT)
-                       GL_RGBA32F, GL_RGBA, GL_FLOAT) {
-check_gl_errorIndexMap();
+                        GL_RGBA32F, GL_RGBA, GL_FLOAT) {
+  check_gl_errorIndexMap();
   LOGI("MY elasitcfusion IndexMap struct init start 1 ");
   LOGI("MY elasitcfusion IndexMap struct IndexMap "
        "AttachColour(*indexTexture.texture); start ");
   indexFrameBuffer.AttachColour(*indexTexture.texture);
-check_gl_errorIndexMap();
+  check_gl_errorIndexMap();
   LOGI("MY elasitcfusion IndexMap struct IndexMap "
        "AttachColour(*indexTexture.texture); done ");
   LOGI("MY elasitcfusion IndexMap struct IndexMap "
        "AttachColour(*vertConfTexture.texture); start ");
   indexFrameBuffer.AttachColour(*vertConfTexture.texture);
-check_gl_errorIndexMap();
+  check_gl_errorIndexMap();
   LOGI("MY elasitcfusion IndexMap struct IndexMap "
        "AttachColour(*vertConfTexture.texture); done ");
   LOGI("MY elasitcfusion IndexMap struct IndexMap "
        "AttachColour(*colorTimeTexture.texture); start ");
   indexFrameBuffer.AttachColour(*colorTimeTexture.texture);
-check_gl_errorIndexMap();
+  check_gl_errorIndexMap();
   LOGI("MY elasitcfusion IndexMap struct IndexMap "
        "AttachColour(*colorTimeTexture.texture); done ");
   LOGI("MY elasitcfusion IndexMap struct IndexMap "
@@ -282,11 +284,11 @@ check_gl_errorIndexMap();
   infoFrameBuffer.AttachColour(*normalInfoTexture.texture);
   LOGI("MY elasitcfusion IndexMap struct IndexMap "
        "AttachColour(*normalInfoTexture.texture); done ");
-check_gl_errorIndexMap();
+  check_gl_errorIndexMap();
   LOGI("MY elasitcfusion IndexMap struct IndexMap "
        "AttachDepth(infoRenderBuffer); start ");
   infoFrameBuffer.AttachDepth(infoRenderBuffer);
-check_gl_errorIndexMap();
+  check_gl_errorIndexMap();
   LOGI("MY elasitcfusion IndexMap struct IndexMap "
        "AttachDepth(infoRenderBuffer); done ");
   LOGI("MY elasitcfusion IndexMap struct init done done ");
@@ -306,7 +308,9 @@ void IndexMap::predictIndices(const Eigen::Matrix4f &pose, const int &time,
                               const std::pair<GLuint, GLuint> &model,
                               const float depthCutoff, const int timeDelta) {
   check_gl_errorIndexMap();
-  LOGI("MY elasitcfusion IndexMap::predictIndices start 1 model:first:  %d, second: %d", model.first, model.second);
+  LOGI("MY elasitcfusion IndexMap::predictIndices start 1 model:first:  %d, "
+       "second: %d",
+       model.first, model.second);
   indexFrameBuffer.Bind();
   check_gl_errorIndexMap();
   LOGI("MY elasitcfusion IndexMap::predictIndices 2");
@@ -357,17 +361,19 @@ void IndexMap::predictIndices(const Eigen::Matrix4f &pose, const int &time,
   LOGI("MY elasitcfusion IndexMap::predictIndices  12");
   glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, Vertex::SIZE,
                         reinterpret_cast<GLvoid *>(sizeof(Eigen::Vector4f)));
-                        check_gl_errorIndexMap();
-                        LOGI("MY elasitcfusion IndexMap::predictIndices  13");
+  check_gl_errorIndexMap();
+  LOGI("MY elasitcfusion IndexMap::predictIndices  13");
   glEnableVertexAttribArray(2);
   check_gl_errorIndexMap();
   LOGI("MY elasitcfusion IndexMap::predictIndices 14");
   glVertexAttribPointer(
       2, 4, GL_FLOAT, GL_FALSE, Vertex::SIZE,
       reinterpret_cast<GLvoid *>(sizeof(Eigen::Vector4f) * 2));
-      check_gl_errorIndexMap();
-      LOGI("MY elasitcfusion IndexMap::predictIndices 15 glDrawTransformFeedback model.second: %d", model.second);
-  glDrawTransformFeedback(GL_POINTS, model.second);//Invalid Value()
+  check_gl_errorIndexMap();
+  LOGI("MY elasitcfusion IndexMap::predictIndices 15 glDrawTransformFeedback "
+       "model.second: %d",
+       model.second);
+  glDrawTransformFeedback(GL_POINTS, model.second); // Invalid Value()
   check_gl_errorIndexMap();
   LOGI("MY elasitcfusion IndexMap::predictIndices  16 glDrawTransformFeedback");
   glDisableVertexAttribArray(0);
@@ -461,7 +467,9 @@ void IndexMap::combinedPredict(const Eigen::Matrix4f &pose,
                                const int maxTime, const int timeDelta,
                                IndexMap::Prediction predictionType) {
   check_gl_errorIndexMap();
-  LOGI("MY elasitcfusion IndexMap::combinedPredict start 1 model:first:  %d, second: %d", model.first, model.second);
+  LOGI("MY elasitcfusion IndexMap::combinedPredict start 1 model:first:  %d, "
+       "second: %d",
+       model.first, model.second);
   // glEnable(GL_PROGRAM_POINT_SIZE); // here
   check_gl_errorIndexMap();
   LOGI("MY elasitcfusion IndexMap::combinedPredict  2");
@@ -500,7 +508,8 @@ void IndexMap::combinedPredict(const Eigen::Matrix4f &pose,
   glClearColor(0, 0, 0, 0);
   check_gl_errorIndexMap();
   LOGI("MY elasitcfusion IndexMap::combinedPredict 7");
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //  GL_INVALID_FRAMEBUFFER_OPERATION
+  glClear(GL_COLOR_BUFFER_BIT |
+          GL_DEPTH_BUFFER_BIT); //  GL_INVALID_FRAMEBUFFER_OPERATION
   check_gl_errorIndexMap();
   LOGI("MY elasitcfusion IndexMap::combinedPredict 8");
   combinedProgram->Bind();
@@ -547,7 +556,9 @@ void IndexMap::combinedPredict(const Eigen::Matrix4f &pose,
       2, 4, GL_FLOAT, GL_FALSE, Vertex::SIZE,
       reinterpret_cast<GLvoid *>(sizeof(Eigen::Vector4f) * 2));
   check_gl_errorIndexMap();
-  LOGI("MY elasitcfusion IndexMap::combinedPredict 17 glDrawTransformFeedback:  model.second: %d",  model.second);
+  LOGI("MY elasitcfusion IndexMap::combinedPredict 17 glDrawTransformFeedback: "
+       " model.second: %d",
+       model.second);
   glDrawTransformFeedback(GL_POINTS, model.second); // Invalid Value()
   check_gl_errorIndexMap();
   LOGI("MY elasitcfusion IndexMap::combinedPredict 18 glDrawTransformFeedback");
@@ -595,7 +606,9 @@ void IndexMap::synthesizeDepth(const Eigen::Matrix4f &pose,
                                const float confThreshold, const int time,
                                const int maxTime, const int timeDelta) {
   check_gl_errorIndexMap();
-  LOGI("MY elasitcfusion IndexMap::synthesizeDepth  start 1 model:first:  %d, second: %d", model.first, model.second);
+  LOGI("MY elasitcfusion IndexMap::synthesizeDepth  start 1 model:first:  %d, "
+       "second: %d",
+       model.first, model.second);
   // glEnable(GL_PROGRAM_POINT_SIZE);
   check_gl_errorIndexMap();
   LOGI("MY elasitcfusion IndexMap::synthesizeDepth  2");
@@ -654,19 +667,22 @@ void IndexMap::synthesizeDepth(const Eigen::Matrix4f &pose,
   glVertexAttribPointer(
       1, 4, GL_FLOAT, GL_FALSE, Vertex::SIZE,
       reinterpret_cast<GLvoid *>(sizeof(Eigen::Vector4f) * 1));
-      check_gl_errorIndexMap();
-      LOGI("MY elasitcfusion IndexMap::synthesizeDepth  15");
+  check_gl_errorIndexMap();
+  LOGI("MY elasitcfusion IndexMap::synthesizeDepth  15");
   glEnableVertexAttribArray(2);
   check_gl_errorIndexMap();
   LOGI("MY elasitcfusion IndexMap::synthesizeDepth  16");
   glVertexAttribPointer(
       2, 4, GL_FLOAT, GL_FALSE, Vertex::SIZE,
       reinterpret_cast<GLvoid *>(sizeof(Eigen::Vector4f) * 2));
-      check_gl_errorIndexMap();
-      LOGI("MY elasitcfusion IndexMap::synthesizeDepth 17 glDrawTransformFeedback: model.second: %d", model.second);
+  check_gl_errorIndexMap();
+  LOGI("MY elasitcfusion IndexMap::synthesizeDepth 17 glDrawTransformFeedback: "
+       "model.second: %d",
+       model.second);
   glDrawTransformFeedback(GL_POINTS, model.second);
   check_gl_errorIndexMap();
-  LOGI("MY elasitcfusion IndexMap::synthesizeDepth  18 glDrawTransformFeedback");
+  LOGI(
+      "MY elasitcfusion IndexMap::synthesizeDepth  18 glDrawTransformFeedback");
   glDisableVertexAttribArray(0);
   glDisableVertexAttribArray(1);
   glDisableVertexAttribArray(2);
