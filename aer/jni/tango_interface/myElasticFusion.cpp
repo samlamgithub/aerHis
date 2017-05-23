@@ -847,7 +847,7 @@ void MyElasticFusion::runEF() {
 
       // Close the file
       fs.close();
-      delete[] mapData;
+      // delete[] mapData;
       LOGI("ElasticFusion start to save frame. 4");
       // Open file in binary appendable
       std::ofstream fpout(plyFilename.c_str(),

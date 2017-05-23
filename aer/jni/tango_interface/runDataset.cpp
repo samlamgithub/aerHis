@@ -96,7 +96,7 @@ RunDatasetEF::~RunDatasetEF() {
 
   runningRunDatasetEF.assignValue(false);
   shouldSavePly.assignValue(false);
-  RunDatasetEFThread->join();
+  // RunDatasetEFThread->join();
 }
 
 void RunDatasetEF::startRunDatasetEFDataSet() {
@@ -113,10 +113,10 @@ void RunDatasetEF::stopRunDatasetEFDataSet() {
   LOGI("RunDatasetEF stopRunDatasetEF running");
   runningRunDatasetEF.assignValue(false);
   RunDatasetEFThread->join();
-  delete[] depthReadBuffer;
-  delete[] imageReadBuffer;
-  delete[] decompressionBufferDepth;
-  delete[] decompressionBufferImage;
+  // delete[] depthReadBuffer;
+  // delete[] imageReadBuffer;
+  // delete[] decompressionBufferDepth;
+  // delete[] decompressionBufferImage;
 
   fclose(fp);
 
@@ -437,7 +437,7 @@ void RunDatasetEF::runEF() {
 
         // Close the file
         fs.close();
-        delete[] mapData;
+        // delete[] mapData;
         LOGI("RunDatasetEF start to save frame. 4");
         // Open file in binary appendable
         std::ofstream fpout(plyFilename.c_str(),
