@@ -19,7 +19,6 @@
 
 #include "Ferns.h"
 
-
 static const char *glErrorStringFerns(GLenum err) {
   switch (err) {
   case GL_INVALID_ENUM:
@@ -60,7 +59,7 @@ inline const char *glCheckFramebufferStatusFerns() {
   } else if (status == GL_INVALID_ENUM) {
     return "MY elasitcfusion  GL_INVALID_ENUM";
   } else {
-      LOGI("glCheckFramebufferStatus else: %d", status);
+    LOGI("glCheckFramebufferStatus else: %d", status);
     char integer_string[32];
     int integer = status;
     sprintf(integer_string, "%d", status);
@@ -73,8 +72,8 @@ inline const char *glCheckFramebufferStatusFerns() {
 inline void check_gl_errorFerns() {
   for (GLint error = glGetError(); error; error = glGetError()) {
     LOGI("check_gl_error ferns.cpp My elastic-fusion CheckGlDieOnError after "
-         ": %s, %s glError (0x%x)\n", glCheckFramebufferStatusFerns(),
-         glErrorStringFerns(error), error);
+         ": %s, %s glError (0x%x)\n",
+         glCheckFramebufferStatusFerns(), glErrorStringFerns(error), error);
   }
 }
 
@@ -90,23 +89,30 @@ Ferns::Ferns(int n, int maxDepth, const float photoThresh)
            Intrinsics::getInstance().cy() / factor,
            Intrinsics::getInstance().fx() / factor,
            Intrinsics::getInstance().fy() / factor),
-      // vertFern(width, height, GL_RGBA32F, GL_LUMINANCE, GL_FLOAT, false, true),
-  vertFern(width, height,  GL_RGBA32F, GL_RGBA, GL_FLOAT, false, true),
-      // vertCurrent(width, height, GL_RGBA32F, GL_LUMINANCE, GL_FLOAT, false,  true),
-  vertCurrent(width, height, GL_RGBA32F, GL_RGBA, GL_FLOAT, false,  true),
-      // normFern(width, height, GL_RGBA32F, GL_LUMINANCE, GL_FLOAT, false, true),
-  normFern(width, height, GL_RGBA32F, GL_RGBA, GL_FLOAT, false, true),
-      // normCurrent(width, height, GL_RGBA32F, GL_LUMINANCE, GL_FLOAT, false,true),
-  normCurrent(width, height, GL_RGBA32F, GL_RGBA, GL_FLOAT, false,true),
-      // colorFern(width, height, GL_RGBA, GL_RGB, GL_UNSIGNED_BYTE, false, true),
-colorFern(width, height, GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, false, true),
-      // colorCurrent(width, height, GL_RGBA, GL_RGB, GL_UNSIGNED_BYTE, false,true),
-  colorCurrent(width, height, GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, false,true),
+      // vertFern(width, height, GL_RGBA32F, GL_LUMINANCE, GL_FLOAT, false,
+      // true),
+      vertFern(width, height, GL_LUMINANCE, GL_LUMINANCE, GL_UNSIGNED_BYTE, false, true),
+      // vertCurrent(width, height, GL_RGBA32F, GL_LUMINANCE, GL_FLOAT, false,
+      // true),
+      vertCurrent(width, height, GL_LUMINANCE, GL_LUMINANCE, GL_UNSIGNED_BYTE, false, true),
+      // normFern(width, height, GL_RGBA32F, GL_LUMINANCE, GL_FLOAT, false,
+      // true),
+      normFern(width, height, GL_LUMINANCE, GL_LUMINANCE, GL_UNSIGNED_BYTE, false, true),
+      // normCurrent(width, height, GL_RGBA32F, GL_LUMINANCE, GL_FLOAT,
+      // false,true),
+      normCurrent(width, height, GL_LUMINANCE, GL_LUMINANCE, GL_UNSIGNED_BYTE, false, true),
+      // colorFern(width, height, GL_RGBA, GL_RGB, GL_UNSIGNED_BYTE, false,
+      // true),
+      colorFern(width, height, GL_RGB, GL_RGB, GL_UNSIGNED_BYTE, false, true),
+      // colorCurrent(width, height, GL_RGBA, GL_RGB, GL_UNSIGNED_BYTE,
+      // false,true),
+      colorCurrent(width, height, GL_RGB, GL_RGB, GL_UNSIGNED_BYTE, false,
+                   true),
       resize(Resolution::getInstance().width(),
              Resolution::getInstance().height(), width, height),
       imageBuff(width, height), vertBuff(width, height),
       normBuff(width, height) {
-check_gl_errorFerns();
+  check_gl_errorFerns();
   LOGI("MY elasitcfusion Ferns struct init start 1 ");
   random.seed(time(0));
   generateFerns();
@@ -292,11 +298,15 @@ Eigen::Matrix4f Ferns::findFrame(std::vector<SurfaceConstraint> &constraints,
   if (minId != -1 && blockHDAware(frame, frames.at(minId)) > 0.3) {
     Eigen::Matrix4f fernPose = frames.at(minId)->pose;
 
-    vertFern.texture->Upload(frames.at(minId)->initVerts, GL_RGBA, GL_FLOAT);
-    vertCurrent.texture->Upload(vertSmall.data, GL_RGBA, GL_FLOAT);
+    vertFern.texture->Upload(frames.at(minId)->initVerts, GL_LUMINANCE, GL_UNSIGNED_BYTE);
+    vertCurrent.texture->Upload(vertSmall.data, GL_LUMINANCE, GL_UNSIGNED_BYTE);
+    // vertFern.texture->Upload(frames.at(minId)->initVerts, GL_RGBA, GL_FLOAT);
+    // vertCurrent.texture->Upload(vertSmall.data, GL_RGBA, GL_FLOAT);
 
-    normFern.texture->Upload(frames.at(minId)->initNorms, GL_RGBA, GL_FLOAT);
-    normCurrent.texture->Upload(normSmall.data, GL_RGBA, GL_FLOAT);
+    normFern.texture->Upload(frames.at(minId)->initNorms, GL_LUMINANCE, GL_UNSIGNED_BYTE);
+    normCurrent.texture->Upload(normSmall.data, GL_LUMINANCE, GL_UNSIGNED_BYTE);
+    // normFern.texture->Upload(frames.at(minId)->initNorms, GL_RGBA, GL_FLOAT);
+    // normCurrent.texture->Upload(normSmall.data, GL_RGBA, GL_FLOAT);
 
     //        colorFern.texture->Upload(frames.at(minId)->initRgb, GL_RGB,
     //        GL_UNSIGNED_BYTE); colorCurrent.texture->Upload(imgSmall.data,
