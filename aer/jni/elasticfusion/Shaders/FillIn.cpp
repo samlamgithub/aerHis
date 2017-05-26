@@ -143,7 +143,7 @@ void FillIn::image(GPUTexture *existingRgb, GPUTexture *rawRgb,
   imageFrameBuffer.Bind();
   check_gl_errorFillIn();
   LOGI("MY elasitcfusion FillIn image 2 ");
-  // glPushAttrib(GL_VIEWPORT_BIT);
+  glPushAttrib(GL_VIEWPORT_BIT);
   check_gl_errorFillIn();
   LOGI("MY elasitcfusion FillIn image 3 ");
   glViewport(0, 0, imageRenderBuffer.width, imageRenderBuffer.height);
@@ -186,7 +186,7 @@ void FillIn::image(GPUTexture *existingRgb, GPUTexture *rawRgb,
   imageProgram->Unbind();
   check_gl_errorFillIn();
   LOGI("MY elasitcfusion FillIn image 15 ");
-  // glPopAttrib();
+  glPopAttrib();
   check_gl_errorFillIn();
   LOGI("MY elasitcfusion FillIn image 16 ");
   glFinish();
@@ -201,7 +201,7 @@ void FillIn::vertex(GPUTexture *existingVertex, GPUTexture *rawDepth,
   vertexFrameBuffer.Bind();
   check_gl_errorFillIn();
   LOGI("MY elasitcfusion FillIn vertex 2");
-  // glPushAttrib(GL_VIEWPORT_BIT);
+  glPushAttrib(GL_VIEWPORT_BIT);
   check_gl_errorFillIn();
   LOGI("MY elasitcfusion FillIn vertex 3 ");
   glViewport(0, 0, vertexRenderBuffer.width, vertexRenderBuffer.height);
@@ -261,7 +261,7 @@ void FillIn::vertex(GPUTexture *existingVertex, GPUTexture *rawDepth,
   vertexProgram->Unbind();
   check_gl_errorFillIn();
   LOGI("MY elasitcfusion FillIn vertex 19 ");
-  // glPopAttrib();
+  glPopAttrib();
   glFinish();
   check_gl_errorFillIn();
   LOGI("MY elasitcfusion FillIn vertex 20 done ");
@@ -274,7 +274,7 @@ void FillIn::normal(GPUTexture *existingNormal, GPUTexture *rawDepth,
   normalFrameBuffer.Bind();
   check_gl_errorFillIn();
   LOGI("MY elasitcfusion FillIn normal 2 ");
-  // glPushAttrib(GL_VIEWPORT_BIT);
+  glPushAttrib(GL_VIEWPORT_BIT);
   check_gl_errorFillIn();
   LOGI("MY elasitcfusion FillIn normal 3 ");
   glViewport(0, 0, normalRenderBuffer.width, normalRenderBuffer.height);
@@ -332,7 +332,7 @@ void FillIn::normal(GPUTexture *existingNormal, GPUTexture *rawDepth,
   normalProgram->Unbind();
   check_gl_errorFillIn();
   LOGI("MY elasitcfusion FillIn normal 17 ");
-  // glPopAttrib();
+  glPopAttrib();
   glFinish();
   check_gl_errorFillIn();
   LOGI("MY elasitcfusion FillIn normal 18 done");

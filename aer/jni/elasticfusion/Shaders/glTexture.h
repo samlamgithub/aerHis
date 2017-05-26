@@ -30,8 +30,8 @@
 
 #include "../../tango_interface/util.hpp"
 #include "GLExtensions.h"
-#include <utility>
 #include <string>
+#include <utility>
 
 static const char *glErrorString(GLenum err) {
   switch (err) {
@@ -84,8 +84,8 @@ inline const char *glCheckFramebufferStatusGlTexture() {
 
 inline void CheckGlDieOnError() {
   for (GLint error = glGetError(); error; error = glGetError()) {
-    LOGI("glTexture.h CheckGlDieOnError after, %s, %s: glError (0x%x)\n", glCheckFramebufferStatusGlTexture(),
-         glErrorString(error), error);
+    LOGI("glTexture.h CheckGlDieOnError after, %s, %s: glError (0x%x)\n",
+         glCheckFramebufferStatusGlTexture(), glErrorString(error), error);
   }
 }
 
@@ -101,8 +101,9 @@ public:
             GLenum glformat = GL_RGBA, GLenum gltype = GL_UNSIGNED_BYTE,
             GLvoid *data = NULL)
       : internal_format(0), tid(0) {
-    LOGI("GlTexture init  start 1: %d, %d, %d, %d, %d, %d : data is null: %d", width,
-         height, internal_format, border, glformat, gltype, data == NULL);
+    LOGI("GlTexture init  start 1: %d, %d, %d, %d, %d, %d : data is null: %d",
+         width, height, internal_format, border, glformat, gltype,
+         data == NULL);
     CheckGlDieOnError();
     Reinitialise(width, height, internal_format, sampling_linear, border,
                  glformat, gltype, data);
@@ -120,28 +121,28 @@ public:
   void Delete() {
     // We have no GL context whilst exiting.
     // if(internal_format!=0 && !pangolin::ShouldQuit() ) {
-LOGI("GlTexture Delete start 1, tid: %d", tid);
+    LOGI("GlTexture Delete start 1, tid: %d", tid);
     if (internal_format != 0) {
-LOGI("GlTexture Delete  2");
+      LOGI("GlTexture Delete  2");
       glDeleteTextures(1, &tid);
-LOGI("GlTexture Delete  3");
+      LOGI("GlTexture Delete  3");
       internal_format = 0;
       tid = 0;
       width = 0;
       height = 0;
     }
-LOGI("GlTexture Delete done");
+    LOGI("GlTexture Delete done");
   }
 
   ~GlTexture() {
-LOGI("GlTexture free start 1, tid: %d", tid);
+    LOGI("GlTexture free start 1, tid: %d", tid);
     // We have no GL context whilst exiting.
     // if(internal_format!=0 && !pangolin::ShouldQuit() ) {
     if (internal_format != 0) {
-LOGI("GlTexture free  2");
+      LOGI("GlTexture free  2");
       glDeleteTextures(1, &tid);
     }
-LOGI("GlTexture free done");
+    LOGI("GlTexture free done");
   }
 
   void Bind() const {
@@ -167,8 +168,8 @@ LOGI("GlTexture free done");
                             GLenum gltype = GL_UNSIGNED_BYTE,
                             GLvoid *data = NULL) {
     CheckGlDieOnError();
-    LOGI("GlTexture Reinitialise start 1 : %d, %d, %d, data is null: %d", int_format,
-         glformat, gltype, data == NULL);
+    LOGI("GlTexture Reinitialise start 1 : %d, %d, %d, data is null: %d",
+         int_format, glformat, gltype, data == NULL);
 
     if (tid != 0) {
       glDeleteTextures(1, &tid);
@@ -237,7 +238,8 @@ LOGI("GlTexture free done");
               GLenum data_type = GL_FLOAT) {
     int align = 0;
     glGetIntegerv(GL_PACK_ALIGNMENT, &align);
-    LOGI("GlTexture Upload start 1 GL_PACK_ALIGNMENT: %d, %d, %d", data_format, data_type, align);
+    LOGI("GlTexture Upload start 1 GL_PACK_ALIGNMENT: %d, %d, %d", data_format,
+         data_type, align);
     CheckGlDieOnError();
     LOGI("GlTexture Upload Bind start");
     Bind();

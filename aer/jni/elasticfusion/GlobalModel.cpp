@@ -532,12 +532,12 @@ void GlobalModel::initialise(const FeedbackBuffer &rawFeedback,
   LOGI("MY elasitcfusion GlobalModel struct initialise 16");
   glEndQuery(GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct initialise 17 glGetQueryObjectuiv: "
+  LOGI("MY elasitcfusion GlobalModel struct initialise 17 here glGetQueryObjectuiv: "
        "countQuery: %d, count: %d",
        countQuery, count);
   glGetQueryObjectuiv(countQuery, GL_QUERY_RESULT, &count);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct initialise 18 glGetQueryObjectuiv: "
+  LOGI("MY elasitcfusion GlobalModel struct initialise 18 here glGetQueryObjectuiv: "
        "countQuery: %d, count: %d",
        countQuery, count);
   glDisable(GL_RASTERIZER_DISCARD);
@@ -658,7 +658,7 @@ void GlobalModel::fuse(const Eigen::Matrix4f &pose, const int &time,
   frameBuffer.Bind();
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel fuse 1 2");
-  // glPushAttrib(GL_VIEWPORT_BIT);
+  glPushAttrib(GL_VIEWPORT_BIT);
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel fuse 1 3");
   glViewport(0, 0, renderBuffer.width, renderBuffer.height);
@@ -786,7 +786,7 @@ void GlobalModel::fuse(const Eigen::Matrix4f &pose, const int &time,
   dataProgram->Unbind();
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel fuse 22");
-  // glPopAttrib();
+  glPopAttrib();
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel fuse 23");
   glFinish();

@@ -334,11 +334,10 @@ void ElasticFusion::processFrame(const unsigned char *rgb,
                                                    GL_UNSIGNED_BYTE);
   // textures[GPUTexture::DEPTH_RAW]->texture->Upload(
   //     depth, GL_LUMINANCE_INTEGER_EXT, GL_UNSIGNED_SHORT);
-  // textures[GPUTexture::DEPTH_RAW]->texture->Upload(depth, GL_LUMINANCE,
-  // GL_UNSIGNED_SHORT);
   check_gl_errorElasticFusion();
   LOGI(" ElasticFusion struct Process frame Run 2");
   textures[GPUTexture::RGB]->texture->Upload(rgb, GL_RGBA, GL_UNSIGNED_BYTE);
+//textures[GPUTexture::RGB]->texture->Upload(rgb, GL_RGB, GL_UNSIGNED_BYTE);
   check_gl_errorElasticFusion();
   check_gl_errorElasticFusion();
   LOGI(" ElasticFusion struct Process frame Preprocess");
@@ -354,6 +353,7 @@ void ElasticFusion::processFrame(const unsigned char *rgb,
 
   // First run
   if (tick == 1) {
+    LOGI(" ElasticFusion struct Process frame tick == 1");
     computeFeedbackBuffers();
     check_gl_errorElasticFusion();
     LOGI(" ElasticFusion struct Process frame computeFeedbackBuffers done");
