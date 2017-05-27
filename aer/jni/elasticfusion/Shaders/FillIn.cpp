@@ -79,7 +79,7 @@ FillIn::FillIn()
     : imageTexture(Resolution::getInstance().width(),
                    Resolution::getInstance().height(),
 // GL_RGBA, GL_RGB, GL_UNSIGNED_BYTE, false, true),
-GL_RGB, GL_RGB, GL_UNSIGNED_BYTE, false, true),
+GL_RGBA, GL_RGB, GL_UNSIGNED_BYTE, false, true),
       vertexTexture(Resolution::getInstance().width(),
                     Resolution::getInstance().height(),
  // GL_RGBA32F,GL_LUMINANCE, GL_FLOAT, false, true),

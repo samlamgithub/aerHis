@@ -251,29 +251,29 @@ GlobalModel::GlobalModel()
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel struct init 28");
-  LOGI("MY elasitcfusion GlobalModel struct init 29"
+  LOGI("MY elasitcfusion GlobalModel struct init 29 "
        "AttachColour(*updateMapVertsConfs.texture); start ");
   frameBuffer.AttachColour(*updateMapVertsConfs.texture);
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel struct init 30 "
        "AttachColour(*updateMapVertsConfs.texture); done ");
-  LOGI("MY elasitcfusion GlobalModel struct init 31"
+  LOGI("MY elasitcfusion GlobalModel struct init 31 "
        "AttachColour(*updateMapColorsTime.texture); start ");
   frameBuffer.AttachColour(*updateMapColorsTime.texture);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 32"
+  LOGI("MY elasitcfusion GlobalModel struct init 32 "
        "AttachColour(*updateMapColorsTime.texture); done ");
-  LOGI("MY elasitcfusion GlobalModel struct init 33"
+  LOGI("MY elasitcfusion GlobalModel struct init 33 "
        "AttachColour(*updateMapNormsRadii.texture); start ");
   frameBuffer.AttachColour(*updateMapNormsRadii.texture);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 34"
+  LOGI("MY elasitcfusion GlobalModel struct init 34 "
        "AttachColour(*updateMapNormsRadii.texture); done ");
   LOGI("MY elasitcfusion GlobalModel struct init "
        "AttachDepthrenderBuffer); start ");
   check_gl_errorGlobalModel();
   frameBuffer.AttachDepth(renderBuffer);
-  LOGI("MY elasitcfusion GlobalModel struct init 35"
+  LOGI("MY elasitcfusion GlobalModel struct init 35 "
        "AttachDepth(renderBuffer); done ");
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel struct init 36 ");
