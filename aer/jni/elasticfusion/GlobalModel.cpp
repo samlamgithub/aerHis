@@ -658,7 +658,7 @@ void GlobalModel::fuse(const Eigen::Matrix4f &pose, const int &time,
   frameBuffer.Bind();
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel fuse 1 2");
-  glPushAttrib(GL_VIEWPORT_BIT);
+  //glPushAttrib(GL_VIEWPORT_BIT);
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel fuse 1 3");
   glViewport(0, 0, renderBuffer.width, renderBuffer.height);
@@ -786,7 +786,7 @@ void GlobalModel::fuse(const Eigen::Matrix4f &pose, const int &time,
   dataProgram->Unbind();
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel fuse 22");
-  glPopAttrib();
+  //glPopAttrib();
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel fuse 23");
   glFinish();

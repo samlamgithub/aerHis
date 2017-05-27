@@ -136,7 +136,7 @@ void Resize::image(GPUTexture *source,
   imageFrameBuffer.Bind();
   check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct image 2 ");
-  glPushAttrib(GL_VIEWPORT_BIT);
+  //glPushAttrib(GL_VIEWPORT_BIT);
   check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct image 3 ");
   glViewport(0, 0, imageRenderBuffer.width, imageRenderBuffer.height);
@@ -180,7 +180,7 @@ void Resize::image(GPUTexture *source,
   imageProgram->Unbind();
   check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct image 16 ");
-  glPopAttrib();
+  //glPopAttrib();
   glFinish();
   check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct image 17 done");
@@ -192,7 +192,7 @@ void Resize::vertex(GPUTexture *source, Img<Eigen::Vector4f> &dest) {
   vertexFrameBuffer.Bind();
   check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct vertex 2 ");
-  glPushAttrib(GL_VIEWPORT_BIT);
+  //glPushAttrib(GL_VIEWPORT_BIT);
   check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct vertex 3 ");
   glViewport(0, 0, vertexRenderBuffer.width, vertexRenderBuffer.height);
@@ -236,7 +236,7 @@ void Resize::vertex(GPUTexture *source, Img<Eigen::Vector4f> &dest) {
   vertexProgram->Unbind();
   check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct vertex 15");
-  glPopAttrib();
+  //glPopAttrib();
   glFinish();
   check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct vertex done");
@@ -248,7 +248,7 @@ void Resize::time(GPUTexture *source, Img<unsigned short> &dest) {
   timeFrameBuffer.Bind();
   check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct time 2");
-  glPushAttrib(GL_VIEWPORT_BIT);
+  //glPushAttrib(GL_VIEWPORT_BIT);
   check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct time 3");
   glViewport(0, 0, timeRenderBuffer.width, timeRenderBuffer.height);
@@ -293,7 +293,7 @@ void Resize::time(GPUTexture *source, Img<unsigned short> &dest) {
   timeProgram->Unbind();
   check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct time 16");
-  glPopAttrib();
+  //glPopAttrib();
   glFinish();
   check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct time done");
