@@ -90,7 +90,7 @@ void Mylogger::setCamWidthAndheight(int width, int height, double fx, double fy,
     //	        uint8_t * newDepth = (uint8_t *)calloc(myImageSize * 2,
     //sizeof(uint8_t));
     float *newDepth = (float *)calloc(4 * maxVerCount, sizeof(float));
-    uint8_t *newImage = (uint8_t *)calloc(myImageSize * 4 sizeof(uint8_t));
+    uint8_t *newImage = (uint8_t *)calloc(myImageSize * 4, sizeof(uint8_t));
     //	        frameBuffers[i] = std::pair<std::pair<uint8_t *, uint8_t *>,
     //int64_t>(std::pair<uint8_t *, uint8_t *>(newDepth, newImage), 0);
     struct RGBDdata rgbdData;
@@ -108,9 +108,9 @@ void Mylogger::setCamWidthAndheight(int width, int height, double fx, double fy,
 
 void Mylogger::encodeJpeg(cv::Vec<unsigned char, 3> *rgb_data) {
   LOGI("Logger Encoding start: %d, %d", depth_image_height, depth_image_width);
-  int step = depth_image_width * 3 * sizeof(unsigned char);
+  int step = depth_image_width * 4 * sizeof(unsigned char);
   //	LOGI("step: %d", step);
-  cv::Mat3b rgb(depth_image_height, depth_image_width, rgb_data, step);
+  cv::Mat4b rgb(depth_image_height, depth_image_width, rgb_data, step);
   //    LOGI("depth: %d, channels: %d, row: %d, cols : %d", rgb.depth(),
   //    rgb.channels(),rgb.rows, rgb.cols); if (rgb.isContinuous())  { 	LOGI("is
   //    continuous"); } else { 	LOGI("is not continuous");
@@ -497,18 +497,18 @@ void Mylogger::writeData() {
     //                  rgbData = (unsigned char
     //                  *)openNI2Interface->frameBuffers[bufferIndex].first.second;
     //===============
-    // threads.add_thread(new boost::thread(boost::bind(
-    //     &Mylogger::encodeJpeg, this,
-    //     (cv::Vec<unsigned char, 3> *)frameBuffers[bufferIndex].image)));
-    //                                                         (cv::Vec<unsigned
-    //                                                         char, 3>
-    //                                                         *)frameBuffers[bufferIndex].first.second)));
+    threads.add_thread(new boost::thread(boost::bind(
+        &Mylogger::encodeJpeg, this,
+        (cv::Vec<unsigned char, 3> *)frameBuffers[bufferIndex].image)));
+                                                            (cv::Vec<unsigned
+                                                            char, 3>
+                                                            *)frameBuffers[bufferIndex].first.second)));
     threads.join_all();
     LOGI("logger threads.join_all(); done ");
     int32_t depthSize = compressed_size;
-    // int32_t imageSize = encodedImage->width;
-           int32_t imageSize = myImageSize * sizeof(unsigned char) * 4;
-           unsigned char * rgbData = (unsigned char*)frameBuffers[bufferIndex].image;
+    int32_t imageSize = encodedImage->width;
+          //  int32_t imageSize = myImageSize * sizeof(unsigned char) * 4;
+          //  unsigned char * rgbData = (unsigned char*)frameBuffers[bufferIndex].image;
     /**
      * Format is:
      * int64_t: timestamp
@@ -526,8 +526,8 @@ void Mylogger::writeData() {
     LOGI("Logger fwrite imageSize : %d", imageSize);
     result = fwrite(depth_compress_buf, depthSize, 1, RGBlog_file_);
     LOGI("Logger fwrite:depth_compress_buf : %d", result);
-    // result = fwrite(encodedImage->data.ptr, imageSize, 1, RGBlog_file_);
-           result = fwrite(rgbData, imageSize, 1, RGBlog_file_);
+    result = fwrite(encodedImage->data.ptr, imageSize, 1, RGBlog_file_);
+          //  result = fwrite(rgbData, imageSize, 1, RGBlog_file_);
     //        int cols = encodedImage->cols;
     //        LOGI("encodedImage cols %d ", cols);
     LOGI("Logger fwrite rgbData: %d", result);
