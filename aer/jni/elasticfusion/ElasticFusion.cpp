@@ -211,7 +211,7 @@ void ElasticFusion::createTextures() {
   textures[GPUTexture::RGB] = new GPUTexture(
       Resolution::getInstance().width(), Resolution::getInstance().height(),
       // GL_RGBA, GL_RGB, GL_UNSIGNED_BYTE, true, true);
-      GL_RGBA, GL_RGB, GL_UNSIGNED_BYTE, true, true);
+      GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, true, true);
   check_gl_errorElasticFusion();
   LOGI("MY elasitcfusion struct createTextures 2 ");
   textures[GPUTexture::DEPTH_RAW] = new GPUTexture(
@@ -336,8 +336,8 @@ void ElasticFusion::processFrame(const unsigned char *rgb,
   //     depth, GL_LUMINANCE_INTEGER_EXT, GL_UNSIGNED_SHORT);
   check_gl_errorElasticFusion();
   LOGI(" ElasticFusion struct Process frame Run 2");
-  textures[GPUTexture::RGB]->texture->Upload(rgb, GL_RGB, GL_UNSIGNED_BYTE);
-//textures[GPUTexture::RGB]->texture->Upload(rgb, GL_RGB, GL_UNSIGNED_BYTE);
+  textures[GPUTexture::RGB]->texture->Upload(rgb, GL_RGBA, GL_UNSIGNED_BYTE);
+//textures[GPUTexture::RGB]->texture->Upload(rgb, GL_RGBA, GL_UNSIGNED_BYTE);
   check_gl_errorElasticFusion();
   check_gl_errorElasticFusion();
   LOGI(" ElasticFusion struct Process frame Preprocess");

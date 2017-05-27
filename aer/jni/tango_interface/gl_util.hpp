@@ -34,7 +34,7 @@ public:
   int get_frame_view_height() { return frame_height_; }
   int get_frame_view_width() { return frame_width_; }
 
-  std::shared_ptr<unsigned char> get_frame();
+  std::shared_ptr<unsigned char> get_frame(int rgb);
   GLuint texture_id() const;
 
 private:

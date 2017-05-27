@@ -376,7 +376,7 @@ void GlCameraFrame::render() {
   check_gl_error("CameraTextureDrawable::render");
 }
 
-std::shared_ptr<unsigned char> GlCameraFrame::get_frame() {
+std::shared_ptr<unsigned char> GlCameraFrame::get_frame(int rgb) {
   if (frame_buffer_ && frame_width_ && frame_height_) {
     if (frame_buffer_dirty_) {
       check_gl_error("glutil get_frame 1");
@@ -390,9 +390,16 @@ std::shared_ptr<unsigned char> GlCameraFrame::get_frame() {
       //#define GL_RGBA                           0x1908
       //#define GL_LUMINANCE                      0x1909
       //#define GL_LUMINANCE_ALPHA                0x190A
-      glReadPixels(0, 0, frame_width_, frame_height_, GL_RGB, GL_UNSIGNED_BYTE,
-                   frame_buffer_.get());
-      check_gl_error("glutil get_frame 3");
+      if (rgb == 3) {
+        glReadPixels(0, 0, frame_width_, frame_height_, GL_RGB,
+                     GL_UNSIGNED_BYTE, frame_buffer_.get());
+        check_gl_error("glutil get_frame 3 3");
+      } else {
+        glReadPixels(0, 0, frame_width_, frame_height_, GL_RGBA,
+                     GL_UNSIGNED_BYTE, frame_buffer_.get());
+        check_gl_error("glutil get_frame 3 4");
+      }
+
       //      NSLog(@"%d", (int)pixels[0]);
       //      LOGI("1: %d, 2: %d, 3: %d, 4: %d, 5:%d, 6: %d, === 1: %d, 2: %d,
       //      3: %d, 4: %d, 5:%d, 6: %d, === 1: %d, 2: %d, 3: %d, 4: %d, 5:%d,
