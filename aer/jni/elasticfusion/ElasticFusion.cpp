@@ -211,7 +211,7 @@ void ElasticFusion::createTextures() {
   textures[GPUTexture::RGB] = new GPUTexture(
       Resolution::getInstance().width(), Resolution::getInstance().height(),
       // GL_RGBA, GL_RGB, GL_UNSIGNED_BYTE, true, true);
-      GL_RGB, GL_RGB, GL_UNSIGNED_BYTE, true, true);
+      GL_RGBA, GL_RGB, GL_UNSIGNED_BYTE, true, true);
   check_gl_errorElasticFusion();
   LOGI("MY elasitcfusion struct createTextures 2 ");
   textures[GPUTexture::DEPTH_RAW] = new GPUTexture(
