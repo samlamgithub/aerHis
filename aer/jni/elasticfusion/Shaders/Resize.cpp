@@ -79,9 +79,9 @@ inline void check_gl_errorResize() {
 
 Resize::Resize(int srcWidth, int srcHeight, int destWidth, int destHeight):
 // imageTexture(destWidth, destHeight, GL_RGBA, GL_RGB, GL_UNSIGNED_BYTE, false, true),
-imageTexture(destWidth, destHeight, GL_RGB, GL_RGB, GL_UNSIGNED_BYTE, false, true),
+imageTexture(destWidth, destHeight, GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, false, true),
 // vertexTexture(destWidth, destHeight, GL_RGBA32F, GL_LUMINANCE, GL_FLOAT,  false, true),
-  vertexTexture(destWidth, destHeight,  GL_RGBA32F, GL_RGBA, GL_FLOAT,  false, true),
+  vertexTexture(destWidth, destHeight,  GL_LUMINANCE, GL_LUMINANCE, GL_UNSIGNED_BYTE, false, true),
 // timeTexture(destWidth, destHeight, GL_LUMINANCE16UI_EXT,  GL_LUMINANCE_INTEGER_EXT,  GL_UNSIGNED_SHORT, false, true),
 timeTexture(destWidth, destHeight, GL_LUMINANCE, GL_LUMINANCE, GL_UNSIGNED_BYTE, false, true),
     imageProgram(
@@ -164,7 +164,7 @@ void Resize::image(GPUTexture *source,
   check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct image 11 glReadPixels");
 // glReadPixels(0, 0, imageRenderBuffer.width, imageRenderBuffer.height, GL_RGB,
-  glReadPixels(0, 0, imageRenderBuffer.width, imageRenderBuffer.height, GL_RGB,
+  glReadPixels(0, 0, imageRenderBuffer.width, imageRenderBuffer.height, GL_RGBA,
                GL_UNSIGNED_BYTE, dest.data); // here Invalid Operation()
   check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct image 12 glReadPixels");
