@@ -101,7 +101,7 @@ private:
   ThreadMutexObject<bool> writing;
   std::string filename;
 
-  void encodeJpeg(cv::Vec<unsigned char, 3> *rgb_data);
+  void encodeJpeg(cv::Vec<unsigned char, 4> *rgb_data);
   FILE *RGBlog_file_;
   FILE *Depthlog_file_;
   void writeData();

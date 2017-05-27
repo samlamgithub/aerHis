@@ -106,7 +106,7 @@ void Mylogger::setCamWidthAndheight(int width, int height, double fx, double fy,
   LOGI("setCamWidthAndheight done");
 }
 
-void Mylogger::encodeJpeg(cv::Vec<unsigned char, 3> *rgb_data) {
+void Mylogger::encodeJpeg(cv::Vec<unsigned char, 4> *rgb_data) {
   LOGI("Logger Encoding start: %d, %d", depth_image_height, depth_image_width);
   int step = depth_image_width * 4 * sizeof(unsigned char);
   //	LOGI("step: %d", step);
@@ -499,10 +499,10 @@ void Mylogger::writeData() {
     //===============
     threads.add_thread(new boost::thread(boost::bind(
         &Mylogger::encodeJpeg, this,
-        (cv::Vec<unsigned char, 3> *)frameBuffers[bufferIndex].image)));
-                                                            (cv::Vec<unsigned
-                                                            char, 3>
-                                                            *)frameBuffers[bufferIndex].first.second)));
+        (cv::Vec<unsigned char, 4> *)frameBuffers[bufferIndex].image)));
+                                                            // (cv::Vec<unsigned
+                                                            // char, 3>
+                                                            // *)frameBuffers[bufferIndex].first.second)));
     threads.join_all();
     LOGI("logger threads.join_all(); done ");
     int32_t depthSize = compressed_size;
