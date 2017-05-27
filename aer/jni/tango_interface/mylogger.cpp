@@ -90,7 +90,7 @@ void Mylogger::setCamWidthAndheight(int width, int height, double fx, double fy,
     //	        uint8_t * newDepth = (uint8_t *)calloc(myImageSize * 2,
     //sizeof(uint8_t));
     float *newDepth = (float *)calloc(4 * maxVerCount, sizeof(float));
-    uint8_t *newImage = (uint8_t *)calloc(myImageSize * 3, sizeof(uint8_t));
+    uint8_t *newImage = (uint8_t *)calloc(myImageSize * 4 sizeof(uint8_t));
     //	        frameBuffers[i] = std::pair<std::pair<uint8_t *, uint8_t *>,
     //int64_t>(std::pair<uint8_t *, uint8_t *>(newDepth, newImage), 0);
     struct RGBDdata rgbdData;
@@ -161,7 +161,7 @@ void Mylogger::rgbdCallback(unsigned char *image,
   frameBuffers[bufferIndex].pointCloudNumpoints = pointcloud_buffer->num_points;
   memcpy(frameBuffers[bufferIndex].pointCloudPoints, pointcloud_buffer->points,
          (pointcloud_buffer->num_points) * 4 * sizeof(float));
-  int rgbPixeldatacount = myImageSize * 3;
+  int rgbPixeldatacount = myImageSize * 4;
   memcpy(frameBuffers[bufferIndex].image, reinterpret_cast<uint8_t *>(image),
          rgbPixeldatacount);
   frameBuffers[bufferIndex].colorTimeStamp = color_timestamp;
@@ -497,19 +497,18 @@ void Mylogger::writeData() {
     //                  rgbData = (unsigned char
     //                  *)openNI2Interface->frameBuffers[bufferIndex].first.second;
     //===============
-    threads.add_thread(new boost::thread(boost::bind(
-        &Mylogger::encodeJpeg, this,
-        (cv::Vec<unsigned char, 3> *)frameBuffers[bufferIndex].image)));
+    // threads.add_thread(new boost::thread(boost::bind(
+    //     &Mylogger::encodeJpeg, this,
+    //     (cv::Vec<unsigned char, 3> *)frameBuffers[bufferIndex].image)));
     //                                                         (cv::Vec<unsigned
     //                                                         char, 3>
     //                                                         *)frameBuffers[bufferIndex].first.second)));
     threads.join_all();
     LOGI("logger threads.join_all(); done ");
     int32_t depthSize = compressed_size;
-    int32_t imageSize = encodedImage->width;
-    //        int32_t imageSize = myImageSize * sizeof(unsigned char) * 3;
-    //        unsigned char * rgbData = (unsigned char
-    //        *)frameBuffers[bufferIndex].first.second;
+    // int32_t imageSize = encodedImage->width;
+           int32_t imageSize = myImageSize * sizeof(unsigned char) * 4;
+           unsigned char * rgbData = (unsigned char*)frameBuffers[bufferIndex].image;
     /**
      * Format is:
      * int64_t: timestamp
@@ -527,8 +526,8 @@ void Mylogger::writeData() {
     LOGI("Logger fwrite imageSize : %d", imageSize);
     result = fwrite(depth_compress_buf, depthSize, 1, RGBlog_file_);
     LOGI("Logger fwrite:depth_compress_buf : %d", result);
-    result = fwrite(encodedImage->data.ptr, imageSize, 1, RGBlog_file_);
-    //        result = fwrite(rgbData, imageSize, 1, log_file_);
+    // result = fwrite(encodedImage->data.ptr, imageSize, 1, RGBlog_file_);
+           result = fwrite(rgbData, imageSize, 1, RGBlog_file_);
     //        int cols = encodedImage->cols;
     //        LOGI("encodedImage cols %d ", cols);
     LOGI("Logger fwrite rgbData: %d", result);
