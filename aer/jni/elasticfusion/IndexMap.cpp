@@ -72,6 +72,9 @@ inline const char *glCheckFramebufferStatusIM() {
 }
 
 inline void check_gl_errorIndexMap() {
+  if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+      LOGI("frame buffer error: %s", glCheckFramebufferStatusIM());
+  }
   for (GLint error = glGetError(); error; error = glGetError()) {
     LOGI(
         "check_gl_error IndexMap cpp My elastic-fusion CheckGlDieOnError after "

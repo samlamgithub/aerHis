@@ -70,6 +70,9 @@ inline const char *glCheckFramebufferStatusDeformation() {
 }
 
 inline void check_gl_errorDeformation() {
+  if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+      LOGI("frame buffer error: %s", glCheckFramebufferStatusDeformation());
+  }
   for (GLint error = glGetError(); error; error = glGetError()) {
     LOGI("check_gl_error Deformation cpp My elastic-fusion CheckGlDieOnError "
          "after "

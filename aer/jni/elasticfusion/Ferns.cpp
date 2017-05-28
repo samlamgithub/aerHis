@@ -71,6 +71,9 @@ inline const char *glCheckFramebufferStatusFerns() {
 }
 
 inline void check_gl_errorFerns() {
+  if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+      LOGI("frame buffer error: %s", glCheckFramebufferStatusFerns());
+  }
   for (GLint error = glGetError(); error; error = glGetError()) {
     LOGI("check_gl_error ferns.cpp My elastic-fusion CheckGlDieOnError after "
          ": %s, %s glError (0x%x)\n", glCheckFramebufferStatusFerns(),

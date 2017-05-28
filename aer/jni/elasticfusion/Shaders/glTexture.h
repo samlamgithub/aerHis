@@ -83,6 +83,9 @@ inline const char *glCheckFramebufferStatusGlTexture() {
 }
 
 inline void CheckGlDieOnError() {
+  if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+      LOGI("frame buffer error: %s", glCheckFramebufferStatusGlTexture());
+  }
   for (GLint error = glGetError(); error; error = glGetError()) {
     LOGI("glTexture.h CheckGlDieOnError after, %s, %s: glError (0x%x)\n",
          glCheckFramebufferStatusGlTexture(), glErrorString(error), error);

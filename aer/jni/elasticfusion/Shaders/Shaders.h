@@ -91,6 +91,9 @@ inline const char *glCheckFramebufferStatusShader() {
 }
 
 inline void check_gl_error2(const char *operation) {
+  if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+      LOGI("frame buffer error: %s", glCheckFramebufferStatusShader());
+  }
   for (GLint error = glGetError(); error; error = glGetError()) {
     LOGI("Shader.h My elastic-fusion shader CheckGlDieOnError :%s, %s, after "
          "%s() "

@@ -78,6 +78,9 @@ inline const char *glCheckFramebufferStatusGlobalModel() {
 }
 
 inline void check_gl_errorGlobalModel() {
+  if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+      LOGI("frame buffer error: %s", glCheckFramebufferStatusGlobalModel());
+  }
   for (GLint error = glGetError(); error; error = glGetError()) {
     LOGI("check_gl_errorGlobalModel My elastic-fusion CheckGlDieOnError after "
          ": %s, %s glError (0x%x)\n",

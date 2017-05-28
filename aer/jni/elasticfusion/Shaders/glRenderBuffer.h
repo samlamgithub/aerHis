@@ -79,6 +79,9 @@ inline const char *glCheckFramebufferStatusGlRenderBuffer() {
 }
 
 inline void CheckGlDieOnErrorRB() {
+  if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+      LOGI("frame buffer error: %s", glCheckFramebufferStatusGlRenderBuffer());
+  }
   for (GLint error = glGetError(); error; error = glGetError()) {
     LOGI("GlRenderBuffer.h CheckGlDieOnError after: %s, %s: glError (0x%x)\n", glCheckFramebufferStatusGlRenderBuffer(),
          glErrorStringRB(error), error);

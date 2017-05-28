@@ -70,6 +70,9 @@ inline const char *glCheckFramebufferStatusEFCPP() {
 }
 
 inline void check_gl_errorElasticFusion() {
+  if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+      LOGI("frame buffer error: %s", glCheckFramebufferStatusEFCPP());
+  }
   for (GLint error = glGetError(); error; error = glGetError()) {
     LOGI("check_gl_error ElasticFusion.cpp My elastic-fusion CheckGlDieOnError "
          "after "

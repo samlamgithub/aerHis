@@ -82,6 +82,9 @@ static const char *glErrorStringFB(GLenum err) {
 }
 
 inline void CheckGlDieOnErrorFB() {
+  if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+      LOGI("frame buffer error: %s", glCheckFramebufferStatusGlFramebuffer());
+  }
   for (GLint error = glGetError(); error; error = glGetError()) {
     LOGI("GlFramebuffer.h CheckGlDieOnError after: %s, %s: glError (0x%x)\n", glCheckFramebufferStatusGlFramebuffer(),
          glErrorStringFB(error), error);

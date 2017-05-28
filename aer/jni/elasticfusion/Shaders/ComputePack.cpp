@@ -76,6 +76,9 @@ inline const char * glCheckFramebufferStatusCC() {
 }
 
 inline void check_gl_errorComputePack() {
+  if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+      LOGI("frame buffer error: %s", glCheckFramebufferStatusCC());
+  }
   for (GLint error = glGetError(); error; error = glGetError()) {
     if (error != GL_NO_ERROR) {
       LOGI("ComputePack My elastic-fusion  CheckGlDieOnError after %s, %s() "

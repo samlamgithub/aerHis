@@ -77,6 +77,9 @@ inline const char *glCheckFramebufferStatusGT() {
 }
 
 inline void CheckGlDieOnErrorGT() {
+  if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+      LOGI("frame buffer error: %s", glCheckFramebufferStatusGT());
+  }
   for (GLint error = glGetError(); error; error = glGetError()) {
     LOGI("GPUTexture.cpp CheckGlDieOnError after : %s, %s: glError (0x%x)\n",
          glCheckFramebufferStatusGT(), glErrorStringGT(error), error);
