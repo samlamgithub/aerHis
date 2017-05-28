@@ -944,7 +944,7 @@ void GlobalModel::clean(const Eigen::Matrix4f &pose, const int &time,
     check_gl_errorGlobalModel();
     LOGI("MY elasitcfusion GlobalModel clean 2");
     glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, graph.size(), 1, GL_LUMINANCE,
-                    GL_FLOAT, graph.data());
+                    GL_UNSIGNED_BYTE, graph.data());
     check_gl_errorGlobalModel();
     LOGI("MY elasitcfusion GlobalModel clean 3");
   }
