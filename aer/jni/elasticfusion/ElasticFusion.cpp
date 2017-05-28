@@ -224,25 +224,25 @@ void ElasticFusion::createTextures() {
       Resolution::getInstance().width(), Resolution::getInstance().height(),
       // GL_LUMINANCE16UI_EXT, GL_LUMINANCE_INTEGER_EXT, GL_UNSIGNED_SHORT,
       // false, true);
-      GL_LUMINANCE, GL_LUMINANCE, GL_UNSIGNED_BYTE, false, true);
+      GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, false, true);
   check_gl_errorElasticFusion();
   LOGI("MY elasitcfusion struct createTextures 4 ");
   textures[GPUTexture::DEPTH_METRIC] = new GPUTexture(
       Resolution::getInstance().width(), Resolution::getInstance().height(),
       // GL_LUMINANCE32F_ARB, GL_LUMINANCE, GL_FLOAT);
-        GL_LUMINANCE, GL_LUMINANCE, GL_UNSIGNED_BYTE);
+      GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE);
   check_gl_errorElasticFusion();
   LOGI("MY elasitcfusion struct createTextures 5 ");
   textures[GPUTexture::DEPTH_METRIC_FILTERED] = new GPUTexture(
       Resolution::getInstance().width(), Resolution::getInstance().height(),
       // GL_LUMINANCE32F_ARB, GL_LUMINANCE, GL_FLOAT);
-      GL_LUMINANCE, GL_LUMINANCE, GL_UNSIGNED_BYTE);
+      GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE);
   check_gl_errorElasticFusion();
   LOGI("MY elasitcfusion struct createTextures 6 ");
   textures[GPUTexture::DEPTH_NORM] = new GPUTexture(
       Resolution::getInstance().width(), Resolution::getInstance().height(),
       // GL_LUMINANCE, GL_LUMINANCE, GL_FLOAT, true);
-      GL_LUMINANCE, GL_LUMINANCE, GL_UNSIGNED_BYTE, true);
+      GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, true);
   check_gl_errorElasticFusion();
   LOGI("MY elasitcfusion struct createTextures done ");
 }

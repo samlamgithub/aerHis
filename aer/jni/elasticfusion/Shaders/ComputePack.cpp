@@ -115,10 +115,10 @@ void ComputePack::compute(GlTexture *input,
   LOGI("MY elasitcfusion ComputePack compute 2");
   frameBuffer.Bind();  // no good
   check_gl_errorComputePack();
-  LOGI("MY elasitcfusion ComputePack compute 3 glPushAttrib");
+  LOGI("MY elasitcfusion ComputePack compute 3");
   //glPushAttrib(GL_VIEWPORT_BIT);
   check_gl_errorComputePack();
-  LOGI("MY elasitcfusion ComputePack compute 4 glPushAttrib");
+  LOGI("MY elasitcfusion ComputePack compute 4");
   glViewport(0, 0, renderBuffer.width, renderBuffer.height);
   check_gl_errorComputePack();
   LOGI("MY elasitcfusion ComputePack compute 5");

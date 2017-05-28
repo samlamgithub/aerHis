@@ -101,16 +101,16 @@ GlobalModel::GlobalModel()
       renderBuffer(TEXTURE_DIMENSION, TEXTURE_DIMENSION),
       updateMapVertsConfs(TEXTURE_DIMENSION, TEXTURE_DIMENSION,
                           // GL_RGBA32F,  GL_LUMINANCE, GL_FLOAT),
-                           GL_LUMINANCE, GL_LUMINANCE, GL_UNSIGNED_BYTE),
+                          GL_RGBA32F, GL_RGBA, GL_FLOAT),
       updateMapColorsTime(TEXTURE_DIMENSION, TEXTURE_DIMENSION,
                           // GL_RGBA32F,  GL_LUMINANCE, GL_FLOAT),
-                           GL_LUMINANCE, GL_LUMINANCE, GL_UNSIGNED_BYTE),
+                          GL_RGBA32F, GL_RGBA, GL_FLOAT),
       updateMapNormsRadii(TEXTURE_DIMENSION, TEXTURE_DIMENSION,
                           // GL_RGBA32F,  GL_LUMINANCE, GL_FLOAT),
-                           GL_LUMINANCE, GL_LUMINANCE, GL_UNSIGNED_BYTE),
+                          GL_RGBA32F, GL_RGBA, GL_FLOAT),
       deformationNodes(NODE_TEXTURE_DIMENSION, 1,
                        // GL_LUMINANCE32F_ARB,GL_LUMINANCE, GL_FLOAT)
-                       GL_LUMINANCE, GL_LUMINANCE, GL_UNSIGNED_BYTE)
+                       GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE)
 //   deformationNodes(NODE_TEXTURE_DIMENSION, 1, GL_LUMINANCE32F_EXT,
 //   GL_LUMINANCE, GL_FLOAT)
 {
@@ -251,29 +251,29 @@ GlobalModel::GlobalModel()
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel struct init 28");
-  LOGI("MY elasitcfusion GlobalModel struct init 29 "
+  LOGI("MY elasitcfusion GlobalModel struct init 29"
        "AttachColour(*updateMapVertsConfs.texture); start ");
   frameBuffer.AttachColour(*updateMapVertsConfs.texture);
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel struct init 30 "
        "AttachColour(*updateMapVertsConfs.texture); done ");
-  LOGI("MY elasitcfusion GlobalModel struct init 31 "
+  LOGI("MY elasitcfusion GlobalModel struct init 31"
        "AttachColour(*updateMapColorsTime.texture); start ");
   frameBuffer.AttachColour(*updateMapColorsTime.texture);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 32 "
+  LOGI("MY elasitcfusion GlobalModel struct init 32"
        "AttachColour(*updateMapColorsTime.texture); done ");
-  LOGI("MY elasitcfusion GlobalModel struct init 33 "
+  LOGI("MY elasitcfusion GlobalModel struct init 33"
        "AttachColour(*updateMapNormsRadii.texture); start ");
   frameBuffer.AttachColour(*updateMapNormsRadii.texture);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 34 "
+  LOGI("MY elasitcfusion GlobalModel struct init 34"
        "AttachColour(*updateMapNormsRadii.texture); done ");
   LOGI("MY elasitcfusion GlobalModel struct init "
        "AttachDepthrenderBuffer); start ");
   check_gl_errorGlobalModel();
   frameBuffer.AttachDepth(renderBuffer);
-  LOGI("MY elasitcfusion GlobalModel struct init 35 "
+  LOGI("MY elasitcfusion GlobalModel struct init 35"
        "AttachDepth(renderBuffer); done ");
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel struct init 36 ");
@@ -944,7 +944,7 @@ void GlobalModel::clean(const Eigen::Matrix4f &pose, const int &time,
     check_gl_errorGlobalModel();
     LOGI("MY elasitcfusion GlobalModel clean 2");
     glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, graph.size(), 1, GL_LUMINANCE,
-                    GL_UNSIGNED_BYTE, graph.data());
+                    GL_FLOAT, graph.data());
     check_gl_errorGlobalModel();
     LOGI("MY elasitcfusion GlobalModel clean 3");
   }
