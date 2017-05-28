@@ -255,7 +255,7 @@ void RunDatasetEF::runEF() {
   LOGI("RunDatasetEF RunDatasetEF Initialising done ...");
   LOGI("RunDatasetEF RunDatasetEF Setting parameters...");
   float confidence = 10.0f;   // fusion的confidence阈值
-  float depthThre = 3.0f;     //去掉depth大于某个阈值的帧
+  float depthThre = 12.0f;     //去掉depth大于某个阈值的帧
   float icp = 10.0f;          // icp的阈值
   float icpErrThresh = 5e-05; // icp错误阈值
   float covThresh = 1e-05;
