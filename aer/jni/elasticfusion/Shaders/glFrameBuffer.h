@@ -212,7 +212,7 @@ struct GlFramebuffer {
     // glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fbid);
     // glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT,
     // GL_TEXTURE_2D, rb.rbid, 0); glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
-    glBindFramebuffer(GL_FRAMEBUFFER, fbid);
+    glBindFramebuffer(GL_FRAMEBUFFER, fbid); // GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT
     CheckGlDieOnErrorFB();
     LOGI("GlFramebuffer AttachDepth 2");
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D,
