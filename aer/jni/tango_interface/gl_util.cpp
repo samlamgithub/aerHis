@@ -68,25 +68,25 @@ inline void glCheckFramebufferStatusUtil(const char *operation) {
   if (status == GL_FRAMEBUFFER_COMPLETE) {
     LOGI("MY elasitcfusion gl Util GL_FRAMEBUFFER_COMPLETE, % s", operation);
   } else if (status == GL_FRAMEBUFFER_UNDEFINED) {
-    LOGI("MY elasitcfusion gl Util  GL_FRAMEBUFFER_UNDEFINED, % s", operation);
+    LOGI("error MY elasitcfusion gl Util  GL_FRAMEBUFFER_UNDEFINED, % s", operation);
   } else if (status == GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT) {
-    LOGI("MY elasitcfusion gl Util "
+    LOGI("error MY elasitcfusion gl Util "
          "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT, % s",
          operation);
   } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT) {
-    LOGI("MY elasitcfusion gl Util "
+    LOGI("error MY elasitcfusion gl Util "
          "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT, %s",
          operation);
   } else if (status == GL_FRAMEBUFFER_UNSUPPORTED) {
-    LOGI("MY elasitcfusion gl Util  GL_FRAMEBUFFER_UNSUPPORTED, %s", operation);
+    LOGI("error MY elasitcfusion gl Util  GL_FRAMEBUFFER_UNSUPPORTED, %s", operation);
   } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE) {
-    LOGI("MY elasitcfusion gl Util  "
+    LOGI("error MY elasitcfusion gl Util  "
          "GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE, %s",
          operation);
   } else if (status == GL_INVALID_ENUM) {
-    LOGI("MY elasitcfusion gl Util GL_INVALID_ENUM, %s", operation);
+    LOGI("error MY elasitcfusion gl Util GL_INVALID_ENUM, %s", operation);
   } else {
-    LOGI("MY elasitcfusion gl Util  %d, %s", status, operation);
+    LOGI("error MY elasitcfusion gl Util  %d, %s", status, operation);
   }
 }
 
@@ -111,9 +111,10 @@ static const char *glErrorStringUtil(GLenum err) {
 }
 
 void check_gl_error(const char *operation) {
-  if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
-      LOGI("frame buffer error: %s", glCheckFramebufferStatusUtil());
-  }
+glCheckFramebufferStatusUtil(operation);
+  // if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+  //     LOGI("frame buffer error: %s", glCheckFramebufferStatusUtil(""));
+  // }
   for (GLint error = glGetError(); error; error = glGetError()) {
     LOGI("glutil.cpp after %s() glError: %s, (0x%x)\n", operation,
          glErrorStringUtil(error), error);

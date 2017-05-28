@@ -43,22 +43,22 @@ inline void glCheckFramebufferStatusMyElasticFusioncpp() {
   if (status == GL_FRAMEBUFFER_COMPLETE) {
     LOGI("MY elasitcfusion MyElasticFusioncpp GL_FRAMEBUFFER_COMPLETE");
   } else if (status == GL_FRAMEBUFFER_UNDEFINED) {
-    LOGI("MY elasitcfusion MyElasticFusioncpp  GL_FRAMEBUFFER_UNDEFINED");
+    LOGI("error MY elasitcfusion MyElasticFusioncpp  GL_FRAMEBUFFER_UNDEFINED");
   } else if (status == GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT) {
-    LOGI("MY elasitcfusion MyElasticFusioncpp "
+    LOGI("error MY elasitcfusion MyElasticFusioncpp "
          "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT");
   } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT) {
-    LOGI("MY elasitcfusion MyElasticFusioncpp "
+    LOGI("error MY elasitcfusion MyElasticFusioncpp "
          "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT");
   } else if (status == GL_FRAMEBUFFER_UNSUPPORTED) {
-    LOGI("MY elasitcfusion MyElasticFusioncpp  GL_FRAMEBUFFER_UNSUPPORTED");
+    LOGI("error MY elasitcfusion MyElasticFusioncpp  GL_FRAMEBUFFER_UNSUPPORTED");
   } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE) {
-    LOGI("MY elasitcfusion MyElasticFusioncpp  "
+    LOGI("error MY elasitcfusion MyElasticFusioncpp  "
          "GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE");
   } else if (status == GL_INVALID_ENUM) {
-    LOGI("MY elasitcfusion MyElasticFusioncpp GL_INVALID_ENUM");
+    LOGI("error MY elasitcfusion MyElasticFusioncpp GL_INVALID_ENUM");
   } else {
-    LOGI("MY elasitcfusion MyElasticFusioncpp glCheckFramebufferStatus else %d",
+    LOGI(" error MY elasitcfusion MyElasticFusioncpp glCheckFramebufferStatus else %d",
          status);
   }
 }
