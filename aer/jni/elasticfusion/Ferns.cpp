@@ -94,13 +94,13 @@ Ferns::Ferns(int n, int maxDepth, const float photoThresh)
            Intrinsics::getInstance().fx() / factor,
            Intrinsics::getInstance().fy() / factor),
       // vertFern(width, height, GL_RGBA32F, GL_LUMINANCE, GL_FLOAT, false, true),
-  vertFern(width, height,  GL_RGBA32F, GL_RED, GL_FLOAT, false, true),
+  vertFern(width, height,  GL_RGBA32F, GL_RGBA, GL_FLOAT, false, true),
       // vertCurrent(width, height, GL_RGBA32F, GL_LUMINANCE, GL_FLOAT, false,  true),
-  vertCurrent(width, height, GL_RGBA32F, GL_RED, GL_FLOAT, false,  true),
+  vertCurrent(width, height, GL_RGBA32F, GL_RGBA, GL_FLOAT, false,  true),
       // normFern(width, height, GL_RGBA32F, GL_LUMINANCE, GL_FLOAT, false, true),
-  normFern(width, height, GL_RGBA32F, GL_RED, GL_FLOAT, false, true),
+  normFern(width, height, GL_RGBA32F, GL_RGBA, GL_FLOAT, false, true),
       // normCurrent(width, height, GL_RGBA32F, GL_LUMINANCE, GL_FLOAT, false,true),
-  normCurrent(width, height, GL_RGBA32F, GL_RED, GL_FLOAT, false,true),
+  normCurrent(width, height, GL_RGBA32F, GL_RGBA, GL_FLOAT, false,true),
       // colorFern(width, height, GL_RGBA, GL_RGB, GL_UNSIGNED_BYTE, false, true),
 colorFern(width, height, GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, false, true),
       // colorCurrent(width, height, GL_RGBA, GL_RGB, GL_UNSIGNED_BYTE, false,true),
@@ -295,10 +295,10 @@ Eigen::Matrix4f Ferns::findFrame(std::vector<SurfaceConstraint> &constraints,
   if (minId != -1 && blockHDAware(frame, frames.at(minId)) > 0.3) {
     Eigen::Matrix4f fernPose = frames.at(minId)->pose;
 
-    vertFern.texture->Upload(frames.at(minId)->initVerts, GL_RED, GL_FLOAT);
+    vertFern.texture->Upload(frames.at(minId)->initVerts, GL_RGBA, GL_FLOAT);
     vertCurrent.texture->Upload(vertSmall.data, GL_RED, GL_FLOAT);
 
-    normFern.texture->Upload(frames.at(minId)->initNorms, GL_RED, GL_FLOAT);
+    normFern.texture->Upload(frames.at(minId)->initNorms, GL_RGBA, GL_FLOAT);
     normCurrent.texture->Upload(normSmall.data, GL_RED, GL_FLOAT);
 
     //        colorFern.texture->Upload(frames.at(minId)->initRgb, GL_RGB,

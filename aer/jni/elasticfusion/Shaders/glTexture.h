@@ -216,6 +216,7 @@ public:
     //   gltype = GL_UNSIGNED_BYTE;
     //   LOGI("GlTexture Reinitialise change 5");
     // }
+
     // GL_LUMINANCE and GL_FLOAT don't seem to actually affect buffer, but some
     // values are required for call to succeed.
     glTexImage2D(GL_TEXTURE_2D, 0, internal_format, width, height, border,
