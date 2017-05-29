@@ -171,7 +171,7 @@ IndexMap::IndexMap()
       normalInfoTexture(Resolution::getInstance().width() * IndexMap::FACTOR,
                         Resolution::getInstance().height() * IndexMap::FACTOR,
                         // GL_RGBA32F, GL_LUMINANCE, GL_FLOAT)
-                        GL_RGBA32F, GL_RED, GL_FLOAT) {
+                        GL_RGBA32F, GL_RGBA, GL_FLOAT) {
   check_gl_errorIndexMap();
   LOGI("MY elasitcfusion IndexMap struct init start 1 ");
   LOGI("MY elasitcfusion IndexMap struct IndexMap "
