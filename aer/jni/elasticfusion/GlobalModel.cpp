@@ -104,19 +104,16 @@ GlobalModel::GlobalModel()
       renderBuffer(TEXTURE_DIMENSION, TEXTURE_DIMENSION),
       updateMapVertsConfs(TEXTURE_DIMENSION, TEXTURE_DIMENSION,
                           // GL_RGBA32F,  GL_LUMINANCE, GL_FLOAT),
-                          GL_RGBA32F, GL_RGBA, GL_FLOAT),
+                          GL_RGBA32F, GL_RED, GL_FLOAT),
       updateMapColorsTime(TEXTURE_DIMENSION, TEXTURE_DIMENSION,
                           // GL_RGBA32F,  GL_LUMINANCE, GL_FLOAT),
-                          GL_RGBA32F, GL_RGBA, GL_FLOAT),
+                          GL_RGBA32F, GL_RED, GL_FLOAT),
       updateMapNormsRadii(TEXTURE_DIMENSION, TEXTURE_DIMENSION,
                           // GL_RGBA32F,  GL_LUMINANCE, GL_FLOAT),
-                          GL_RGBA32F, GL_RGBA, GL_FLOAT),
+                          GL_RGBA32F, GL_RED, GL_FLOAT),
       deformationNodes(NODE_TEXTURE_DIMENSION, 1,
                        // GL_LUMINANCE32F_ARB,GL_LUMINANCE, GL_FLOAT)
-                       GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE)
-//   deformationNodes(NODE_TEXTURE_DIMENSION, 1, GL_LUMINANCE32F_EXT,
-//   GL_LUMINANCE, GL_FLOAT)
-{
+              GL_R32F, GL_RED, GL_FLOAT) {
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel struct init start 1 ");
   vbos = new std::pair<GLuint, GLuint>[2];
@@ -946,7 +943,7 @@ void GlobalModel::clean(const Eigen::Matrix4f &pose, const int &time,
     glBindTexture(GL_TEXTURE_2D, deformationNodes.texture->tid);
     check_gl_errorGlobalModel();
     LOGI("MY elasitcfusion GlobalModel clean 2");
-    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, graph.size(), 1, GL_LUMINANCE,
+    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, graph.size(), 1, GL_RED,
                     GL_FLOAT, graph.data());
     check_gl_errorGlobalModel();
     LOGI("MY elasitcfusion GlobalModel clean 3");
