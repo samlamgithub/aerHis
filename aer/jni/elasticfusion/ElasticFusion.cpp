@@ -347,11 +347,30 @@ void ElasticFusion::processFrame(const unsigned char *rgb,
   //     LOGI("imporssible");
   //   }
   // }
-  // LOGI("-------------------------------------------------");
+  LOGI("-------------------------------------------------");
   // for (int i = 0; i < 640; i++) {
   //   LOGI("depth ========= %d", depth[i]);
   // }
-  // LOGI("==================================================");
+  for (int i = 0; i < 380*2; i++) {
+    LOGI("depth ========= %u, %u, %u, %u, %u, %u, %u, %u,  %u, %u, %u, %u, %u, %u, %u, %u, ",
+ depth[16*i],
+depth[16*i+1],
+depth[16*i+2],
+depth[16*i+3],
+depth[16*i+4],
+depth[16*i+5],
+depth[16*i+6],
+depth[16*i+7],
+depth[16*i+8],
+depth[16*i+9],
+depth[16*i+9],
+depth[16*i+10],
+depth[16*i+11],
+depth[16*i+12],
+depth[16*i+13],
+depth[16*i+14]);
+  }
+  LOGI("==================================================");
   return;
 
   textures[GPUTexture::DEPTH_RAW]->texture->Upload(depth, GL_LUMINANCE,
