@@ -386,9 +386,54 @@ void ElasticFusion::processFrame(const unsigned char *rgb,
   LOGI(" ElasticFusion struct Process frame Run 2");
   textures[GPUTexture::RGB]->texture->Upload(rgb, GL_RGBA, GL_UNSIGNED_BYTE);
 //textures[GPUTexture::RGB]->texture->Upload(rgb, GL_RGB, GL_UNSIGNED_BYTE);
+
+check_gl_errorElasticFusion();
+LOGI(" ElasticFusion struct Process frame test 1");
+
+GLuint frame_buffer_object_;
+
+check_gl_errorElasticFusion();
+LOGI(" ElasticFusion struct Process frame test 2");
+
+  glGenFramebuffers(1, &frame_buffer_object_);
+
   check_gl_errorElasticFusion();
+  LOGI(" ElasticFusion struct Process frame test 2");
+
+  glBindFramebuffer(GL_FRAMEBUFFER, frame_buffer_object_);
+
+  check_gl_errorElasticFusion();
+  LOGI(" ElasticFusion struct Process frame test 2");
+
+unsigned char frame_buffer_ = new unsigned char[3 *  Resolution::getInstance().height() *  Resolution::getInstance().width()];
+
+check_gl_errorElasticFusion();
+LOGI(" ElasticFusion struct Process frame test 3");
+
+glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D,
+                       textures[GPUTexture::DEPTH_RAW]->texture->tid, 0);
+
+                       check_gl_errorElasticFusion();
+                       LOGI(" ElasticFusion struct Process frame test 4");
+
+  glReadPixels(0, 0, Resolution::getInstance().width(), Resolution::getInstance().height(), GL_RGB,
+               GL_UNSIGNED_BYTE, frame_buffer_.get());
+
+               check_gl_errorElasticFusion();
+               LOGI(" ElasticFusion struct Process frame test 5");
+
+  glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+  check_gl_errorElasticFusion();
+  LOGI(" ElasticFusion struct Process frame test 6");
+
+
+
   check_gl_errorElasticFusion();
   LOGI(" ElasticFusion struct Process frame Preprocess");
+
+return;
+
   TICK("Preprocess");
 
   filterDepth();

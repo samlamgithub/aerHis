@@ -184,7 +184,7 @@ void RunDatasetEF::runEF() {
 
   EGLint major, minor;
   if (!eglInitialize(display, &major, &minor) || eglGetError() != EGL_SUCCESS) {
-    LOGI("RunDatasetEF egl  eglInitialize failed");
+    LOGI("RunDatasetEF egl  eglInitialize failed error");
   }
   LOGI("RunDatasetEF  runEF EGL init with version %d.%d", major, minor);
   EGLint numConfigs;
@@ -195,7 +195,7 @@ void RunDatasetEF::runEF() {
   }
 
   EGLSurface surface;
-  const EGLint surfaceAttr[] = {EGL_WIDTH, 1280, EGL_HEIGHT, 720, EGL_NONE};
+  const EGLint surfaceAttr[] = {EGL_WIDTH, 640, EGL_HEIGHT, 380, EGL_NONE};
 
   // PixmapSurface和PBufferSurface
   surface = eglCreatePbufferSurface(display, config, surfaceAttr);

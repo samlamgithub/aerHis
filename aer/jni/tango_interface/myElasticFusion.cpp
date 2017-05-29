@@ -464,46 +464,47 @@ void MyElasticFusion::runEF() {
 
   EGLDisplay display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
   if (display == EGL_NO_DISPLAY || eglGetError() != EGL_SUCCESS) {
-    LOGI("MyElasticFusion runEF egl  eglGetDisplay failed");
+    LOGI("MyElasticFusion runEF egl  eglGetDisplay error failed");
   }
 
   EGLint major, minor;
   if (!eglInitialize(display, &major, &minor) || eglGetError() != EGL_SUCCESS) {
-    LOGI("MyElasticFusion runEF egl  eglInitialize failed");
+    LOGI("MyElasticFusion runEF egl  eglInitialize error failed");
   }
   LOGI("MyElasticFusion  runEFEGL init with version %d.%d", major, minor);
   EGLint numConfigs;
   EGLConfig config;
   if (!eglChooseConfig(display, configAttribs, &config, 1, &numConfigs) ||
       eglGetError() != EGL_SUCCESS) {
-    LOGI("MyElasticFusion runEF egl eglChooseConfig failed");
+    LOGI("MyElasticFusion runEF egl eglChooseConfig error failed");
   }
 
   EGLSurface surface;
   const EGLint surfaceAttr[] = {EGL_WIDTH, 1280, EGL_HEIGHT, 720, EGL_NONE};
 
+  EGLContext context;
+
+  context = eglCreateContext(display, config, EGL_NO_CONTEXT, contextAttribs);
+  if (context == EGL_NO_CONTEXT || eglGetError() != EGL_SUCCESS) {
+    LOGI("MyElasticFusion runEF egl eglCreateContext error failed");
+  }
+
   // PixmapSurface和PBufferSurface
   surface = eglCreatePbufferSurface(display, config, surfaceAttr);
   //	    surface = eglCreateWindowSurface(display, config, mWindow, NULL);
   if (surface == EGL_NO_SURFACE || eglGetError() != EGL_SUCCESS) {
-    LOGI("MyElasticFusion runEF egl eglCreatePbufferSurface failed");
-  }
-
-  EGLContext context;
-
-  // EGL_NO_CONTEXT
-  context = eglCreateContext(display, config, EGL_NO_CONTEXT, contextAttribs);
-  if (context == EGL_NO_CONTEXT || eglGetError() != EGL_SUCCESS) {
-    LOGI("MyElasticFusion runEF egl eglCreateContext failed");
+    LOGI("MyElasticFusion runEF egl eglCreatePbufferSurface  error failed");
   }
 
   if (eglMakeCurrent(display, surface, surface, context) == EGL_FALSE ||
       eglGetError() != EGL_SUCCESS) {
-    LOGI("MyElasticFusion runEF egl eglMakeCurrent failed");
+    LOGI("MyElasticFusion runEF egl eglMakeCurrent error failed");
   }
+
   if (eglGetError() != EGL_SUCCESS) {
-    LOGI("MyElasticFusion runEF egl may failed");
+    LOGI("MyElasticFusion runEF egl may failed error");
   }
+
   LOGI("MyElasticFusion runEF egl context setup done ...");
   //==================================
   bool success = LoadOpenGLExtensionsManually();
