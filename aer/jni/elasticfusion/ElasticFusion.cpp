@@ -413,30 +413,26 @@ void ElasticFusion::processFrame(const unsigned char *rgb,
 //
 // check_gl_errorElasticFusion();
 // LOGI(" ElasticFusion struct Process frame test 3");
-
-glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D,
-                       textures[GPUTexture::DEPTH_RAW]->texture->tid, 0);
-
-                       check_gl_errorElasticFusion();
-                       LOGI(" ElasticFusion struct Process frame test 4");
-
-  glReadPixels(0, 0, Resolution::getInstance().width(), Resolution::getInstance().height(), GL_RGB,
-               GL_UNSIGNED_BYTE, frame_buffer_);
-
-               check_gl_errorElasticFusion();
-               LOGI(" ElasticFusion struct Process frame test 5");
-
-  glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-  check_gl_errorElasticFusion();
-  LOGI(" ElasticFusion struct Process frame test 6");
-
-
+//
+// glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D,
+//                        textures[GPUTexture::DEPTH_RAW]->texture->tid, 0);
+//
+//                        check_gl_errorElasticFusion();
+//                        LOGI(" ElasticFusion struct Process frame test 4");
+//
+//   glReadPixels(0, 0, Resolution::getInstance().width(), Resolution::getInstance().height(), GL_RGB,
+//                GL_UNSIGNED_BYTE, frame_buffer_);
+//
+//                check_gl_errorElasticFusion();
+//                LOGI(" ElasticFusion struct Process frame test 5");
+//
+//   glBindFramebuffer(GL_FRAMEBUFFER, 0);
+//
+//   check_gl_errorElasticFusion();
+//   LOGI(" ElasticFusion struct Process frame test 6");
 
   check_gl_errorElasticFusion();
   LOGI(" ElasticFusion struct Process frame Preprocess");
-
-return;
 
   TICK("Preprocess");
 
