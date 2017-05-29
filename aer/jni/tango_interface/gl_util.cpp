@@ -111,7 +111,7 @@ static const char *glErrorStringUtil(GLenum err) {
 }
 
 void check_gl_error(const char *operation) {
-glCheckFramebufferStatusUtil(operation);
+// glCheckFramebufferStatusUtil(operation);
   // if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
   //     LOGI("frame buffer error: %s", glCheckFramebufferStatusUtil(""));
   // }

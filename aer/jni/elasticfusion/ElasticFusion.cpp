@@ -333,6 +333,18 @@ void ElasticFusion::processFrame(const unsigned char *rgb,
   TICK("Run");
   check_gl_errorElasticFusion();
   LOGI(" ElasticFusion struct Process frame Run 1 start");
+
+    LOGI("=== timestamp: %d", timestamp);
+  for (i=0;i<200;i++) {
+      LOGI("rgb ========= %d", rgb[i]));
+  }
+LOGI("-------------------------------------------------");
+for (i=0;i<200;i++) {
+    LOGI("depth ========= %d", depth[i]));
+}
+LOGI("==================================================");
+  return;
+
   textures[GPUTexture::DEPTH_RAW]->texture->Upload(depth, GL_LUMINANCE,
                                                    GL_UNSIGNED_BYTE);
   // textures[GPUTexture::DEPTH_RAW]->texture->Upload(
