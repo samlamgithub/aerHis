@@ -552,9 +552,13 @@ void RunDatasetEF::getCore() {
     assert(fread(imageReadBuffer, imageSize, 1, fp));
   }
 
+  LOGI("RunDatasetEF run Dataset imageSize: %d, depthSize: %d", imageSize, depthSize);
+
   if (depthSize == numPixels * 2) {
+      LOGI("RunDatasetEF run Dataset depthSize no need to compress");
     memcpy(&decompressionBufferDepth[0], depthReadBuffer, numPixels * 2);
   } else {
+    LOGI("RunDatasetEF run Dataset depthSize compressed");
     unsigned long decompLength = numPixels * 2;
     uncompress(&decompressionBufferDepth[0], (unsigned long *)&decompLength,
                (const Bytef *)depthReadBuffer, depthSize);
