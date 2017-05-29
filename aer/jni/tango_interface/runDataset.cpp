@@ -602,25 +602,30 @@ void RunDatasetEF::getCore() {
   depth = (unsigned short *)decompressionBufferDepth;
 
   LOGI("-------------------------------------------------");
-  for (int i = 0; i < 380*2; i++) {
-    LOGI("depth ========= %u, %u, %u, %u, %u, %u, %u, %u,  %u, %u, %u, %u, %u, %u, %u, %u, ",
- depth[i],
-depth[i+1],
-depth[i+2],
-depth[i+3],
-depth[i+4],
-depth[i+5],
-depth[i+6],
-depth[i+7],
-depth[i+8],
-depth[i+9],
-depth[i+9],
-depth[i+10],
-depth[i+11],
-depth[i+12],
-depth[i+13],
-depth[i+14]);
+for (int j= 0; j < 640*380; j++) {
+  if (depth[j] != 0) {
+       LOGI("depth ==== %d: %d", j, depth[j]);
   }
+}
+//   for (int i = 0; i < 380*2; i++) {
+//     LOGI("depth ========= %u, %u, %u, %u, %u, %u, %u, %u,  %u, %u, %u, %u, %u, %u, %u, %u, ",
+//  depth[i],
+// depth[i+1],
+// depth[i+2],
+// depth[i+3],
+// depth[i+4],
+// depth[i+5],
+// depth[i+6],
+// depth[i+7],
+// depth[i+8],
+// depth[i+9],
+// depth[i+9],
+// depth[i+10],
+// depth[i+11],
+// depth[i+12],
+// depth[i+13],
+// depth[i+14]);
+//   }
   LOGI("==================================================");
 
 
