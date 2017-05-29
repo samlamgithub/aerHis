@@ -285,8 +285,8 @@ void RunDatasetEF::runEF() {
   // windowParams.Set("SAMPLE_BUFFERS", 0);
   // windowParams.Set("SAMPLES", 0);
   // pangolin::CreateWindowAndBind("Main", width, height, windowParams);
-  // glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-  // glPixelStorei(GL_PACK_ALIGNMENT, 1);
+  glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+  glPixelStorei(GL_PACK_ALIGNMENT, 1);
   ElasticFusion eFusion(openLoop ? std::numeric_limits<int>::max() / 2
                                  : timeDelta,
                         icpCountThresh, icpErrThresh, covThresh, !openLoop,
