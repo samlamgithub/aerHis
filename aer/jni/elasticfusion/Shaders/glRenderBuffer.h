@@ -95,7 +95,7 @@ struct GlRenderBuffer {
 
   GlRenderBuffer(GLint width, GLint height,
                  GLint internal_format = GL_DEPTH_COMPONENT24)
-      : width(0), height(0), rbid(0) {
+      : width(width), height(height), rbid(0) {
     CheckGlDieOnErrorRB();
     LOGI("GlRenderBuffer init start %d, %d, %d, ", width, height,
          internal_format);
