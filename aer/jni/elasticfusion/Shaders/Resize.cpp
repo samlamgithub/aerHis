@@ -164,12 +164,21 @@ void Resize::image(GPUTexture *source,
   LOGI("MY elasitcfusion resize struct image 10 ");
   glDrawArrays(GL_POINTS, 0, 1);
   check_gl_errorResize();
-  LOGI("MY elasitcfusion resize struct image 11 glReadPixels");
+  LOGI("MY elasitcfusion resize struct image 11 glReadPixels imageRenderBuffer.width: %d, imageRenderBuffer.height: %d", imageRenderBuffer.width, imageRenderBuffer.height);
 // glReadPixels(0, 0, imageRenderBuffer.width, imageRenderBuffer.height, GL_RGB,
   glReadPixels(0, 0, imageRenderBuffer.width, imageRenderBuffer.height, GL_RGBA,
                GL_UNSIGNED_BYTE, dest.data); // here Invalid Operation()
   check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct image 12 glReadPixels");
+
+  for (int j = 0; j < imageRenderBuffer.width * imageRenderBuffer.height; j++) {
+    if (dest.data[j] != 0) {
+      LOGI("Resize::image( ==== %u: %u", j, dest.data[j]);
+    }
+  }
+
+  check_gl_errorResize();
+  LOGI("MY elasitcfusion resize struct image 12 glReadPixels log done");
   imageFrameBuffer.Unbind();
   check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct image 13 ");

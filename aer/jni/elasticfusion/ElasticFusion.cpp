@@ -464,6 +464,18 @@ void ElasticFusion::processFrame(const unsigned char *rgb,
 
     bool trackingOk = true;
 
+    if (bootstrap) {
+      LOGI(" ElasticFusion struct Process frame is bootstrap");
+    } else {
+      LOGI(" ElasticFusion struct Process frame is NOT bootstrap");
+    }
+
+    if (inPose) {
+      LOGI(" ElasticFusion struct Process frame is inPose");
+    } else {
+      LOGI(" ElasticFusion struct Process frame is NOT inPose");
+    }
+
     if (bootstrap || !inPose) {
       check_gl_errorElasticFusion();
       LOGI(" ElasticFusion struct Process frame else 2");

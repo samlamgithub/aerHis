@@ -566,6 +566,9 @@ void MyElasticFusion::runEF() {
   // LOGI("Logger fwrite: %d", result1);
   //    int result = fputs("\n:testest     \n", log_file_);
   //    LOGI("Logger puts: %d", result);
+  Eigen::Matrix4f *previousPose = 0;
+  previousPose = new Eigen::Matrix4f;
+  previousPose->setIdentity();
   LOGI("MyElasticFusion runEF elasticfusion: good");
   while (runningElasticFusion.getValueWait(1)) {
     LOGI("MyElasticFusion runEF elasticfusion: while loop in");
@@ -694,6 +697,9 @@ void MyElasticFusion::runEF() {
     ss1 << currentPose.format(CleanFmt1);
     std::string str1(ss1.str());
     LOGI("input pose is : %s", str1.c_str());
+    Eigen::Matrix4f *incrementalTrans = 0;
+    incrementalTrans->setIdentity();
+    *incrementalTrans = previousPose.inverse() * currentPose;
     // float x = (float)pose.translation[0];
     // float y = (float)pose.translation[1];
     // float z =(float) pose.translation[2];
@@ -712,8 +718,10 @@ void MyElasticFusion::runEF() {
     LOGI("MyElasticFusion Processing frames ready.");
     check_gl_errorEF();
     eFusion.processFrame(rgbImageForEF, depthForEF, timeStampleForEF,
-                         currentPose);
+                         incrementalTrans);
+    *previousPose = *currentPose;
     delete &trans;
+    delete incrementalTrans;
     delete currentPose;
     // eFusion.processFrame(rgb, dep, timestamp);
     check_gl_errorEF();
@@ -1013,6 +1021,7 @@ void MyElasticFusion::runEF() {
   // LOGI("Logger close:");
   // fclose(RGBlog_file_);
   // fclose(Depthlog_file_);
+delete previousPose;
   LOGI("MyElasticFusion deleting");
   // delete &eFusion;
   // eFusion = NULL;
