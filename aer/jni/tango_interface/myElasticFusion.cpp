@@ -688,6 +688,12 @@ void MyElasticFusion::runEF() {
                           (float)pose.translation[1],
                           (float)pose.translation[2], 1.00);
     currentPose->rightCols<1>() = trans;
+
+    Eigen::IOFormat CleanFmt1(4, 0, ", ", "\n", "[", "]");
+    std::stringstream ss1;
+    ss1 << currentPose.format(CleanFmt1);
+    std::string str1(ss1.str());
+    LOGI("input pose is : %s", str1.c_str());
     // float x = (float)pose.translation[0];
     // float y = (float)pose.translation[1];
     // float z =(float) pose.translation[2];
