@@ -131,7 +131,7 @@ struct GlRenderBuffer {
     LOGI("GlRenderBuffer Reinitialise 1");
     glGenTextures(1, &rbid);
     CheckGlDieOnErrorRB();
-    LOGI("GlRenderBuffer Reinitialise 1 2");
+    LOGI("GlRenderBuffer Reinitialise 1 2, glGenTextures: %d", rbid);
     glBindTexture(GL_TEXTURE_2D, rbid);
     CheckGlDieOnErrorRB();
     LOGI("GlRenderBuffer Reinitialise 2");

@@ -96,10 +96,10 @@ Deformation::Deformation()
 
   glGenTransformFeedbacks(1, &fid);
   check_gl_errorDeformation();
-  LOGI("MY elasitcfusion Deformation struct init 2");
+  LOGI("MY elasitcfusion Deformation struct init 2 glGenTransformFeedbacks: %d", fid);
   glGenBuffers(1, &vbo);
   check_gl_errorDeformation();
-  LOGI("MY elasitcfusion Deformation struct init 3 ");
+  LOGI("MY elasitcfusion Deformation struct init 3 glGenBuffers: %d", vbo);
   glBindBuffer(GL_ARRAY_BUFFER, vbo);
   check_gl_errorDeformation();
   LOGI("MY elasitcfusion Deformation struct init 4 ");
@@ -130,7 +130,7 @@ Deformation::Deformation()
   LOGI("MY elasitcfusion Deformation struct init 10 ");
   glGenQueries(1, &countQuery);
   check_gl_errorDeformation();
-  LOGI("MY elasitcfusion Deformation struct init done 11 ");
+  LOGI("MY elasitcfusion Deformation struct init done 11 glGenQueries: %d", countQuery);
 }
 
 Deformation::~Deformation() {

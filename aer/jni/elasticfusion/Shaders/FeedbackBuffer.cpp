@@ -95,10 +95,10 @@ FeedbackBuffer::FeedbackBuffer(std::shared_ptr<Shader> program)
 
   glGenTransformFeedbacks(1, &fid);
   check_gl_errorFeedbackBuffer();
-  LOGI("MY elasitcfusion FeedbackBuffer struct init 2 ");
+  LOGI("MY elasitcfusion FeedbackBuffer struct init 2 glGenTransformFeedbacks: %d", fid);
   glGenBuffers(1, &vbo);
   check_gl_errorFeedbackBuffer();
-  LOGI("MY elasitcfusion FeedbackBuffer struct init 3 ");
+  LOGI("MY elasitcfusion FeedbackBuffer struct init 3 glGenBuffers: %d", vbo);
   glBindBuffer(GL_ARRAY_BUFFER, vbo);
   check_gl_errorFeedbackBuffer();
   LOGI("MY elasitcfusion FeedbackBuffer struct init 4 ");
@@ -126,7 +126,7 @@ FeedbackBuffer::FeedbackBuffer(std::shared_ptr<Shader> program)
   LOGI("MY elasitcfusion FeedbackBuffer struct init 7 ");
   glGenBuffers(1, &uvo);
   check_gl_errorFeedbackBuffer();
-  LOGI("MY elasitcfusion FeedbackBuffer struct init 8 ");
+  LOGI("MY elasitcfusion FeedbackBuffer struct init 8 glGenBuffers: %d", uvo);
   glBindBuffer(GL_ARRAY_BUFFER, uvo);
   check_gl_errorFeedbackBuffer();
   LOGI("MY elasitcfusion FeedbackBuffer struct init 9 ");
@@ -159,7 +159,7 @@ FeedbackBuffer::FeedbackBuffer(std::shared_ptr<Shader> program)
   LOGI("MY elasitcfusion FeedbackBuffer struct init 15 ");
   glGenQueries(1, &countQuery);
   check_gl_errorFeedbackBuffer();
-  LOGI("MY elasitcfusion FeedbackBuffer struct init 16 done ");
+  LOGI("MY elasitcfusion FeedbackBuffer struct init 16 done glGenQueries: %d", countQuery);
 }
 
 FeedbackBuffer::~FeedbackBuffer() {

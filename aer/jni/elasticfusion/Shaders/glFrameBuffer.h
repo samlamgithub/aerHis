@@ -110,7 +110,7 @@ struct GlFramebuffer {
     LOGI("GlFramebuffer init 2 start 1 ");
     glGenFramebuffers(1, &fbid);
     CheckGlDieOnErrorFB();
-    LOGI("GlFramebuffer init 2 2 ");
+    LOGI("GlFramebuffer init 2 2 glGenFramebuffers: %d", fbid);
     AttachColour(colour);
     CheckGlDieOnErrorFB();
     LOGI("GlFramebuffer init 2 3");
@@ -126,7 +126,7 @@ struct GlFramebuffer {
     LOGI("GlFramebuffer init 3 start 1");
     glGenFramebuffers(1, &fbid);
     CheckGlDieOnErrorFB();
-    LOGI("GlFramebuffer init 3 2");
+    LOGI("GlFramebuffer init 3 2 glGenFramebuffers: %d", fbid);
     AttachColour(colour0);
     CheckGlDieOnErrorFB();
     LOGI("GlFramebuffer init 3 3");
@@ -161,7 +161,7 @@ struct GlFramebuffer {
     // glGenFramebuffersEXT(1, &fbid);
     glGenFramebuffers(1, &fbid);
     CheckGlDieOnErrorFB();
-    LOGI("GlFramebuffer Reinitialise done 2");
+    LOGI("GlFramebuffer Reinitialise done 2 glGenFramebuffers: %d", fbid);
   }
 
   void Unbind() const {

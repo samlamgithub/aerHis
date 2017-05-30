@@ -195,17 +195,17 @@ GlobalModel::GlobalModel()
   vertices = new float[Resolution::getInstance().numPixels() * Vertex::SIZE];
   memset(&vertices[0], 0, Resolution::getInstance().numPixels() * Vertex::SIZE);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 16 glGenTransformFeedbacks "
+  LOGI("MY elasitcfusion GlobalModel struct init 16 glGenTransformFeedbacks before"
        "newUnstableFid: %d",
        newUnstableFid);
   glGenTransformFeedbacks(1, &newUnstableFid);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 17 glGenTransformFeedbacks "
+  LOGI("MY elasitcfusion GlobalModel struct init 17 glGenTransformFeedbacks after"
        "newUnstableFid: %d",
        newUnstableFid);
   glGenBuffers(1, &newUnstableVbo);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 18");
+  LOGI("MY elasitcfusion GlobalModel struct init 18 glGenBuffers: %d, newUnstableVbo");
   glBindBuffer(GL_ARRAY_BUFFER, newUnstableVbo);
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel struct init 19");
@@ -240,7 +240,7 @@ GlobalModel::GlobalModel()
   LOGI("MY elasitcfusion GlobalModel struct init 24 ");
   glGenBuffers(1, &uvo);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 25");
+  LOGI("MY elasitcfusion GlobalModel struct init 25 glGenBuffers: %d", uvo);
   glBindBuffer(GL_ARRAY_BUFFER, uvo);
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel struct init 26");
@@ -353,7 +353,7 @@ GlobalModel::GlobalModel()
   LOGI("MY elasitcfusion GlobalModel struct init 51 ");
   glGenQueries(1, &countQuery);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 52 ");
+  LOGI("MY elasitcfusion GlobalModel struct init 52 glGenQueries: %d", countQuery);
   // Empty both transform feedbacks
   glEnable(GL_RASTERIZER_DISCARD);
   check_gl_errorGlobalModel();

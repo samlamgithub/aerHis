@@ -187,7 +187,7 @@ public:
 
     glGenTextures(1, &tid);
     CheckGlDieOnError();
-    LOGI("GlTexture Reinitialise 3");
+    LOGI("GlTexture Reinitialise 3 glGenTextures: %d", tid);
     Bind();
     CheckGlDieOnError();
     LOGI("GlTexture Reinitialise 4");
