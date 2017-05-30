@@ -571,7 +571,7 @@ void MyElasticFusion::runEF() {
   previousPose->setIdentity();
   LOGI("MyElasticFusion runEF elasticfusion: good");
   while (runningElasticFusion.getValueWait(1)) {
-    LOGI("MyElasticFusion runEF elasticfusion: while loop in");
+    // LOGI("MyElasticFusion runEF elasticfusion: while loop in");
     int bufferIndex = latestBufferIndex.getValue();
     if (bufferIndex == -1) {
       continue;
@@ -734,7 +734,7 @@ void MyElasticFusion::runEF() {
     std::stringstream ss;
     ss << currPose.format(CleanFmt);
     std::string str(ss.str());
-    LOGI("current pose is : %s", str.c_str());
+    LOGI("output pose is : %s", str.c_str());
     LOGI("MyElasticFusion Processing frames done.");
     LOGI("MyElasticFusion Log processing result start.");
     //查看处理的结果

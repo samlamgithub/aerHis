@@ -95,7 +95,7 @@ timeTexture(destWidth, destHeight, GL_R16UI, GL_RED_INTEGER, GL_UNSIGNED_SHORT, 
       timeProgram(
           loadProgram(emptyvert_tuple, resizefrag_tuple, quadgeom_tuple)),
       timeRenderBuffer(destWidth, destHeight) {
-  LOGI("MY elasitcfusion resize struct init start 1 ");
+  LOGI("MY elasitcfusion resize struct init start 1: srcWidth: %d, srcHeight: %d, destWidth:%d, destHeight: %d", srcWidth, srcHeight, destWidth, destHeight);
   LOGI("MY elasitcfusion Resize struct Resize "
        "AttachColour(*imageTexture.texture); start ");
   imageFrameBuffer.AttachColour(*imageTexture.texture);
