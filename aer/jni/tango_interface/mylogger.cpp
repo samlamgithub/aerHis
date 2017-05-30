@@ -344,39 +344,39 @@ void Mylogger::writeData() {
   /**
    * int32_t at file beginning for frame count
    */
-  std::string RGBfilename("/sdcard/mymy_imperial_tango_RGB" +
+  std::string RGBDfilename("/sdcard/tango_RGBD_logdata_" +
                           current_date_time());
   int RGBversion = 0;
-  std::string RGBversion_suffix(".klg");
-  while (file_exists(RGBfilename + RGBversion_suffix)) {
-    RGBversion_suffix = "_" + to_string(++RGBversion) + ".klg";
+  std::string RGBDversion_suffix(".klg");
+  while (file_exists(RGBDfilename + RGBDversion_suffix)) {
+    RGBDversion_suffix = "_" + to_string(++RGBversion) + ".klg";
   }
   // Finish opening the file
-  RGBfilename += RGBversion_suffix;
-  RGBlog_file_ = fopen(RGBfilename.c_str(), "wb+");
-  if (RGBlog_file_ == NULL) {
+  RGBDfilename += RGBDversion_suffix;
+  RGBDlog_file_ = fopen(RGBDfilename.c_str(), "wb+");
+  if (RGBDlog_file_ == NULL) {
     LOGE("Logger: There was a problem opening the RGB log file:%s",
-         RGBfilename.c_str());
+         RGBDfilename.c_str());
   }
 
-  std::string Depthfilename("/sdcard/mymy_imperial_tango_Depth" +
+  std::string PoseDataFilename("/sdcard/tango_pose_logdata_" +
                             current_date_time());
-  int Depthversion = 0;
-  std::string Depthversion_suffix(".klg");
-  while (file_exists(Depthfilename + Depthversion_suffix)) {
-    Depthversion_suffix = "_" + to_string(++Depthversion) + ".klg";
+  int PoseFileVersion = 0;
+  std::string PoseFileVersion_suffix(".klg");
+  while (file_exists(PoseDataFilename + PoseFileVersion_suffix)) {
+    PoseFileVersion_suffix = "_" + to_string(++PoseFileVersion) + ".klg";
   }
   // Finish opening the file
-  Depthfilename += Depthversion_suffix;
-  Depthlog_file_ = fopen(Depthfilename.c_str(), "wb+");
-  if (Depthlog_file_ == NULL) {
+  PoseDataFilename += PoseFileVersion_suffix;
+  PoseDataLofFile = fopen(PoseDataFilename.c_str(), "wb+");
+  if (PoseDataLofFile == NULL) {
     LOGE("Logger: There was a problem opening the Depth log file:%s",
-         Depthfilename.c_str());
+         PoseDataFilename.c_str());
   }
 
   int32_t numFrames = 0;
 
-  size_t result1 = fwrite(&numFrames, sizeof(int32_t), 1, RGBlog_file_);
+  size_t result1 = fwrite(&numFrames, sizeof(int32_t), 1, RGBDlog_file_);
   LOGI("Logger fwrite: %d", result1);
   //    int result = fputs("\n:testest     \n", log_file_);
   //    LOGI("Logger puts: %d", result);
@@ -518,16 +518,16 @@ void Mylogger::writeData() {
      * imageSize * unsigned char: encodedImage->data.ptr
      */
     size_t result = fwrite(&frameBuffers[bufferIndex].m_lastTimestamp,
-                           sizeof(int64_t), 1, RGBlog_file_);
+                           sizeof(int64_t), 1, RGBDlog_file_);
     LOGI("Logger fwrite timestamp: %d", result);
-    result = fwrite(&depthSize, sizeof(int32_t), 1, RGBlog_file_);
+    result = fwrite(&depthSize, sizeof(int32_t), 1, RGBDlog_file_);
     LOGI("Logger fwrite: depthSize : %d", result);
-    result = fwrite(&imageSize, sizeof(int32_t), 1, RGBlog_file_);
+    result = fwrite(&imageSize, sizeof(int32_t), 1, RGBDlog_file_);
     LOGI("Logger fwrite imageSize : %d", imageSize);
-    result = fwrite(depth_compress_buf, depthSize, 1, RGBlog_file_);
+    result = fwrite(depth_compress_buf, depthSize, 1, RGBDlog_file_);
     LOGI("Logger fwrite:depth_compress_buf : %d", result);
-    result = fwrite(encodedImage->data.ptr, imageSize, 1, RGBlog_file_);
-          //  result = fwrite(rgbData, imageSize, 1, RGBlog_file_);
+    result = fwrite(encodedImage->data.ptr, imageSize, 1, RGBDlog_file_);
+          //  result = fwrite(rgbData, imageSize, 1, RGBDlog_file_);
     //        int cols = encodedImage->cols;
     //        LOGI("encodedImage cols %d ", cols);
     LOGI("Logger fwrite rgbData: %d", result);
@@ -548,27 +548,27 @@ void Mylogger::writeData() {
     int n;
     n = sprintf(buffer, "%llu,%f,%f,%f,%f,%f,%f,%f", utime, x, y, z, qx, qy, qz,
                 qw);
-    LOGI("depth log: n: %d, s: %s", n, buffer);
+    LOGI("Pose log: n: %d, s: %s", n, buffer);
     //        printf ("[%s] is a string %d chars long\n",buffer,n);
     //        int n = sscanf(line.c_str(), "%llu,%f,%f,%f,%f,%f,%f,%f", );
-    result = fwrite(&buffer, sizeof(char), n, Depthlog_file_);
-    LOGI("Logger fwrite depth1: %d", result);
-    result = fwrite("\n", sizeof(char), 1, Depthlog_file_);
-    LOGI("Logger fwrite depth2: %d", result);
+    result = fwrite(&buffer, sizeof(char), n, PoseDataLofFile);
+    LOGI("Logger fwrite pose1: %d", result);
+    result = fwrite("\n", sizeof(char), 1, PoseDataLofFile);
+    LOGI("Logger fwrite pose2: %d", result);
 
     LOGI("Logger: logging");
     numFrames++;
     lastWritten = bufferIndex;
     LOGI("Logger: logged one frame, total: %d", numFrames);
   }
-  fseek(RGBlog_file_, 0, SEEK_SET);
-  fwrite(&numFrames, sizeof(int32_t), 1, RGBlog_file_);
+  fseek(RGBDlog_file_, 0, SEEK_SET);
+  fwrite(&numFrames, sizeof(int32_t), 1, RGBDlog_file_);
   LOGI("Logger flush: numFrames: %d ", numFrames);
-  fflush(RGBlog_file_);
-  fflush(Depthlog_file_);
+  fflush(RGBDlog_file_);
+  fflush(PoseDataLofFile);
   LOGI("Logger close:");
-  fclose(RGBlog_file_);
-  fclose(Depthlog_file_);
+  fclose(RGBDlog_file_);
+  fclose(PoseDataLofFile);
   LOGI("Logger close done:");
 }
 }
