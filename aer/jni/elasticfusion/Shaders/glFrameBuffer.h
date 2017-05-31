@@ -107,7 +107,7 @@ struct GlFramebuffer {
   GlFramebuffer(GlTexture &colour, GlRenderBuffer &depth) : attachments(0) {
     // glGenFramebuffersEXT(1, &fbid);
     CheckGlDieOnErrorFB();
-    LOGI("GlFramebuffer init 2 start 1 ");
+    LOGI("GlFramebuffer init 2 start 1 colour tid: %d, depth id: %d", color.tid, depth.rbid);
     glGenFramebuffers(1, &fbid);
     CheckGlDieOnErrorFB();
     LOGI("GlFramebuffer init 2 2 glGenFramebuffers: %d", fbid);
@@ -123,7 +123,7 @@ struct GlFramebuffer {
       : attachments(0) {
     // glGenFramebuffersEXT(1, &fbid);
     CheckGlDieOnErrorFB();
-    LOGI("GlFramebuffer init 3 start 1");
+    LOGI("GlFramebuffer init 3 start 1 colour tid: %d, depth id: %d", color.tid, depth.rbid);
     glGenFramebuffers(1, &fbid);
     CheckGlDieOnErrorFB();
     LOGI("GlFramebuffer init 3 2 glGenFramebuffers: %d", fbid);
@@ -141,7 +141,7 @@ struct GlFramebuffer {
   void Bind() const {
     // glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fbid);
     CheckGlDieOnErrorFB();
-    LOGI("GlFramebuffer Bind start");
+    LOGI("GlFramebuffer Bind start fbid: %d", fbid);
     glBindFramebuffer(GL_FRAMEBUFFER, fbid);
     CheckGlDieOnErrorFB();
     LOGI("GlFramebuffer Bind done");
@@ -176,7 +176,7 @@ struct GlFramebuffer {
 
   GLenum AttachColour(GlTexture &tex) {
     CheckGlDieOnErrorFB();
-    LOGI("GlFramebuffer AttachColour start : attachments: %d",attachments);
+    LOGI("GlFramebuffer AttachColour start: attachments: %d, GlTexture tid: %d", tex.tid);
     if (!fbid)
       Reinitialise();
     CheckGlDieOnErrorFB();
@@ -204,7 +204,7 @@ struct GlFramebuffer {
 
   void AttachDepth(GlRenderBuffer &rb) {
     CheckGlDieOnErrorFB();
-    LOGI("GlFramebuffer AttachDepth start");
+    LOGI("GlFramebuffer AttachDepth start: attachments: %d, GlRenderBuffer rbid: %d", rb.rbid);
     if (!fbid)
       Reinitialise();
     CheckGlDieOnErrorFB();

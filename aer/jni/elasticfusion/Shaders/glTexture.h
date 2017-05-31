@@ -151,7 +151,7 @@ public:
   void Bind() const {
     LOGI("GlTexture bind start check");
     CheckGlDieOnError();
-    LOGI("GlTexture bind start");
+    LOGI("GlTexture bind start: %d", tid);
     glBindTexture(GL_TEXTURE_2D, tid);
     CheckGlDieOnError();
     LOGI("GlTexture bind done");
