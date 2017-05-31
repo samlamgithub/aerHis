@@ -525,7 +525,8 @@ void GlobalModel::initialise(const FeedbackBuffer &rawFeedback,
        rawFeedback.fid);
   // It's ok to use either fid because both raw and filtered have the same
   // amount of vertices
-  glDrawTransformFeedback(GL_POINTS, rawFeedback.fid);
+  // glDrawTransformFeedback(GL_POINTS, rawFeedback.fid);
+ glDrawArrays(GL_POINTS, 0, Resolution::getInstance().numPixels());
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel struct initialise 15 "
        "glDrawTransformFeedback");
