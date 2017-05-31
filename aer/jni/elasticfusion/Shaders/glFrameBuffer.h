@@ -107,7 +107,7 @@ struct GlFramebuffer {
   GlFramebuffer(GlTexture &colour, GlRenderBuffer &depth) : attachments(0) {
     // glGenFramebuffersEXT(1, &fbid);
     CheckGlDieOnErrorFB();
-    LOGI("GlFramebuffer init 2 start 1 colour tid: %d, depth id: %d", color.tid, depth.rbid);
+    LOGI("GlFramebuffer init 2 start 1 colour tid: %d, depth id: %d", colour.tid, depth.rbid);
     glGenFramebuffers(1, &fbid);
     CheckGlDieOnErrorFB();
     LOGI("GlFramebuffer init 2 2 glGenFramebuffers: %d", fbid);
@@ -123,7 +123,7 @@ struct GlFramebuffer {
       : attachments(0) {
     // glGenFramebuffersEXT(1, &fbid);
     CheckGlDieOnErrorFB();
-    LOGI("GlFramebuffer init 3 start 1 colour tid: %d, depth id: %d", color.tid, depth.rbid);
+    LOGI("GlFramebuffer init 3 start 1 colour tid: %d, depth id: %d", colour0.tid, depth.rbid);
     glGenFramebuffers(1, &fbid);
     CheckGlDieOnErrorFB();
     LOGI("GlFramebuffer init 3 2 glGenFramebuffers: %d", fbid);
