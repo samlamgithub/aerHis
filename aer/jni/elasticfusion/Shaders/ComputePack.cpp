@@ -143,10 +143,10 @@ void ComputePack::compute(GlTexture *input,
     }
   }
   check_gl_errorComputePack();
-  LOGI("MY elasitcfusion ComputePack compute 9");
+  LOGI("MY elasitcfusion ComputePack compute 9 glDrawArrays 0 1 before");
   glDrawArrays(GL_POINTS, 0, 1); // here GL_INVALID_FRAMEBUFFER_OPERATION // no good
   check_gl_errorComputePack();
-  LOGI("MY elasitcfusion ComputePack compute 10");
+  LOGI("MY elasitcfusion ComputePack compute 10 glDrawArrays 0 1 after");
   frameBuffer.Unbind();
   check_gl_errorComputePack();
   LOGI("MY elasitcfusion ComputePack compute 11");

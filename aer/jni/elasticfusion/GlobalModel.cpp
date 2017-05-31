@@ -382,10 +382,10 @@ GlobalModel::GlobalModel()
        vbos[renderSource].first, vbos[renderSource].second);
   glBeginTransformFeedback(GL_POINTS);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 56 ");
+  LOGI("MY elasitcfusion GlobalModel struct init 56 glDrawArrays 0 0 before");
   glDrawArrays(GL_POINTS, 0, 0);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 57 ");
+  LOGI("MY elasitcfusion GlobalModel struct init 57 glDrawArrays 0 0 after");
   glEndTransformFeedback();
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel struct init 58 glBindTransformFeedback");
@@ -414,10 +414,10 @@ GlobalModel::GlobalModel()
        vbos[renderSource].first, vbos[renderSource].second);
   glBeginTransformFeedback(GL_POINTS);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 62 ");
+  LOGI("MY elasitcfusion GlobalModel struct init 62 glDrawArrays 0 0 before");
   glDrawArrays(GL_POINTS, 0, 0);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 63 ");
+  LOGI("MY elasitcfusion GlobalModel struct init 63 glDrawArrays 0 0 after");
   glEndTransformFeedback();
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel struct init 64 ");
@@ -758,12 +758,12 @@ void GlobalModel::fuse(const Eigen::Matrix4f &pose, const int &time,
   LOGI("MY elasitcfusion GlobalModel fuse 14");
   glBeginTransformFeedback(GL_POINTS);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel fuse 15 glDrawArrays");
+  LOGI("MY elasitcfusion GlobalModel fuse 15 glDrawArrays 0 uvSize: %d", uvSize);
   glDrawArrays(GL_POINTS, 0,
                uvSize); // GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT
                         // GL_INVALID_FRAMEBUFFER_OPERATION
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel fuse 16 glDrawArrays");
+  LOGI("MY elasitcfusion GlobalModel fuse 16 glDrawArrays 0 uvSize after");
   glEndTransformFeedback();
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel fuse 17");

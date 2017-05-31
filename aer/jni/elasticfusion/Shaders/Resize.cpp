@@ -161,9 +161,10 @@ void Resize::image(GPUTexture *source,
   LOGI("MY elasitcfusion resize struct image 9 ");
   glBindTexture(GL_TEXTURE_2D, source->texture->tid);
   check_gl_errorResize();
-  LOGI("MY elasitcfusion resize struct image 10 ");
+  LOGI("MY elasitcfusion resize struct image 10 1 glDrawArrays 0 1 before");
   glDrawArrays(GL_POINTS, 0, 1);
   check_gl_errorResize();
+  LOGI("MY elasitcfusion resize struct image 10 2 glDrawArrays 0 1 after");
   LOGI("MY elasitcfusion resize struct image 11 glReadPixels: imageRenderBuffer.width: %d, imageRenderBuffer.height: %d", imageRenderBuffer.width, imageRenderBuffer.height);
 // glReadPixels(0, 0, imageRenderBuffer.width, imageRenderBuffer.height, GL_RGB,
   glReadPixels(0, 0, imageRenderBuffer.width, imageRenderBuffer.height, GL_RGBA, GL_UNSIGNED_BYTE, dest.data); // here Invalid Operation()
@@ -229,9 +230,10 @@ void Resize::vertex(GPUTexture *source, Img<Eigen::Vector4f> &dest) {
   LOGI("MY elasitcfusion resize struct vertex 8");
   glBindTexture(GL_TEXTURE_2D, source->texture->tid);
   check_gl_errorResize();
-  LOGI("MY elasitcfusion resize struct vertex 9");
+  LOGI("MY elasitcfusion resize struct vertex 9 glDrawArrays 0 1 before");
   glDrawArrays(GL_POINTS, 0, 1);
   check_gl_errorResize();
+  LOGI("MY elasitcfusion resize struct vertex 9 glDrawArrays 0 1 after");
   LOGI("MY elasitcfusion resize struct vertex 10 glReadPixels: vertexRenderBuffer.width: %d, vertexRenderBuffer.height: %d", vertexRenderBuffer.width, vertexRenderBuffer.height);
   glReadPixels(0, 0, vertexRenderBuffer.width, vertexRenderBuffer.height, GL_RGBA, GL_FLOAT, dest.data); // no
   check_gl_errorResize();
@@ -297,9 +299,10 @@ void Resize::time(GPUTexture *source, Img<unsigned short> &dest) {
   LOGI("MY elasitcfusion resize struct time 9");
   glBindTexture(GL_TEXTURE_2D, source->texture->tid);
   check_gl_errorResize();
-  LOGI("MY elasitcfusion resize struct time 10");
+  LOGI("MY elasitcfusion resize struct time 10 glDrawArrays 0 1 before");
   glDrawArrays(GL_POINTS, 0, 1);
   check_gl_errorResize();
+  LOGI("MY elasitcfusion resize struct time 10 glDrawArrays 0 1 after");
   LOGI("MY elasitcfusion resize struct time 11 glReadPixels: timeRenderBuffer.width: %d, timeRenderBuffer.height: %d", timeRenderBuffer.width, timeRenderBuffer.height);
   glReadPixels(0, 0, timeRenderBuffer.width, timeRenderBuffer.height,
                GL_RED_INTEGER, GL_UNSIGNED_SHORT, dest.data); // no

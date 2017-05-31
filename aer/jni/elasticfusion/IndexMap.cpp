@@ -437,10 +437,10 @@ void IndexMap::renderDepth(const float depthCutoff) {
   LOGI("MY elasitcfusion IndexMap::renderDepth  10");
   drawDepthProgram->setUniform(Uniform("texVerts", 0));
   check_gl_errorIndexMap();
-  LOGI("MY elasitcfusion IndexMap::renderDepth  11");
+  LOGI("MY elasitcfusion IndexMap::renderDepth  11 glDrawArrays 0 1 before");
   glDrawArrays(GL_POINTS, 0, 1);
   check_gl_errorIndexMap();
-  LOGI("MY elasitcfusion IndexMap::renderDepth  12");
+  LOGI("MY elasitcfusion IndexMap::renderDepth  12 glDrawArrays 0 1 after");
   drawFrameBuffer.Unbind();
   check_gl_errorIndexMap();
   LOGI("MY elasitcfusion IndexMap::renderDepth  13");

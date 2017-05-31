@@ -225,10 +225,10 @@ void FeedbackBuffer::compute(GlTexture *color, GlTexture *depth,
   LOGI("MY elasitcfusion FeedbackBuffer struct compute 13 ");
   glBindTexture(GL_TEXTURE_2D, color->tid);
   check_gl_errorFeedbackBuffer();
-  LOGI("MY elasitcfusion FeedbackBuffer struct compute 14 ");
+  LOGI("MY elasitcfusion FeedbackBuffer struct compute 14 glDrawArrays 0 Resolution::getInstance().numPixels: %d", Resolution::getInstance().numPixels());
   glDrawArrays(GL_POINTS, 0, Resolution::getInstance().numPixels());
   check_gl_errorFeedbackBuffer();
-  LOGI("MY elasitcfusion FeedbackBuffer struct compute 15 ");
+  LOGI("MY elasitcfusion FeedbackBuffer struct compute 15 glDrawArrays 0 Resolution::getInstance().numPixels");
   glBindTexture(GL_TEXTURE_2D, 0);
   check_gl_errorFeedbackBuffer();
   LOGI("MY elasitcfusion FeedbackBuffer struct compute 16 ");

@@ -173,10 +173,10 @@ void FillIn::image(GPUTexture *existingRgb, GPUTexture *rawRgb,
   glActiveTexture(GL_TEXTURE1);
   glBindTexture(GL_TEXTURE_2D, rawRgb->texture->tid);
   check_gl_errorFillIn();
-  LOGI("MY elasitcfusion FillIn image 10 ");
+  LOGI("MY elasitcfusion FillIn image 10 glDrawArrays 0 1 before");
   glDrawArrays(GL_POINTS, 0, 1);
   check_gl_errorFillIn();
-  LOGI("MY elasitcfusion FillIn image 11 ");
+  LOGI("MY elasitcfusion FillIn image 11 glDrawArrays 0 1 after");
   imageFrameBuffer.Unbind();
   check_gl_errorFillIn();
   LOGI("MY elasitcfusion FillIn image 12 ");
@@ -248,10 +248,10 @@ void FillIn::vertex(GPUTexture *existingVertex, GPUTexture *rawDepth,
   LOGI("MY elasitcfusion FillIn vertex 13 ");
   glBindTexture(GL_TEXTURE_2D, rawDepth->texture->tid);
   check_gl_errorFillIn();
-  LOGI("MY elasitcfusion FillIn vertex 14 ");
+  LOGI("MY elasitcfusion FillIn vertex 14 glDrawArrays 0 1 before");
   glDrawArrays(GL_POINTS, 0, 1);
   check_gl_errorFillIn();
-  LOGI("MY elasitcfusion FillIn vertex 15 ");
+  LOGI("MY elasitcfusion FillIn vertex 15 glDrawArrays 0 1 after");
   vertexFrameBuffer.Unbind();
   check_gl_errorFillIn();
   LOGI("MY elasitcfusion FillIn vertex 16 ");
@@ -319,10 +319,10 @@ void FillIn::normal(GPUTexture *existingNormal, GPUTexture *rawDepth,
   LOGI("MY elasitcfusion FillIn normal 11");
   glBindTexture(GL_TEXTURE_2D, rawDepth->texture->tid);
   check_gl_errorFillIn();
-  LOGI("MY elasitcfusion FillIn normal 12 ");
+  LOGI("MY elasitcfusion FillIn normal 12 glDrawArrays 0 1 before");
   glDrawArrays(GL_POINTS, 0, 1);
   check_gl_errorFillIn();
-  LOGI("MY elasitcfusion FillIn normal 13 ");
+  LOGI("MY elasitcfusion FillIn normal 13 glDrawArrays 0 1 after");
   normalFrameBuffer.Unbind();
   check_gl_errorFillIn();
   LOGI("MY elasitcfusion FillIn normal 14");
