@@ -154,7 +154,7 @@ private:
 
   float
   photometricCheck(const Img<Eigen::Vector4f> &vertSmall,
-                   const Img<Eigen::Matrix<unsigned char, 3, 1>> &imgSmall,
+                   const Img<Eigen::Matrix<unsigned char, 4, 1>> &imgSmall,
                    const Eigen::Matrix4f &estPose,
                    const Eigen::Matrix4f &fernPose,
                    const unsigned char *fernRgb);
@@ -170,7 +170,7 @@ private:
 
   Resize resize;
 
-  Img<Eigen::Matrix<unsigned char, 3, 1>> imageBuff;
+  Img<Eigen::Matrix<unsigned char, 4, 1>> imageBuff;
   Img<Eigen::Vector4f> vertBuff;
   Img<Eigen::Vector4f> normBuff;
 };

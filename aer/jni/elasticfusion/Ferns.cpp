@@ -124,6 +124,8 @@ Ferns::~Ferns() {
 }
 
 void Ferns::generateFerns() {
+  check_gl_errorFerns();
+  LOGI("MY elasitcfusion generateFerns  start 1 ");
   for (int i = 0; i < num; i++) {
     Fern f;
 
@@ -137,20 +139,26 @@ void Ferns::generateFerns() {
 
     conservatory.push_back(f);
   }
+  check_gl_errorFerns();
+  LOGI("MY elasitcfusion generateFerns done");
 }
 
 //新输入的帧和以前帧进行比较，如果相似度小于一定阈值，则将当前帧插入作为回环检测的关键帧
 bool Ferns::addFrame(GPUTexture *imageTexture, GPUTexture *vertexTexture,
                      GPUTexture *normalTexture, const Eigen::Matrix4f &pose,
                      int srcTime, const float threshold) {
-  Img<Eigen::Matrix<unsigned char, 3, 1>> img(height, width);
+  check_gl_errorFerns();
+  LOGI("MY elasitcfusion addFrame start1: height: %d, width: %d", height, width);
+  Img<Eigen::Matrix<unsigned char, 4, 1>> img(height, width);
   Img<Eigen::Vector4f> verts(height, width);
   Img<Eigen::Vector4f> norms(height, width);
-
+  LOGI("MY elasitcfusion addFrame start 2");
   resize.image(imageTexture, img);
+  LOGI("MY elasitcfusion addFrame start 3");
   resize.vertex(vertexTexture, verts);
+  LOGI("MY elasitcfusion addFrame start 4");
   resize.vertex(normalTexture, norms);
-
+  LOGI("MY elasitcfusion addFrame start 5");
   Frame *frame =
       new Frame(num, frames.size(), pose, srcTime, width * height,
                 (unsigned char *)img.data, (Eigen::Vector4f *)verts.data,
@@ -165,8 +173,8 @@ bool Ferns::addFrame(GPUTexture *imageTexture, GPUTexture *vertexTexture,
 
     if (verts.at<Eigen::Vector4f>(conservatory.at(i).pos(1),
                                   conservatory.at(i).pos(0))(2) > 0) {
-      const Eigen::Matrix<unsigned char, 3, 1> &pix =
-          img.at<Eigen::Matrix<unsigned char, 3, 1>>(conservatory.at(i).pos(1),
+      const Eigen::Matrix<unsigned char, 4, 1> &pix =
+          img.at<Eigen::Matrix<unsigned char, 4, 1>>(conservatory.at(i).pos(1),
                                                      conservatory.at(i).pos(0));
       //随机选取像素点处的编码
       code = (pix(0) > conservatory.at(i).rgbd(0)) << 3 |
@@ -219,6 +227,7 @@ bool Ferns::addFrame(GPUTexture *imageTexture, GPUTexture *vertexTexture,
 
     return false;
   }
+
 }
 // 对于输入的图像进行全局的回环检测，通过判断和以前存储的帧编码相似度，判断当前帧是否作为关键帧
 Eigen::Matrix4f Ferns::findFrame(std::vector<SurfaceConstraint> &constraints,
@@ -227,9 +236,10 @@ Eigen::Matrix4f Ferns::findFrame(std::vector<SurfaceConstraint> &constraints,
                                  GPUTexture *normalTexture,
                                  GPUTexture *imageTexture, const int time,
                                  const bool lost) {
+LOGI("MY elasitcfusion findFrame start 1");
   lastClosest = -1;
 
-  Img<Eigen::Matrix<unsigned char, 3, 1>> imgSmall(height, width);
+  Img<Eigen::Matrix<unsigned char, 4, 1>> imgSmall(height, width);
   Img<Eigen::Vector4f> vertSmall(height, width);
   Img<Eigen::Vector4f> normSmall(height, width);
   //对输入图像降采样 8X8 倍
@@ -249,8 +259,8 @@ Eigen::Matrix4f Ferns::findFrame(std::vector<SurfaceConstraint> &constraints,
 
     if (vertSmall.at<Eigen::Vector4f>(conservatory.at(i).pos(1),
                                       conservatory.at(i).pos(0))(2) > 0) {
-      const Eigen::Matrix<unsigned char, 3, 1> &pix =
-          imgSmall.at<Eigen::Matrix<unsigned char, 3, 1>>(
+      const Eigen::Matrix<unsigned char, 4, 1> &pix =
+          imgSmall.at<Eigen::Matrix<unsigned char, 4, 1>>(
               conservatory.at(i).pos(1), conservatory.at(i).pos(0));
       //指定像素点处做编码
       code = (pix(0) > conservatory.at(i).rgbd(0)) << 3 |
@@ -373,13 +383,13 @@ Eigen::Matrix4f Ferns::findFrame(std::vector<SurfaceConstraint> &constraints,
   }
 
   delete frame;
-
+LOGI("MY elasitcfusion findFrame done");
   return estPose;
 }
 
 float Ferns::photometricCheck(
     const Img<Eigen::Vector4f> &vertSmall,
-    const Img<Eigen::Matrix<unsigned char, 3, 1>> &imgSmall,
+    const Img<Eigen::Matrix<unsigned char, 4, 1>> &imgSmall,
     const Eigen::Matrix4f &estPose, const Eigen::Matrix4f &fernPose,
     const unsigned char *fernRgb) {
   float cx = Intrinsics::getInstance().cx() / factor;
@@ -387,8 +397,8 @@ float Ferns::photometricCheck(
   float invfx = 1.0f / float(Intrinsics::getInstance().fx() / factor);
   float invfy = 1.0f / float(Intrinsics::getInstance().fy() / factor);
 
-  Img<Eigen::Matrix<unsigned char, 3, 1>> imgFern(
-      height, width, (Eigen::Matrix<unsigned char, 3, 1> *)fernRgb);
+  Img<Eigen::Matrix<unsigned char, 4, 1>> imgFern(
+      height, width, (Eigen::Matrix<unsigned char, 4, 1> *)fernRgb);
 
   float photoSum = 0;
   int photoCount = 0;
@@ -418,26 +428,26 @@ float Ferns::photometricCheck(
 
       if (correspondence(0) >= 0 && correspondence(1) >= 0 &&
           correspondence(0) < width && correspondence(1) < height &&
-          (imgFern.at<Eigen::Matrix<unsigned char, 3, 1>>(
+          (imgFern.at<Eigen::Matrix<unsigned char, 4, 1>>(
                correspondence(1), correspondence(0))(0) > 0 ||
-           imgFern.at<Eigen::Matrix<unsigned char, 3, 1>>(
+           imgFern.at<Eigen::Matrix<unsigned char, 4, 1>>(
                correspondence(1), correspondence(0))(1) > 0 ||
-           imgFern.at<Eigen::Matrix<unsigned char, 3, 1>>(
+           imgFern.at<Eigen::Matrix<unsigned char, 4, 1>>(
                correspondence(1), correspondence(0))(2) > 0)) {
         photoSum +=
-            abs((int)imgFern.at<Eigen::Matrix<unsigned char, 3, 1>>(
+            abs((int)imgFern.at<Eigen::Matrix<unsigned char, 4, 1>>(
                     correspondence(1), correspondence(0))(0) -
-                (int)imgSmall.at<Eigen::Matrix<unsigned char, 3, 1>>(
+                (int)imgSmall.at<Eigen::Matrix<unsigned char, 4, 1>>(
                     conservatory.at(i).pos(1), conservatory.at(i).pos(0))(0));
         photoSum +=
-            abs((int)imgFern.at<Eigen::Matrix<unsigned char, 3, 1>>(
+            abs((int)imgFern.at<Eigen::Matrix<unsigned char, 4, 1>>(
                     correspondence(1), correspondence(0))(1) -
-                (int)imgSmall.at<Eigen::Matrix<unsigned char, 3, 1>>(
+                (int)imgSmall.at<Eigen::Matrix<unsigned char, 4, 1>>(
                     conservatory.at(i).pos(1), conservatory.at(i).pos(0))(1));
         photoSum +=
-            abs((int)imgFern.at<Eigen::Matrix<unsigned char, 3, 1>>(
+            abs((int)imgFern.at<Eigen::Matrix<unsigned char, 4, 1>>(
                     correspondence(1), correspondence(0))(2) -
-                (int)imgSmall.at<Eigen::Matrix<unsigned char, 3, 1>>(
+                (int)imgSmall.at<Eigen::Matrix<unsigned char, 4, 1>>(
                     conservatory.at(i).pos(1), conservatory.at(i).pos(0))(2));
         photoCount++;
       }

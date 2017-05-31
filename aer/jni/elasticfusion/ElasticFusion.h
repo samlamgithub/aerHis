@@ -277,7 +277,7 @@ private:
   void filterDepth();
   void metriciseDepth();
 
-  bool denseEnough(const Img<Eigen::Matrix<unsigned char, 3, 1>> &img);
+  bool denseEnough(const Img<Eigen::Matrix<unsigned char, 4, 1>> &img);
 
   void processFerns();
 
@@ -302,7 +302,7 @@ private:
   std::vector<std::pair<unsigned long long int, Eigen::Matrix4f>> poseGraph;
   std::vector<unsigned long long int> poseLogTimes;
 
-  Img<Eigen::Matrix<unsigned char, 3, 1>> imageBuff;
+  Img<Eigen::Matrix<unsigned char, 4, 1>> imageBuff;
   Img<Eigen::Vector4f> consBuff;
   Img<unsigned short> timesBuff;
 

@@ -33,7 +33,7 @@ public:
   Resize(int srcWidth, int srcHeight, int destWidth, int destHeight);
   virtual ~Resize();
 
-  void image(GPUTexture *source, Img<Eigen::Matrix<unsigned char, 3, 1>> &dest);
+  void image(GPUTexture *source, Img<Eigen::Matrix<unsigned char, 4, 1>> &dest);
   void vertex(GPUTexture *source, Img<Eigen::Vector4f> &dest);
   void time(GPUTexture *source, Img<unsigned short> &dest);
 

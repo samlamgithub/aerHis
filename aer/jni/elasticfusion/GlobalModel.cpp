@@ -20,7 +20,7 @@
 #include "GlobalModel.h"
 
 // const int GlobalModel::TEXTURE_DIMENSION = 3072;
-const int GlobalModel::TEXTURE_DIMENSION = 1572;
+const int GlobalModel::TEXTURE_DIMENSION = 772;
 const int GlobalModel::MAX_VERTICES =
     GlobalModel::TEXTURE_DIMENSION * GlobalModel::TEXTURE_DIMENSION;
 const int GlobalModel::NODE_TEXTURE_DIMENSION = 16384;
@@ -205,7 +205,7 @@ GlobalModel::GlobalModel()
        newUnstableFid);
   glGenBuffers(1, &newUnstableVbo);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 18 glGenBuffers: %d, newUnstableVbo");
+  LOGI("MY elasitcfusion GlobalModel struct init 18 glGenBuffers: %d", newUnstableVbo);
   glBindBuffer(GL_ARRAY_BUFFER, newUnstableVbo);
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel struct init 19");

@@ -132,9 +132,9 @@ timeTexture(destWidth, destHeight, GL_R16UI, GL_RED_INTEGER, GL_UNSIGNED_SHORT, 
 Resize::~Resize() {}
 
 void Resize::image(GPUTexture *source,
-                   Img<Eigen::Matrix<unsigned char, 3, 1>> &dest) {
+                   Img<Eigen::Matrix<unsigned char, 4, 1>> &dest) {
   check_gl_errorResize();
-  LOGI("MY elasitcfusion resize struct image 1 start");
+  LOGI("MY elasitcfusion resize struct image 1 start: tid: %d", source->texture->tid);
   imageFrameBuffer.Bind();
   check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct image 2 ");
@@ -166,8 +166,7 @@ void Resize::image(GPUTexture *source,
   check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct image 11 glReadPixels: imageRenderBuffer.width: %d, imageRenderBuffer.height: %d", imageRenderBuffer.width, imageRenderBuffer.height);
 // glReadPixels(0, 0, imageRenderBuffer.width, imageRenderBuffer.height, GL_RGB,
-  glReadPixels(0, 0, imageRenderBuffer.width, imageRenderBuffer.height, GL_RGBA,
-               GL_UNSIGNED_BYTE, dest.data); // here Invalid Operation()
+  glReadPixels(0, 0, imageRenderBuffer.width, imageRenderBuffer.height, GL_RGBA, GL_UNSIGNED_BYTE, dest.data); // here Invalid Operation()
   check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct image 12 glReadPixels");
   //
@@ -199,7 +198,7 @@ void Resize::image(GPUTexture *source,
 
 void Resize::vertex(GPUTexture *source, Img<Eigen::Vector4f> &dest) {
   check_gl_errorResize();
-  LOGI("MY elasitcfusion resize struct vertex 1 start");
+  LOGI("MY elasitcfusion resize struct vertex 1 start tid: %d", source->texture->tid);
   vertexFrameBuffer.Bind();
   check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct vertex 2 ");
@@ -230,8 +229,7 @@ void Resize::vertex(GPUTexture *source, Img<Eigen::Vector4f> &dest) {
   glDrawArrays(GL_POINTS, 0, 1);
   check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct vertex 10 glReadPixels: vertexRenderBuffer.width: %d, vertexRenderBuffer.height: %d", vertexRenderBuffer.width, vertexRenderBuffer.height);
-  glReadPixels(0, 0, vertexRenderBuffer.width, vertexRenderBuffer.height,
-               GL_RGBA, GL_FLOAT, dest.data); // no
+  glReadPixels(0, 0, vertexRenderBuffer.width, vertexRenderBuffer.height, GL_RGBA, GL_FLOAT, dest.data); // no
   check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct vertex 11 glReadPixels done");
   vertexFrameBuffer.Unbind();
@@ -254,7 +252,7 @@ void Resize::vertex(GPUTexture *source, Img<Eigen::Vector4f> &dest) {
 
 void Resize::time(GPUTexture *source, Img<unsigned short> &dest) {
   check_gl_errorResize();
-  LOGI("MY elasitcfusion resize struct time 1 start");
+  LOGI("MY elasitcfusion resize struct time 1 start tid: %d", source->texture->tid);
   timeFrameBuffer.Bind();
   check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct time 2");

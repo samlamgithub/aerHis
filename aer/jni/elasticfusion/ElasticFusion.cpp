@@ -307,16 +307,16 @@ void ElasticFusion::computeFeedbackBuffers() {
 }
 
 bool ElasticFusion::denseEnough(
-    const Img<Eigen::Matrix<unsigned char, 3, 1>> &img) {
+    const Img<Eigen::Matrix<unsigned char, 4, 1>> &img) {
   check_gl_errorElasticFusion();
   LOGI("MY elasitcfusion struct denseEnough 1 start");
   int sum = 0;
 
   for (int i = 0; i < img.rows; i++) {
     for (int j = 0; j < img.cols; j++) {
-      sum += img.at<Eigen::Matrix<unsigned char, 3, 1>>(i, j)(0) > 0 &&
-             img.at<Eigen::Matrix<unsigned char, 3, 1>>(i, j)(1) > 0 &&
-             img.at<Eigen::Matrix<unsigned char, 3, 1>>(i, j)(2) > 0;
+      sum += img.at<Eigen::Matrix<unsigned char, 4, 1>>(i, j)(0) > 0 &&
+             img.at<Eigen::Matrix<unsigned char, 4, 1>>(i, j)(1) > 0 &&
+             img.at<Eigen::Matrix<unsigned char, 4, 1>>(i, j)(2) > 0;
     }
   }
   check_gl_errorElasticFusion();
@@ -836,43 +836,44 @@ void ElasticFusion::processFrame(const unsigned char *rgb,
     }
   }
   check_gl_errorElasticFusion();
-  LOGI(" ElasticFusion struct Process frame tick tick  done");
+  LOGI("ElasticFusion struct Process frame tick tick  done");
 
   poseGraph.push_back(
       std::pair<unsigned long long int, Eigen::Matrix4f>(tick, currPose));
   poseLogTimes.push_back(timestamp);
   check_gl_errorElasticFusion();
-  LOGI(" ElasticFusion struct Process frame  sampleGraph");
+  LOGI("ElasticFusion struct Process frame  sampleGraph");
   TICK("sampleGraph");
   //在这里初始化 DeformationGraph
 
   localDeformation.sampleGraphModel(globalModel.model());
 
   check_gl_errorElasticFusion();
-  LOGI(" ElasticFusion struct Process frame  sampleGraph 1");
+  LOGI("ElasticFusion struct Process frame sampleGraph 1");
   globalDeformation.sampleGraphFrom(localDeformation);
   check_gl_errorElasticFusion();
-  LOGI(" ElasticFusion struct Process frame  sampleGraph done");
+  LOGI("ElasticFusion struct Process frame sampleGraph done");
   TOCK("sampleGraph");
 
   predict();
   check_gl_errorElasticFusion();
-  LOGI(" ElasticFusion struct Process frame     predict done");
+  LOGI("ElasticFusion struct Process frame predict done");
   //如果没跟丢则检测是否将当前帧添加为关键帧
   if (!lost) {
+    LOGI("ElasticFusion struct Process frame not lost");
     processFerns();
     check_gl_errorElasticFusion();
-    LOGI(" ElasticFusion struct Process frame   processFerns");
+    LOGI(" ElasticFusion struct Process frame processFerns");
     tick++;
   }
   check_gl_errorElasticFusion();
-  LOGI(" ElasticFusion struct Process frame  run finally done");
+  LOGI(" ElasticFusion struct Process frame run finally done");
   TOCK("Run");
 }
 
 void ElasticFusion::processFerns() {
   check_gl_errorElasticFusion();
-  LOGI("MY elasitcfusion struct processFerns 1 start ");
+  LOGI("MY elasitcfusion struct processFerns 1 start");
   TICK("Ferns::addFrame");
   ferns.addFrame(&fillIn.imageTexture, &fillIn.vertexTexture,
                  &fillIn.normalTexture, currPose, tick, fernThresh);
@@ -921,7 +922,7 @@ void ElasticFusion::predict() {
 
   TOCK("IndexMap::ACTIVE");
   check_gl_errorElasticFusion();
-  LOGI("MY elasitcfusion struct predict 2 doen done ");
+  LOGI("MY elasitcfusion struct predict 2 done done ");
 }
 
 void ElasticFusion::metriciseDepth() {
