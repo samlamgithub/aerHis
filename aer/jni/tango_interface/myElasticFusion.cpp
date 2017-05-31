@@ -514,7 +514,7 @@ void MyElasticFusion::runEF() {
     LOGE("MyElasticFusion runEF LoadOpenGLExtensionsManually success");
   }
   //============================
-  LOGI("MyElasticFusion runEF elasticfusion Initialising ...");
+  LOGI("MyElasticFusion runEF elasticfusion Initialising ... myFx: %d, myFy: %d, myCx: %d, myCy: %d", myFx, myFy, myCx, myCy);
   Resolution::getInstance(depth_image_width, depth_image_height);
   Intrinsics::getInstance(myFx, myFy, myCx, myCy);
   LOGI("MyElasticFusion runEF elasticfusion Initialising done ...");

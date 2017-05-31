@@ -77,7 +77,7 @@ inline void check_gl_errorDS() {
 namespace tango_interface {
 
 const int myWidth = 640;
-const int myHeight = 380;
+const int myHeight = 480;
 
 RunDatasetEF::RunDatasetEF()
     : RunDatasetEFThread(0), numFrames(0), timestamp(0), depth(0), rgb(0),
@@ -195,7 +195,7 @@ void RunDatasetEF::runEF() {
   }
 
   EGLSurface surface;
-  const EGLint surfaceAttr[] = {EGL_WIDTH, 640, EGL_HEIGHT, 380, EGL_NONE};
+  const EGLint surfaceAttr[] = {EGL_WIDTH, 640, EGL_HEIGHT, 480, EGL_NONE};
 
   // PixmapSurface和PBufferSurface
   surface = eglCreatePbufferSurface(display, config, surfaceAttr);
@@ -602,12 +602,12 @@ void RunDatasetEF::getCore() {
   depth = (unsigned short *)decompressionBufferDepth;
 
   // LOGI("-------------------------------------------------");
-// for (int j= 0; j < 640*380; j++) {
+// for (int j= 0; j < 640*480; j++) {
 //   if (depth[j] != 0) {
 //        LOGI("depth ==== %d: %d", j, depth[j]);
 //   }
 // }
-//   for (int i = 0; i < 380*2; i++) {
+//   for (int i = 0; i < 480*2; i++) {
 //     LOGI("depth ========= %u, %u, %u, %u, %u, %u, %u, %u,  %u, %u, %u, %u, %u, %u, %u, %u, ",
 //  depth[16*i],
 // depth[16*i+1],

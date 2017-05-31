@@ -356,7 +356,7 @@ void ElasticFusion::processFrame(const unsigned char *rgb,
   //        LOGI("depth ==== %d: %d", j, depth[j]);
   //   }
   // }
-//   for (int i = 0; i < 380*2; i++) {
+//   for (int i = 0; i < 480*2; i++) {
 //     LOGI("depth ========= %u, %u, %u, %u, %u, %u, %u, %u,  %u, %u, %u, %u, %u, %u, %u, %u, ",
 //  depth[16*i],
 // depth[16*i+1],
