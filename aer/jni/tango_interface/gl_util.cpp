@@ -208,6 +208,7 @@ GlCameraFrame::GlCameraFrame()
     LOGE("GlCameraFrame: Could not create shader program for GlTrackingCamera");
   }
   glGenBuffers(4, render_buffers_);
+  LOGI("GlCameraFrame: glGenBuffers");
   // Allocate vertices buffer.
   glBindBuffer(GL_ARRAY_BUFFER, render_buffers_[0]);
   glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 3 * 4, shader::kVertices,

@@ -176,7 +176,7 @@ struct GlFramebuffer {
 
   GLenum AttachColour(GlTexture &tex) {
     CheckGlDieOnErrorFB();
-    LOGI("GlFramebuffer AttachColour start: attachments: %d, GlTexture tid: %d", tex.tid);
+    LOGI("GlFramebuffer AttachColour start: attachments: %d, GlTexture tid: %d", attachments, tex.tid);
     if (!fbid)
       Reinitialise();
     CheckGlDieOnErrorFB();
@@ -204,7 +204,7 @@ struct GlFramebuffer {
 
   void AttachDepth(GlRenderBuffer &rb) {
     CheckGlDieOnErrorFB();
-    LOGI("GlFramebuffer AttachDepth start: attachments: %d, GlRenderBuffer rbid: %d", rb.rbid);
+    LOGI("GlFramebuffer AttachDepth start: attachments: %d, GlRenderBuffer rbid: %d", attachments, rb.rbid);
     if (!fbid)
       Reinitialise();
     CheckGlDieOnErrorFB();
