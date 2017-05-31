@@ -169,12 +169,16 @@ void Resize::image(GPUTexture *source,
   glReadPixels(0, 0, imageRenderBuffer.width, imageRenderBuffer.height, GL_RGBA, GL_UNSIGNED_BYTE, dest.data); // here Invalid Operation()
   check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct image 12 glReadPixels");
-  //
-  // for (int j = 0; j < imageRenderBuffer.width * imageRenderBuffer.height; j++) {
-  //   if (dest.data[j] != 0) {
-  //     LOGI("Resize::image( ==== %u: %u", j, dest.data[j]);
-  //   }
-  // }
+
+  int c = 0;
+  for (int j = 0; j < imageRenderBuffer.width * imageRenderBuffer.height; j++) {
+    if (dest.data[j] != 0) {
+      if (c <= 100) {
+        LOGI("Resize::image( ==== %u: %u", j, dest.data[j]);
+      }
+      c++;
+    }
+  }
 
   check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct image 12 glReadPixels log done");
@@ -232,6 +236,20 @@ void Resize::vertex(GPUTexture *source, Img<Eigen::Vector4f> &dest) {
   glReadPixels(0, 0, vertexRenderBuffer.width, vertexRenderBuffer.height, GL_RGBA, GL_FLOAT, dest.data); // no
   check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct vertex 11 glReadPixels done");
+
+  int c = 0;
+  for (int j = 0; j < vertexRenderBuffer.width * vertexRenderBuffer.height; j++) {
+    if (dest.data[j] != 0) {
+      if (c <= 100) {
+        LOGI("Resize::vertex( ==== %u: %u", j, dest.data[j]);
+      }
+      c++;
+    }
+  }
+
+  check_gl_errorResize();
+  LOGI("MY elasitcfusion resize struct vertex 11 glReadPixels done done");
+
   vertexFrameBuffer.Unbind();
   check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct vertex 12");
@@ -289,6 +307,19 @@ void Resize::time(GPUTexture *source, Img<unsigned short> &dest) {
   // GL_LUMINANCE_INTEGER_EXT, GL_UNSIGNED_SHORT, dest.data);
   check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct time 12 glReadPixels done");
+
+  int c = 0;
+  for (int j = 0; j < timeRenderBuffer.width * timeRenderBuffer.height; j++) {
+    if (dest.data[j] != 0) {
+      if (c <= 100) {
+        LOGI("Resize::time( ==== %u: %u", j, dest.data[j]);
+      }
+      c++;
+    }
+  }
+  check_gl_errorResize();
+  LOGI("MY elasitcfusion resize struct time 12 glReadPixels done done");
+
   timeFrameBuffer.Unbind();
   check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct time 13");
