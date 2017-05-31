@@ -117,7 +117,9 @@ ElasticFusion::ElasticFusion(const int timeDelta, const int countThresh,
       confidenceThreshold(confidence), fernThresh(fernThresh), so3(so3),
       frameToFrameRGB(frameToFrameRGB), depthCutoff(depthCut) {
   check_gl_errorElasticFusion();
-  LOGI("MY elasitcfusion struct init start 1 : width: %d, height: %d", Resolution::getInstance().width(), Resolution::getInstance().height());
+  LOGI("MY elasitcfusion struct init start 1 : width: %d, height: %d, myFx: %f, myFy: %f, myCx: %f, myCy: %f",
+ Resolution::getInstance().width(), Resolution::getInstance().height(),
+Intrinsics::getInstance().fx(), Intrinsics::getInstance().fy(), Intrinsics::getInstance().cx(), Intrinsics::getInstance().cy());
   createTextures();
   check_gl_errorElasticFusion();
   LOGI("MY elasitcfusion struct init 2 ");
