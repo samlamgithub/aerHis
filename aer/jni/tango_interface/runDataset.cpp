@@ -381,124 +381,124 @@ void RunDatasetEF::runEF() {
            lastICPCount, 35000.00);
       LOGI("RunDatasetEF Log processing result done.");
 
-      if (shouldSavePly.getValueWait()) {
-        LOGI("RunDatasetEF start to save frame.");
-        Eigen::Vector4f *mapData;
-
-        float confidenceThreshold = eFusion.getConfidenceThreshold();
-        LOGI("RunDatasetEF start to save frame. 0");
-        unsigned int lastCount = eFusion.savePly(mapData);
-        LOGI("RunDatasetEF start to save frame 1. lastCount: %d, "
-             "confidenceThreshold: %f",
-             lastCount, confidenceThreshold);
-        std::string plyFilename("/sdcard/RunDatasetEFPly_" +
-                                current_date_time());
-        plyFilename.append(".ply");
-        LOGI("RunDatasetEF start to save frame 1 1");
-        // Open file
-        std::ofstream fs;
-        fs.open(plyFilename.c_str());
-        // File* plyFile = fopen(plyFilename.c_str(),"wb+");
-        if (fs == NULL) {
-          LOGE("There was a problem opening the ply file:%s",
-               plyFilename.c_str());
-        }
-        LOGI("RunDatasetEF start to save frame. 2");
-        int validCount = 0;
-
-        for (unsigned int i = 0; i < lastCount; i++) {
-          Eigen::Vector4f pos = mapData[(i * 3) + 0];
-
-          if (pos[3] > confidenceThreshold) {
-            validCount++;
-          }
-        }
-        LOGI("RunDatasetEF start to save frame. 3");
-        // Write header
-        fs << "ply";
-        fs << "\nformat "
-           << "binary_little_endian"
-           << " 1.0";
-
-        // Vertices
-        fs << "\nelement vertex " << validCount;
-        fs << "\nproperty float x"
-              "\nproperty float y"
-              "\nproperty float z";
-
-        fs << "\nproperty uchar red"
-              "\nproperty uchar green"
-              "\nproperty uchar blue";
-
-        fs << "\nproperty float nx"
-              "\nproperty float ny"
-              "\nproperty float nz";
-
-        fs << "\nproperty float radius";
-
-        fs << "\nend_header\n";
-
-        // Close the file
-        fs.close();
-        // delete[] mapData;
-        LOGI("RunDatasetEF start to save frame. 4");
-        // Open file in binary appendable
-        std::ofstream fpout(plyFilename.c_str(),
-                            std::ios::app | std::ios::binary);
-        LOGI("RunDatasetEF start to save frame. 5");
-        for (unsigned int i = 0; i < lastCount; i++) {
-          Eigen::Vector4f pos = mapData[(i * 3) + 0];
-
-          if (pos[3] > confidenceThreshold) {
-            Eigen::Vector4f col = mapData[(i * 3) + 1];
-            Eigen::Vector4f nor = mapData[(i * 3) + 2];
-
-            nor[0] *= -1;
-            nor[1] *= -1;
-            nor[2] *= -1;
-
-            float value;
-            memcpy(&value, &pos[0], sizeof(float));
-            fpout.write(reinterpret_cast<const char *>(&value), sizeof(float));
-
-            memcpy(&value, &pos[1], sizeof(float));
-            fpout.write(reinterpret_cast<const char *>(&value), sizeof(float));
-
-            memcpy(&value, &pos[2], sizeof(float));
-            fpout.write(reinterpret_cast<const char *>(&value), sizeof(float));
-
-            unsigned char r = int(col[0]) >> 16 & 0xFF;
-            unsigned char g = int(col[0]) >> 8 & 0xFF;
-            unsigned char b = int(col[0]) & 0xFF;
-
-            fpout.write(reinterpret_cast<const char *>(&r),
-                        sizeof(unsigned char));
-            fpout.write(reinterpret_cast<const char *>(&g),
-                        sizeof(unsigned char));
-            fpout.write(reinterpret_cast<const char *>(&b),
-                        sizeof(unsigned char));
-
-            memcpy(&value, &nor[0], sizeof(float));
-            fpout.write(reinterpret_cast<const char *>(&value), sizeof(float));
-
-            memcpy(&value, &nor[1], sizeof(float));
-            fpout.write(reinterpret_cast<const char *>(&value), sizeof(float));
-
-            memcpy(&value, &nor[2], sizeof(float));
-            fpout.write(reinterpret_cast<const char *>(&value), sizeof(float));
-
-            memcpy(&value, &nor[3], sizeof(float));
-            fpout.write(reinterpret_cast<const char *>(&value), sizeof(float));
-          }
-        }
-        LOGI("RunDatasetEF start to save frame 6.");
-        // Close file
-        fs.close();
-        LOGI("RunDatasetEF start to save frame. 7");
-        delete[] mapData;
-        shouldSavePly.assignValue(false);
-        LOGI("RunDatasetEF save frame done.");
-      }
+      // if (shouldSavePly.getValueWait()) {
+      //   LOGI("RunDatasetEF start to save frame.");
+      //
+      //   float confidenceThreshold = eFusion.getConfidenceThreshold();
+      //   LOGI("RunDatasetEF start to save frame. 0");
+      //   unsigned int lastCount = CloudPoint_num;
+      //   Eigen::Vector4f *mapData = eFusion.savePly();
+      //   LOGI("RunDatasetEF start to save frame 1. lastCount: %d, "
+      //        "confidenceThreshold: %f",
+      //        lastCount, confidenceThreshold);
+      //   std::string plyFilename("/sdcard/RunDatasetEFPly_" +
+      //                           current_date_time());
+      //   plyFilename.append(".ply");
+      //   LOGI("RunDatasetEF start to save frame 1 1");
+      //   // Open file
+      //   std::ofstream fs;
+      //   fs.open(plyFilename.c_str());
+      //   // File* plyFile = fopen(plyFilename.c_str(),"wb+");
+      //   if (fs == NULL) {
+      //     LOGE("There was a problem opening the ply file:%s",
+      //          plyFilename.c_str());
+      //   }
+      //   LOGI("RunDatasetEF start to save frame. 2");
+      //   int validCount = 0;
+      //
+      //   for (unsigned int i = 0; i < lastCount; i++) {
+      //     Eigen::Vector4f pos = mapData[(i * 3) + 0];
+      //
+      //     if (pos[3] > confidenceThreshold) {
+      //       validCount++;
+      //     }
+      //   }
+      //   LOGI("RunDatasetEF start to save frame. 3");
+      //   // Write header
+      //   fs << "ply";
+      //   fs << "\nformat "
+      //      << "binary_little_endian"
+      //      << " 1.0";
+      //
+      //   // Vertices
+      //   fs << "\nelement vertex " << validCount;
+      //   fs << "\nproperty float x"
+      //         "\nproperty float y"
+      //         "\nproperty float z";
+      //
+      //   fs << "\nproperty uchar red"
+      //         "\nproperty uchar green"
+      //         "\nproperty uchar blue";
+      //
+      //   fs << "\nproperty float nx"
+      //         "\nproperty float ny"
+      //         "\nproperty float nz";
+      //
+      //   fs << "\nproperty float radius";
+      //
+      //   fs << "\nend_header\n";
+      //
+      //   // Close the file
+      //   fs.close();
+      //   // delete[] mapData;
+      //   LOGI("RunDatasetEF start to save frame. 4");
+      //   // Open file in binary appendable
+      //   std::ofstream fpout(plyFilename.c_str(),
+      //                       std::ios::app | std::ios::binary);
+      //   LOGI("RunDatasetEF start to save frame. 5");
+      //   for (unsigned int i = 0; i < lastCount; i++) {
+      //     Eigen::Vector4f pos = mapData[(i * 3) + 0];
+      //
+      //     if (pos[3] > confidenceThreshold) {
+      //       Eigen::Vector4f col = mapData[(i * 3) + 1];
+      //       Eigen::Vector4f nor = mapData[(i * 3) + 2];
+      //
+      //       nor[0] *= -1;
+      //       nor[1] *= -1;
+      //       nor[2] *= -1;
+      //
+      //       float value;
+      //       memcpy(&value, &pos[0], sizeof(float));
+      //       fpout.write(reinterpret_cast<const char *>(&value), sizeof(float));
+      //
+      //       memcpy(&value, &pos[1], sizeof(float));
+      //       fpout.write(reinterpret_cast<const char *>(&value), sizeof(float));
+      //
+      //       memcpy(&value, &pos[2], sizeof(float));
+      //       fpout.write(reinterpret_cast<const char *>(&value), sizeof(float));
+      //
+      //       unsigned char r = int(col[0]) >> 16 & 0xFF;
+      //       unsigned char g = int(col[0]) >> 8 & 0xFF;
+      //       unsigned char b = int(col[0]) & 0xFF;
+      //
+      //       fpout.write(reinterpret_cast<const char *>(&r),
+      //                   sizeof(unsigned char));
+      //       fpout.write(reinterpret_cast<const char *>(&g),
+      //                   sizeof(unsigned char));
+      //       fpout.write(reinterpret_cast<const char *>(&b),
+      //                   sizeof(unsigned char));
+      //
+      //       memcpy(&value, &nor[0], sizeof(float));
+      //       fpout.write(reinterpret_cast<const char *>(&value), sizeof(float));
+      //
+      //       memcpy(&value, &nor[1], sizeof(float));
+      //       fpout.write(reinterpret_cast<const char *>(&value), sizeof(float));
+      //
+      //       memcpy(&value, &nor[2], sizeof(float));
+      //       fpout.write(reinterpret_cast<const char *>(&value), sizeof(float));
+      //
+      //       memcpy(&value, &nor[3], sizeof(float));
+      //       fpout.write(reinterpret_cast<const char *>(&value), sizeof(float));
+      //     }
+      //   }
+      //   LOGI("RunDatasetEF start to save frame 6.");
+      //   // Close file
+      //   fs.close();
+      //   LOGI("RunDatasetEF start to save frame. 7");
+      //   delete[] mapData;
+      //   shouldSavePly.assignValue(false);
+      //   LOGI("RunDatasetEF save frame done.");
+      // }
       LOGI("RunDatasetEF: processing++");
       processedFrameCount++;
       LOGI("RunDatasetEF: processed one frame : %d", processedFrameCount);

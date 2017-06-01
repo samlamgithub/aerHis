@@ -806,11 +806,11 @@ void MyElasticFusion::runEF() {
 
     if (shouldSavePly.getValueWait()) {
       LOGI("ElasticFusion start to save frame.");
-      Eigen::Vector4f *mapData;
 
       float confidenceThreshold = eFusion.getConfidenceThreshold();
       LOGI("ElasticFusion start to save frame. 0");
-      unsigned int lastCount = eFusion.savePly(mapData);
+      unsigned int lastCount CloudPoint_numl
+      Eigen::Vector4f *mapData = eFusion.savePly();
       LOGI("ElasticFusion start to save frame 1. lastCount: %d, "
            "confidenceThreshold: %f",
            lastCount, confidenceThreshold);
