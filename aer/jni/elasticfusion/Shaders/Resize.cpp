@@ -182,7 +182,7 @@ void Resize::image(GPUTexture *source,
   // }
 
   check_gl_errorResize();
-  LOGI("MY elasitcfusion resize struct image 12 glReadPixels log done done c: %d", c);
+  // LOGI("MY elasitcfusion resize struct image 12 glReadPixels log done done c: %d", c);
   imageFrameBuffer.Unbind();
   check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct image 13 ");
@@ -250,7 +250,7 @@ void Resize::vertex(GPUTexture *source, Img<Eigen::Vector4f> &dest) {
   // }
 
   check_gl_errorResize();
-  LOGI("MY elasitcfusion resize struct vertex 11 glReadPixels log done done c: %d", c);
+  // LOGI("MY elasitcfusion resize struct vertex 11 glReadPixels log done done c: %d", c);
 
   vertexFrameBuffer.Unbind();
   check_gl_errorResize();
@@ -321,7 +321,7 @@ void Resize::time(GPUTexture *source, Img<unsigned short> &dest) {
   //   }
   // }
   check_gl_errorResize();
-  LOGI("MY elasitcfusion resize struct time 12 glReadPixels log done done c: %d", c);
+  // LOGI("MY elasitcfusion resize struct time 12 glReadPixels log done done c: %d", c);
 
   timeFrameBuffer.Unbind();
   check_gl_errorResize();

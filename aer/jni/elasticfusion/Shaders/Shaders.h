@@ -39,7 +39,11 @@
 #include "Uniform.h"
 
 static const char empty_fragment_shader_source[] = "#version 310 es\n"
-                                                   "void main(void){}\n";
+"precision mediump float;\n"
+    "out vec4 fragColor;\n"
+    "void main() {\n"
+    "  fragColor = vec4(1.0,1.0,1.0,1.0);\n"
+    "}";
 
 static const char *glErrorString2(GLenum err) {
   switch (err) {
@@ -218,7 +222,7 @@ public:
 
   void Bind() {
     LOGI("MY elasitcfusion Shader Bind start ");
-    check_gl_error2("MY elasitcfusion Shader Bind 1:");
+    check_gl_error2("MY elasitcfusion Shader Bind 1: glUseProgram prog: %d", prog);
     prev_prog = 0;
     glUseProgram(prog);
     check_gl_error2("MY elasitcfusion Shader Bind 2:");
@@ -227,7 +231,7 @@ public:
 
   void Unbind() {
     LOGI("MY elasitcfusion Shader Unbind start");
-    check_gl_error2("MY elasitcfusion Shader Unbind start");
+    check_gl_error2("MY elasitcfusion Shader Unbind start glUseProgram prev_prog: %d" prev_prog);
     glUseProgram(prev_prog);
     check_gl_error2("MY elasitcfusion Shader Unbind:");
     LOGI("MY elasitcfusion Shader Unbind done");
