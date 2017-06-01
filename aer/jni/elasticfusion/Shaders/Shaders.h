@@ -92,7 +92,7 @@ inline const char *glCheckFramebufferStatusShader() {
 
 inline void check_gl_error2(const char *operation) {
   if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
-      LOGI("frame buffer error: %s", glCheckFramebufferStatusShader());
+    LOGI("frame buffer error: %s", glCheckFramebufferStatusShader());
   }
   for (GLint error = glGetError(); error; error = glGetError()) {
     LOGI("Shader.h My elastic-fusion shader CheckGlDieOnError :%s, %s, after "
@@ -139,7 +139,9 @@ public:
   }
 
   bool AddShader(GLenum shader_type, const char *source_code) {
-    LOGI("MY elasitcfusion Shader AddShader start 1: %s", source_code);
+    LOGI("MY elasitcfusion Shader AddShader start 1 =================");
+    LOGI("%s", source_code);
+    LOGI("=====================================");
     if (!prog) {
       prog = glCreateProgram();
       check_gl_error2("MY elasitcfusion Shader glCreateProgram:");
