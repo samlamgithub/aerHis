@@ -139,19 +139,19 @@ public:
   }
 
   bool AddShader(GLenum shader_type, const char *source_code) {
-    LOGI("MY elasitcfusion Shader AddShader  start 1 ");
+    LOGI("MY elasitcfusion Shader AddShader start 1: %s", source_code);
     if (!prog) {
       prog = glCreateProgram();
       check_gl_error2("MY elasitcfusion Shader glCreateProgram:");
       if (!prog) {
-        LOGI("MY elasitcfusion Shader AddShader  1  glCreateProgram failed");
+        LOGI("MY elasitcfusion Shader AddShader 1 glCreateProgram failed");
       }
     }
     // GLhandleARB shader = glCreateShader(shader_type);
     GLuint shader = glCreateShader(shader_type);
     check_gl_error2("MY elasitcfusion Shader glCreateShader:");
     if (!shader) {
-      LOGI("MY elasitcfusion Shader AddShader  1  glCreateShader failed");
+      LOGI("MY elasitcfusion Shader AddShader 1 glCreateShader failed");
       //    return false;
     }
     glShaderSource(shader, 1, &source_code, NULL);
