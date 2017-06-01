@@ -113,9 +113,9 @@ Deformation::Deformation()
   sampleProgram->Bind();
   check_gl_errorDeformation();
   LOGI("MY elasitcfusion Deformation struct init 7 ");
-  int loc[1] = {
-      glGetVaryingLocationNV(sampleProgram->programId(), "vData"),
-  };
+  // int loc[1] = {
+  //     glGetVaryingLocationNV(sampleProgram->programId(), "vData"),
+  // };
   check_gl_errorDeformation();
   LOGI("MY elasitcfusion Deformation struct init 8 ");
   GLchar *vars[1] = {"vData"};

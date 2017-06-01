@@ -282,11 +282,11 @@ GlobalModel::GlobalModel()
   updateProgram->Bind();
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel struct init check 37 ");
-  int locUpdate[3] = {
-      glGetVaryingLocationNV(updateProgram->programId(), "vPosition0"),
-      glGetVaryingLocationNV(updateProgram->programId(), "vColor0"),
-      glGetVaryingLocationNV(updateProgram->programId(), "vNormRad0"),
-  };
+  // int locUpdate[3] = {
+  //     glGetVaryingLocationNV(updateProgram->programId(), "vPosition0"),
+  //     glGetVaryingLocationNV(updateProgram->programId(), "vColor0"),
+  //     glGetVaryingLocationNV(updateProgram->programId(), "vNormRad0"),
+  // };
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel struct init check 28 ");
   GLchar *vars[3] = {"vPosition0", "vColor0", "vNormRad0"};
@@ -302,11 +302,11 @@ GlobalModel::GlobalModel()
   dataProgram->Bind();
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel struct init check 41 ");
-  int dataUpdate[3] = {
-      glGetVaryingLocationNV(dataProgram->programId(), "vPosition0"),
-      glGetVaryingLocationNV(dataProgram->programId(), "vColor0"),
-      glGetVaryingLocationNV(dataProgram->programId(), "vNormRad0"),
-  };
+  // int dataUpdate[3] = {
+  //     glGetVaryingLocationNV(dataProgram->programId(), "vPosition0"),
+  //     glGetVaryingLocationNV(dataProgram->programId(), "vColor0"),
+  //     glGetVaryingLocationNV(dataProgram->programId(), "vNormRad0"),
+  // };
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel struct init check 42");
   glTransformFeedbackVaryings(dataProgram->programId(), 3, vars,
@@ -321,11 +321,11 @@ GlobalModel::GlobalModel()
   unstableProgram->Bind();
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel struct init check 45");
-  int unstableUpdate[3] = {
-      glGetVaryingLocationNV(unstableProgram->programId(), "vPosition0"),
-      glGetVaryingLocationNV(unstableProgram->programId(), "vColor0"),
-      glGetVaryingLocationNV(unstableProgram->programId(), "vNormRad0"),
-  };
+  // int unstableUpdate[3] = {
+  //     glGetVaryingLocationNV(unstableProgram->programId(), "vPosition0"),
+  //     glGetVaryingLocationNV(unstableProgram->programId(), "vColor0"),
+  //     glGetVaryingLocationNV(unstableProgram->programId(), "vNormRad0"),
+  // };
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel struct init check 46");
   glTransformFeedbackVaryings(unstableProgram->programId(), 3, vars,
@@ -340,11 +340,11 @@ GlobalModel::GlobalModel()
   initProgram->Bind();
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel struct init check 49");
-  int locInit[3] = {
-      glGetVaryingLocationNV(initProgram->programId(), "vPosition0"),
-      glGetVaryingLocationNV(initProgram->programId(), "vColor0"),
-      glGetVaryingLocationNV(initProgram->programId(), "vNormRad0"),
-  };
+  // int locInit[3] = {
+  //     glGetVaryingLocationNV(initProgram->programId(), "vPosition0"),
+  //     glGetVaryingLocationNV(initProgram->programId(), "vColor0"),
+  //     glGetVaryingLocationNV(initProgram->programId(), "vNormRad0"),
+  // };
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel struct init check 50");
   glTransformFeedbackVaryings(initProgram->programId(), 3, vars,
@@ -525,8 +525,8 @@ void GlobalModel::initialise(const FeedbackBuffer &rawFeedback,
        rawFeedback.fid);
   // It's ok to use either fid because both raw and filtered have the same
   // amount of vertices
-  // glDrawTransformFeedback(GL_POINTS, rawFeedback.fid);
- glDrawArrays(GL_POINTS, 0, Resolution::getInstance().numPixels());
+  glDrawTransformFeedback(GL_POINTS, rawFeedback.fid);
+ // glDrawArrays(GL_POINTS, 0, Resolution::getInstance().numPixels());
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel struct initialise 15 "
        "glDrawTransformFeedback");

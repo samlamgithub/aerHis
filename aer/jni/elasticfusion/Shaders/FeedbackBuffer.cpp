@@ -140,11 +140,11 @@ FeedbackBuffer::FeedbackBuffer(std::shared_ptr<Shader> program)
   program->Bind();
   check_gl_errorFeedbackBuffer();
   LOGI("MY elasitcfusion FeedbackBuffer struct init 12 ");
-  int loc[3] = {
-      glGetVaryingLocationNV(program->programId(), "vPosition0"),
-      glGetVaryingLocationNV(program->programId(), "vColor0"),
-      glGetVaryingLocationNV(program->programId(), "vNormRad0"),
-  };
+  // int loc[3] = {
+  //     glGetVaryingLocationNV(program->programId(), "vPosition0"),
+  //     glGetVaryingLocationNV(program->programId(), "vColor0"),
+  //     glGetVaryingLocationNV(program->programId(), "vNormRad0"),
+  // };
   check_gl_errorFeedbackBuffer();
   LOGI("MY elasitcfusion FeedbackBuffer struct init 13 ");
   GLchar *vars[3] = {"vPosition0", "vColor0", "vNormRad0"};
