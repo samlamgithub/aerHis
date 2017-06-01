@@ -171,15 +171,15 @@ void Resize::image(GPUTexture *source,
   check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct image 12 glReadPixels");
 
-  int c = 0;
-  for (int j = 0; j < imageRenderBuffer.width * imageRenderBuffer.height; j++) {
-    if (dest.data[j] != 0) {
-      if (c <= 100) {
-        LOGI("Resize::image( ==== %u: %u", j, dest.data[j]);
-      }
-      c++;
-    }
-  }
+  // int c = 0;
+  // for (int j = 0; j < imageRenderBuffer.width * imageRenderBuffer.height; j++) {
+  //   if (dest.data[j] != 0) {
+  //     if (c <= 100) {
+  //       LOGI("Resize::image( ==== %u: %u", j, dest.data[j]);
+  //     }
+  //     c++;
+  //   }
+  // }
 
   check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct image 12 glReadPixels log done done c: %d", c);
@@ -239,15 +239,15 @@ void Resize::vertex(GPUTexture *source, Img<Eigen::Vector4f> &dest) {
   check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct vertex 11 glReadPixels done");
 
-  int c = 0;
-  for (int j = 0; j < vertexRenderBuffer.width * vertexRenderBuffer.height; j++) {
-    if (dest.data[j] != 0) {
-      if (c <= 100) {
-        LOGI("Resize::vertex( ==== %u: %u", j, dest.data[j]);
-      }
-      c++;
-    }
-  }
+  // int c = 0;
+  // for (int j = 0; j < vertexRenderBuffer.width * vertexRenderBuffer.height; j++) {
+  //   if (dest.data[j] != 0) {
+  //     if (c <= 100) {
+  //       LOGI("Resize::vertex( ==== %u: %u", j, dest.data[j]);
+  //     }
+  //     c++;
+  //   }
+  // }
 
   check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct vertex 11 glReadPixels log done done c: %d", c);
@@ -310,16 +310,16 @@ void Resize::time(GPUTexture *source, Img<unsigned short> &dest) {
   // GL_LUMINANCE_INTEGER_EXT, GL_UNSIGNED_SHORT, dest.data);
   check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct time 12 glReadPixels done");
-
-  int c = 0;
-  for (int j = 0; j < timeRenderBuffer.width * timeRenderBuffer.height; j++) {
-    if (dest.data[j] != 0) {
-      if (c <= 100) {
-        LOGI("Resize::time( ==== %u: %u", j, dest.data[j]);
-      }
-      c++;
-    }
-  }
+  //
+  // int c = 0;
+  // for (int j = 0; j < timeRenderBuffer.width * timeRenderBuffer.height; j++) {
+  //   if (dest.data[j] != 0) {
+  //     if (c <= 100) {
+  //       LOGI("Resize::time( ==== %u: %u", j, dest.data[j]);
+  //     }
+  //     c++;
+  //   }
+  // }
   check_gl_errorResize();
   LOGI("MY elasitcfusion resize struct time 12 glReadPixels log done done c: %d", c);
 
