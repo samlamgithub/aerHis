@@ -143,19 +143,19 @@ public:
   }
 
   bool AddShader(GLenum shader_type, const char *source_code) {
-    LOGI("MY elasitcfusion Shader AddShader start 1 =================");
+    LOGI("MY elasitcfusion Shader AddShader start 1 shader_type: %d", shader_type);
     // LOGI("%s", source_code);
     // LOGI("=====================================");
     if (!prog) {
       prog = glCreateProgram();
-      check_gl_error2("MY elasitcfusion Shader glCreateProgram:");
+      check_gl_error2("MY elasitcfusion Shader glCreateProgram: prog: %d", prog);
       if (!prog) {
         LOGI("MY elasitcfusion Shader AddShader 1 glCreateProgram failed");
       }
     }
     // GLhandleARB shader = glCreateShader(shader_type);
     GLuint shader = glCreateShader(shader_type);
-    check_gl_error2("MY elasitcfusion Shader glCreateShader:");
+    check_gl_error2("MY elasitcfusion Shader glCreateShader: shader: %d", shader);
     if (!shader) {
       LOGI("MY elasitcfusion Shader AddShader 1 glCreateShader failed");
       //    return false;
@@ -171,22 +171,23 @@ public:
         char *buf = (char *)malloc(info_len);
         if (buf) {
           glGetShaderInfoLog(shader, info_len, NULL, buf);
-          LOGE("AddShader GlCameraFrame: Could not compile shader %d:\n%s\n",
+          LOGE("AddShader GlCameraFrame: error Could not compile shader %d:\n%s\n",
                shader_type, buf);
           free(buf);
         }
         glDeleteShader(shader);
         shader = 0;
       }
-      check_gl_error2("MY elasitcfusion Shader false");
-      LOGI("MY elasitcfusion Shader AddShader false");
+      check_gl_error2("MY elasitcfusion Shader error false");
+      LOGI("MY elasitcfusion Shader AddShader error false");
       return false;
     } else {
       glAttachShader(prog, shader);
       check_gl_error2("glAttachShader");
+        LOGI("MY elasitcfusion Shader AddShader glAttachShader");
       shaders.push_back(shader);
       linked = false;
-      check_gl_error2("MY elasitcfusion Shader true");
+      check_gl_error2("MY elasitcfusion Shader error true");
       LOGI("MY elasitcfusion Shader AddShader true");
       return true;
     }
@@ -223,6 +224,9 @@ public:
   void Bind() {
     LOGI("MY elasitcfusion Shader Bind start ");
     check_gl_error2("MY elasitcfusion Shader Bind 1:");
+    program->Link();
+    check_gl_error2("MY elasitcfusion Shader Bind linking program");
+    LOGI("MY elasitcfusion Shader Bind linked program ");
     LOGI("MY elasitcfusion Shader Bind 1: glUseProgram prog: %d", prog);
     prev_prog = 0;
     glUseProgram(prog);
@@ -232,7 +236,7 @@ public:
 
   void Unbind() {
     LOGI("MY elasitcfusion Shader Unbind start");
-    LOGI("MY elasitcfusion Shader Unbind start glUseProgram prev_prog: %d" prev_prog);
+    LOGI("MY elasitcfusion Shader Unbind start glUseProgram prev_prog: %d", prev_prog);
     check_gl_error2("MY elasitcfusion Shader Unbind start");
     glUseProgram(prev_prog);
     check_gl_error2("MY elasitcfusion Shader Unbind:");
@@ -270,7 +274,7 @@ loadProgramGeom(std::tuple<std::string, std::string> vertex_shader_file,
   program->AddShader(GL_FRAGMENT_SHADER, empty_fragment_shader_source);
   LOGI("MY elasitcfusion Shader loadProgramGeom empty_fragment_shader_source "
        "done");
-  program->Link();
+  // program->Link();
   LOGI("MY elasitcfusion Shader loadProgramGeom done");
   return program;
 }
@@ -289,7 +293,7 @@ loadProgram(std::tuple<std::string, std::string> vertex_shader_file) {
   program->AddShader(GL_FRAGMENT_SHADER, empty_fragment_shader_source);
   LOGI("MY elasitcfusion Shader loadProgramGeom empty_fragment_shader_source "
        "done");
-  program->Link();
+  // program->Link();
   check_gl_error2("MY elasitcfusion Shader loadProgram done");
   LOGI("MY elasitcfusion Shader loadProgram done");
   return program;
@@ -311,7 +315,7 @@ loadProgram(std::tuple<std::string, std::string> vertex_shader_file,
   LOGI("MY elasitcfusion Shader loadProgram 1 GL_FRAGMENT_SHADER start  %s", f);
   program->AddShader(GL_FRAGMENT_SHADER, fragment_shader_source);
   LOGI("MY elasitcfusion Shader loadProgram 1 GL_FRAGMENT_SHADER done  %s", f);
-  program->Link();
+  // program->Link();
   check_gl_error2("MY elasitcfusion Shader loadProgram 1 done");
   LOGI("MY elasitcfusion Shader loadProgram 1 done");
   return program;
@@ -340,7 +344,7 @@ loadProgram(std::tuple<std::string, std::string> vertex_shader_file,
   LOGI("MY elasitcfusion Shader loadProgram 2 GL_FRAGMENT_SHADER start  %s", f);
   program->AddShader(GL_FRAGMENT_SHADER, fragment_shader_source);
   LOGI("MY elasitcfusion Shader loadProgram 2 GL_FRAGMENT_SHADER done  %s", f);
-  program->Link();
+  // program->Link();
   check_gl_error2("MY elasitcfusion Shader loadProgram 2 done");
   LOGI("MY elasitcfusion Shader loadProgram 2 done");
   return program;

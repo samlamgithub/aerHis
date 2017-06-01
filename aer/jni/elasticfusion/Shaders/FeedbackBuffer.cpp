@@ -137,21 +137,21 @@ FeedbackBuffer::FeedbackBuffer(std::shared_ptr<Shader> program)
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   check_gl_errorFeedbackBuffer();
   LOGI("MY elasitcfusion FeedbackBuffer struct init 11 ");
-  program->Bind();
-  check_gl_errorFeedbackBuffer();
-  LOGI("MY elasitcfusion FeedbackBuffer struct init 12 ");
   // int loc[3] = {
   //     glGetVaryingLocationNV(program->programId(), "vPosition0"),
   //     glGetVaryingLocationNV(program->programId(), "vColor0"),
   //     glGetVaryingLocationNV(program->programId(), "vNormRad0"),
   // };
   check_gl_errorFeedbackBuffer();
-  LOGI("MY elasitcfusion FeedbackBuffer struct init 13 ");
-  GLchar *vars[3] = {"vPosition0", "vColor0", "vNormRad0"};
+  LOGI("MY elasitcfusion FeedbackBuffer struct init 12 program->programId(): %d", program->programId());
+  const GLchar* vars[] ={"vPosition0", "vColor0", "vNormRad0"};
   glTransformFeedbackVaryings(program->programId(), 3, vars,
                               GL_INTERLEAVED_ATTRIBS);
   // glTransformFeedbackVaryingsNV(program->programId(), 3, loc,
   // INTERLEAVED_ATTRIBS_NV);
+  check_gl_errorFeedbackBuffer();
+  LOGI("MY elasitcfusion FeedbackBuffer struct init 13 ");
+  program->Bind();
   check_gl_errorFeedbackBuffer();
   LOGI("MY elasitcfusion FeedbackBuffer struct init 14 ");
   program->Unbind();

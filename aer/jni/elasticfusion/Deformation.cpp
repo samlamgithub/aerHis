@@ -110,19 +110,19 @@ Deformation::Deformation()
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   check_gl_errorDeformation();
   LOGI("MY elasitcfusion Deformation struct init 6 ");
-  sampleProgram->Bind();
-  check_gl_errorDeformation();
-  LOGI("MY elasitcfusion Deformation struct init 7 ");
   // int loc[1] = {
   //     glGetVaryingLocationNV(sampleProgram->programId(), "vData"),
   // };
   check_gl_errorDeformation();
-  LOGI("MY elasitcfusion Deformation struct init 8 ");
-  GLchar *vars[1] = {"vData"};
+  LOGI("MY elasitcfusion Deformation struct init 7 sampleProgram->programId(): %d", sampleProgram->programId());
+  const GLchar* vars[] = {"vData"};
   glTransformFeedbackVaryings(sampleProgram->programId(), 1, vars,
                               GL_INTERLEAVED_ATTRIBS);
   // glTransformFeedbackVaryingsNV(sampleProgram->programId(), 1, loc,
   // INTERLEAVED_ATTRIBS_NV);
+  check_gl_errorDeformation();
+  LOGI("MY elasitcfusion Deformation struct init 8 ");
+  sampleProgram->Bind();
   check_gl_errorDeformation();
   LOGI("MY elasitcfusion Deformation struct init 9 ");
   sampleProgram->Unbind();
@@ -427,6 +427,12 @@ void Deformation::sampleGraphModel(const std::pair<GLuint, GLuint> &model) {
   glFinish();
   check_gl_errorDeformation();
   LOGI("MY elasitcfusion Deformation struct sampleGraphModel 23 ");
+  glGetQueryObjectuiv(countQuery, GL_QUERY_RESULT,
+                      &count); // GL_FRAMEBUFFER_COMPLETE, Invalid Operation
+  check_gl_errorDeformation();
+  LOGI("MY elasitcfusion Deformation struct sampleGraphModel 23 2 ==="
+       "glGetQueryObjectuiv: countQuery: %d, count: %d",
+       countQuery, count);
   //采样点数必须大于设置的 neighbours
   if ((int)count > def.k) {
     glBindBuffer(GL_ARRAY_BUFFER, vbo);

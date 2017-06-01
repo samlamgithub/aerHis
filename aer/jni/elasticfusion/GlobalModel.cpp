@@ -279,80 +279,80 @@ GlobalModel::GlobalModel()
        "AttachDepth(renderBuffer); done ");
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel struct init 36 ");
-  updateProgram->Bind();
-  check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init check 37 ");
   // int locUpdate[3] = {
   //     glGetVaryingLocationNV(updateProgram->programId(), "vPosition0"),
   //     glGetVaryingLocationNV(updateProgram->programId(), "vColor0"),
   //     glGetVaryingLocationNV(updateProgram->programId(), "vNormRad0"),
   // };
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init check 28 ");
-  GLchar *vars[3] = {"vPosition0", "vColor0", "vNormRad0"};
+  LOGI("MY elasitcfusion GlobalModel struct init check 37 updateProgram->programId(): %d", updateProgram->programId());
+  const GLchar* vars[] = {"vPosition0", "vColor0", "vNormRad0"};
   glTransformFeedbackVaryings(updateProgram->programId(), 3, vars,
                               GL_INTERLEAVED_ATTRIBS);
   // glTransformFeedbackVaryingsNV(updateProgram->programId(), 3, locUpdate,
   // INTERLEAVED_ATTRIBS_NV);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 39");
+  LOGI("MY elasitcfusion GlobalModel struct init 38");
+  updateProgram->Bind();
+  check_gl_errorGlobalModel();
+  LOGI("MY elasitcfusion GlobalModel struct init check 39 ");
   updateProgram->Unbind();
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel struct init check 40 ");
-  dataProgram->Bind();
-  check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init check 41 ");
   // int dataUpdate[3] = {
   //     glGetVaryingLocationNV(dataProgram->programId(), "vPosition0"),
   //     glGetVaryingLocationNV(dataProgram->programId(), "vColor0"),
   //     glGetVaryingLocationNV(dataProgram->programId(), "vNormRad0"),
   // };
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init check 42");
+  LOGI("MY elasitcfusion GlobalModel struct init check 41 dataProgram->programId(): %d", dataProgram->programId());
   glTransformFeedbackVaryings(dataProgram->programId(), 3, vars,
                               GL_INTERLEAVED_ATTRIBS);
   // glTransformFeedbackVaryingsNV(dataProgram->programId(), 3, dataUpdate,
   // INTERLEAVED_ATTRIBS_NV);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init check 43");
+  LOGI("MY elasitcfusion GlobalModel struct init check 42");
+  dataProgram->Bind();
+  check_gl_errorGlobalModel();
+  LOGI("MY elasitcfusion GlobalModel struct init check 43 ");
   dataProgram->Unbind();
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel struct init check 44");
-  unstableProgram->Bind();
-  check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init check 45");
   // int unstableUpdate[3] = {
   //     glGetVaryingLocationNV(unstableProgram->programId(), "vPosition0"),
   //     glGetVaryingLocationNV(unstableProgram->programId(), "vColor0"),
   //     glGetVaryingLocationNV(unstableProgram->programId(), "vNormRad0"),
   // };
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init check 46");
+  LOGI("MY elasitcfusion GlobalModel struct init check 45 unstableProgram->programId(): %d", unstableProgram->programId());
   glTransformFeedbackVaryings(unstableProgram->programId(), 3, vars,
                               GL_INTERLEAVED_ATTRIBS);
   // glTransformFeedbackVaryingsNV(unstableProgram->programId(), 3,
   // unstableUpdate, INTERLEAVED_ATTRIBS_NV);
   check_gl_errorGlobalModel();
+  LOGI("MY elasitcfusion GlobalModel struct init check 46");
+  unstableProgram->Bind();
+  check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel struct init check 47");
   unstableProgram->Unbind();
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel struct init check 48");
-  initProgram->Bind();
-  check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init check 49");
   // int locInit[3] = {
   //     glGetVaryingLocationNV(initProgram->programId(), "vPosition0"),
   //     glGetVaryingLocationNV(initProgram->programId(), "vColor0"),
   //     glGetVaryingLocationNV(initProgram->programId(), "vNormRad0"),
   // };
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init check 50");
+  LOGI("MY elasitcfusion GlobalModel struct init check 49 initProgram->programId(): %d", initProgram->programId());
   glTransformFeedbackVaryings(initProgram->programId(), 3, vars,
                               GL_INTERLEAVED_ATTRIBS);
   // glTransformFeedbackVaryingsNV(initProgram->programId(), 3, locInit,
   // INTERLEAVED_ATTRIBS_NV);
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct init 51 ");
+  LOGI("MY elasitcfusion GlobalModel struct init 50 ");
+  initProgram->Bind();
+  check_gl_errorGlobalModel();
+  LOGI("MY elasitcfusion GlobalModel struct init check 51");
   glGenQueries(1, &countQuery);
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel struct init 52 glGenQueries: %d", countQuery);
@@ -525,8 +525,8 @@ void GlobalModel::initialise(const FeedbackBuffer &rawFeedback,
        rawFeedback.fid);
   // It's ok to use either fid because both raw and filtered have the same
   // amount of vertices
-  // glDrawTransformFeedback(GL_POINTS, rawFeedback.fid);
- glDrawArrays(GL_POINTS, 0, Resolution::getInstance().numPixels());
+  glDrawTransformFeedback(GL_POINTS, rawFeedback.fid);
+ // glDrawArrays(GL_POINTS, 0, Resolution::getInstance().numPixels());
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel struct initialise 15 "
        "glDrawTransformFeedback");
@@ -564,7 +564,13 @@ void GlobalModel::initialise(const FeedbackBuffer &rawFeedback,
   LOGI("MY elasitcfusion GlobalModel struct initialise 23");
   glFinish();
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel struct initialise 24 done");
+  LOGI("MY elasitcfusion GlobalModel struct initialise 24");
+  glGetQueryObjectuiv(countQuery, GL_QUERY_RESULT, &count);
+  check_gl_errorGlobalModel();
+  LOGI("MY elasitcfusion GlobalModel struct initialise 24 here glGetQueryObjectuiv: ==="
+       "countQuery: %d, count: %d",
+       countQuery, count);
+  LOGI("MY elasitcfusion GlobalModel struct initialise 25 done");
 }
 //
 // void GlobalModel::renderPointCloud(pangolin::OpenGlMatrix mvp,
@@ -1164,8 +1170,14 @@ void GlobalModel::clean(const Eigen::Matrix4f &pose, const int &time,
   glFinish();
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel clean 40");
+  glGetQueryObjectuiv(countQuery, GL_QUERY_RESULT,
+                      &count); // GL_FRAMEBUFFER_COMPLETE, Invalid Operation
+  check_gl_errorGlobalModel();
+  LOGI("MY elasitcfusion GlobalModel clean 41 glGetQueryObjectuiv === : "
+       "countQuery: %d, count: %d",
+       countQuery, count);
   TOCK("Fuse::Copy");
-  LOGI("MY elasitcfusion GlobalModel clean 41 done ");
+  LOGI("MY elasitcfusion GlobalModel clean 42 done ");
 }
 
 unsigned int GlobalModel::lastCount() { return count; }
