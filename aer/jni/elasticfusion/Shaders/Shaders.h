@@ -23,7 +23,7 @@
 // #include <pangolin/gl/glsl.h>
 //#include <GLES2/gl2ext.h>
 #include <GLES3/gl3.h>
-#define __gl2_h_ // what the f***
+#define __gl2_h_
 #include <GLES2/gl2ext.h>
 #include <GLES3/gl3platform.h>
 
@@ -144,8 +144,8 @@ public:
 
   bool AddShader(GLenum shader_type, const char *source_code) {
     LOGI("MY elasitcfusion Shader AddShader start 1 =================");
-    LOGI("%s", source_code);
-    LOGI("=====================================");
+    // LOGI("%s", source_code);
+    // LOGI("=====================================");
     if (!prog) {
       prog = glCreateProgram();
       check_gl_error2("MY elasitcfusion Shader glCreateProgram:");
@@ -222,7 +222,8 @@ public:
 
   void Bind() {
     LOGI("MY elasitcfusion Shader Bind start ");
-    check_gl_error2("MY elasitcfusion Shader Bind 1: glUseProgram prog: %d", prog);
+    check_gl_error2("MY elasitcfusion Shader Bind 1:");
+    LOGI("MY elasitcfusion Shader Bind 1: glUseProgram prog: %d", prog);
     prev_prog = 0;
     glUseProgram(prog);
     check_gl_error2("MY elasitcfusion Shader Bind 2:");
@@ -231,7 +232,8 @@ public:
 
   void Unbind() {
     LOGI("MY elasitcfusion Shader Unbind start");
-    check_gl_error2("MY elasitcfusion Shader Unbind start glUseProgram prev_prog: %d" prev_prog);
+    LOGI("MY elasitcfusion Shader Unbind start glUseProgram prev_prog: %d" prev_prog);
+    check_gl_error2("MY elasitcfusion Shader Unbind start");
     glUseProgram(prev_prog);
     check_gl_error2("MY elasitcfusion Shader Unbind:");
     LOGI("MY elasitcfusion Shader Unbind done");

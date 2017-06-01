@@ -45,7 +45,7 @@
 #include <sys/stat.h>
 #include <vector>
 #include <zlib.h>
-#define __gl2_h_ // what the f***
+#define __gl2_h_ 
 #include <Eigen/Core>
 #include <Eigen/Geometry>
 #include <GLES2/gl2ext.h>

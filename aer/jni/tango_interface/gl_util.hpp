@@ -4,7 +4,7 @@
 // #include <GLES2/gl2ext.h>
 // #include <GLES2/gl2.h>
 #include <GLES3/gl3.h>
-#define __gl2_h_ // what the f***
+#define __gl2_h_ 
 #include <GLES2/gl2ext.h>
 #include <GLES3/gl3platform.h>
 
