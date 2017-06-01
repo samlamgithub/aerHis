@@ -224,7 +224,7 @@ public:
   void Bind() {
     LOGI("MY elasitcfusion Shader Bind start ");
     check_gl_error2("MY elasitcfusion Shader Bind 1:");
-    program->Link();
+    Link();
     check_gl_error2("MY elasitcfusion Shader Bind linking program");
     LOGI("MY elasitcfusion Shader Bind linked program ");
     LOGI("MY elasitcfusion Shader Bind 1: glUseProgram prog: %d", prog);
