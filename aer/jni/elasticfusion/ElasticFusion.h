@@ -244,7 +244,7 @@ public:
    * Saves out a .ply mesh file of the current model
    */
   // void savePly();
-  Eigen::Vector4f * ElasticFusion::savePly()
+  Eigen::Vector4f * savePly();
 
   /**
    * Renders a normalised view of the input raw depth for displaying as an
