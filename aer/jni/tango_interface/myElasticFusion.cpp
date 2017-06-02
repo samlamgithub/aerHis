@@ -740,14 +740,14 @@ void MyElasticFusion::runEF() {
     //查看处理的结果
     delete &currPose;
     int time = eFusion.getTick(); //查看此时eFusion的系统时间
-    LOGI("MyElasticFusion Log processing result time : %d ", time);
+    LOGI("MyElasticFusion Log processing result time: %d ", time);
 
     //  Ferns keyfern = eFusion.getFerns();//关键帧dataset
 
-    int ld_num = eFusion.getDeforms(); //局部deformations的数量
+    // int ld_num = eFusion.getDeforms(); //局部deformations的数量
     // Deformation ld = eFusion.getLocalDeformation(); //局部deformation图
 
-    int gd_num = eFusion.getFernDeforms(); //全局deformations的数量
+    // int gd_num = eFusion.getFernDeforms(); //全局deformations的数量
     // GlobalModel gm = eFusion.getGlobalModel(); //全局deformation model:
 
     int CloudPoint_num = eFusion.getGlobalModel().lastCount(); //点云的点数量
@@ -763,8 +763,8 @@ void MyElasticFusion::runEF() {
 
     int totalFerns = eFusion.getFerns().frames.size();
     LOGI("MyElasticFusion Log processing result "
-         "eFusion.getLocalDeformation().getGraph().size(): totalNodes : %d",
-         totalNodes);
+         "eFusion.getFerns().frames.size(): totalFerns : %d",
+         totalFerns);
 
     int totalDefs = eFusion.getDeforms();
     LOGI("MyElasticFusion Log processing result "
@@ -808,24 +808,31 @@ void MyElasticFusion::runEF() {
       LOGI("ElasticFusion start to save frame.");
 
       float confidenceThreshold = eFusion.getConfidenceThreshold();
-      LOGI("ElasticFusion start to save frame. 0");
+
+      LOGI("ElasticFusion start to save frame. 0 confidenceThreshold: %f", confidenceThreshold);
+
       unsigned int lastCount = CloudPoint_num;
+
       Eigen::Vector4f *mapData = eFusion.savePly();
+
       LOGI("ElasticFusion start to save frame 1. lastCount: %d, "
            "confidenceThreshold: %f",
            lastCount, confidenceThreshold);
+
       std::string plyFilename("/sdcard/ElasticFusionPly_" +
                               current_date_time());
       plyFilename.append(".ply");
+
       LOGI("ElasticFusion start to save frame 1 1");
       // Open file
       std::ofstream fs;
       fs.open(plyFilename.c_str());
       // File* plyFile = fopen(plyFilename.c_str(),"wb+");
       if (fs == NULL) {
-        LOGE("There was a problem opening the ply file:%s",
+        LOGE("There was a problem opening the ply file: %s, error",
              plyFilename.c_str());
       }
+
       LOGI("ElasticFusion start to save frame. 2");
       int validCount = 0;
 
@@ -836,7 +843,9 @@ void MyElasticFusion::runEF() {
           validCount++;
         }
       }
+
       LOGI("ElasticFusion start to save frame. 3 validCount: %d", validCount);
+
       // Write header
       fs << "ply";
       fs << "\nformat "
@@ -868,7 +877,10 @@ void MyElasticFusion::runEF() {
       // Open file in binary appendable
       std::ofstream fpout(plyFilename.c_str(),
                           std::ios::app | std::ios::binary);
+
       LOGI("ElasticFusion start to save frame. 5");
+
+      int countWriteNum = 0;
       for (unsigned int i = 0; i < lastCount; i++) {
         Eigen::Vector4f pos = mapData[(i * 3) + 0];
 
@@ -912,13 +924,16 @@ void MyElasticFusion::runEF() {
 
           memcpy(&value, &nor[3], sizeof(float));
           fpout.write(reinterpret_cast<const char *>(&value), sizeof(float));
+
+          countWriteNum++;
         }
       }
-      LOGI("ElasticFusion start to save frame 6.");
+      LOGI("ElasticFusion start to save frame 6. countWriteNum: %d", countWriteNum);
       // Close file
       fs.close();
       LOGI("ElasticFusion start to save frame. 7");
       delete[] mapData;
+
       shouldSavePly.assignValue(false);
       LOGI("MyElasticFusion save frame done.");
     }

@@ -1184,7 +1184,7 @@ unsigned int GlobalModel::lastCount() { return count; }
 
 Eigen::Vector4f *GlobalModel::downloadMap() {
   check_gl_errorGlobalModel();
-  LOGI("MY elasitcfusion GlobalModel downloadMap start 1");
+  LOGI("MY elasitcfusion GlobalModel downloadMap start 1 count: %d", count);
   glFinish();
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel downloadMap 2");
@@ -1206,7 +1206,7 @@ Eigen::Vector4f *GlobalModel::downloadMap() {
        target, renderSource, vbos[target].first, vbos[target].second,
        vbos[renderSource].first, vbos[renderSource].second);
   GLint isMapped = 0;
-    glGetBufferParameteriv(GL_ARRAY_BUFFER, GL_BUFFER_MAPPED, &isMapped);
+  glGetBufferParameteriv(GL_ARRAY_BUFFER, GL_BUFFER_MAPPED, &isMapped);
   check_gl_errorGlobalModel();
   LOGI("MY elasitcfusion GlobalModel downloadMap is Mapped 1!!!: %d", isMapped);
   LOGI("MY elasitcfusion GlobalModel downloadMap 5 glGetBufferSubData 0 : "
@@ -1224,7 +1224,7 @@ Eigen::Vector4f *GlobalModel::downloadMap() {
   if (!ver) {
       LOGI("MY elasitcfusion GlobalModel downloadMap 5 glGetBufferSubData is NULL");
   }
-    glGetBufferParameteriv(GL_ARRAY_BUFFER, GL_BUFFER_MAPPED, &isMapped);
+  glGetBufferParameteriv(GL_ARRAY_BUFFER, GL_BUFFER_MAPPED, &isMapped);
   LOGI("MY elasitcfusion GlobalModel downloadMap is Mapped 2!!!: %d", isMapped);
   memcpy(vertices, ver, count * Vertex::SIZE);
   check_gl_errorGlobalModel();
