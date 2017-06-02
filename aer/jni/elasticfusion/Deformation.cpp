@@ -434,6 +434,7 @@ void Deformation::sampleGraphModel(const std::pair<GLuint, GLuint> &model) {
        "glGetQueryObjectuiv: countQuery: %d, count: %d",
        countQuery, count);
   //采样点数必须大于设置的 neighbours
+  LOGI("MY elasitcfusion Deformation struct sampleGraphModel 23 4, count: %d, def.k: %d", count, def.k);
   if ((int)count > def.k) {
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     check_gl_errorDeformation();
@@ -446,11 +447,16 @@ void Deformation::sampleGraphModel(const std::pair<GLuint, GLuint> &model) {
     check_gl_errorDeformation();
     LOGI("MY elasitcfusion Deformation struct sampleGraphModel 25 "
          "glGetBufferSubData");
-    vertices = ver;
-    // glUnmapBuffer(GL_ARRAY_BUFFER);
+    // vertices = ver;
+    memcpy(vertices, ver, sizeof(Eigen::Vector4f) * count);
+    check_gl_errorDeformation();
+    LOGI("MY elasitcfusion Deformation struct sampleGraphModel 26");
+    glUnmapBuffer(GL_ARRAY_BUFFER);
+    check_gl_errorDeformation();
+    LOGI("MY elasitcfusion Deformation struct sampleGraphModel 27");
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     check_gl_errorDeformation();
-    LOGI("MY elasitcfusion Deformation struct sampleGraphModel 26 ");
+    LOGI("MY elasitcfusion Deformation struct sampleGraphModel 28");
     for (size_t i = 0; i < count; i++) {
       Eigen::Vector3f newPoint = vertices[i].head<3>();
 
@@ -463,17 +469,17 @@ void Deformation::sampleGraphModel(const std::pair<GLuint, GLuint> &model) {
       //时间存进 vector
       graphPoseTimes.push_back(vertices[i](3));
     }
-    glUnmapBuffer(GL_ARRAY_BUFFER);
+    // glUnmapBuffer(GL_ARRAY_BUFFER);
     check_gl_errorDeformation();
-    LOGI("MY elasitcfusion Deformation struct sampleGraphModel 27 ");
+    LOGI("MY elasitcfusion Deformation struct sampleGraphModel 29");
     def.initialiseGraph(graphPosePoints, &graphPoseTimes);
     check_gl_errorDeformation();
-    LOGI("MY elasitcfusion Deformation struct sampleGraphModel 28 ");
+    LOGI("MY elasitcfusion Deformation struct sampleGraphModel 30");
     graphPoseTimes.clear();
     graphPosePoints->clear();
     check_gl_errorDeformation();
-    LOGI("MY elasitcfusion Deformation struct sampleGraphModel 29 ");
+    LOGI("MY elasitcfusion Deformation struct sampleGraphModel 31");
   }
   check_gl_errorDeformation();
-  LOGI("MY elasitcfusion Deformation struct sampleGraphModel 20 done ");
+  LOGI("MY elasitcfusion Deformation struct sampleGraphModel 32 done");
 }
