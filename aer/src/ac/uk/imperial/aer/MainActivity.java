@@ -82,6 +82,11 @@ public class MainActivity extends Activity implements OnClickListener {
   private TextView infoView;
   private static final int infoViewID = 9004;
 
+  Thread counterThread;
+  int counter = 0;
+  private TextView counterView;
+  private static final int counterViewID = 9005;
+
   String text = "";
   Thread infoThread;
 
@@ -138,6 +143,13 @@ public class MainActivity extends Activity implements OnClickListener {
     infoView.setLayoutParams(
         new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 
+    counterView = new TextView(this);
+    counterView.setGravity(Gravity.START | Gravity.CENTER);
+    counterView.setText("0");
+    counterView.setId(counterViewID);
+    counterView.setLayoutParams(
+        new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+
     savePlybutton = new Button(this);
     savePlybutton.setText("Save ply");
     savePlybutton.setBackgroundColor(Color.WHITE);
@@ -163,6 +175,7 @@ public class MainActivity extends Activity implements OnClickListener {
     ll.addView(runDataSetButton);
     ll.addView(savePlybutton);
     ll.addView(infoView);
+    ll.addView(counterView);
 
     LinearLayout.LayoutParams layoutParams =
         new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -240,6 +253,15 @@ public class MainActivity extends Activity implements OnClickListener {
     // };
     //
     // infoThread.start();
+
+    counterThread = new Thread() {
+      public void run() {
+          runOnUiThread(new Runnable() {
+            counter++;
+            public void run() { counter.setText(String.valueOf(counter)); }
+          });
+        }
+    };
 
     //    addContentView(writingSwitcher, new
     //    LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
@@ -348,6 +370,11 @@ public class MainActivity extends Activity implements OnClickListener {
       Log.e(TAG, "Failed to connect to camera");
       finish();
     }
+  }
+
+  public void incrementCounter() {
+    Log.v("elasticfusion info incrementCounter in java called");
+    counterThread.start();
   }
 
   public void requestRender() { mGLView.requestRender(); }

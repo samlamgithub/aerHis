@@ -1041,6 +1041,7 @@ void MyElasticFusion::runEF() {
     numFrames++;
     lastProcessed = bufferIndex;
     LOGI("MyElasticFusion: processed one frame, total: %d", numFrames);
+    tango_interface::CameraInterface::incrementCounter();
     // break;
   }
   // fseek(RGBlog_file_, 0, SEEK_SET);
@@ -1051,7 +1052,7 @@ void MyElasticFusion::runEF() {
   // LOGI("Logger close:");
   // fclose(RGBlog_file_);
   // fclose(Depthlog_file_);
-delete previousPose;
+  delete previousPose;
   LOGI("MyElasticFusion deleting");
   // delete &eFusion;
   // eFusion = NULL;

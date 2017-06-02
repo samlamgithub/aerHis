@@ -95,6 +95,8 @@ public:
   static void process_frame_event(void *, TangoCameraId);
   static bool setup_tango_config();
 
+  static void incrementCounter();
+
   static int myImageHeight;
   static int myImageWidth;
   static int myImageSize;

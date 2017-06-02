@@ -180,6 +180,18 @@ void CameraInterface::destroy() {
   point_cloud_manager_ = nullptr;
 }
 
+void CameraInterface::incrementCounter() {
+  LOGE("CameraInterface: incrementCounter called");
+  JNIEnv *env = java_environment();
+  if (env != nullptr) {
+    jclass activity_class = env->GetObjectClass(activity_ref_);
+    jmethodID incrementCounter_ref =
+        env->GetMethodID(activity_class, "incrementCounter", "()V");
+    env->CallVoidMethod(activity_ref_, incrementCounter_ref);
+    env->DeleteLocalRef(activity_class);
+  }
+}
+
 bool CameraInterface::connect() {
   // Initialize TangoSupport context.
   TangoSupport_initializeLibrary();

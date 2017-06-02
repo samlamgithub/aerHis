@@ -438,18 +438,29 @@ void Deformation::sampleGraphModel(const std::pair<GLuint, GLuint> &model) {
   if ((int)count > def.k) {
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     check_gl_errorDeformation();
+    LOGI("MY elasitcfusion Deformation sampleGraphModel 24 0");
+    GLint isMapped = 0;
+    glGetBufferParameteriv(GL_ARRAY_BUFFER, GL_BUFFER_MAPPED, &isMapped);
+    check_gl_errorDeformation();
+    LOGI("MY elasitcfusion Deformation sampleGraphModel is Mapped 1!!!: %d", isMapped);
+    check_gl_errorDeformation();
     LOGI("MY elasitcfusion Deformation struct sampleGraphModel 24 "
-         "glGetBufferSubData");
+         "glGetBufferSubData 1");
     // glGetBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(Eigen::Vector4f) * count,
     //                    vertices);
     Eigen::Vector4f *ver = (Eigen::Vector4f *)glMapBufferRange(
         GL_ARRAY_BUFFER, 0, sizeof(Eigen::Vector4f) * count, GL_MAP_READ_BIT);
-    check_gl_errorDeformation();
-    LOGI("MY elasitcfusion Deformation struct sampleGraphModel 25 "
-         "glGetBufferSubData");
+        check_gl_errorDeformation();
+        LOGI("MY elasitcfusion Deformation sampleGraphModel 25 glGetBufferSubData 2");
+      if (!ver) {
+            LOGI("MY elasitcfusion Deformation sampleGraphModel glGetBufferSubData is NULL");
+    }
+        glGetBufferParameteriv(GL_ARRAY_BUFFER, GL_BUFFER_MAPPED, &isMapped);
+  check_gl_errorDeformation();
+        LOGI("MY elasitcfusion Deformation sampleGraphModel is Mapped 2!!!: %d", isMapped);
     // vertices = ver;
     memcpy(vertices, ver, sizeof(Eigen::Vector4f) * count);
-    delete [] ver;
+    // delete [] ver;
     check_gl_errorDeformation();
     LOGI("MY elasitcfusion Deformation struct sampleGraphModel 26");
     glUnmapBuffer(GL_ARRAY_BUFFER);

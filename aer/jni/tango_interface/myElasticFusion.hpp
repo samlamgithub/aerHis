@@ -12,6 +12,7 @@
 
 #include <../elasticfusion/Shaders/GLExtensions.h>
 // #include <opencv2/opencv.hpp>
+#include <tango_interface/camera_interface.hpp>
 
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/date_time/posix_time/posix_time_types.hpp>
@@ -36,7 +37,7 @@
 #include <Eigen/Geometry>
 
 #include <GLES3/gl3.h>
-#define __gl2_h_ 
+#define __gl2_h_
 #include <GLES2/gl2ext.h>
 #include <GLES3/gl3platform.h>
 
