@@ -744,11 +744,20 @@ void MyElasticFusion::runEF() {
 
     //  Ferns keyfern = eFusion.getFerns();//关键帧dataset
 
-    // int ld_num = eFusion.getDeforms(); //局部deformations的数量
+    int ld_num = eFusion.getDeforms(); //局部deformations的数量
+    LOGI("MyElasticFusion Log processing result eFusion.getDeforms(): %d ", ld_num);
     // Deformation ld = eFusion.getLocalDeformation(); //局部deformation图
 
-    // int gd_num = eFusion.getFernDeforms(); //全局deformations的数量
+    int gd_num = eFusion.getFernDeforms(); //全局deformations的数量
+    LOGI("MyElasticFusion Log processing result eFusion.getFernDeforms(): %d ", gd_num);
     // GlobalModel gm = eFusion.getGlobalModel(); //全局deformation model:
+
+    bool isLost = eFusion.getLost();
+    if (isLost) {
+      LOGI("MyElasticFusion Log processing result is lost");
+    } else {
+      LOGI("MyElasticFusion Log processing result is not lost");
+    }
 
     int CloudPoint_num = eFusion.getGlobalModel().lastCount(); //点云的点数量
     LOGI("MyElasticFusion Log processing result "
