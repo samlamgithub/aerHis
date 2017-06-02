@@ -449,6 +449,7 @@ void Deformation::sampleGraphModel(const std::pair<GLuint, GLuint> &model) {
          "glGetBufferSubData");
     // vertices = ver;
     memcpy(vertices, ver, sizeof(Eigen::Vector4f) * count);
+    delete [] ver;
     check_gl_errorDeformation();
     LOGI("MY elasitcfusion Deformation struct sampleGraphModel 26");
     glUnmapBuffer(GL_ARRAY_BUFFER);

@@ -852,8 +852,8 @@ void MyElasticFusion::runEF() {
 
       for (unsigned int i = 0; i < lastCount; i++) {
         Eigen::Vector4f pos = mapData[(i * 3) + 0];
-        LOGI("ElasticFusion save frame: pos[3]: %f", pos[3]);
         if (pos[3] > confidenceThreshold) {
+          LOGI("ElasticFusion save frame valid pose: pos[3]: %f", pos[3]);
           validCount++;
         }
       }
