@@ -216,9 +216,11 @@ void RunDatasetEF::runEF() {
       eglGetError() != EGL_SUCCESS) {
     LOGI("RunDatasetEF egl eglMakeCurrent failed");
   }
+
   if (eglGetError() != EGL_SUCCESS) {
     LOGI("RunDatasetEF egl may failed");
   }
+
   LOGI("RunDatasetEF egl context setup done ...");
   //==================================
   bool success = LoadOpenGLExtensionsManually();
@@ -341,10 +343,19 @@ void RunDatasetEF::runEF() {
       //  Ferns keyfern = eFusion.getFerns();//关键帧dataset
 
       int ld_num = eFusion.getDeforms(); //局部deformations的数量
+LOGI("RunDatasetEF Log processing result eFusion.getDeforms(): %d ", ld_num);
       // Deformation ld = eFusion.getLocalDeformation(); //局部deformation图
 
       int gd_num = eFusion.getFernDeforms(); //全局deformations的数量
+  LOGI("RunDatasetEF Log processing result eFusion.getFernDeforms(): %d ", gd_num);
       // GlobalModel gm = eFusion.getGlobalModel(); //全局deformation model:
+
+      bool isLost = eFusion.getLost();
+      if (isLost) {
+        LOGI("RunDatasetEF Log processing result is lost");
+      } else {
+        LOGI("RunDatasetEF Log processing result is not lost");
+      }
 
       int CloudPoint_num = eFusion.getGlobalModel().lastCount(); //点云的点数量
       LOGI("RunDatasetEF Log processing result "
@@ -357,10 +368,10 @@ void RunDatasetEF::runEF() {
            "eFusion.getLocalDeformation().getGraph().size(): totalNodes : %d",
            totalNodes);
 
-      int totalFerns = eFusion.getFerns().frames.size();
-      LOGI("RunDatasetEF Log processing result "
-           "eFusion.getLocalDeformation().getGraph().size(): totalNodes : %d",
-           totalNodes);
+           int totalFerns = eFusion.getFerns().frames.size();
+           LOGI("RunDatasetEF Log processing result "
+                "eFusion.getFerns().frames.size(): totalFerns : %d",
+                totalFerns);
 
       int totalDefs = eFusion.getDeforms();
       LOGI("RunDatasetEF Log processing result "
@@ -371,6 +382,7 @@ void RunDatasetEF::runEF() {
       LOGI("RunDatasetEF Log processing result "
            "eFusion.getFernDeforms(): totalFernDefs :%d ",
            totalFernDefs);
+
       float lastICPError = eFusion.getModelToModel().lastICPError;
       float lastICPCount = eFusion.getModelToModel().lastICPCount;
       LOGI("RunDatasetEF Log processing result lastICPError: %f, "
@@ -380,125 +392,145 @@ void RunDatasetEF::runEF() {
            "icpCountThresh: %f",
            lastICPCount, 35000.00);
       LOGI("RunDatasetEF Log processing result done.");
+      // LOGI("saving cloud points..." );
+      // eFusion.savePly();			 //保存当前的点云图至ply
+      // LOGI("cloud point has saved to " << savefilename << ".ply" );
+      LOGI("RunDatasetEF Log processing result done.");
 
-      // if (shouldSavePly.getValueWait()) {
-      //   LOGI("RunDatasetEF start to save frame.");
-      //
-      //   float confidenceThreshold = eFusion.getConfidenceThreshold();
-      //   LOGI("RunDatasetEF start to save frame. 0");
-      //   unsigned int lastCount = CloudPoint_num;
-      //   Eigen::Vector4f *mapData = eFusion.savePly();
-      //   LOGI("RunDatasetEF start to save frame 1. lastCount: %d, "
-      //        "confidenceThreshold: %f",
-      //        lastCount, confidenceThreshold);
-      //   std::string plyFilename("/sdcard/RunDatasetEFPly_" +
-      //                           current_date_time());
-      //   plyFilename.append(".ply");
-      //   LOGI("RunDatasetEF start to save frame 1 1");
-      //   // Open file
-      //   std::ofstream fs;
-      //   fs.open(plyFilename.c_str());
-      //   // File* plyFile = fopen(plyFilename.c_str(),"wb+");
-      //   if (fs == NULL) {
-      //     LOGE("There was a problem opening the ply file:%s",
-      //          plyFilename.c_str());
-      //   }
-      //   LOGI("RunDatasetEF start to save frame. 2");
-      //   int validCount = 0;
-      //
-      //   for (unsigned int i = 0; i < lastCount; i++) {
-      //     Eigen::Vector4f pos = mapData[(i * 3) + 0];
-      //
-      //     if (pos[3] > confidenceThreshold) {
-      //       validCount++;
-      //     }
-      //   }
-      //   LOGI("RunDatasetEF start to save frame. 3");
-      //   // Write header
-      //   fs << "ply";
-      //   fs << "\nformat "
-      //      << "binary_little_endian"
-      //      << " 1.0";
-      //
-      //   // Vertices
-      //   fs << "\nelement vertex " << validCount;
-      //   fs << "\nproperty float x"
-      //         "\nproperty float y"
-      //         "\nproperty float z";
-      //
-      //   fs << "\nproperty uchar red"
-      //         "\nproperty uchar green"
-      //         "\nproperty uchar blue";
-      //
-      //   fs << "\nproperty float nx"
-      //         "\nproperty float ny"
-      //         "\nproperty float nz";
-      //
-      //   fs << "\nproperty float radius";
-      //
-      //   fs << "\nend_header\n";
-      //
-      //   // Close the file
-      //   fs.close();
-      //   // delete[] mapData;
-      //   LOGI("RunDatasetEF start to save frame. 4");
-      //   // Open file in binary appendable
-      //   std::ofstream fpout(plyFilename.c_str(),
-      //                       std::ios::app | std::ios::binary);
-      //   LOGI("RunDatasetEF start to save frame. 5");
-      //   for (unsigned int i = 0; i < lastCount; i++) {
-      //     Eigen::Vector4f pos = mapData[(i * 3) + 0];
-      //
-      //     if (pos[3] > confidenceThreshold) {
-      //       Eigen::Vector4f col = mapData[(i * 3) + 1];
-      //       Eigen::Vector4f nor = mapData[(i * 3) + 2];
-      //
-      //       nor[0] *= -1;
-      //       nor[1] *= -1;
-      //       nor[2] *= -1;
-      //
-      //       float value;
-      //       memcpy(&value, &pos[0], sizeof(float));
-      //       fpout.write(reinterpret_cast<const char *>(&value), sizeof(float));
-      //
-      //       memcpy(&value, &pos[1], sizeof(float));
-      //       fpout.write(reinterpret_cast<const char *>(&value), sizeof(float));
-      //
-      //       memcpy(&value, &pos[2], sizeof(float));
-      //       fpout.write(reinterpret_cast<const char *>(&value), sizeof(float));
-      //
-      //       unsigned char r = int(col[0]) >> 16 & 0xFF;
-      //       unsigned char g = int(col[0]) >> 8 & 0xFF;
-      //       unsigned char b = int(col[0]) & 0xFF;
-      //
-      //       fpout.write(reinterpret_cast<const char *>(&r),
-      //                   sizeof(unsigned char));
-      //       fpout.write(reinterpret_cast<const char *>(&g),
-      //                   sizeof(unsigned char));
-      //       fpout.write(reinterpret_cast<const char *>(&b),
-      //                   sizeof(unsigned char));
-      //
-      //       memcpy(&value, &nor[0], sizeof(float));
-      //       fpout.write(reinterpret_cast<const char *>(&value), sizeof(float));
-      //
-      //       memcpy(&value, &nor[1], sizeof(float));
-      //       fpout.write(reinterpret_cast<const char *>(&value), sizeof(float));
-      //
-      //       memcpy(&value, &nor[2], sizeof(float));
-      //       fpout.write(reinterpret_cast<const char *>(&value), sizeof(float));
-      //
-      //       memcpy(&value, &nor[3], sizeof(float));
-      //       fpout.write(reinterpret_cast<const char *>(&value), sizeof(float));
-      //     }
-      //   }
-      //   LOGI("RunDatasetEF start to save frame 6.");
-      //   // Close file
-      //   fs.close();
-      //   LOGI("RunDatasetEF start to save frame. 7");
-      //   delete[] mapData;
-      //   shouldSavePly.assignValue(false);
-      //   LOGI("RunDatasetEF save frame done.");
-      // }
+      if (shouldSavePly.getValueWait()) {
+        LOGI("RunDatasetEF start to save frame.");
+
+        float confidenceThreshold = eFusion.getConfidenceThreshold();
+
+        LOGI("RunDatasetEF start to save frame. 0 confidenceThreshold: %f", confidenceThreshold);
+
+        unsigned int lastCount = CloudPoint_num;
+
+        Eigen::Vector4f *mapData = eFusion.savePly();
+
+        LOGI("RunDatasetEF start to save frame 1. lastCount: %d, "
+             "confidenceThreshold: %f",
+             lastCount, confidenceThreshold);
+
+        std::string plyFilename("/sdcard/DatasetElasticFusionPly_" +
+                                current_date_time());
+        plyFilename.append(".ply");
+
+        LOGI("RunDatasetEF start to save frame 1 1");
+        // Open file
+        std::ofstream fs;
+        fs.open(plyFilename.c_str());
+        // File* plyFile = fopen(plyFilename.c_str(),"wb+");
+        if (fs == NULL) {
+          LOGE("RunDatasetEF There was a problem opening the ply file: %s, error",
+               plyFilename.c_str());
+        }
+
+        LOGI("RunDatasetEF start to save frame. 2");
+        int validCount = 0;
+
+        for (unsigned int i = 0; i < lastCount; i++) {
+          Eigen::Vector4f pos = mapData[(i * 3) + 0];
+          LOGI("RunDatasetEF save frame: pos[3]: %f", pos[3]);
+          if (pos[3] > confidenceThreshold) {
+            validCount++;
+          }
+        }
+
+        LOGI("RunDatasetEF start to save frame. 3 validCount: %d", validCount);
+
+        // Write header
+        fs << "ply";
+        fs << "\nformat "
+           << "binary_little_endian"
+           << " 1.0";
+
+        // Vertices
+        fs << "\nelement vertex " << validCount;
+        fs << "\nproperty float x"
+              "\nproperty float y"
+              "\nproperty float z";
+
+        fs << "\nproperty uchar red"
+              "\nproperty uchar green"
+              "\nproperty uchar blue";
+
+        fs << "\nproperty float nx"
+              "\nproperty float ny"
+              "\nproperty float nz";
+
+        fs << "\nproperty float radius";
+
+        fs << "\nend_header\n";
+
+        // Close the file
+        fs.close();
+        // delete[] mapData;
+        LOGI("RunDatasetEF start to save frame. 4");
+        // Open file in binary appendable
+        std::ofstream fpout(plyFilename.c_str(),
+                            std::ios::app | std::ios::binary);
+
+        LOGI("RunDatasetEF start to save frame. 5");
+
+        int countWriteNum = 0;
+        for (unsigned int i = 0; i < lastCount; i++) {
+          Eigen::Vector4f pos = mapData[(i * 3) + 0];
+
+          if (pos[3] > confidenceThreshold) {
+            Eigen::Vector4f col = mapData[(i * 3) + 1];
+            Eigen::Vector4f nor = mapData[(i * 3) + 2];
+
+            nor[0] *= -1;
+            nor[1] *= -1;
+            nor[2] *= -1;
+
+            float value;
+            memcpy(&value, &pos[0], sizeof(float));
+            fpout.write(reinterpret_cast<const char *>(&value), sizeof(float));
+
+            memcpy(&value, &pos[1], sizeof(float));
+            fpout.write(reinterpret_cast<const char *>(&value), sizeof(float));
+
+            memcpy(&value, &pos[2], sizeof(float));
+            fpout.write(reinterpret_cast<const char *>(&value), sizeof(float));
+
+            unsigned char r = int(col[0]) >> 16 & 0xFF;
+            unsigned char g = int(col[0]) >> 8 & 0xFF;
+            unsigned char b = int(col[0]) & 0xFF;
+
+            fpout.write(reinterpret_cast<const char *>(&r),
+                        sizeof(unsigned char));
+            fpout.write(reinterpret_cast<const char *>(&g),
+                        sizeof(unsigned char));
+            fpout.write(reinterpret_cast<const char *>(&b),
+                        sizeof(unsigned char));
+
+            memcpy(&value, &nor[0], sizeof(float));
+            fpout.write(reinterpret_cast<const char *>(&value), sizeof(float));
+
+            memcpy(&value, &nor[1], sizeof(float));
+            fpout.write(reinterpret_cast<const char *>(&value), sizeof(float));
+
+            memcpy(&value, &nor[2], sizeof(float));
+            fpout.write(reinterpret_cast<const char *>(&value), sizeof(float));
+
+            memcpy(&value, &nor[3], sizeof(float));
+            fpout.write(reinterpret_cast<const char *>(&value), sizeof(float));
+
+            countWriteNum++;
+          }
+        }
+        LOGI("RunDatasetEF start to save frame 6. countWriteNum: %d", countWriteNum);
+        // Close file
+        fs.close();
+        LOGI("RunDatasetEF start to save frame. 7");
+        delete[] mapData;
+
+        shouldSavePly.assignValue(false);
+        LOGI("RunDatasetEF save frame done.");
+      }
+
       LOGI("RunDatasetEF: processing++");
       processedFrameCount++;
       LOGI("RunDatasetEF: processed one frame : %d", processedFrameCount);
