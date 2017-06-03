@@ -352,8 +352,7 @@ void RunTangoRGBDPoseData::runEF(bool hasPose) {
         Eigen::Matrix4f *inputPose = 0;
         inputPose = new Eigen::Matrix4f;
         inputPose->setIdentity();
-        *inputPose = groundTruthOdometry->getIncrementalTransformation(
-            logReader->timestamp);
+        *inputPose = groundTruthOdometry->getIncrementalTransformation(timestamp);
 
         Eigen::IOFormat CleanFmt1(4, 0, ", ", "\n", "[", "]");
         std::stringstream ss;
@@ -382,7 +381,7 @@ void RunTangoRGBDPoseData::runEF(bool hasPose) {
 
       Eigen::Matrix4f currPose = eFusion.getCurrPose();
 
-      check_gl_errorEF();
+      check_gl_errorTANGODATA();
       LOGI("RunTangoRGBDPoseData eFusion.getCurrPose()");
 
       posesEigen.push_back(currPose);
@@ -593,6 +592,7 @@ LOGI("RunTangoRGBDPoseData Log processing result eFusion.getDeforms(): %d ", ld_
       LOGI("RunTangoRGBDPoseData: processing++");
       processedFrameCount++;
       LOGI("RunTangoRGBDPoseData: processed one frame : %d", processedFrameCount);
+      tango_interface::CameraInterface::incrementCounter();
     }
 
     delete[] depthReadBuffer;
@@ -643,10 +643,11 @@ void RunTangoRGBDPoseData::getCore() {
     assert(fread(imageReadBuffer, imageSize, 1, fp));
   }
 
-  LOGI("RunTangoRGBDPoseData tangoRGBDData imageSize: %d, depthSize: %d", imageSize, depthSize);
+  LOGI("RunTangoRGBDPoseData tangoRGBDData imageSize: %d, depthSize: %d",
+       imageSize, depthSize);
 
   if (depthSize == numPixels * 2) {
-      LOGI("RunTangoRGBDPoseData tangoRGBDData depthSize no need to compress");
+    LOGI("RunTangoRGBDPoseData tangoRGBDData depthSize no need to compress");
     memcpy(&decompressionBufferDepth[0], depthReadBuffer, numPixels * 2);
   } else {
     LOGI("RunTangoRGBDPoseData tangoRGBDData depthSize compressed");
@@ -675,15 +676,15 @@ void RunTangoRGBDPoseData::getCore() {
       memset(&decompressionBufferImage[0], 0, numPixels * 4);
       // Error reading raw image data
     } else {
-      LOGI("RunTangoRGBDPoseData tangoRGBDData getCore: rgb  uncompress: numPixels * 4: "
+      LOGI("RunTangoRGBDPoseData tangoRGBDData getCore: rgb  uncompress: "
+           "numPixels * 4: "
            "%d, imageSize: %d, cv size: %d",
            numPixels * 4, imageSize,
            decodedImage.total() * decodedImage.elemSize());
- // decompressionBufferImage = (Bytef *)decodedImage.data;
-      memcpy(&decompressionBufferImage[0], decodedImage.data,
-             numPixels * 4);
-            //  memcpy(&decompressionBufferImage[0], decodedImage.data,
-            //         imageSize);
+      // decompressionBufferImage = (Bytef *)decodedImage.data;
+      memcpy(&decompressionBufferImage[0], decodedImage.data, numPixels * 4);
+      //  memcpy(&decompressionBufferImage[0], decodedImage.data,
+      //         imageSize);
     }
   } else {
     LOGI("RunTangoRGBDPoseData tangoRGBDData getCore: rgb  failed");
@@ -693,32 +694,32 @@ void RunTangoRGBDPoseData::getCore() {
   depth = (unsigned short *)decompressionBufferDepth;
 
   // LOGI("-------------------------------------------------");
-// for (int j= 0; j < 640*480; j++) {
-//   if (depth[j] != 0) {
-//        LOGI("depth ==== %d: %d", j, depth[j]);
-//   }
-// }
-//   for (int i = 0; i < 480*2; i++) {
-//     LOGI("depth ========= %u, %u, %u, %u, %u, %u, %u, %u,  %u, %u, %u, %u, %u, %u, %u, %u, ",
-//  depth[16*i],
-// depth[16*i+1],
-// depth[16*i+2],
-// depth[16*i+3],
-// depth[16*i+4],
-// depth[16*i+5],
-// depth[16*i+6],
-// depth[16*i+7],
-// depth[16*i+8],
-// depth[16*i+9],
-// depth[16*i+9],
-// depth[16*i+10],
-// depth[16*i+11],
-// depth[16*i+12],
-// depth[16*i+13],
-// depth[16*i+14]);
-//   }
+  // for (int j= 0; j < 640*480; j++) {
+  //   if (depth[j] != 0) {
+  //        LOGI("depth ==== %d: %d", j, depth[j]);
+  //   }
+  // }
+  //   for (int i = 0; i < 480*2; i++) {
+  //     LOGI("depth ========= %u, %u, %u, %u, %u, %u, %u, %u,  %u, %u, %u, %u,
+  //     %u, %u, %u, %u, ",
+  //  depth[16*i],
+  // depth[16*i+1],
+  // depth[16*i+2],
+  // depth[16*i+3],
+  // depth[16*i+4],
+  // depth[16*i+5],
+  // depth[16*i+6],
+  // depth[16*i+7],
+  // depth[16*i+8],
+  // depth[16*i+9],
+  // depth[16*i+9],
+  // depth[16*i+10],
+  // depth[16*i+11],
+  // depth[16*i+12],
+  // depth[16*i+13],
+  // depth[16*i+14]);
+  //   }
   // LOGI("==================================================");
-
 
   rgb = (unsigned char *)&decompressionBufferImage[0];
 

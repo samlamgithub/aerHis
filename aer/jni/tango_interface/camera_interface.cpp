@@ -152,7 +152,7 @@ void CameraInterface::register_loggerWidthHeight_callback(
 
 bool CameraInterface::initialise(JNIEnv *env, jobject caller_activity,
                                  jobject asset_manager) {
-countFrame.assignValue(0);
+  countFrame.assignValue(0);
   //  if (!ar_initialised_) {
   TangoErrorType ret = TangoService_initialize(env, caller_activity);
   if (ret != TANGO_SUCCESS) {
@@ -625,6 +625,11 @@ void CameraInterface::request_render() {
       jmethodID incrementCounter_ref =
           env->GetMethodID(activity_class, "incrementCounter", "()V");
       env->CallVoidMethod(activity_ref_, incrementCounter_ref);
+      countFrame.assignValue(0);
+    } else if (countFrame.getValue() == -1) {
+      jmethodID resetCounter_ref =
+          env->GetMethodID(activity_class, "resetCounter", "()V");
+      env->CallVoidMethod(activity_ref_, resetCounter_ref);
       countFrame.assignValue(0);
     }
     env->CallVoidMethod(activity_ref_, request_render_ref);

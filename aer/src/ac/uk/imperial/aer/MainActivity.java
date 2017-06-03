@@ -229,8 +229,8 @@ public class MainActivity extends Activity implements OnClickListener {
     //       float cpuUsage = 0;
     //
     //       try {
-    //         RandomAccessFile reader = new RandomAccessFile("/proc/stat", "r");
-    //         String load = reader.readLine();
+    //         RandomAccessFile reader = new RandomAccessFile("/proc/stat",
+    //         "r"); String load = reader.readLine();
     //
     //         String[] toks = load.split(" +"); // Split on one or
     //                                           // more spaces
@@ -255,7 +255,8 @@ public class MainActivity extends Activity implements OnClickListener {
     //                     Long.parseLong(toks[5]) + Long.parseLong(toks[6]) +
     //                     Long.parseLong(toks[7]) + Long.parseLong(toks[8]);
     //
-    //         cpuUsage = (float)(cpu2 - cpu1) / ((cpu2 + idle2) - (cpu1 + idle1));
+    //         cpuUsage = (float)(cpu2 - cpu1) / ((cpu2 + idle2) - (cpu1 +
+    //         idle1));
     //
     //       } catch (IOException ex) {
     //         ex.printStackTrace();
@@ -351,7 +352,8 @@ public class MainActivity extends Activity implements OnClickListener {
       }
       break;
     case tangoRGBDDataButtonID:
-      boolean b4 = JNIInterface.setRuntangoRGBDData(tangoRGBDDataButton.isChecked());
+      boolean b4 =
+          JNIInterface.setRuntangoRGBDData(tangoRGBDDataButton.isChecked());
       if (!b4) {
         String action = "start";
         if (!tangoRGBDDataButton.isChecked()) {
@@ -412,14 +414,29 @@ public class MainActivity extends Activity implements OnClickListener {
     }
   }
 
-  public void incrementCounter() {
-    // Log.v("elasticfusion info ", "incrementCounter in java called");
+  public void resetCounter() {
+    Log.v("elasticfusion info ", "resetCounter in java called");
     new Thread() {
       public void run() {
-          runOnUiThread(new Runnable() {
-            public void run() { counter++; counterView.setText("current frame count: " + Integer.toString(counter) + " "); }
-          });
-        }
+        runOnUiThread(new Runnable() {
+          public void run() { counterView.setText("current frame count: 0"); }
+        });
+      }
+    }.start();
+  }
+
+  public void incrementCounter() {
+    Log.v("elasticfusion info ", "incrementCounter in java called");
+    new Thread() {
+      public void run() {
+        runOnUiThread(new Runnable() {
+          public void run() {
+            counter++;
+            counterView.setText(
+                "current frame count: " + Integer.toString(counter) + " ");
+          }
+        });
+      }
     }.start();
     // try {
     //   counterThread.join();

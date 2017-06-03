@@ -423,6 +423,7 @@ bool Aer::aerStartWriting(bool startWriting) {
     LOGI("aer logger stop weriting in aerStartWriting");
     userMode.assignValue(-1);
     mylogger.stopWriting();
+    tango_interface::CameraInterface::countFrame.assignValue(-1);
     return true;
   } else {
     return false;
@@ -445,6 +446,7 @@ bool Aer::aerStartElasticFusion(bool startElasticFusion) {
     LOGI("myElasticFusion.stopElasticFusion();");
     userMode.assignValue(-1);
     myElasticFusion.stopElasticFusion();
+    tango_interface::CameraInterface::countFrame.assignValue(-1);
     return true;
   } else {
     return false;
@@ -462,6 +464,7 @@ bool Aer::aerStartRundataset(bool startRundataset) {
     runDatasetEF.stopRunDatasetEFDataSet();
     LOGI("runDatasetEF.stopRunDatasetEFDataSet();");
     userMode.assignValue(-1);
+    tango_interface::CameraInterface::countFrame.assignValue(-1);
     return true;
   } else {
     return false;
@@ -479,6 +482,7 @@ bool Aer::aerStartRuntangoRGBDData(bool startRuntangoRGBDData) {
     tangoRGBDData.stopRunTangoRGBDPoseData();
     LOGI("tangoRGBDData.stopRunTangoRGBDPoseData();");
     userMode.assignValue(-1);
+    tango_interface::CameraInterface::countFrame.assignValue(-1);
     return true;
   } else {
     return false;
@@ -496,6 +500,7 @@ bool Aer::aerRuntangoRGBDPoseData(bool startRuntangoRGBDPoseData) {
     tangoRGBDData.stopRunTangoRGBDPoseData();
     LOGI("tangoRGBDData.stopRunTangoRGBDPoseData();");
     userMode.assignValue(-1);
+    tango_interface::CameraInterface::countFrame.assignValue(-1);
     return true;
   } else {
     return false;
