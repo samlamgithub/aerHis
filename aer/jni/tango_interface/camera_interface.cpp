@@ -93,7 +93,7 @@ double CameraInterface::myCy = 0;
 uint32_t CameraInterface::max_vertex_count = 0;
 bool CameraInterface::is_service_connected_ = false;
 
-countFrame.assignValue(0);
+ThreadMutexObject<int> CameraInterface::countFrame;
 
 // Mylogger* CameraInterface::mylogger;
 
@@ -152,6 +152,7 @@ void CameraInterface::register_loggerWidthHeight_callback(
 
 bool CameraInterface::initialise(JNIEnv *env, jobject caller_activity,
                                  jobject asset_manager) {
+countFrame.assignValue(0);
   //  if (!ar_initialised_) {
   TangoErrorType ret = TangoService_initialize(env, caller_activity);
   if (ret != TANGO_SUCCESS) {

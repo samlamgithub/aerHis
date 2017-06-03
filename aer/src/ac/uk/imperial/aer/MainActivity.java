@@ -254,14 +254,6 @@ public class MainActivity extends Activity implements OnClickListener {
     //
     // infoThread.start();
 
-    counterThread = new Thread() {
-      public void run() {
-          runOnUiThread(new Runnable() {
-            public void run() { counter++; counterView.setText(" " + Integer.toString(counter) + " "); }
-          });
-        }
-    };
-
     //    addContentView(writingSwitcher, new
     //    LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
     //    addContentView(elasticFusionSwitcher, new
@@ -372,14 +364,20 @@ public class MainActivity extends Activity implements OnClickListener {
   }
 
   public void incrementCounter() {
-    Log.v("elasticfusion info ", "incrementCounter in java called");
-    counterThread.start();
-    try {
-      counterThread.join();
-    } catch (InterruptedException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
+    // Log.v("elasticfusion info ", "incrementCounter in java called");
+    new Thread() {
+      public void run() {
+          runOnUiThread(new Runnable() {
+            public void run() { counter++; counterView.setText(" " + Integer.toString(counter) + " "); }
+          });
+        }
+    }.start();
+    // try {
+    //   counterThread.join();
+    // } catch (InterruptedException e) {
+    //   // TODO Auto-generated catch block
+    //   e.printStackTrace();
+    // }
   }
 
   public void requestRender() { mGLView.requestRender(); }
