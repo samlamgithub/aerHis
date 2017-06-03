@@ -93,7 +93,7 @@ double CameraInterface::myCy = 0;
 uint32_t CameraInterface::max_vertex_count = 0;
 bool CameraInterface::is_service_connected_ = false;
 
-incrementCount.assignValue(0);
+countFrame.assignValue(0);
 
 // Mylogger* CameraInterface::mylogger;
 
@@ -184,7 +184,7 @@ void CameraInterface::destroy() {
 
 void CameraInterface::incrementCounter() {
   LOGI("CameraInterface: incrementCounter called");
-  latestBufferIndex.assignValue(1);
+  countFrame.assignValue(1);
 }
 
 bool CameraInterface::connect() {
@@ -620,16 +620,15 @@ void CameraInterface::request_render() {
     jclass activity_class = env->GetObjectClass(activity_ref_);
     jmethodID request_render_ref =
         env->GetMethodID(activity_class, "requestRender", "()V");
-    if (incrementCount.getValue() == 1) {
+    if (countFrame.getValue() == 1) {
       jmethodID incrementCounter_ref =
           env->GetMethodID(activity_class, "incrementCounter", "()V");
       env->CallVoidMethod(activity_ref_, incrementCounter_ref);
-      incrementCount.assignValue(0);
+      countFrame.assignValue(0);
     }
     env->CallVoidMethod(activity_ref_, request_render_ref);
+    env->DeleteLocalRef(activity_class);
   }
-  env->DeleteLocalRef(activity_class);
-}
 }
 //
 //// ARToolkit internal functions

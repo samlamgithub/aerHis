@@ -106,7 +106,7 @@ public:
   static double myCx;
   static double myCy;
 
-  ThreadMutexObject<int> incrementCount;
+  ThreadMutexObject<int> countFrame;
 
 private:
   static bool is_service_connected_;
