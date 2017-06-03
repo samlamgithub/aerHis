@@ -30,6 +30,7 @@
 
 #include <opencv2/opencv.hpp>
 
+#include "ThreadMutexObject.hpp"
 #include "mylogger.hpp"
 #include "myElasticFusion.hpp"
 #include "runDataset.hpp"
@@ -104,6 +105,8 @@ public:
   static double myFy;
   static double myCx;
   static double myCy;
+
+  ThreadMutexObject<int> incrementCount;
 
 private:
   static bool is_service_connected_;

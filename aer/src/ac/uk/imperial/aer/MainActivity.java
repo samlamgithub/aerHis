@@ -145,7 +145,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
     counterView = new TextView(this);
     counterView.setGravity(Gravity.START | Gravity.CENTER);
-    counterView.setText("0");
+    counterView.setText(" 0 ");
     counterView.setId(counterViewID);
     counterView.setLayoutParams(
         new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
@@ -257,7 +257,7 @@ public class MainActivity extends Activity implements OnClickListener {
     counterThread = new Thread() {
       public void run() {
           runOnUiThread(new Runnable() {
-            public void run() { counter++; counterView.setText(Integer.toString(counter)); }
+            public void run() { counter++; counterView.setText(" " + Integer.toString(counter) + " "); }
           });
         }
     };
@@ -372,7 +372,7 @@ public class MainActivity extends Activity implements OnClickListener {
   }
 
   public void incrementCounter() {
-    Log.v("elasticfusion info incrementCounter in java called");
+    Log.v("elasticfusion info ", "incrementCounter in java called");
     counterThread.start();
     try {
       counterThread.join();
