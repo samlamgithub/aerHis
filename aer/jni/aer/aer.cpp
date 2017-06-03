@@ -468,6 +468,40 @@ bool Aer::aerStartRundataset(bool startRundataset) {
   }
 }
 
+bool Aer::aerStartRuntangoRGBDData(bool startRuntangoRGBDData) {
+  LOGI("AER ElasticFusion start tango RGBD data called: %d", startRuntangoRGBDData);
+  if (startRuntangoRGBDData && (userMode.getValue() == -1)) {
+    LOGI("tangoRGBDData.startRunTangoRGBDPoseData(false);");
+    userMode.assignValue(aer::TANGORGBDDATAMODE);
+    tangoRGBDData.startRunTangoRGBDPoseData(false);
+    return true;
+  } else if (!startRuntangoRGBDData && (userMode.getValue() == aer::TANGORGBDDATAMODE)) {
+    tangoRGBDData.stopRunTangoRGBDPoseData();
+    LOGI("tangoRGBDData.stopRunTangoRGBDPoseData();");
+    userMode.assignValue(-1);
+    return true;
+  } else {
+    return false;
+  }
+}
+
+bool Aer::aerRuntangoRGBDPoseData(bool startRuntangoRGBDPoseData) {
+  LOGI("AER ElasticFusion start tango RGBD pose data called: %d", startRuntangoRGBDPoseData);
+  if (startRuntangoRGBDPoseData && (userMode.getValue() == -1)) {
+    LOGI("tangoRGBDData.startRunTangoRGBDPoseData(true);");
+    userMode.assignValue(aer::TANGORGBDPOSEDATAMODE);
+    tangoRGBDData.startRunTangoRGBDPoseData(true);
+    return true;
+  } else if (!startRuntangoRGBDPoseData && (userMode.getValue() == aer::TANGORGBDPOSEDATAMODE)) {
+    tangoRGBDData.stopRunTangoRGBDPoseData();
+    LOGI("tangoRGBDData.stopRunTangoRGBDPoseData();");
+    userMode.assignValue(-1);
+    return true;
+  } else {
+    return false;
+  }
+}
+
 // Save elasticFusion Ply file
 bool Aer::savePlyFile() {
   LOGI("AER Elasticfusion setting width height callback");
@@ -479,6 +513,10 @@ bool Aer::savePlyFile() {
   } else if (userMode.getValue() == aer::EFMODE) {
     myElasticFusion.savePly();
     LOGI("myElasticFusion.savePly();");
+    return true;
+  } else if (userMode.getValue() == aer::TANGORGBDDATAMODE || userMode.getValue() == aer::TANGORGBDPOSEDATAMODE) {
+    tangoRGBDData.savePly();
+    LOGI("tangoRGBDData.savePly();");
     return true;
   } else {
     return false;

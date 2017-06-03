@@ -82,12 +82,17 @@ public class MainActivity extends Activity implements OnClickListener {
   private TextView infoView;
   private static final int infoViewID = 9004;
 
-  Thread counterThread;
-  int counter = 0;
+  private int counter = 0;
   private TextView counterView;
   private static final int counterViewID = 9005;
 
-  String text = "";
+  private ToggleButton tangoRGBDDataButton;
+  private static final int tangoRGBDDataButtonID = 9006;
+
+  private ToggleButton tangoRGBDPoseDataButton;
+  private static final int tangoRGBDPoseDataButtonID = 9007;
+
+  private String text = "";
   Thread infoThread;
 
   private boolean mIsCameraConnected = false;
@@ -145,7 +150,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
     counterView = new TextView(this);
     counterView.setGravity(Gravity.START | Gravity.CENTER);
-    counterView.setText(" 0 ");
+    counterView.setText("current frame count: 0 ");
     counterView.setId(counterViewID);
     counterView.setLayoutParams(
         new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
@@ -167,12 +172,32 @@ public class MainActivity extends Activity implements OnClickListener {
     runDataSetButton.setChecked(false);
     runDataSetButton.setOnClickListener(this);
 
+    tangoRGBDDataButton = new ToggleButton(this);
+    tangoRGBDDataButton.setTextOn("Tap to stop tangoRGBDData");
+    tangoRGBDDataButton.setBackgroundColor(Color.WHITE);
+    tangoRGBDDataButton.setTextColor(Color.BLACK);
+    tangoRGBDDataButton.setId(tangoRGBDDataButtonID);
+    tangoRGBDDataButton.setTextOff("Tap to Run tangoRGBDData");
+    tangoRGBDDataButton.setChecked(false);
+    tangoRGBDDataButton.setOnClickListener(this);
+
+    tangoRGBDPoseDataButton = new ToggleButton(this);
+    tangoRGBDPoseDataButton.setTextOn("Tap to stop tangoRGBDPoseData");
+    tangoRGBDPoseDataButton.setBackgroundColor(Color.WHITE);
+    tangoRGBDPoseDataButton.setTextColor(Color.BLACK);
+    tangoRGBDPoseDataButton.setId(tangoRGBDPoseDataButtonID);
+    tangoRGBDPoseDataButton.setTextOff("Tap to Run tangoRGBDPoseData");
+    tangoRGBDPoseDataButton.setChecked(false);
+    tangoRGBDPoseDataButton.setOnClickListener(this);
+
     LinearLayout ll = new LinearLayout(this);
     ll.setBackgroundColor(Color.WHITE);
     ll.setOrientation(LinearLayout.HORIZONTAL);
     ll.addView(writingSwitcher);
     ll.addView(elasticFusionSwitcher);
     ll.addView(runDataSetButton);
+    ll.addView(tangoRGBDDataButton);
+    ll.addView(tangoRGBDPoseDataButton);
     ll.addView(savePlybutton);
     ll.addView(infoView);
     ll.addView(counterView);
@@ -325,9 +350,33 @@ public class MainActivity extends Activity implements OnClickListener {
         runDataSetButton.setChecked(!runDataSetButton.isChecked());
       }
       break;
-    case savePlybuttonID:
-      boolean b4 = JNIInterface.savePly();
+    case tangoRGBDDataButtonID:
+      boolean b4 = JNIInterface.setRuntangoRGBDData(tangoRGBDDataButton.isChecked());
       if (!b4) {
+        String action = "start";
+        if (!tangoRGBDDataButton.isChecked()) {
+          action = "stop";
+        }
+        popError("Unable to " + action + " run tangoRGBDData.");
+        tangoRGBDDataButton.setChecked(!tangoRGBDDataButton.isChecked());
+      }
+      break;
+    case tangoRGBDPoseDataButtonID:
+      boolean b5 = JNIInterface.setRuntangoRGBDPoseData(
+          tangoRGBDPoseDataButton.isChecked());
+      if (!b5) {
+        String action = "start";
+        if (!tangoRGBDPoseDataButton.isChecked()) {
+          action = "stop";
+        }
+        popError("Unable to " + action + " run tangoRGBDPoseData.");
+        tangoRGBDPoseDataButton.setChecked(
+            !tangoRGBDPoseDataButton.isChecked());
+      }
+      break;
+    case savePlybuttonID:
+      boolean b6 = JNIInterface.savePly();
+      if (!b5) {
         popError("Unable to savePly");
       }
       break;
@@ -368,7 +417,7 @@ public class MainActivity extends Activity implements OnClickListener {
     new Thread() {
       public void run() {
           runOnUiThread(new Runnable() {
-            public void run() { counter++; counterView.setText(" " + Integer.toString(counter) + " "); }
+            public void run() { counter++; counterView.setText("current frame count: " + Integer.toString(counter) + " "); }
           });
         }
     }.start();

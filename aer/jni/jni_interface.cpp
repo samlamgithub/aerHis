@@ -72,7 +72,6 @@ Java_ac_uk_imperial_aer_JNIInterface_cameraRender(JNIEnv*,
 //  tango_interface::ImuInterface::resume();
 //}
 
-
 JNIEXPORT jboolean JNICALL
 Java_ac_uk_imperial_aer_JNIInterface_setWriting(
 		JNIEnv*, jobject, jboolean startWriting) {
@@ -85,16 +84,28 @@ Java_ac_uk_imperial_aer_JNIInterface_setElasticFusion(
 	return app.aerStartElasticFusion(startElasticFusion);
 }
 
-//Toogle Run dataset button
-JNIEXPORT jboolean JNICALL
-Java_ac_uk_imperial_aer_JNIInterface_setRunDataSet(
-		JNIEnv*, jobject, jboolean startRundataset) {
+// Toogle Run dataset button
+JNIEXPORT jboolean JNICALL Java_ac_uk_imperial_aer_JNIInterface_setRunDataSet(
+    JNIEnv *, jobject, jboolean startRundataset) {
   return app.aerStartRundataset(startRundataset);
 }
 
+// Toogle Run Tango RGBD data button
 JNIEXPORT jboolean JNICALL
-Java_ac_uk_imperial_aer_JNIInterface_savePly(
-		JNIEnv*, jobject) {
+Java_ac_uk_imperial_aer_JNIInterface_setRuntangoRGBDData(
+    JNIEnv *, jobject, jboolean startRuntangoRGBDData) {
+  return app.aerStartRuntangoRGBDData(startRuntangoRGBDData);
+}
+
+// Toogle Run Tango RGBD Pose data button
+JNIEXPORT jboolean JNICALL
+Java_ac_uk_imperial_aer_JNIInterface_setRuntangoRGBDPoseData(
+    JNIEnv *, jobject, jboolean startRuntangoRGBDPoseData) {
+  return app.aerRuntangoRGBDPoseData(startRuntangoRGBDPoseData);
+}
+
+JNIEXPORT jboolean JNICALL
+Java_ac_uk_imperial_aer_JNIInterface_savePly(JNIEnv *, jobject) {
   return app.savePlyFile();
 }
 

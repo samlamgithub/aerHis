@@ -515,10 +515,13 @@ void MyElasticFusion::runEF() {
   }
   //============================
   LOGI("MyElasticFusion runEF elasticfusion Initialising ... myFx: %f, myFy: %f, myCx: %f, myCy: %f", myFx, myFy, myCx, myCy);
+
   Resolution::getInstance(depth_image_width, depth_image_height);
   Intrinsics::getInstance(myFx, myFy, myCx, myCy);
+
   LOGI("MyElasticFusion runEF elasticfusion Initialising done ...");
   LOGI("MyElasticFusion runEF elasticfusion Setting parameters...");
+
   float confidence = 10.0f;   // fusion的confidence阈值
   float depth = 12.0f;         //去掉depth大于某个阈值的帧
   float icp = 10.0f;          // icp的阈值
@@ -541,6 +544,7 @@ void MyElasticFusion::runEF() {
   bool so3 = 0;             // SO(3) pre-alignment in tracking：不开启
   bool frameToFrameRGB = 0; //只做rgb图像的tracking：不开启
   int timestamp = 0;
+
   LOGI("MyElasticFusion runEF elasticfusion Setting parameters done.");
   LOGI("MyElasticFusion runEF elasticfusion Building eFusion...");
   // pangolin::Params windowParams;
@@ -550,6 +554,7 @@ void MyElasticFusion::runEF() {
 
   glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
   glPixelStorei(GL_PACK_ALIGNMENT, 1);
+
   glEnable(GL_DEPTH_TEST);
   glDepthMask(GL_TRUE);
   glDepthFunc(GL_LESS);
@@ -725,15 +730,17 @@ void MyElasticFusion::runEF() {
     check_gl_errorEF();
     eFusion.processFrame(rgbImageForEF, depthForEF, timeStampleForEF,
                          incrementalTrans);
+    LOGI("MyElasticFusion Processing frames done.");
     *previousPose = *currentPose;
-    delete &trans;
+    // delete &trans;
     delete incrementalTrans;
     delete currentPose;
     // eFusion.processFrame(rgb, dep, timestamp);
     check_gl_errorEF();
     LOGI("MyElasticFusion Processing frames ready done.");
-    check_gl_errorEF();
     Eigen::Matrix4f currPose = eFusion.getCurrPose();
+    check_gl_errorEF();
+    LOGI("MyElasticFusion eFusion.getCurrPose()");
     posesEigen.push_back(currPose);
     Eigen::IOFormat CleanFmt(4, 0, ", ", "\n", "[", "]");
     std::stringstream ss;

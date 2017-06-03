@@ -34,6 +34,12 @@ public class JNIInterface {
   // Toogle Run dataset button
   public static native boolean setRunDataSet(boolean startRundataset);
 
+  // Toogle Run Tango RGBD data button
+  public static native boolean setRuntangoRGBDData(boolean startRuntangoRGBDData);
+
+  // Toogle Run Tango RGBD Pose data button
+  public static native boolean setRuntangoRGBDPoseData(boolean startRuntangoRGBDPoseData);
+
   // Save ply file button
   public static native boolean savePly();
 }
