@@ -655,9 +655,9 @@ void RunTangoRGBDPoseData::getCore() {
                (const Bytef *)depthReadBuffer, depthSize);
   }
 
-  if (imageSize == numPixels * 3) {
+  if (imageSize == numPixels * 4) {
     LOGI("RunTangoRGBDPoseData tangoRGBDData getCore: rgb not compressed");
-    memcpy(&decompressionBufferImage[0], imageReadBuffer, numPixels * 3);
+    memcpy(&decompressionBufferImage[0], imageReadBuffer, numPixels * 4);
   } else if (imageSize > 0) {
     LOGI("RunTangoRGBDPoseData tangoRGBDData getCore: rgb  compressed");
     // jpeg.readData(imageReadBuffer, imageSize,
@@ -667,27 +667,27 @@ void RunTangoRGBDPoseData::getCore() {
     //
     //
     // // Create a Size(1, nSize) Mat object of 8-bit, single-byte elements
-    cv::Mat rawData = cv::Mat(1, numPixels * 3, CV_8UC1, imageReadBuffer);
+    cv::Mat rawData = cv::Mat(1, numPixels * 4, CV_8UC1, imageReadBuffer);
     //
     cv::Mat decodedImage = cv::imdecode(rawData, 1 /*, flags */);
     if (decodedImage.data == NULL) {
       LOGI("RunTangoRGBDPoseData decodedImage.data == NULL");
-      memset(&decompressionBufferImage[0], 0, numPixels * 3);
+      memset(&decompressionBufferImage[0], 0, numPixels * 4);
       // Error reading raw image data
     } else {
-      LOGI("RunTangoRGBDPoseData tangoRGBDData getCore: rgb  uncompress: numPixels * 3: "
+      LOGI("RunTangoRGBDPoseData tangoRGBDData getCore: rgb  uncompress: numPixels * 4: "
            "%d, imageSize: %d, cv size: %d",
-           numPixels * 3, imageSize,
+           numPixels * 4, imageSize,
            decodedImage.total() * decodedImage.elemSize());
  // decompressionBufferImage = (Bytef *)decodedImage.data;
       memcpy(&decompressionBufferImage[0], decodedImage.data,
-             numPixels * 3);
+             numPixels * 4);
             //  memcpy(&decompressionBufferImage[0], decodedImage.data,
             //         imageSize);
     }
   } else {
     LOGI("RunTangoRGBDPoseData tangoRGBDData getCore: rgb  failed");
-    memset(&decompressionBufferImage[0], 0, numPixels * 3);
+    memset(&decompressionBufferImage[0], 0, numPixels * 4);
   }
 
   depth = (unsigned short *)decompressionBufferDepth;
