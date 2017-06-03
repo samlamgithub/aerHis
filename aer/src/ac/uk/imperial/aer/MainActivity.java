@@ -376,7 +376,7 @@ public class MainActivity extends Activity implements OnClickListener {
       break;
     case savePlybuttonID:
       boolean b6 = JNIInterface.savePly();
-      if (!b5) {
+      if (!b6) {
         popError("Unable to savePly");
       }
       break;

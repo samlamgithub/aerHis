@@ -197,7 +197,7 @@ LOCAL_CFLAGS += -std=c++11 -O3 -g -D__ANDROID__ -DANDROID -pthread -DLOAD__EXT_g
 LOCAL_SRC_FILES += jni_interface.cpp \
                           tango_interface/logger.cpp \
                           tango_interface/mylogger.cpp \
-													GroundTruthOdometry.cpp \
+													tango_interface/GroundTruthOdometry.cpp \
 													tango_interface/runDataset.cpp \
 													tango_interface/runTangoRGBDPoseData.cpp \
                           tango_interface/gui_interface.cpp \
