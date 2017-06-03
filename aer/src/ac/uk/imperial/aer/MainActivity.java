@@ -257,8 +257,7 @@ public class MainActivity extends Activity implements OnClickListener {
     counterThread = new Thread() {
       public void run() {
           runOnUiThread(new Runnable() {
-            counter++;
-            public void run() { counter.setText(String.valueOf(counter)); }
+            public void run() { counter++; counterView.setText(Integer.toString(counter)); }
           });
         }
     };
@@ -375,6 +374,12 @@ public class MainActivity extends Activity implements OnClickListener {
   public void incrementCounter() {
     Log.v("elasticfusion info incrementCounter in java called");
     counterThread.start();
+    try {
+      counterThread.join();
+    } catch (InterruptedException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
   }
 
   public void requestRender() { mGLView.requestRender(); }
