@@ -626,7 +626,7 @@ void MyElasticFusion::runEF() {
       if (err == TANGO_ERROR) {
         LOGE("CameraInterface MyElasticFusion TANGO_ERROR");
       }
-      return;
+      continue;
     }
     //	  LOGI("CameraInterface 1 Position: %f, %f, %f. Orientation: %f, %f, %f,
     //%f",
@@ -645,7 +645,7 @@ void MyElasticFusion::runEF() {
     //	return;
     if (std::isnan(pose_color_image_t1_T_depth_image_t0.translation[0])) {
       LOGI("CameraInterface MyElasticFusion Position: is Nan");
-      return;
+      continue;
     }
     //	  double x =  pose_color_image_t1_T_depth_image_t0.orientation[0];
     //	  double y =  pose_color_image_t1_T_depth_image_t0.orientation[1];

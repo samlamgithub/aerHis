@@ -425,7 +425,7 @@ void Mylogger::writeData() {
       if (err == TANGO_ERROR) {
         LOGE("CameraInterface TANGO_ERROR");
       }
-      return;
+      continue;
     }
     //	  LOGI("CameraInterface 1 Position: %f, %f, %f. Orientation: %f, %f, %f,
     //%f",
@@ -444,7 +444,7 @@ void Mylogger::writeData() {
     //	return;
     if (std::isnan(pose_color_image_t1_T_depth_image_t0.translation[0])) {
       LOGI("CameraInterface Position: is Nan");
-      return;
+      continue;
     }
     //	  double x =  pose_color_image_t1_T_depth_image_t0.orientation[0];
     //	  double y =  pose_color_image_t1_T_depth_image_t0.orientation[1];
