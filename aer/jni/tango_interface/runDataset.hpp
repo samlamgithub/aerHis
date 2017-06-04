@@ -58,7 +58,7 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/thread.hpp>
 #include <boost/thread/condition_variable.hpp>
-// #include "JPEGLoader.hpp"
+#include "JPEGLoader.hpp"
 
 #include <EGL/egl.h>
 #include <EGL/eglext.h>

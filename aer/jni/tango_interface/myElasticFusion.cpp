@@ -123,7 +123,7 @@ void MyElasticFusion::setCamWidthAndheight(int width, int height, double fx,
        ", myImageSize: %d",
        depth_image_width, depth_image_height, fx, fy, cx, cy, myImageSize);
   // int imageSize = width * height;
-  depth_compress_buf_size = myImageSize * sizeof(int16_t) * 3;
+  depth_compress_buf_size = myImageSize * sizeof(int16_t) * 4;
   depth_compress_buf = (unsigned char *)malloc(depth_compress_buf_size);
   // encodedImage = 0;
   runningElasticFusion.assignValue(false);
@@ -142,7 +142,7 @@ void MyElasticFusion::setCamWidthAndheight(int width, int height, double fx,
     // 2, sizeof(unsigned char));
     float *newDepth = (float *)calloc(4 * maxVerCount, sizeof(float));
     unsigned char *newImage =
-        (unsigned char *)calloc(myImageSize * 3, sizeof(unsigned char));
+        (unsigned char *)calloc(myImageSize * 4, sizeof(unsigned char));
     //	        frameBuffers[i] = std::pair<std::pair<unsigned char *, unsigned
     // char *>, int64_t>(std::pair<unsigned char *, unsigned char *>(newDepth,
     // newImage), 0);
@@ -218,7 +218,7 @@ void MyElasticFusion::rgbdCallback(unsigned char *image,
   frameBuffers[bufferIndex].pointCloudNumpoints = pointcloud_buffer->num_points;
   memcpy(frameBuffers[bufferIndex].pointCloudPoints, pointcloud_buffer->points,
          (pointcloud_buffer->num_points) * 4 * sizeof(float));
-  int rgbPixeldatacount = myImageSize * 3;
+  int rgbPixeldatacount = myImageSize * 4;
   memcpy(frameBuffers[bufferIndex].image, image, rgbPixeldatacount);
   frameBuffers[bufferIndex].colorTimeStamp = color_timestamp;
   frameBuffers[bufferIndex].m_lastTimestamp = m_lastFrameTime;
