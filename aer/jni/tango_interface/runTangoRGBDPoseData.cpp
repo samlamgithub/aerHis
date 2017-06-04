@@ -111,7 +111,7 @@ void RunTangoRGBDPoseData::startRunTangoRGBDPoseData(bool hasPose) {
   LOGI("RunTangoRGBDPoseData startRunTangoRGBDPoseData running hasPose: %d", hasPose);
   runningTangoRGBDPoseData.assignValue(true);
   RunTangoRGBDPoseDataThread =
-      new boost::thread(boost::bind(&RunTangoRGBDPoseData::runEF, hasPose, this));
+      new boost::thread(boost::bind(&RunTangoRGBDPoseData::runEF,this, hasPose));
   LOGI("RunTangoRGBDPoseData startRunTangoRGBDPoseData running done");
 }
 

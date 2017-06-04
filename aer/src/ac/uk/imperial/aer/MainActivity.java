@@ -119,21 +119,21 @@ public class MainActivity extends Activity implements OnClickListener {
                                              LayoutParams.MATCH_PARENT));
     // add Toggle button
     writingSwitcher = new ToggleButton(this);
-    writingSwitcher.setTextOn("Tap to Stop writing");
+    writingSwitcher.setTextOn("Stop writing");
     writingSwitcher.setBackgroundColor(Color.WHITE);
     writingSwitcher.setTextColor(Color.BLACK);
     writingSwitcher.setId(writingSwitcherID);
-    writingSwitcher.setTextOff("Tap to Start writing");
+    writingSwitcher.setTextOff("Start writing");
     writingSwitcher.setChecked(false);
     //    writingSwitcher.setWidth(250);
     writingSwitcher.setOnClickListener(this);
 
     elasticFusionSwitcher = new ToggleButton(this);
-    elasticFusionSwitcher.setTextOn("Tap to Stop ElasticFusion");
+    elasticFusionSwitcher.setTextOn("Stop ElasticFusion");
     elasticFusionSwitcher.setBackgroundColor(Color.WHITE);
     elasticFusionSwitcher.setTextColor(Color.BLACK);
     elasticFusionSwitcher.setId(elasticFusionSwitcherID);
-    elasticFusionSwitcher.setTextOff("Tap to Start ElasticFusion");
+    elasticFusionSwitcher.setTextOff("Start ElasticFusion");
     elasticFusionSwitcher.setChecked(false);
     //    elasticFusionSwitcher.setWidth(350);
     elasticFusionSwitcher.setOnClickListener(this);
@@ -164,29 +164,29 @@ public class MainActivity extends Activity implements OnClickListener {
     savePlybutton.setOnClickListener(this);
 
     runDataSetButton = new ToggleButton(this);
-    runDataSetButton.setTextOn("Tap to stop Run dataset");
+    runDataSetButton.setTextOn("stop Run dataset");
     runDataSetButton.setBackgroundColor(Color.WHITE);
     runDataSetButton.setTextColor(Color.BLACK);
     runDataSetButton.setId(runDataSetbuttonID);
-    runDataSetButton.setTextOff("Tap to Run dataset");
+    runDataSetButton.setTextOff("Run dataset");
     runDataSetButton.setChecked(false);
     runDataSetButton.setOnClickListener(this);
 
     tangoRGBDDataButton = new ToggleButton(this);
-    tangoRGBDDataButton.setTextOn("Tap to stop tangoRGBDData");
+    tangoRGBDDataButton.setTextOn("stop tangoRGBDData");
     tangoRGBDDataButton.setBackgroundColor(Color.WHITE);
     tangoRGBDDataButton.setTextColor(Color.BLACK);
     tangoRGBDDataButton.setId(tangoRGBDDataButtonID);
-    tangoRGBDDataButton.setTextOff("Tap to Run tangoRGBDData");
+    tangoRGBDDataButton.setTextOff("Run tangoRGBDData");
     tangoRGBDDataButton.setChecked(false);
     tangoRGBDDataButton.setOnClickListener(this);
 
     tangoRGBDPoseDataButton = new ToggleButton(this);
-    tangoRGBDPoseDataButton.setTextOn("Tap to stop tangoRGBDPoseData");
+    tangoRGBDPoseDataButton.setTextOn("stop tangoRGBDPoseData");
     tangoRGBDPoseDataButton.setBackgroundColor(Color.WHITE);
     tangoRGBDPoseDataButton.setTextColor(Color.BLACK);
     tangoRGBDPoseDataButton.setId(tangoRGBDPoseDataButtonID);
-    tangoRGBDPoseDataButton.setTextOff("Tap to Run tangoRGBDPoseData");
+    tangoRGBDPoseDataButton.setTextOff("Run tangoRGBDPoseData");
     tangoRGBDPoseDataButton.setChecked(false);
     tangoRGBDPoseDataButton.setOnClickListener(this);
 
@@ -199,7 +199,7 @@ public class MainActivity extends Activity implements OnClickListener {
     ll.addView(tangoRGBDDataButton);
     ll.addView(tangoRGBDPoseDataButton);
     ll.addView(savePlybutton);
-    ll.addView(infoView);
+    // ll.addView(infoView);
     ll.addView(counterView);
 
     LinearLayout.LayoutParams layoutParams =

@@ -24,6 +24,7 @@
 #include <../elasticfusion/Utils/Img.h>
 #include <../elasticfusion/Utils/Resolution.h>
 #include <../elasticfusion/Utils/Stopwatch.h>
+
 #include <tango_interface/camera_interface.hpp>
 
 #include "ThreadMutexObject.hpp"

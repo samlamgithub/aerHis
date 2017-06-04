@@ -65,7 +65,7 @@ inline const char *glCheckFramebufferStatusDS() {
 
 inline void check_gl_errorDS() {
   if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
-      LOGI("frame buffer error: %s", glCheckFramebufferStatusDS());
+    LOGI("frame buffer error: %s", glCheckFramebufferStatusDS());
   }
   for (GLint error = glGetError(); error; error = glGetError()) {
     LOGI("check_gl_error run dataset CheckGlDieOnError %s after "
@@ -260,7 +260,7 @@ void RunDatasetEF::runEF() {
   LOGI("RunDatasetEF RunDatasetEF Initialising done ...");
   LOGI("RunDatasetEF RunDatasetEF Setting parameters...");
   float confidence = 10.0f;   // fusion的confidence阈值
-  float depthThre = 12.0f;     //去掉depth大于某个阈值的帧
+  float depthThre = 12.0f;    //去掉depth大于某个阈值的帧
   float icp = 10.0f;          // icp的阈值
   float icpErrThresh = 5e-05; // icp错误阈值
   float covThresh = 1e-05;
@@ -343,11 +343,13 @@ void RunDatasetEF::runEF() {
       //  Ferns keyfern = eFusion.getFerns();//关键帧dataset
 
       int ld_num = eFusion.getDeforms(); //局部deformations的数量
-LOGI("RunDatasetEF Log processing result eFusion.getDeforms(): %d ", ld_num);
+      LOGI("RunDatasetEF Log processing result eFusion.getDeforms(): %d ",
+           ld_num);
       // Deformation ld = eFusion.getLocalDeformation(); //局部deformation图
 
       int gd_num = eFusion.getFernDeforms(); //全局deformations的数量
-  LOGI("RunDatasetEF Log processing result eFusion.getFernDeforms(): %d ", gd_num);
+      LOGI("RunDatasetEF Log processing result eFusion.getFernDeforms(): %d ",
+           gd_num);
       // GlobalModel gm = eFusion.getGlobalModel(); //全局deformation model:
 
       bool isLost = eFusion.getLost();
@@ -368,10 +370,10 @@ LOGI("RunDatasetEF Log processing result eFusion.getDeforms(): %d ", ld_num);
            "eFusion.getLocalDeformation().getGraph().size(): totalNodes : %d",
            totalNodes);
 
-           int totalFerns = eFusion.getFerns().frames.size();
-           LOGI("RunDatasetEF Log processing result "
-                "eFusion.getFerns().frames.size(): totalFerns : %d",
-                totalFerns);
+      int totalFerns = eFusion.getFerns().frames.size();
+      LOGI("RunDatasetEF Log processing result "
+           "eFusion.getFerns().frames.size(): totalFerns : %d",
+           totalFerns);
 
       int totalDefs = eFusion.getDeforms();
       LOGI("RunDatasetEF Log processing result "
@@ -402,7 +404,8 @@ LOGI("RunDatasetEF Log processing result eFusion.getDeforms(): %d ", ld_num);
 
         float confidenceThreshold = eFusion.getConfidenceThreshold();
 
-        LOGI("RunDatasetEF start to save frame. 0 confidenceThreshold: %f", confidenceThreshold);
+        LOGI("RunDatasetEF start to save frame. 0 confidenceThreshold: %f",
+             confidenceThreshold);
 
         unsigned int lastCount = CloudPoint_num;
 
@@ -422,7 +425,8 @@ LOGI("RunDatasetEF Log processing result eFusion.getDeforms(): %d ", ld_num);
         fs.open(plyFilename.c_str());
         // File* plyFile = fopen(plyFilename.c_str(),"wb+");
         if (fs == NULL) {
-          LOGE("RunDatasetEF There was a problem opening the ply file: %s, error",
+          LOGE("RunDatasetEF There was a problem opening the ply file: %s, "
+               "error",
                plyFilename.c_str());
         }
 
@@ -521,7 +525,8 @@ LOGI("RunDatasetEF Log processing result eFusion.getDeforms(): %d ", ld_num);
             countWriteNum++;
           }
         }
-        LOGI("RunDatasetEF start to save frame 6. countWriteNum: %d", countWriteNum);
+        LOGI("RunDatasetEF start to save frame 6. countWriteNum: %d",
+             countWriteNum);
         // Close file
         fs.close();
         LOGI("RunDatasetEF start to save frame. 7");
@@ -533,6 +538,7 @@ LOGI("RunDatasetEF Log processing result eFusion.getDeforms(): %d ", ld_num);
 
       LOGI("RunDatasetEF: processing++");
       processedFrameCount++;
+      tango_interface::CameraInterface::incrementCounter();
       LOGI("RunDatasetEF: processed one frame : %d", processedFrameCount);
     }
 
@@ -584,10 +590,11 @@ void RunDatasetEF::getCore() {
     assert(fread(imageReadBuffer, imageSize, 1, fp));
   }
 
-  LOGI("RunDatasetEF run Dataset imageSize: %d, depthSize: %d", imageSize, depthSize);
+  LOGI("RunDatasetEF run Dataset imageSize: %d, depthSize: %d", imageSize,
+       depthSize);
 
   if (depthSize == numPixels * 2) {
-      LOGI("RunDatasetEF run Dataset depthSize no need to compress");
+    LOGI("RunDatasetEF run Dataset depthSize no need to compress");
     memcpy(&decompressionBufferDepth[0], depthReadBuffer, numPixels * 2);
   } else {
     LOGI("RunDatasetEF run Dataset depthSize compressed");
@@ -620,11 +627,10 @@ void RunDatasetEF::getCore() {
            "%d, imageSize: %d, cv size: %d",
            numPixels * 3, imageSize,
            decodedImage.total() * decodedImage.elemSize());
- // decompressionBufferImage = (Bytef *)decodedImage.data;
-      memcpy(&decompressionBufferImage[0], decodedImage.data,
-             numPixels * 3);
-            //  memcpy(&decompressionBufferImage[0], decodedImage.data,
-            //         imageSize);
+      // decompressionBufferImage = (Bytef *)decodedImage.data;
+      memcpy(&decompressionBufferImage[0], decodedImage.data, numPixels * 3);
+      //  memcpy(&decompressionBufferImage[0], decodedImage.data,
+      //         imageSize);
     }
   } else {
     LOGI("RunDatasetEF run Dataset getCore: rgb  failed");
@@ -634,32 +640,32 @@ void RunDatasetEF::getCore() {
   depth = (unsigned short *)decompressionBufferDepth;
 
   // LOGI("-------------------------------------------------");
-// for (int j= 0; j < 640*480; j++) {
-//   if (depth[j] != 0) {
-//        LOGI("depth ==== %d: %d", j, depth[j]);
-//   }
-// }
-//   for (int i = 0; i < 480*2; i++) {
-//     LOGI("depth ========= %u, %u, %u, %u, %u, %u, %u, %u,  %u, %u, %u, %u, %u, %u, %u, %u, ",
-//  depth[16*i],
-// depth[16*i+1],
-// depth[16*i+2],
-// depth[16*i+3],
-// depth[16*i+4],
-// depth[16*i+5],
-// depth[16*i+6],
-// depth[16*i+7],
-// depth[16*i+8],
-// depth[16*i+9],
-// depth[16*i+9],
-// depth[16*i+10],
-// depth[16*i+11],
-// depth[16*i+12],
-// depth[16*i+13],
-// depth[16*i+14]);
-//   }
+  // for (int j= 0; j < 640*480; j++) {
+  //   if (depth[j] != 0) {
+  //        LOGI("depth ==== %d: %d", j, depth[j]);
+  //   }
+  // }
+  //   for (int i = 0; i < 480*2; i++) {
+  //     LOGI("depth ========= %u, %u, %u, %u, %u, %u, %u, %u,  %u, %u, %u, %u,
+  //     %u, %u, %u, %u, ",
+  //  depth[16*i],
+  // depth[16*i+1],
+  // depth[16*i+2],
+  // depth[16*i+3],
+  // depth[16*i+4],
+  // depth[16*i+5],
+  // depth[16*i+6],
+  // depth[16*i+7],
+  // depth[16*i+8],
+  // depth[16*i+9],
+  // depth[16*i+9],
+  // depth[16*i+10],
+  // depth[16*i+11],
+  // depth[16*i+12],
+  // depth[16*i+13],
+  // depth[16*i+14]);
+  //   }
   // LOGI("==================================================");
-
 
   rgb = (unsigned char *)&decompressionBufferImage[0];
 

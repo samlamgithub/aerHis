@@ -559,6 +559,7 @@ void Mylogger::writeData() {
     LOGI("Logger: logging");
     numFrames++;
     lastWritten = bufferIndex;
+    tango_interface::CameraInterface::incrementCounter();
     LOGI("Logger: logged one frame, total: %d", numFrames);
   }
   fseek(RGBDlog_file_, 0, SEEK_SET);

@@ -25,6 +25,8 @@
 #include <../elasticfusion/Utils/Resolution.h>
 #include <../elasticfusion/Utils/Stopwatch.h>
 
+#include <tango_interface/camera_interface.hpp>
+
 #include "ThreadMutexObject.hpp"
 #include "util.hpp"
 #include <GLES3/gl3.h>
@@ -45,7 +47,7 @@
 #include <sys/stat.h>
 #include <vector>
 #include <zlib.h>
-#define __gl2_h_ 
+#define __gl2_h_
 #include <Eigen/Core>
 #include <Eigen/Geometry>
 #include <GLES2/gl2ext.h>

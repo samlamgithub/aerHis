@@ -25,6 +25,8 @@
 
 #include "ThreadMutexObject.hpp"
 
+#include <tango_interface/camera_interface.hpp>
+
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/quaternion.hpp"
