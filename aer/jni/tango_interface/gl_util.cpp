@@ -453,7 +453,7 @@ void GlCameraFrame::set_frame_view_port(int width, int height) {
          "GlCameraFrame::set_frame_view_port.");
   } else {
     if ((height * width) > (frame_height_ * frame_width_)) {
-      frame_buffer_.reset(new unsigned char[4 * height * width],
+      frame_buffer_.reset(new unsigned char[3 * height * width],
                           std::default_delete<unsigned char[]>());
     }
     frame_height_ = height;

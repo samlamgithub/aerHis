@@ -71,7 +71,7 @@ void Mylogger::setCamWidthAndheight(int width, int height, double fx, double fy,
        "%d",
        depth_image_width, depth_image_height, fx, fy, cx, cy, myImageSize);
   //	int imageSize = width * height;
-  depth_compress_buf_size = myImageSize * sizeof(int16_t) * 4;
+  depth_compress_buf_size = myImageSize * sizeof(int16_t) * 3;
   depth_compress_buf = (uint8_t *)malloc(depth_compress_buf_size);
 
   encodedImage = 0;
@@ -90,7 +90,7 @@ void Mylogger::setCamWidthAndheight(int width, int height, double fx, double fy,
     //	        uint8_t * newDepth = (uint8_t *)calloc(myImageSize * 2,
     //sizeof(uint8_t));
     float *newDepth = (float *)calloc(4 * maxVerCount, sizeof(float));
-    uint8_t *newImage = (uint8_t *)calloc(myImageSize * 4, sizeof(uint8_t));
+    uint8_t *newImage = (uint8_t *)calloc(myImageSize * 3, sizeof(uint8_t));
     //	        frameBuffers[i] = std::pair<std::pair<uint8_t *, uint8_t *>,
     //int64_t>(std::pair<uint8_t *, uint8_t *>(newDepth, newImage), 0);
     struct RGBDdata rgbdData;
@@ -106,11 +106,11 @@ void Mylogger::setCamWidthAndheight(int width, int height, double fx, double fy,
   LOGI("setCamWidthAndheight done");
 }
 
-void Mylogger::encodeJpeg(cv::Vec<unsigned char, 4> *rgb_data) {
+void Mylogger::encodeJpeg(cv::Vec<unsigned char, 3> *rgb_data) {
   LOGI("Logger Encoding start: %d, %d", depth_image_height, depth_image_width);
-  int step = depth_image_width * 4 * sizeof(unsigned char);
+  int step = depth_image_width * 3 * sizeof(unsigned char);
   //	LOGI("step: %d", step);
-  cv::Mat4b rgb(depth_image_height, depth_image_width, rgb_data, step);
+  cv::Mat3b rgb(depth_image_height, depth_image_width, rgb_data, step);
   //    LOGI("depth: %d, channels: %d, row: %d, cols : %d", rgb.depth(),
   //    rgb.channels(),rgb.rows, rgb.cols); if (rgb.isContinuous())  { 	LOGI("is
   //    continuous"); } else { 	LOGI("is not continuous");
@@ -161,7 +161,7 @@ void Mylogger::rgbdCallback(unsigned char *image,
   frameBuffers[bufferIndex].pointCloudNumpoints = pointcloud_buffer->num_points;
   memcpy(frameBuffers[bufferIndex].pointCloudPoints, pointcloud_buffer->points,
          (pointcloud_buffer->num_points) * 4 * sizeof(float));
-  int rgbPixeldatacount = myImageSize * 4;
+  int rgbPixeldatacount = myImageSize * 3;
   memcpy(frameBuffers[bufferIndex].image, reinterpret_cast<uint8_t *>(image),
          rgbPixeldatacount);
   frameBuffers[bufferIndex].colorTimeStamp = color_timestamp;
@@ -499,7 +499,7 @@ void Mylogger::writeData() {
     //===============
     threads.add_thread(new boost::thread(boost::bind(
         &Mylogger::encodeJpeg, this,
-        (cv::Vec<unsigned char, 4> *)frameBuffers[bufferIndex].image)));
+        (cv::Vec<unsigned char, 3> *)frameBuffers[bufferIndex].image)));
                                                             // (cv::Vec<unsigned
                                                             // char, 3>
                                                             // *)frameBuffers[bufferIndex].first.second)));

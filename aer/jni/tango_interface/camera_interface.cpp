@@ -328,7 +328,7 @@ void CameraInterface::render() {
       // float * c = CUDA_addVectors(a, b, 9);
       // LOGI("CUDA result is %f, %f, %f, %f, %f, %f, %f, %f, %f", c[0], c[1],
       // c[2], c[3],c[4] ,c[5] ,c[6] ,c[7], c[8]); return;
-      std::shared_ptr<unsigned char> frame = gl_camera_frame_->get_frame(4);
+      std::shared_ptr<unsigned char> frame = gl_camera_frame_->get_frame(3);
 
       //      CameraInterface::OnDrawFrame(frame);
       //      if (frame) {

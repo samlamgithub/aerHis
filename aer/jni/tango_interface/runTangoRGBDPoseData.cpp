@@ -269,11 +269,11 @@ void RunTangoRGBDPoseData::runEF(bool hasPose) {
   LOGI("RunTangoRGBDPoseData this dataset has num frame: %d", numFrames);
 
   depthReadBuffer = new unsigned char[numPixels * 2];
-  imageReadBuffer = new unsigned char[numPixels * 4];
+  imageReadBuffer = new unsigned char[numPixels * 3];
   decompressionBufferDepth =
       new Bytef[Resolution::getInstance().numPixels() * 2];
   decompressionBufferImage =
-      new Bytef[Resolution::getInstance().numPixels() * 4];
+      new Bytef[Resolution::getInstance().numPixels() * 3];
 
   LOGI("RunTangoRGBDPoseData RunTangoRGBDPoseData Initialising done ...");
   LOGI("RunTangoRGBDPoseData RunTangoRGBDPoseData Setting parameters...");
@@ -656,15 +656,15 @@ void RunTangoRGBDPoseData::getCore() {
                (const Bytef *)depthReadBuffer, depthSize);
   }
 
-  if (imageSize == numPixels * 4) {
+  if (imageSize == numPixels * 3) {
     LOGI("RunTangoRGBDPoseData tangoRGBDData getCore: rgb not compressed");
-    memcpy(&decompressionBufferImage[0], imageReadBuffer, numPixels * 4);
+    memcpy(&decompressionBufferImage[0], imageReadBuffer, numPixels * 3);
   } else if (imageSize > 0) {
     LOGI("RunTangoRGBDPoseData tangoRGBDData getCore: rgb  compressed");
 
-    jpeg.readData(imageReadBuffer, imageSize, (unsigned char *)&decompressionBufferImage[0]);
-    LOGI("RunTangoRGBDPoseData tangoRGBDData getCore: rgb uncompress: "
-          "numPixels * 4: %d, imageSize: %d", numPixels * 4, imageSize);
+    // jpeg.readData(imageReadBuffer, imageSize, (unsigned char *)&decompressionBufferImage[0]);
+    // LOGI("RunTangoRGBDPoseData tangoRGBDData getCore: rgb uncompress: "
+    //       "numPixels * 4: %d, imageSize: %d", numPixels * 4, imageSize);
 
     // int    nSize = ...       // Size of buffer
     // uchar* pcBuffer = ...    // Raw buffer data
@@ -672,28 +672,27 @@ void RunTangoRGBDPoseData::getCore() {
     //
     // // Create a Size(1, nSize) Mat object of 8-bit, single-byte elements
 
-
-    // cv::Mat rawData = cv::Mat(1, numPixels * 4, CV_8UC1, imageReadBuffer);
-    // //
-    // cv::Mat decodedImage = cv::imdecode(rawData, 1 /*, flags */);
-    // if (decodedImage.data == NULL) {
-    //   LOGI("RunTangoRGBDPoseData decodedImage.data == NULL");
-    //   memset(&decompressionBufferImage[0], 0, numPixels * 4);
-    //   // Error reading raw image data
-    // } else {
-    //   LOGI("RunTangoRGBDPoseData tangoRGBDData getCore: rgb  uncompress: "
-    //        "numPixels * 4: "
-    //        "%d, imageSize: %d, cv size: %d",
-    //        numPixels * 4, imageSize,
-    //        decodedImage.total() * decodedImage.elemSize());
-    //   // decompressionBufferImage = (Bytef *)decodedImage.data;
-    //   memcpy(&decompressionBufferImage[0], decodedImage.data, numPixels * 4);
-    //   //  memcpy(&decompressionBufferImage[0], decodedImage.data,
-    //   //         imageSize);
-    // }
+    cv::Mat rawData = cv::Mat(1, numPixels * 3, CV_8UC1, imageReadBuffer);
+    //
+    cv::Mat decodedImage = cv::imdecode(rawData, 1 /*, flags */);
+    if (decodedImage.data == NULL) {
+      LOGI("RunTangoRGBDPoseData decodedImage.data == NULL");
+      memset(&decompressionBufferImage[0], 0, numPixels * 3);
+      // Error reading raw image data
+    } else {
+      LOGI("RunTangoRGBDPoseData tangoRGBDData getCore: rgb  uncompress: "
+           "numPixels * 3: "
+           "%d, imageSize: %d, cv size: %d",
+           numPixels * 3, imageSize,
+           decodedImage.total() * decodedImage.elemSize());
+      // decompressionBufferImage = (Bytef *)decodedImage.data;
+      memcpy(&decompressionBufferImage[0], decodedImage.data, numPixels * 3);
+      //  memcpy(&decompressionBufferImage[0], decodedImage.data,
+      //         imageSize);
+    }
   } else {
     LOGI("RunTangoRGBDPoseData tangoRGBDData getCore: rgb  failed");
-    memset(&decompressionBufferImage[0], 0, numPixels * 4);
+    memset(&decompressionBufferImage[0], 0, numPixels * 3);
   }
 
   depth = (unsigned short *)decompressionBufferDepth;
