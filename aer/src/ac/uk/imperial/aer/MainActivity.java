@@ -150,7 +150,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
     counterView = new TextView(this);
     counterView.setGravity(Gravity.START | Gravity.CENTER);
-    counterView.setText("current frame count: 0 ");
+    counterView.setText("frame count: 0 ");
     counterView.setId(counterViewID);
     counterView.setLayoutParams(
         new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
