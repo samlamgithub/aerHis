@@ -254,7 +254,6 @@ LOCAL_C_INCLUDES += thirdparty/SuiteSparse_v4.5.5/CHOLMOD/Include
 
 
 LOCAL_LDLIBS += -lstdc++ -L$(SYSROOT)/usr/lib -llog -lm -lc -ldl -landroid -lGLESv3 -lz -lEGL  \
--L$(MYDROID)/out/target/product/generic/system/lib/ -ljpeg
 -Lthirdparty/SuiteSparse_v4.5.5/SuiteSparse_config/obj/local/armeabi-v7a/ \
 -Lthirdparty/SuiteSparse_v4.5.5/lapack/BLAS/obj/local/armeabi-v7a/ \
 -Lthirdparty/SuiteSparse_v4.5.5/lapack/F2CLIBS/obj/local/armeabi-v7a/ \
