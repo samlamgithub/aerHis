@@ -461,7 +461,13 @@ void ElasticFusion::processFrame(const unsigned char *rgb,
     LOGI("ElasticFusion struct Process frame tick 1 done");
   } else {
     check_gl_errorElasticFusion();
-    LOGI(" ElasticFusion struct Process frame else 1");
+    LOGI(" ElasticFusion struct Process frame else 1 assigning currPose to lastPose");
+    Eigen::IOFormat CleanFmt1(4, 0, ", ", "\n", "[", "]");
+    std::stringstream ss1;
+    ss1 << currPose.format(CleanFmt1);
+    std::string str1(ss1.str());
+    LOGI("ElasticFusion struct Process frame currPose is : %s", str1.c_str());
+
     Eigen::Matrix4f lastPose = currPose;
 
     bool trackingOk = true;
@@ -473,9 +479,9 @@ void ElasticFusion::processFrame(const unsigned char *rgb,
     }
 
     if (inPose) {
-      LOGI(" ElasticFusion struct Process frame is inPose");
+      LOGI(" ElasticFusion struct Process frame has inPose");
     } else {
-      LOGI(" ElasticFusion struct Process frame is NOT inPose");
+      LOGI(" ElasticFusion struct Process frame has NO inPose");
     }
 
     if (bootstrap || !inPose) {
@@ -513,7 +519,19 @@ void ElasticFusion::processFrame(const unsigned char *rgb,
       if (bootstrap) {
         LOGI(" ElasticFusion struct Process frame else 8 2");
         assert(inPose);
+        LOGI(" ElasticFusion struct Process frame updating currPose before");
+        Eigen::IOFormat CleanFmt(4, 0, ", ", "\n", "[", "]");
+        std::stringstream ss;
+        ss << currPose.format(CleanFmt);
+        std::string str(ss.str());
+        LOGI("ElasticFusion struct Process framecurrPose is : %s", str.c_str());
+
         currPose = currPose * (*inPose);
+
+        std::stringstream ss2;
+        ss2 << currPose.format(CleanFmt);
+        std::string str2(ss2.str());
+        LOGI("ElasticFusion struct Process framecurrPose after is : %s", str2.c_str());
       }
       check_gl_errorElasticFusion();
       LOGI(" ElasticFusion struct Process frame else 8 3");
@@ -583,9 +601,30 @@ void ElasticFusion::processFrame(const unsigned char *rgb,
       LOGI(" ElasticFusion struct Process frame else 15");
       currPose.topRightCorner(3, 1) = trans;
       currPose.topLeftCorner(3, 3) = rot;
+
+      LOGI(" ElasticFusion struct Process frame updated currPose with trans "
+           "and rot");
+      Eigen::IOFormat CleanFmt3(4, 0, ", ", "\n", "[", "]");
+      std::stringstream ss3;
+      ss3 << inPose.format(CleanFmt3);
+      std::string str3(ss3.str());
+      LOGI("ElasticFusion struct Process frame currPose is : %s", str3.c_str());
+
     } else {
-      LOGI(" ElasticFusion struct Process frame else 15 2");
+      LOGI(" ElasticFusion struct Process frame else 15 2 assigning inPose to "
+           "currPose");
+      Eigen::IOFormat CleanFmt(4, 0, ", ", "\n", "[", "]");
+      std::stringstream ss;
+      ss << inPose.format(CleanFmt);
+      std::string str(ss.str());
+      LOGI("ElasticFusion struct Process frame inPose is : %s", str.c_str());
+
       currPose = *inPose;
+
+      std::stringstream ss2;
+      ss2 << currPose.format(CleanFmt);
+      std::string str2(ss2.str());
+      LOGI("ElasticFusion struct Process frame currPose is : %s", str2.c_str());
     }
     check_gl_errorElasticFusion();
     LOGI(" ElasticFusion struct Process frame else 16");
@@ -643,6 +682,16 @@ void ElasticFusion::processFrame(const unsigned char *rgb,
     LOGI(" ElasticFusion struct Process frame else 23");
     if (closeLoops && ferns.lastClosest != -1) {
       if (lost) {
+        LOGI(" ElasticFusion struct Process frame is lost.. assigning "
+             "recoveryPose to currPose");
+
+        Eigen::IOFormat CleanFmt5(4, 0, ", ", "\n", "[", "]");
+        std::stringstream ss5;
+        ss5 << recoveryPose.format(CleanFmt5);
+        std::string str5(ss5.str());
+        LOGI("ElasticFusion struct Process frame recoveryPose is : %s",
+             str5.c_str());
+
         currPose = recoveryPose;
         lastFrameRecovery = true;
       } else {
@@ -661,6 +710,17 @@ void ElasticFusion::processFrame(const unsigned char *rgb,
         // rawGraph 保存了控制点坐标和优化之后的 R和t
         if (globalDeformation.constrain(ferns.frames, rawGraph, tick, true,
                                         poseGraph, true)) {
+
+          LOGI("ElasticFusion struct Process frame 25 2: assigning "
+               "recoveryPose to currPose");
+
+          Eigen::IOFormat CleanFmt5(4, 0, ", ", "\n", "[", "]");
+          std::stringstream ss5;
+          ss5 << recoveryPose.format(CleanFmt5);
+          std::string str5(ss5.str());
+          LOGI("ElasticFusion struct Process frame recoveryPose is : %s",
+               str5.c_str());
+
           currPose = recoveryPose;
 
           poseMatches.push_back(
@@ -779,6 +839,16 @@ void ElasticFusion::processFrame(const unsigned char *rgb,
                                           currPose, constraints, false));
 
           deforms += rawGraph.size() > 0;
+
+          LOGI("ElasticFusion struct Process frame 40 2.. assigning "
+               "estPose to currPose");
+
+          Eigen::IOFormat CleanFmt6(4, 0, ", ", "\n", "[", "]");
+          std::stringstream ss6;
+          ss6 << estPose.format(CleanFmt6);
+          std::string str6(ss6.str());
+          LOGI("ElasticFusion struct Process frame estPose is : %s",
+               str6.c_str());
 
           currPose = estPose;
 
