@@ -252,11 +252,11 @@ void RunDatasetEF::runEF() {
   LOGI("RunDatasetEF this dataset has num frame: %d", numFrames);
 
   depthReadBuffer = new unsigned char[numPixels * 2];
-  imageReadBuffer = new unsigned char[numPixels * 3];
+  imageReadBuffer = new unsigned char[numPixels * 4];
   decompressionBufferDepth =
       new Bytef[Resolution::getInstance().numPixels() * 2];
   decompressionBufferImage =
-      new Bytef[Resolution::getInstance().numPixels() * 3];
+      new Bytef[Resolution::getInstance().numPixels() * 4];
   LOGI("RunDatasetEF RunDatasetEF Initialising done ...");
   LOGI("RunDatasetEF RunDatasetEF Setting parameters...");
   float confidence = 10.0f;   // fusion的confidence阈值
@@ -623,7 +623,7 @@ void RunDatasetEF::getCore() {
     }
     // memcpy(&decompressionBufferImage[0], imageReadBuffer, numPixels * 4);
   } else if (imageSize > 0) {
-    LOGI("RunDatasetEF run Dataset getCore: rgb  compressed");
+    LOGI("RunDatasetEF run Dataset getCore: rgb compressed");
 
     // jpeg.readData(imageReadBuffer, imageSize, (unsigned char *)&decompressionBufferImage[0]);
     // LOGI("RunDatasetEF run Dataset getCore: rgb uncompress: "
@@ -644,11 +644,10 @@ void RunDatasetEF::getCore() {
       memset(&decompressionBufferImage[0], 0, numPixels * 4);
       // Error reading raw image data
     } else {
-      LOGI("RunDatasetEF run Dataset getCore: rgb  uncompress: "
-           "numPixels * 3: "
-           "%d, imageSize: %d, cv size: %d",
+      LOGI("RunDatasetEF run Dataset getCore: rgb uncompress: "
+           "numPixels * 3: %d, imageSize: %d, cv size: %d, height: %d, width: %d",
            numPixels * 3, imageSize,
-           decodedImage.total() * decodedImage.elemSize());
+           decodedImage.total() * decodedImage.elemSize(), height, width);
       // decompressionBufferImage = (Bytef *)decodedImage.data;
 
       unsigned char * decomBuffer = (unsigned char *)&decompressionBufferImage[0];
