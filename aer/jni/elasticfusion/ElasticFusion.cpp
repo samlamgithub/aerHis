@@ -534,10 +534,26 @@ void ElasticFusion::processFrame(const unsigned char *rgb,
         LOGI("ElasticFusion struct Process framecurrPose after is : %s", str2.c_str());
       }
       check_gl_errorElasticFusion();
-      LOGI(" ElasticFusion struct Process frame else 8 3");
+      LOGI(" ElasticFusion struct Process frame else 8 3 extracting trans and rot of currPose");
+
+      Eigen::IOFormat CleanFmt7(4, 0, ", ", "\n", "[", "]");
+      std::stringstream ss7;
+      ss7 << currPose.format(CleanFmt7);
+      std::string str7(ss7.str());
+      LOGI("ElasticFusion struct Process frame currPose is : %s", str7.c_str());
+
       Eigen::Vector3f trans = currPose.topRightCorner(3, 1);
       Eigen::Matrix<float, 3, 3, Eigen::RowMajor> rot =
           currPose.topLeftCorner(3, 3);
+
+      LOGI("ElasticFusion struct Process frame trans: %f, %f, %f",
+           (trans.data())[0], (trans.data())[1], (trans.data())[2]);
+      Eigen::IOFormat CleanFmt8(4, 0, ", ", "\n", "[", "]");
+      std::stringstream ss8;
+      ss8 << rot.format(CleanFmt8);
+      std::string str8(ss8.str());
+      LOGI("ElasticFusion struct Process frame rot is : %s", str8.c_str());
+
       // rgbOnly：只利用 RGB 信息进行跟踪，icpWeight：计算位姿时 icp
       // 点云配准占的比重
       // pyramid：配准使用金字塔模式，fastOdom：使用快速跟踪算法
@@ -598,7 +614,17 @@ void ElasticFusion::processFrame(const unsigned char *rgb,
         LOGI(" ElasticFusion struct Process frame else 14");
       }
       check_gl_errorElasticFusion();
-      LOGI(" ElasticFusion struct Process frame else 15");
+      LOGI(" ElasticFusion struct Process frame else 15 assigning trans and "
+           "rot to currPose");
+
+      LOGI("ElasticFusion struct Process frame trans: %f, %f, %f",
+           (trans.data())[0], (trans.data())[1], (trans.data())[2]);
+      Eigen::IOFormat CleanFmt9(4, 0, ", ", "\n", "[", "]");
+      std::stringstream ss9;
+      ss9 << rot.format(CleanFmt9);
+      std::string str9(ss9.str());
+      LOGI("ElasticFusion struct Process frame rot is : %s", str9.c_str());
+
       currPose.topRightCorner(3, 1) = trans;
       currPose.topLeftCorner(3, 3) = rot;
 
