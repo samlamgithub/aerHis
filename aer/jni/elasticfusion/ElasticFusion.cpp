@@ -606,7 +606,7 @@ void ElasticFusion::processFrame(const unsigned char *rgb,
            "and rot");
       Eigen::IOFormat CleanFmt3(4, 0, ", ", "\n", "[", "]");
       std::stringstream ss3;
-      ss3 << (*inPose).format(CleanFmt3);
+      ss3 << (*currPose).format(CleanFmt3);
       std::string str3(ss3.str());
       LOGI("ElasticFusion struct Process frame currPose is : %s", str3.c_str());
 
