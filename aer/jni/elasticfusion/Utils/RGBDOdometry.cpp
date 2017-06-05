@@ -283,6 +283,8 @@ void RGBDOdometry::getIncrementalTransformation(
   bool icp = !rgbOnly && icpWeight > 0;
   bool rgb = rgbOnly || icpWeight < 100;
 
+LOGI(" ElasticFusionRGBDOdometry getIncrementalTransformation: icp: %d, rgb: %d, so3: %d", icp, rgb, so3);
+
   Eigen::Matrix<float, 3, 3, Eigen::RowMajor> Rprev = rot;
   Eigen::Vector3f tprev = trans;
 
@@ -540,6 +542,7 @@ void RGBDOdometry::getIncrementalTransformation(
   }
 
   if (rgb && (tcurr - tprev).norm() > 0.3) {
+    LOGI(" ElasticFusionRGBDOdometry getIncrementalTransformation iterate");
     Rcurr = Rprev;
     tcurr = tprev;
   }
@@ -549,6 +552,14 @@ void RGBDOdometry::getIncrementalTransformation(
       std::swap(lastNextImage[i], nextImage[i]);
     }
   }
+
+  LOGI("ElasticFusionRGBDOdometry getIncrementalTransformation trans: %f, %f, %f",
+       (tcurr.data())[0], (tcurr.data())[1], (tcurr.data())[2]);
+  Eigen::IOFormat CleanFmt9(4, 0, ", ", "\n", "[", "]");
+  std::stringstream ss9;
+  ss9 << Rcurr.format(CleanFmt9);
+  std::string str9(ss9.str());
+  LOGI("ElasticFusionRGBDOdometry getIncrementalTransformation rot is : %s", str9.c_str());
 
   trans = tcurr;
   rot = Rcurr;
