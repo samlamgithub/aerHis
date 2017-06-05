@@ -666,7 +666,7 @@ void RunTangoRGBDPoseData::getCore() {
     for (int h = 0; h < height; h++) {
       for (int w = 0; w < width; w+=3) {
         int basePosition = h * width + w;
-        unsigned char * bgr = imageReadBuffer[basePosition];
+        unsigned char * bgr = imageReadBuffer+ basePosition;
         decomBuffer[rgbaCount] = bgr[2];
         decomBuffer[rgbaCount + 1] = bgr[1];
         decomBuffer[rgbaCount + 2] = bgr[0];
@@ -710,7 +710,7 @@ void RunTangoRGBDPoseData::getCore() {
       for (int h = 0; h < height; h++) {
         for (int w = 0; w < width; w+=3) {
           int basePosition = h * width + w;
-          unsigned char * bgr = (decodedImage.data)[basePosition];
+          unsigned char * bgr = (decodedImage.data)+ basePosition;
           decomBuffer[rgbaCount] = bgr[2];
           decomBuffer[rgbaCount + 1] = bgr[1];
           decomBuffer[rgbaCount + 2] = bgr[0];
