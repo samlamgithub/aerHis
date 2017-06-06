@@ -23,6 +23,8 @@
 #include <float.h>
 #include <Eigen/Geometry>
 
+#include "../tango_interface/util.hpp"
+
 class OdometryProvider
 {
     public:
