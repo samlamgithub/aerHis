@@ -283,7 +283,9 @@ void RGBDOdometry::getIncrementalTransformation(
   bool icp = !rgbOnly && icpWeight > 0;
   bool rgb = rgbOnly || icpWeight < 100;
 
-LOGI(" ElasticFusionRGBDOdometry getIncrementalTransformation: icp: %d, rgb: %d, so3: %d", icp, rgb, so3);
+  LOGI(" ElasticFusionRGBDOdometry getIncrementalTransformation: icp: %d, rgb: "
+       "%d, so3: %d",
+       icp, rgb, so3);
 
   Eigen::Matrix<float, 3, 3, Eigen::RowMajor> Rprev = rot;
   Eigen::Vector3f tprev = trans;
@@ -298,10 +300,13 @@ LOGI(" ElasticFusionRGBDOdometry getIncrementalTransformation: icp: %d, rgb: %d,
     }
   }
 
+  LOGI(" ElasticFusionRGBDOdometry getIncrementalTransformation 2");
+
   Eigen::Matrix<double, 3, 3, Eigen::RowMajor> resultR =
       Eigen::Matrix<double, 3, 3, Eigen::RowMajor>::Identity();
 
   if (so3) {
+    LOGI(" ElasticFusionRGBDOdometry getIncrementalTransformation 3");
     int pyramidLevel = 2;
 
     Eigen::Matrix<float, 3, 3, Eigen::RowMajor> R_lr =
@@ -323,6 +328,7 @@ LOGI(" ElasticFusionRGBDOdometry getIncrementalTransformation: icp: %d, rgb: %d,
         Eigen::Matrix<double, 3, 3, Eigen::RowMajor>::Identity();
 
     for (int i = 0; i < 10; i++) {
+      LOGI(" ElasticFusionRGBDOdometry getIncrementalTransformation 4");
       Eigen::Matrix<float, 3, 3, Eigen::RowMajor> jtj;
       Eigen::Matrix<float, 3, 1> jtr;
 
@@ -382,6 +388,8 @@ LOGI(" ElasticFusionRGBDOdometry getIncrementalTransformation: icp: %d, rgb: %d,
     }
   }
 
+  LOGI(" ElasticFusionRGBDOdometry getIncrementalTransformation 5");
+
   iterations[0] = fastOdom ? 3 : 10;
   iterations[1] = pyramid ? 5 : 0;
   iterations[2] = pyramid ? 4 : 0;
@@ -389,6 +397,8 @@ LOGI(" ElasticFusionRGBDOdometry getIncrementalTransformation: icp: %d, rgb: %d,
   Eigen::Matrix<float, 3, 3, Eigen::RowMajor> Rprev_inv = Rprev.inverse();
   mat33 device_Rprev_inv = Rprev_inv;
   float3 device_tprev = *reinterpret_cast<float3 *>(tprev.data());
+
+  LOGI(" ElasticFusionRGBDOdometry getIncrementalTransformation 6");
 
   Eigen::Matrix<double, 4, 4, Eigen::RowMajor> resultRt =
       Eigen::Matrix<double, 4, 4, Eigen::RowMajor>::Identity();
@@ -400,11 +410,14 @@ LOGI(" ElasticFusionRGBDOdometry getIncrementalTransformation: icp: %d, rgb: %d,
       }
     }
   }
+  LOGI(" ElasticFusionRGBDOdometry getIncrementalTransformation 7");
 
   for (int i = NUM_PYRS - 1; i >= 0; i--) {
     if (rgb) {
       projectToPointCloud(lastDepth[i], pointClouds[i], intr, i);
     }
+
+    LOGI(" ElasticFusionRGBDOdometry getIncrementalTransformation 8");
 
     Eigen::Matrix<double, 3, 3, Eigen::RowMajor> K =
         Eigen::Matrix<double, 3, 3, Eigen::RowMajor>::Zero();
@@ -417,7 +430,10 @@ LOGI(" ElasticFusionRGBDOdometry getIncrementalTransformation: icp: %d, rgb: %d,
 
     lastRGBError = std::numeric_limits<float>::max();
 
+    LOGI(" ElasticFusionRGBDOdometry getIncrementalTransformation 9");
+
     for (int j = 0; j < iterations[i]; j++) {
+      LOGI(" ElasticFusionRGBDOdometry getIncrementalTransformation 10");
       Eigen::Matrix<double, 4, 4, Eigen::RowMajor> Rt = resultRt.inverse();
 
       Eigen::Matrix<double, 3, 3, Eigen::RowMajor> R = Rt.topLeftCorner(3, 3);
@@ -455,6 +471,13 @@ LOGI(" ElasticFusionRGBDOdometry getIncrementalTransformation: icp: %d, rgb: %d,
       lastRGBError = sqrt(sigma) / rgbSize;
       lastRGBCount = rgbSize;
 
+      LOGI(" ElasticFusionRGBDOdometry getIncrementalTransformation "
+           "lastRGBError: %f",
+           lastRGBError);
+      LOGI(" ElasticFusionRGBDOdometry getIncrementalTransformation "
+           "lastRGBCount: %f",
+           lastRGBCount);
+
       if (rgbOnly) {
         sigmaVal = -1; // Signals the internal optimisation to weight evenly
       }
@@ -485,6 +508,13 @@ LOGI(" ElasticFusionRGBDOdometry getIncrementalTransformation: icp: %d, rgb: %d,
 
       lastICPError = sqrt(residual[0]) / residual[1];
       lastICPCount = residual[1];
+
+      LOGI(" ElasticFusionRGBDOdometry getIncrementalTransformation "
+           "lastICPError: %f",
+           lastICPError);
+      LOGI(" ElasticFusionRGBDOdometry getIncrementalTransformation "
+           "lastICPCount: %f",
+           lastICPCount);
 
       Eigen::Matrix<float, 6, 6, Eigen::RowMajor> A_rgbd;
       Eigen::Matrix<float, 6, 1> b_rgbd;
@@ -527,7 +557,17 @@ LOGI(" ElasticFusionRGBDOdometry getIncrementalTransformation: icp: %d, rgb: %d,
 
       Eigen::Isometry3f rgbOdom;
 
+      LOGI(" ElasticFusionRGBDOdometry getIncrementalTransformation 11");
+
       OdometryProvider::computeUpdateSE3(resultRt, result, rgbOdom);
+
+      Eigen::IOFormat CleanFmt22(4, 0, ", ", "\n", "[", "]");
+      std::stringstream ss22;
+      ss22 << Rcurr.format(CleanFmt22);
+      std::string str22(ss22.str());
+      LOGI("ElasticFusionRGBDOdometry getIncrementalTransformation rgbOdom is "
+           ": %s",
+           str22.c_str());
 
       Eigen::Isometry3f currentT;
       currentT.setIdentity();
@@ -539,16 +579,20 @@ LOGI(" ElasticFusionRGBDOdometry getIncrementalTransformation: icp: %d, rgb: %d,
       tcurr = currentT.translation();
       Rcurr = currentT.rotation();
 
-      LOGI("ElasticFusionRGBDOdometry getIncrementalTransformation tcurr: %f, %f, %f",
+      LOGI("ElasticFusionRGBDOdometry getIncrementalTransformation tcurr: %f, "
+           "%f, %f",
            (tcurr.data())[0], (tcurr.data())[1], (tcurr.data())[2]);
       Eigen::IOFormat CleanFmt10(4, 0, ", ", "\n", "[", "]");
       std::stringstream ss10;
       ss10 << Rcurr.format(CleanFmt10);
       std::string str10(ss10.str());
-      LOGI("ElasticFusionRGBDOdometry getIncrementalTransformation Rcurr is : %s", str10.c_str());
-
+      LOGI("ElasticFusionRGBDOdometry getIncrementalTransformation Rcurr is : "
+           "%s",
+           str10.c_str());
     }
   }
+
+  LOGI(" ElasticFusionRGBDOdometry getIncrementalTransformation 12");
 
   if (rgb && (tcurr - tprev).norm() > 0.3) {
     LOGI(" ElasticFusionRGBDOdometry getIncrementalTransformation iterate");
@@ -562,13 +606,15 @@ LOGI(" ElasticFusionRGBDOdometry getIncrementalTransformation: icp: %d, rgb: %d,
     }
   }
 
-  LOGI("ElasticFusionRGBDOdometry getIncrementalTransformation trans: %f, %f, %f",
+  LOGI("ElasticFusionRGBDOdometry getIncrementalTransformation trans: %f, %f, "
+       "%f",
        (tcurr.data())[0], (tcurr.data())[1], (tcurr.data())[2]);
   Eigen::IOFormat CleanFmt9(4, 0, ", ", "\n", "[", "]");
   std::stringstream ss9;
   ss9 << Rcurr.format(CleanFmt9);
   std::string str9(ss9.str());
-  LOGI("ElasticFusionRGBDOdometry getIncrementalTransformation rot is : %s", str9.c_str());
+  LOGI("ElasticFusionRGBDOdometry getIncrementalTransformation rot is : %s",
+       str9.c_str());
 
   trans = tcurr;
   rot = Rcurr;
