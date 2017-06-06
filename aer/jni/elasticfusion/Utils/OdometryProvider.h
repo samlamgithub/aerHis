@@ -92,7 +92,7 @@ class OdometryProvider
           Eigen::IOFormat CleanFmt10(4, 0, ", ", "\n", "[", "]");
 
           std::stringstream ss10;
-          ss10 << Rcurr.format(CleanFmt10);
+          ss10 << Rt.format(CleanFmt10);
           std::string str10(ss10.str());
           LOGI("ElasticFusion OdometryProvider computeUpdateSE3 Rt is : "
                "%s",
@@ -120,10 +120,11 @@ class OdometryProvider
           rgbOdom.setIdentity();
           rgbOdom.rotate(rotation.cast<float>().eval());
 
+Eigen::Matrix3f RR = rgbOdom.rotation();
           std::stringstream ss2;
-          ss2 << rgbOdom.format(CleanFmt10);
+          ss2 << RR.format(CleanFmt10);
           std::string str2(ss2.str());
-          LOGI("ElasticFusion OdometryProvider computeUpdateSE3 rgbOdom is : "
+          LOGI("ElasticFusion OdometryProvider computeUpdateSE3 rgbOdom RR is : "
                "%s",
                str2.c_str());
 
