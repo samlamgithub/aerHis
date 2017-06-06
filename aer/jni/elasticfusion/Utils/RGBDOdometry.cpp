@@ -559,6 +559,23 @@ void RGBDOdometry::getIncrementalTransformation(
 
       LOGI(" ElasticFusionRGBDOdometry getIncrementalTransformation 11");
 
+      Eigen::IOFormat CleanFmt22(4, 0, ", ", "\n", "[", "]");
+
+      std::stringstream resultRtss;
+      resultRtss << resultRt.format(CleanFmt22);
+      std::string strresultRtss(resultRtss.str());
+      LOGI("ElasticFusionRGBDOdometry getIncrementalTransformation resultRtss "
+           "is "
+           ": %s",
+           strresultRtss.c_str());
+
+      std::stringstream resultss;
+      resultss << result.format(CleanFmt22);
+      std::string strresult(resultss.str());
+      LOGI("ElasticFusionRGBDOdometry getIncrementalTransformation result is "
+           ": %s",
+           strresult.c_str());
+
       OdometryProvider::computeUpdateSE3(resultRt, result, rgbOdom);
 
       Eigen::Vector3f tt = rgbOdom.translation();
@@ -567,7 +584,7 @@ void RGBDOdometry::getIncrementalTransformation(
       LOGI("ElasticFusionRGBDOdometry getIncrementalTransformation tt: %f, "
            "%f, %f",
            (tt.data())[0], (tt.data())[1], (tt.data())[2]);
-      Eigen::IOFormat CleanFmt22(4, 0, ", ", "\n", "[", "]");
+
       std::stringstream ss22;
       ss22 << RR.format(CleanFmt22);
       std::string str22(ss22.str());
