@@ -538,6 +538,15 @@ LOGI(" ElasticFusionRGBDOdometry getIncrementalTransformation: icp: %d, rgb: %d,
 
       tcurr = currentT.translation();
       Rcurr = currentT.rotation();
+
+      LOGI("ElasticFusionRGBDOdometry getIncrementalTransformation tcurr: %f, %f, %f",
+           (tcurr.data())[0], (tcurr.data())[1], (tcurr.data())[2]);
+      Eigen::IOFormat CleanFmt10(4, 0, ", ", "\n", "[", "]");
+      std::stringstream ss10;
+      ss10 << Rcurr.format(CleanFmt10);
+      std::string str10(ss10.str());
+      LOGI("ElasticFusionRGBDOdometry getIncrementalTransformation Rcurr is : %s", str10.c_str());
+
     }
   }
 
