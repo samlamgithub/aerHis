@@ -563,7 +563,7 @@ void RGBDOdometry::getIncrementalTransformation(
 
       Eigen::IOFormat CleanFmt22(4, 0, ", ", "\n", "[", "]");
       std::stringstream ss22;
-      ss22 << Rcurr.format(CleanFmt22);
+      ss22 << rgbOdom.format(CleanFmt22);
       std::string str22(ss22.str());
       LOGI("ElasticFusionRGBDOdometry getIncrementalTransformation rgbOdom is "
            ": %s",
