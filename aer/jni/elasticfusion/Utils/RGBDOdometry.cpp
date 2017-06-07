@@ -522,7 +522,7 @@ void RGBDOdometry::getIncrementalTransformation(
       Eigen::Matrix<float, 6, 1> b_rgbd;
 
       std::stringstream resultA_rgbd1;
-      resultA_rgbd1 << A_rgbd1.format(CleanFmt22);
+      resultA_rgbd1 << A_rgbd.format(CleanFmt22);
       std::string strA_rgbd1(resultA_rgbd1.str());
       LOGI("ElasticFusionRGBDOdometry getIncrementalTransformation A_rgbd1 "
            "before is : %s", strA_rgbd1.c_str());
