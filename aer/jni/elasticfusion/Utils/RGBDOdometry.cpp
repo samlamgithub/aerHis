@@ -535,13 +535,26 @@ void RGBDOdometry::getIncrementalTransformation(
       Eigen::Matrix<double, 6, 1> db_rgbd = b_rgbd.cast<double>();
       Eigen::Matrix<double, 6, 1> db_icp = b_icp.cast<double>();
 
+      Eigen::IOFormat CleanFmt22(4, 0, ", ", "\n", "[", "]");
+
       if (icp && rgb) {
+        LOGI(" ElasticFusionRGBDOdometry getIncrementalTransformation icp && "
+             "rgb , icpWeight: %f",
+             icpWeight);
         // TODO: should just be w instead of w^2, but currently unstable with
         // smaller w and setting w equivalently high in the GUI just turns off
         // RGB tracking
         double w = icpWeight;
         lastA = dA_rgbd + w * w * dA_icp;
         lastb = db_rgbd + w * w * db_icp;
+
+        std::stringstream resultss;
+        resultss << result.format(CleanFmt22);
+        std::string strresult(resultss.str());
+        LOGI("ElasticFusionRGBDOdometry getIncrementalTransformation result 11 "
+             "is "
+             ": %s",
+             strresult.c_str());
         result = lastA.ldlt().solve(lastb);
       } else if (icp) {
         lastA = dA_icp;
@@ -559,14 +572,11 @@ void RGBDOdometry::getIncrementalTransformation(
 
       LOGI(" ElasticFusionRGBDOdometry getIncrementalTransformation 11");
 
-      Eigen::IOFormat CleanFmt22(4, 0, ", ", "\n", "[", "]");
-
       std::stringstream resultRtss;
       resultRtss << resultRt.format(CleanFmt22);
       std::string strresultRtss(resultRtss.str());
       LOGI("ElasticFusionRGBDOdometry getIncrementalTransformation resultRtss "
-           "is "
-           ": %s",
+           "is : %s",
            strresultRtss.c_str());
 
       std::stringstream resultss;
