@@ -544,6 +544,35 @@ void RGBDOdometry::getIncrementalTransformation(
         // TODO: should just be w instead of w^2, but currently unstable with
         // smaller w and setting w equivalently high in the GUI just turns off
         // RGB tracking
+
+        std::stringstream resultdA_rgbd;
+        resultdA_rgbd << dA_rgbd.format(CleanFmt22);
+        std::string strdA_rgbd(resultdA_rgbd.str());
+        LOGI("ElasticFusionRGBDOdometry getIncrementalTransformation dA_rgbd "
+             "is : %s",
+             strdA_rgbd.c_str());
+
+        std::stringstream resultdA_icp;
+        resultdA_icp << dA_icp.format(CleanFmt22);
+        std::string strrdA_icp(resultdA_icp.str());
+        LOGI("ElasticFusionRGBDOdometry getIncrementalTransformation dA_icp "
+             "is: %s",
+             strrdA_icp.c_str());
+
+        std::stringstream resultdb_rgbd;
+        resultdb_rgbd << db_rgbd.format(CleanFmt22);
+        std::string strdb_rgbd(resultdb_rgbd.str());
+        LOGI("ElasticFusionRGBDOdometry getIncrementalTransformation db_rgbd "
+             "is : %s",
+             strdb_rgbd.c_str());
+
+        std::stringstream resultdb_icp;
+        resultdb_icp << db_icp.format(CleanFmt22);
+        std::string strrdb_icp(resultdb_icp.str());
+        LOGI("ElasticFusionRGBDOdometry getIncrementalTransformation db_icp "
+             "is: %s",
+             strrdb_icp.c_str());
+
         double w = icpWeight;
         lastA = dA_rgbd + w * w * dA_icp;
         lastb = db_rgbd + w * w * db_icp;
@@ -559,7 +588,8 @@ void RGBDOdometry::getIncrementalTransformation(
         resultB << lastb.format(CleanFmt22);
         std::string strresultB(resultB.str());
         LOGI("ElasticFusionRGBDOdometry getIncrementalTransformation lastb "
-             "is: %s", strresultB.c_str());
+             "is: %s",
+             strresultB.c_str());
 
         result = lastA.ldlt().solve(lastb);
 
@@ -570,8 +600,6 @@ void RGBDOdometry::getIncrementalTransformation(
              "is "
              ": %s",
              strresult.c_str());
-        §
-
       } else if (icp) {
         LOGI(" ElasticFusionRGBDOdometry getIncrementalTransformation no");
         lastA = dA_icp;
