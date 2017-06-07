@@ -506,6 +506,8 @@ void RGBDOdometry::getIncrementalTransformation(
         TOCK("icpStep");
       }
 
+      Eigen::IOFormat CleanFmt22(4, 0, ", ", "\n", "[", "]");
+
       lastICPError = sqrt(residual[0]) / residual[1];
       lastICPCount = residual[1];
 
@@ -518,6 +520,13 @@ void RGBDOdometry::getIncrementalTransformation(
 
       Eigen::Matrix<float, 6, 6, Eigen::RowMajor> A_rgbd;
       Eigen::Matrix<float, 6, 1> b_rgbd;
+
+      std::stringstream resultA_rgbd1;
+      resultA_rgbd1 << A_rgbd1.format(CleanFmt22);
+      std::string strA_rgbd1(resultA_rgbd1.str());
+      LOGI("ElasticFusionRGBDOdometry getIncrementalTransformation A_rgbd1 "
+           "before is : %s", strA_rgbd1.c_str());
+
       //由深度图投影得到三维点云
       if (rgb) {
         TICK("rgbStep");
@@ -527,6 +536,12 @@ void RGBDOdometry::getIncrementalTransformation(
         TOCK("rgbStep");
       }
 
+      std::stringstream resultA_rgbd;
+      resultA_rgbd << A_rgbd.format(CleanFmt22);
+      std::string strA_rgbd(resultA_rgbd.str());
+      LOGI("ElasticFusionRGBDOdometry getIncrementalTransformation A_rgbd "
+           "is : %s", strA_rgbd.c_str());
+
       Eigen::Matrix<double, 6, 1> result;
       Eigen::Matrix<double, 6, 6, Eigen::RowMajor> dA_rgbd =
           A_rgbd.cast<double>();
@@ -535,12 +550,9 @@ void RGBDOdometry::getIncrementalTransformation(
       Eigen::Matrix<double, 6, 1> db_rgbd = b_rgbd.cast<double>();
       Eigen::Matrix<double, 6, 1> db_icp = b_icp.cast<double>();
 
-      Eigen::IOFormat CleanFmt22(4, 0, ", ", "\n", "[", "]");
-
       if (icp && rgb) {
         LOGI(" ElasticFusionRGBDOdometry getIncrementalTransformation icp && "
-             "rgb , icpWeight: %f",
-             icpWeight);
+             "rgb , icpWeight: %f", icpWeight);
         // TODO: should just be w instead of w^2, but currently unstable with
         // smaller w and setting w equivalently high in the GUI just turns off
         // RGB tracking
