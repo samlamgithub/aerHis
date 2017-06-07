@@ -7,7 +7,8 @@
  * make up the software that is ElasticFusion is permitted for
  * non-commercial purposes only.  The full terms and conditions that
  * apply to the code within this file are detailed within the LICENSE.txt
- * file and at <http://www.imperial.ac.uk/dyson-robotics-lab/downloads/elastic-fusion/elastic-fusion-license/>
+ * file and at
+ * <http://www.imperial.ac.uk/dyson-robotics-lab/downloads/elastic-fusion/elastic-fusion-license/>
  * unless explicitly stated.  By downloading this file you agree to
  * comply with these terms.
  *
@@ -20,121 +21,135 @@
 #define ODOMETRYPROVIDER_H_
 
 #include <Eigen/Core>
-#include <float.h>
 #include <Eigen/Geometry>
+#include <float.h>
 
 #include "../tango_interface/util.hpp"
 
-class OdometryProvider
-{
-    public:
-        OdometryProvider()
-        {}
+class OdometryProvider {
+public:
+  OdometryProvider() {}
 
-        virtual ~OdometryProvider()
-        {}
+  virtual ~OdometryProvider() {}
 
-        static inline Eigen::Matrix<double, 3, 3, Eigen::RowMajor> rodrigues(const Eigen::Vector3d & src)
-        {
-            Eigen::Matrix<double, 3, 3, Eigen::RowMajor> dst = Eigen::Matrix<double, 3, 3, Eigen::RowMajor>::Identity();
+  static inline Eigen::Matrix<double, 3, 3, Eigen::RowMajor>
+  rodrigues(const Eigen::Vector3d &src) {
+    LOGI("ElasticFusion OdometryProvider rodrigues start 1");
+    LOGI("ElasticFusion OdometryProvider rodrigues src: %d, "
+         "%d, %d",
+         (src.data())[0], (src.data())[1], (src.data())[2]);
 
-            double rx, ry, rz, theta;
+    Eigen::Matrix<double, 3, 3, Eigen::RowMajor> dst =
+        Eigen::Matrix<double, 3, 3, Eigen::RowMajor>::Identity();
 
-            rx = src(0);
-            ry = src(1);
-            rz = src(2);
+    double rx, ry, rz, theta;
 
-            theta = src.norm();
+    rx = src(0);
+    ry = src(1);
+    rz = src(2);
 
-            if(theta >= DBL_EPSILON)
-            {
-                const double I[] = { 1, 0, 0, 0, 1, 0, 0, 0, 1 };
+    theta = src.norm();
 
-                double c = cos(theta);
-                double s = sin(theta);
-                double c1 = 1. - c;
-                double itheta = theta ? 1./theta : 0.;
+    if (theta >= DBL_EPSILON) {
+      const double I[] = {1, 0, 0, 0, 1, 0, 0, 0, 1};
 
-                rx *= itheta; ry *= itheta; rz *= itheta;
+      double c = cos(theta);
+      double s = sin(theta);
+      double c1 = 1. - c;
+      double itheta = theta ? 1. / theta : 0.;
 
-                double rrt[] = { rx*rx, rx*ry, rx*rz, rx*ry, ry*ry, ry*rz, rx*rz, ry*rz, rz*rz };
-                double _r_x_[] = { 0, -rz, ry, rz, 0, -rx, -ry, rx, 0 };
-                double R[9];
+      rx *= itheta;
+      ry *= itheta;
+      rz *= itheta;
 
-                for(int k = 0; k < 9; k++)
-                {
-                    R[k] = c*I[k] + c1*rrt[k] + s*_r_x_[k];
-                }
+      double rrt[] = {rx * rx, rx * ry, rx * rz, rx * ry, ry * ry,
+                      ry * rz, rx * rz, ry * rz, rz * rz};
+      double _r_x_[] = {0, -rz, ry, rz, 0, -rx, -ry, rx, 0};
+      double R[9];
 
-                memcpy(dst.data(), &R[0], sizeof(Eigen::Matrix<double, 3, 3, Eigen::RowMajor>));
-            }
+      for (int k = 0; k < 9; k++) {
+        R[k] = c * I[k] + c1 * rrt[k] + s * _r_x_[k];
+      }
 
-            return dst;
-        }
+      memcpy(dst.data(), &R[0],
+             sizeof(Eigen::Matrix<double, 3, 3, Eigen::RowMajor>));
+    }
 
-        static inline void
-        computeUpdateSE3(Eigen::Matrix<double, 4, 4, Eigen::RowMajor> &resultRt,
-                         const Eigen::Matrix<double, 6, 1> &result,
-                         Eigen::Isometry3f &rgbOdom) {
+    LOGI("ElasticFusion OdometryProvider rodrigues done");
+    Eigen::IOFormat CleanFmt10(4, 0, ", ", "\n", "[", "]");
 
-          LOGI(" ElasticFusion OdometryProvider computeUpdateSE3 start 1");
-          // for infinitesimal transformation
-          Eigen::Matrix<double, 4, 4, Eigen::RowMajor> Rt =
-              Eigen::Matrix<double, 4, 4, Eigen::RowMajor>::Identity();
+    std::stringstream ss10;
+    ss10 << dst.format(CleanFmt10);
+    std::string str10(ss10.str());
+    LOGI("ElasticFusion OdometryProvider rodrigues dst is : "
+         "%s",
+         str10.c_str());
 
-          Eigen::Vector3d rvec(result(3), result(4), result(5));
+    return dst;
+  }
 
-          Eigen::Matrix<double, 3, 3, Eigen::RowMajor> R = rodrigues(rvec);
+  static inline void
+  computeUpdateSE3(Eigen::Matrix<double, 4, 4, Eigen::RowMajor> &resultRt,
+                   const Eigen::Matrix<double, 6, 1> &result,
+                   Eigen::Isometry3f &rgbOdom) {
 
-          Rt.topLeftCorner(3, 3) = R;
-          Rt(0, 3) = result(0);
-          Rt(1, 3) = result(1);
-          Rt(2, 3) = result(2);
+    LOGI(" ElasticFusion OdometryProvider computeUpdateSE3 start 1");
+    // for infinitesimal transformation
+    Eigen::Matrix<double, 4, 4, Eigen::RowMajor> Rt =
+        Eigen::Matrix<double, 4, 4, Eigen::RowMajor>::Identity();
 
-          Eigen::IOFormat CleanFmt10(4, 0, ", ", "\n", "[", "]");
+    Eigen::Vector3d rvec(result(3), result(4), result(5));
 
-          std::stringstream ss10;
-          ss10 << Rt.format(CleanFmt10);
-          std::string str10(ss10.str());
-          LOGI("ElasticFusion OdometryProvider computeUpdateSE3 Rt is : "
-               "%s",
-               str10.c_str());
+    Eigen::Matrix<double, 3, 3, Eigen::RowMajor> R = rodrigues(rvec);
 
-          resultRt = Rt * resultRt;
+    Rt.topLeftCorner(3, 3) = R;
+    Rt(0, 3) = result(0);
+    Rt(1, 3) = result(1);
+    Rt(2, 3) = result(2);
 
-          std::stringstream ss;
-          ss << resultRt.format(CleanFmt10);
-          std::string str(ss.str());
-          LOGI("ElasticFusion OdometryProvider computeUpdateSE3 resultRt is : "
-               "%s",
-               str.c_str());
+    Eigen::IOFormat CleanFmt10(4, 0, ", ", "\n", "[", "]");
 
-          Eigen::Matrix<double, 3, 3, Eigen::RowMajor> rotation =
-              resultRt.topLeftCorner(3, 3);
+    std::stringstream ss10;
+    ss10 << Rt.format(CleanFmt10);
+    std::string str10(ss10.str());
+    LOGI("ElasticFusion OdometryProvider computeUpdateSE3 Rt is : "
+         "%s",
+         str10.c_str());
 
-          std::stringstream ss1;
-          ss1 << rotation.format(CleanFmt10);
-          std::string str1(ss1.str());
-          LOGI("ElasticFusion OdometryProvider computeUpdateSE3 rotation is : "
-               "%s",
-               str1.c_str());
+    resultRt = Rt * resultRt;
 
-          rgbOdom.setIdentity();
-          rgbOdom.rotate(rotation.cast<float>().eval());
+    std::stringstream ss;
+    ss << resultRt.format(CleanFmt10);
+    std::string str(ss.str());
+    LOGI("ElasticFusion OdometryProvider computeUpdateSE3 resultRt is : "
+         "%s",
+         str.c_str());
 
-Eigen::Matrix3f RR = rgbOdom.rotation();
-          std::stringstream ss2;
-          ss2 << RR.format(CleanFmt10);
-          std::string str2(ss2.str());
-          LOGI("ElasticFusion OdometryProvider computeUpdateSE3 rgbOdom RR is : "
-               "%s",
-               str2.c_str());
+    Eigen::Matrix<double, 3, 3, Eigen::RowMajor> rotation =
+        resultRt.topLeftCorner(3, 3);
 
-          rgbOdom.translation() =
-              resultRt.cast<float>().eval().topRightCorner(3, 1);
+    std::stringstream ss1;
+    ss1 << rotation.format(CleanFmt10);
+    std::string str1(ss1.str());
+    LOGI("ElasticFusion OdometryProvider computeUpdateSE3 rotation is : "
+         "%s",
+         str1.c_str());
 
-          LOGI(" ElasticFusion OdometryProvider computeUpdateSE3 done");
-        }
+    rgbOdom.setIdentity();
+    rgbOdom.rotate(rotation.cast<float>().eval());
+
+    Eigen::Matrix3f RR = rgbOdom.rotation();
+    std::stringstream ss2;
+    ss2 << RR.format(CleanFmt10);
+    std::string str2(ss2.str());
+    LOGI("ElasticFusion OdometryProvider computeUpdateSE3 rgbOdom RR is : "
+         "%s",
+         str2.c_str());
+
+    rgbOdom.translation() = resultRt.cast<float>().eval().topRightCorner(3, 1);
+
+    LOGI(" ElasticFusion OdometryProvider computeUpdateSE3 done");
+  }
 };
 
 #endif /* ODOMETRYPROVIDER_H_ */
