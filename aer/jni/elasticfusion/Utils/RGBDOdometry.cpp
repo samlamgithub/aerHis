@@ -548,6 +548,19 @@ void RGBDOdometry::getIncrementalTransformation(
         lastA = dA_rgbd + w * w * dA_icp;
         lastb = db_rgbd + w * w * db_icp;
 
+        std::stringstream resultA;
+        resultA << lastA.format(CleanFmt22);
+        std::string strresultA(resultA.str());
+        LOGI("ElasticFusionRGBDOdometry getIncrementalTransformation lastA "
+             "is : %s",
+             strresultA.c_str());
+
+        std::stringstream resultB;
+        resultB << lastb.format(CleanFmt22);
+        std::string strresultB(resultB.str());
+        LOGI("ElasticFusionRGBDOdometry getIncrementalTransformation lastb "
+             "is: %s", strresultB.c_str());
+
         result = lastA.ldlt().solve(lastb);
 
         std::stringstream resultss;
@@ -557,6 +570,7 @@ void RGBDOdometry::getIncrementalTransformation(
              "is "
              ": %s",
              strresult.c_str());
+        §
 
       } else if (icp) {
         LOGI(" ElasticFusionRGBDOdometry getIncrementalTransformation no");
