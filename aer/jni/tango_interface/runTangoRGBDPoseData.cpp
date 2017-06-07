@@ -489,8 +489,10 @@ LOGI("RunTangoRGBDPoseData Log processing result eFusion.getDeforms(): %d ", ld_
 
         for (unsigned int i = 0; i < lastCount; i++) {
           Eigen::Vector4f pos = mapData[(i * 3) + 0];
+
+    LOGI("RunTangoRGBDPoseData save frame: pos[3]: %f", pos[3]);
           if (pos[3] > confidenceThreshold) {
-          LOGI("RunTangoRGBDPoseData save frame: pos[3]: %f", pos[3]);
+          // LOGI("RunTangoRGBDPoseData save frame: pos[3]: %f", pos[3]);
             validCount++;
           }
         }
