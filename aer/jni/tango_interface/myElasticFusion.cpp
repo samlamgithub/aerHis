@@ -707,10 +707,10 @@ void MyElasticFusion::runEF() {
     ss1 << currentPose->format(CleanFmt1);
     std::string str1(ss1.str());
     LOGI("input pose is : %s", str1.c_str());
-    Eigen::Matrix4f *incrementalTrans = 0;
-    incrementalTrans = new Eigen::Matrix4f;
-    incrementalTrans->setIdentity();
-    *incrementalTrans = previousPose->inverse() * (*currentPose);
+    // Eigen::Matrix4f *incrementalTrans = 0;
+    // incrementalTrans = new Eigen::Matrix4f;
+    // incrementalTrans->setIdentity();
+    // *incrementalTrans = previousPose->inverse() * (*currentPose);
     // float x = (float)pose.translation[0];
     // float y = (float)pose.translation[1];
     // float z =(float) pose.translation[2];
@@ -729,7 +729,7 @@ void MyElasticFusion::runEF() {
     LOGI("MyElasticFusion Processing frames ready.");
     check_gl_errorEF();
     eFusion.processFrame(rgbImageForEF, depthForEF, timeStampleForEF,
-                         incrementalTrans);
+                         currentPose);
     LOGI("MyElasticFusion Processing frames done.");
     *previousPose = *currentPose;
     // delete &trans;
