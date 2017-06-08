@@ -352,7 +352,7 @@ void RunTangoRGBDPoseData::runEF(bool hasPose) {
         Eigen::Matrix4f *inputPose = 0;
         inputPose = new Eigen::Matrix4f;
         inputPose->setIdentity();
-        *inputPose = groundTruthOdometry->getIncrementalTransformation(timestamp);
+        *inputPose = groundTruthOdometry->getTransformation(timestamp);
 
         Eigen::IOFormat CleanFmt1(4, 0, ", ", "\n", "[", "]");
         std::stringstream ss;
