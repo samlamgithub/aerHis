@@ -733,7 +733,7 @@ void MyElasticFusion::runEF() {
     LOGI("MyElasticFusion Processing frames done.");
     *previousPose = *currentPose;
     // delete &trans;
-    delete incrementalTrans;
+  //  delete incrementalTrans;
     delete currentPose;
     // eFusion.processFrame(rgb, dep, timestamp);
     check_gl_errorEF();
