@@ -257,9 +257,11 @@ void RunDatasetEF::runEF() {
       new Bytef[Resolution::getInstance().numPixels() * 2];
   decompressionBufferImage =
       new Bytef[Resolution::getInstance().numPixels() * 4];
+
   LOGI("RunDatasetEF RunDatasetEF Initialising done ...");
   LOGI("RunDatasetEF RunDatasetEF Setting parameters...");
-  float confidence = 10.0f;   // fusion的confidence阈值
+
+  float confidence = 0.40f;   // fusion的confidence阈值
   float depthThre = 12.0f;    //去掉depth大于某个阈值的帧
   float icp = 10.0f;          // icp的阈值
   float icpErrThresh = 5e-05; // icp错误阈值
@@ -435,7 +437,7 @@ void RunDatasetEF::runEF() {
 
         for (unsigned int i = 0; i < lastCount; i++) {
           Eigen::Vector4f pos = mapData[(i * 3) + 0];
-LOGI("RunDatasetEF save frame: pos[3]: %f", pos[3]);
+// LOGI("RunDatasetEF save frame: pos[3]: %f", pos[3]);
           if (pos[3] > confidenceThreshold) {
 // LOGI("RunDatasetEF save frame: pos[3]: %f", pos[3]);
             validCount++;

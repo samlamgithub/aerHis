@@ -278,7 +278,7 @@ void RunTangoRGBDPoseData::runEF(bool hasPose) {
   LOGI("RunTangoRGBDPoseData RunTangoRGBDPoseData Initialising done ...");
   LOGI("RunTangoRGBDPoseData RunTangoRGBDPoseData Setting parameters...");
 
-  float confidence = 10.0f;   // fusion的confidence阈值
+  float confidence = 0.40f;   // fusion的confidence阈值
   float depthThre = 12.0f;     //去掉depth大于某个阈值的帧
   float icp = 10.0f;          // icp的阈值
   float icpErrThresh = 5e-05; // icp错误阈值
@@ -490,7 +490,7 @@ LOGI("RunTangoRGBDPoseData Log processing result eFusion.getDeforms(): %d ", ld_
         for (unsigned int i = 0; i < lastCount; i++) {
           Eigen::Vector4f pos = mapData[(i * 3) + 0];
 
-    LOGI("RunTangoRGBDPoseData save frame: pos[3]: %f", pos[3]);
+    // LOGI("RunTangoRGBDPoseData save frame: pos[3]: %f", pos[3]);
           if (pos[3] > confidenceThreshold) {
           // LOGI("RunTangoRGBDPoseData save frame: pos[3]: %f", pos[3]);
             validCount++;

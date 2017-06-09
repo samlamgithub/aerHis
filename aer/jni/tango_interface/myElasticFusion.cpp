@@ -522,7 +522,7 @@ void MyElasticFusion::runEF() {
   LOGI("MyElasticFusion runEF elasticfusion Initialising done ...");
   LOGI("MyElasticFusion runEF elasticfusion Setting parameters...");
 
-  float confidence = 10.0f;   // fusion的confidence阈值
+  float confidence = 0.4f;   // fusion的confidence阈值
   float depth = 12.0f;         //去掉depth大于某个阈值的帧
   float icp = 10.0f;          // icp的阈值
   float icpErrThresh = 5e-05; // icp错误阈值
@@ -860,7 +860,7 @@ void MyElasticFusion::runEF() {
       for (unsigned int i = 0; i < lastCount; i++) {
         Eigen::Vector4f pos = mapData[(i * 3) + 0];
         if (pos[3] > confidenceThreshold) {
-          LOGI("ElasticFusion save frame valid pose: pos[3]: %f", pos[3]);
+          // LOGI("ElasticFusion save frame valid pose: pos[3]: %f", pos[3]);
           validCount++;
         }
       }
