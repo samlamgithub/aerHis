@@ -325,7 +325,7 @@ void RunDatasetEF::runEF() {
       check_gl_errorDS();
       LOGI("RunDatasetEF Processing frames ready done.");
       // Eigen::Matrix4f *currentPose = 0;
-      eFusion.processFrame(rgb, depth, timestamp, bootstrap);
+      eFusion.processFrame(rgb, depth, timestamp, 0, 1.0, bootstrap);
       // if (currentPose) {
       //   delete currentPose;
       // }
