@@ -541,7 +541,7 @@ void ElasticFusion::processFrame(const unsigned char *rgb,
       check_gl_errorElasticFusion();
       LOGI(" ElasticFusion struct Process frame else 8 1 ");
       if (bootstrap) {
-        LOGI(" ElasticFusion struct Process frame else 8 2");
+        LOGI(" ElasticFusion struct Process frame else 8 2 bootstrap");
         assert(inPose);
         LOGI(" ElasticFusion struct Process frame updating currPose before");
         Eigen::IOFormat CleanFmt(4, 0, ", ", "\n", "[", "]");
@@ -550,7 +550,7 @@ void ElasticFusion::processFrame(const unsigned char *rgb,
         std::string str(ss.str());
         LOGI("ElasticFusion struct Process framecurrPose is : %s", str.c_str());
 
-        currPose = currPose * (*updatedInPose);
+        currPose = (*updatedInPose);
 
         std::stringstream ss2;
         ss2 << currPose.format(CleanFmt);
@@ -791,7 +791,7 @@ void ElasticFusion::processFrame(const unsigned char *rgb,
         currPose = recoveryPose;
 
         std::stringstream ss41;
-        ss41 << currPose.format(CleanFmt3);
+        ss41 << currPose.format(CleanFmt5);
         std::string str41(ss41.str());
         LOGI("ElasticFusion struct Process frame currPose after global loop "
              "closure is : ",

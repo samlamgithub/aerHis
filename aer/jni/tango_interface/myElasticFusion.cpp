@@ -531,6 +531,8 @@ void MyElasticFusion::runEF() {
   float fernThresh = 0.3095f; //新fern的阈值
   int timeDelta = 200;
   int icpCountThresh = 35000;
+
+  bool bootstrap = false;
   // int start = 1;
   // int end = std::numeric_limits<unsigned short>::max(); //Funny bound, since
   // we predict times in this format really!
@@ -729,7 +731,7 @@ void MyElasticFusion::runEF() {
     LOGI("MyElasticFusion Processing frames ready.");
     check_gl_errorEF();
     eFusion.processFrame(rgbImageForEF, depthForEF, timeStampleForEF,
-                         currentPose);
+                         currentPose, bootstrap);
     LOGI("MyElasticFusion Processing frames done.");
     *previousPose = *currentPose;
     // delete &trans;

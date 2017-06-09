@@ -270,6 +270,8 @@ void RunDatasetEF::runEF() {
   float fernThresh = 0.3095f; //新fern的阈值
   int timeDelta = 200;
   int icpCountThresh = 35000;
+
+  bool bootstrap = false;
   // int start = 1;
   // int end = std::numeric_limits<unsigned short>::max(); //Funny bound, since
   // we predict times in this format really!
@@ -323,7 +325,7 @@ void RunDatasetEF::runEF() {
       check_gl_errorDS();
       LOGI("RunDatasetEF Processing frames ready done.");
       // Eigen::Matrix4f *currentPose = 0;
-      eFusion.processFrame(rgb, depth, timestamp);
+      eFusion.processFrame(rgb, depth, timestamp, bootstrap);
       // if (currentPose) {
       //   delete currentPose;
       // }

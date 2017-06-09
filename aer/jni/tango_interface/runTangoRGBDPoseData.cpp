@@ -287,6 +287,9 @@ void RunTangoRGBDPoseData::runEF(bool hasPose) {
   float fernThresh = 0.3095f; //新fern的阈值
   int timeDelta = 200;
   int icpCountThresh = 35000;
+
+  bool bootstrap = false;
+
   // int start = 1;
   // int end = std::numeric_limits<unsigned short>::max(); //Funny bound, since
   // we predict times in this format really!
@@ -360,7 +363,8 @@ void RunTangoRGBDPoseData::runEF(bool hasPose) {
         std::string poseStr(ss.str());
         LOGI("RunTangoRGBDPoseDatainput pose is : %s", poseStr.c_str());
 
-        eFusion.processFrame(rgb, depth, timestamp, inputPose);
+        eFusion.processFrame(rgb, depth, timestamp, inputPose, bootstrap);
+
         check_gl_errorTANGODATA();
         LOGI("RunTangoRGBDPoseData Processing frames hasPose done.");
         if (inputPose) {
