@@ -98,7 +98,9 @@ ElasticFusion::ElasticFusion(const int timeDelta, const int countThresh,
           Intrinsics::getInstance().cx(), Intrinsics::getInstance().cy(),
           Intrinsics::getInstance().fx(), Intrinsics::getInstance().fy()),
       ferns(500, depthCut * 1000, photoThresh),
-      currPose(Eigen::Matrix4f::Identity()), tick(1), timeDelta(timeDelta),
+      currPose(Eigen::Matrix4f::Identity()),
+      correctionMatrix(Eigen::Matrix4f::Identity()),
+      tick(1), timeDelta(timeDelta),
       icpCountThresh(countThresh), icpErrThresh(errThresh),
       covThresh(covThresh), deforms(0), fernDeforms(0), consSample(20),
       resize(Resolution::getInstance().width(),
@@ -358,27 +360,49 @@ void ElasticFusion::processFrame(const unsigned char *rgb,
   //        LOGI("depth ==== %d: %d", j, depth[j]);
   //   }
   // }
-//   for (int i = 0; i < 480*2; i++) {
-//     LOGI("depth ========= %u, %u, %u, %u, %u, %u, %u, %u,  %u, %u, %u, %u, %u, %u, %u, %u, ",
-//  depth[16*i],
-// depth[16*i+1],
-// depth[16*i+2],
-// depth[16*i+3],
-// depth[16*i+4],
-// depth[16*i+5],
-// depth[16*i+6],
-// depth[16*i+7],
-// depth[16*i+8],
-// depth[16*i+9],
-// depth[16*i+9],
-// depth[16*i+10],
-// depth[16*i+11],
-// depth[16*i+12],
-// depth[16*i+13],
-// depth[16*i+14]);
-//   }
+  //   for (int i = 0; i < 480*2; i++) {
+  //     LOGI("depth ========= %u, %u, %u, %u, %u, %u, %u, %u,  %u, %u, %u, %u,
+  //     %u, %u, %u, %u, ",
+  //  depth[16*i],
+  // depth[16*i+1],
+  // depth[16*i+2],
+  // depth[16*i+3],
+  // depth[16*i+4],
+  // depth[16*i+5],
+  // depth[16*i+6],
+  // depth[16*i+7],
+  // depth[16*i+8],
+  // depth[16*i+9],
+  // depth[16*i+9],
+  // depth[16*i+10],
+  // depth[16*i+11],
+  // depth[16*i+12],
+  // depth[16*i+13],
+  // depth[16*i+14]);
+  //   }
   // LOGI("==================================================");
   // return;
+  Eigen::IOFormat CleanFmt4(4, 0, ", ", "\n", "[", "]");
+
+  Eigen::Matrix4f *updatedInPose = new Eigen::Matrix4f;
+  if (inPose) {
+    // std::cout << "Elasticfusion processFrame inPose" << std::endl;
+    std::stringstream ss31;
+    ss31 << (*inPose).format(CleanFmt4);
+    std::string str31(ss31.str());
+    std::cout << "ElasticFusion struct Process frame inPose is : "
+              << str31.c_str() << std::endl;
+
+    (*updatedInPose) = (*inPose) * correctionMatrix;
+
+    std::stringstream ss4;
+    ss4 << (*updatedInPose).format(CleanFmt4);
+    std::string str4(ss4.str());
+    std::cout << "ElasticFusion struct Process frame updatedInPose is : "
+              << str4.c_str() << std::endl;
+    // std::cout << "Elasticfusion processFrame inPose 2" << std::endl;
+     }
+
 
   textures[GPUTexture::DEPTH_RAW]->texture->Upload(depth, GL_RED_INTEGER,
                                                    GL_UNSIGNED_SHORT);
@@ -526,7 +550,7 @@ void ElasticFusion::processFrame(const unsigned char *rgb,
         std::string str(ss.str());
         LOGI("ElasticFusion struct Process framecurrPose is : %s", str.c_str());
 
-        currPose = currPose * (*inPose);
+        currPose = currPose * (*updatedInPose);
 
         std::stringstream ss2;
         ss2 << currPose.format(CleanFmt);
@@ -637,15 +661,15 @@ void ElasticFusion::processFrame(const unsigned char *rgb,
       LOGI("ElasticFusion struct Process frame currPose is : %s", str3.c_str());
 
     } else {
-      LOGI(" ElasticFusion struct Process frame else 15 2 assigning inPose to "
+      LOGI(" ElasticFusion struct Process frame else 15 2 assigning updatedInPose to "
            "currPose");
       Eigen::IOFormat CleanFmt(4, 0, ", ", "\n", "[", "]");
       std::stringstream ss;
-      ss << (*inPose).format(CleanFmt);
+      ss << (*updatedInPose).format(CleanFmt);
       std::string str(ss.str());
-      LOGI("ElasticFusion struct Process frame inPose is : %s", str.c_str());
+      LOGI("ElasticFusion struct Process frame updatedInPose is : %s", str.c_str());
 
-      currPose = *inPose;
+      currPose = *updatedInPose;
 
       std::stringstream ss2;
       ss2 << currPose.format(CleanFmt);
@@ -747,16 +771,40 @@ void ElasticFusion::processFrame(const unsigned char *rgb,
           LOGI("ElasticFusion struct Process frame recoveryPose is : %s",
                str5.c_str());
 
-          currPose = recoveryPose;
+        Eigen::Matrix4f differenceH = currPose.inverse() * recoveryPose;
 
-          poseMatches.push_back(
-              PoseMatch(ferns.lastClosest, ferns.frames.size(),
-                        ferns.frames.at(ferns.lastClosest)->pose, currPose,
-                        constraints, true));
+        std::stringstream ss51;
+        ss51 << differenceH.format(CleanFmt5);
+        std::string str51(ss51.str());
+        LOGI("ElasticFusion struct Process frame differenceH in global loop "
+             "closure is: %s", str51.c_str());
 
-          fernDeforms += rawGraph.size() > 0;
+        if (inPose) {
+          correctionMatrix = correctionMatrix * differenceH;
+          std::stringstream ss71;
+          ss71 << differenceH.format(CleanFmt5);
+          std::string str71(ss71.str());
+          LOGI("ElasticFusion struct Process frame correctionMatrix in "
+                       "global loop closure is : %s ",str71.c_str());
+        }
 
-          fernAccepted = true;
+        currPose = recoveryPose;
+
+        std::stringstream ss41;
+        ss41 << currPose.format(CleanFmt3);
+        std::string str41(ss41.str());
+        LOGI("ElasticFusion struct Process frame currPose after global loop "
+             "closure is : ",
+             str41.c_str());
+
+        poseMatches.push_back(
+            PoseMatch(ferns.lastClosest, ferns.frames.size(),
+                      ferns.frames.at(ferns.lastClosest)->pose, currPose,
+                      constraints, true));
+
+        fernDeforms += rawGraph.size() > 0;
+
+        fernAccepted = true;
         }
       }
     }
@@ -866,6 +914,8 @@ void ElasticFusion::processFrame(const unsigned char *rgb,
 
           deforms += rawGraph.size() > 0;
 
+          LOGI("Elastic Fusion closing local loop closure");
+
           LOGI("ElasticFusion struct Process frame 40 2.. assigning "
                "estPose to currPose");
 
@@ -876,7 +926,31 @@ void ElasticFusion::processFrame(const unsigned char *rgb,
           LOGI("ElasticFusion struct Process frame estPose is : %s",
                str6.c_str());
 
+          Eigen::Matrix4f differenceH = currPose.inverse() * estPose;
+
+          std::stringstream ss52;
+          ss52 << differenceH.format(CleanFmt6);
+          std::string str52(ss52.str());
+          LOGI("ElasticFusion struct Process frame differenceH in "
+                       "local loop closure is : ", str52.c_str());
+
+          if (inPose) {
+            correctionMatrix = correctionMatrix * differenceH;
+
+            std::stringstream ss72;
+            ss72 << differenceH.format(CleanFmt6);
+            std::string str72(ss72.str());
+            LOGI("ElasticFusion struct Process frame correctionMatrix "
+                         "in local loop closure is : ", str72.c_str());
+          }
+
           currPose = estPose;
+
+          std::stringstream ss43;
+          ss43 << currPose.format(CleanFmt6);
+          std::string str43(ss43.str());
+          LOGI("ElasticFusion struct Process frame currPose after "
+                       "local loop closure is : ", str43.c_str());
 
           for (size_t i = 0; i < newRelativeCons.size();
                i += newRelativeCons.size() / 3) {

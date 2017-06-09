@@ -285,6 +285,8 @@ private:
 
   Eigen::Matrix4f currPose;
 
+  Eigen::Matrix4f correctionMatrix;
+
   int tick;
   const int timeDelta;
   const int icpCountThresh;
