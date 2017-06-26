@@ -20,13 +20,10 @@
 #ifndef GPUTEXTURE_H_
 #define GPUTEXTURE_H_
 
-//#include <GLES2/gl2ext.h>
-//#include <GLES3/gl3.h>
 #include <GLES3/gl3.h>
-#define __gl2_h_ 
+#define __gl2_h_
 #include <GLES2/gl2ext.h>
 #include <GLES3/gl3platform.h>
-
 #include "../tango_interface/util.hpp"
 #include <Shaders/glTexture.h>
 #include <cuda_gl_interop.h>
@@ -45,7 +42,6 @@ public:
   static const std::string RGB, DEPTH_RAW, DEPTH_FILTERED, DEPTH_METRIC,
       DEPTH_METRIC_FILTERED, DEPTH_NORM;
 
-  // pangolin::GlTexture * texture;
   GlTexture *texture;
 
   cudaGraphicsResource *cudaRes;

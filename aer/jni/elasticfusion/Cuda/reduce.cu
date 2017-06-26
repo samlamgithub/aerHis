@@ -670,10 +670,8 @@ void rgbStep(const DeviceArray2D<DataTerm> & corresImg,
         {
             float value = host_data[shift++];
             if (j == 6) {
-              LOGI("reduce.cu rgbStep  vectorB_host value: %f", value);
               vectorB_host[i] = value;
             } else {
-              LOGI("reduce.cu rgbStep  matrixA_host value: %f", value);
               matrixA_host[j * 6 + i] = matrixA_host[i * 6 + j] = value;
             }
     }

@@ -25,29 +25,22 @@
 #include "Shaders.h"
 #include "Uniform.h"
 #include <glFrameBuffer.h>
-// #include <pangolin/gl/gl.h>
 
 class ComputePack {
 public:
-  // ComputePack(std::shared_ptr<Shader> program, pangolin::GlTexture * target);
   ComputePack(std::shared_ptr<Shader> program, GlTexture *target);
 
   virtual ~ComputePack();
 
   static const std::string NORM, FILTER, METRIC, METRIC_FILTERED;
 
-  // void compute(pangolin::GlTexture * input, const std::vector<Uniform> *
-  // const uniforms = 0);
   void compute(GlTexture *input,
                const std::vector<Uniform> *const uniforms = 0);
 
 private:
   std::shared_ptr<Shader> program;
-  // pangolin::GlRenderBuffer renderBuffer;
   GlRenderBuffer renderBuffer;
-  // pangolin::GlTexture * target;
   GlTexture *target;
-  // pangolin::GlFramebuffer frameBuffer;
   GlFramebuffer frameBuffer;
 };
 

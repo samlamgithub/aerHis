@@ -19,68 +19,6 @@
 
 #include "Ferns.h"
 
-
-static const char *glErrorStringFerns(GLenum err) {
-  switch (err) {
-  case GL_INVALID_ENUM:
-    return "Invalid Enum";
-  case GL_INVALID_VALUE:
-    return "Invalid Value";
-  case GL_INVALID_OPERATION:
-    return "Invalid Operation";
-  // case GL_STACK_OVERFLOW: return "Stack Overflow";
-  // case GL_STACK_UNDERFLOW: return "Stack Underflow";
-  case GL_OUT_OF_MEMORY:
-    return "error Out of Memory";
-  case GL_INVALID_FRAMEBUFFER_OPERATION:
-    return "GL_INVALID_FRAMEBUFFER_OPERATION";
-  //  case GL_TABLE_TOO_LARGE: return "Table too Large";
-  default:
-    return "Unknown Error";
-  }
-}
-
-inline const char *glCheckFramebufferStatusFerns() {
-  GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-  if (status == GL_FRAMEBUFFER_COMPLETE) {
-    return "MY elasitcfusion  GL_FRAMEBUFFER_COMPLETE";
-  } else if (status == GL_FRAMEBUFFER_UNDEFINED) {
-    return "MY elasitcfusion   GL_FRAMEBUFFER_UNDEFINED";
-  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT) {
-    return "MY elasitcfusion  "
-           "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT";
-  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT) {
-    return "MY elasitcfusion  "
-           "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT";
-  } else if (status == GL_FRAMEBUFFER_UNSUPPORTED) {
-    return "MY elasitcfusion   GL_FRAMEBUFFER_UNSUPPORTED";
-  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE) {
-    return "MY elasitcfusion   "
-           "GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE";
-  } else if (status == GL_INVALID_ENUM) {
-    return "MY elasitcfusion  GL_INVALID_ENUM";
-  } else {
-      LOGI("glCheckFramebufferStatus else: %d", status);
-    char integer_string[32];
-    int integer = status;
-    sprintf(integer_string, "%d", status);
-    char other_string[64] = "MY elasitcfusion glCheckFramebufferStatus else: ";
-    strcat(other_string, integer_string);
-    return other_string;
-  }
-}
-
-inline void check_gl_errorFerns() {
-  if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
-      LOGI("frame buffer error: %s", glCheckFramebufferStatusFerns());
-  }
-  for (GLint error = glGetError(); error; error = glGetError()) {
-    LOGI("check_gl_error ferns.cpp My elastic-fusion CheckGlDieOnError after "
-         ": %s, %s glError (0x%x)\n", glCheckFramebufferStatusFerns(),
-         glErrorStringFerns(error), error);
-  }
-}
-
 Ferns::Ferns(int n, int maxDepth, const float photoThresh)
     : num(n), factor(8), width(Resolution::getInstance().width() / factor),
       height(Resolution::getInstance().height() / factor), maxDepth(maxDepth),
@@ -93,28 +31,18 @@ Ferns::Ferns(int n, int maxDepth, const float photoThresh)
            Intrinsics::getInstance().cy() / factor,
            Intrinsics::getInstance().fx() / factor,
            Intrinsics::getInstance().fy() / factor),
-      // vertFern(width, height, GL_RGBA32F, GL_LUMINANCE, GL_FLOAT, false, true),
   vertFern(width, height,  GL_RGBA32F, GL_RGBA, GL_FLOAT, false, true),
-      // vertCurrent(width, height, GL_RGBA32F, GL_LUMINANCE, GL_FLOAT, false,  true),
   vertCurrent(width, height, GL_RGBA32F, GL_RGBA, GL_FLOAT, false,  true),
-      // normFern(width, height, GL_RGBA32F, GL_LUMINANCE, GL_FLOAT, false, true),
   normFern(width, height, GL_RGBA32F, GL_RGBA, GL_FLOAT, false, true),
-      // normCurrent(width, height, GL_RGBA32F, GL_LUMINANCE, GL_FLOAT, false,true),
   normCurrent(width, height, GL_RGBA32F, GL_RGBA, GL_FLOAT, false,true),
-      // colorFern(width, height, GL_RGBA, GL_RGB, GL_UNSIGNED_BYTE, false, true),
-colorFern(width, height, GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, false, true),
-      // colorCurrent(width, height, GL_RGBA, GL_RGB, GL_UNSIGNED_BYTE, false,true),
+  colorFern(width, height, GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, false, true),
   colorCurrent(width, height, GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, false,true),
       resize(Resolution::getInstance().width(),
              Resolution::getInstance().height(), width, height),
       imageBuff(width, height), vertBuff(width, height),
       normBuff(width, height) {
-check_gl_errorFerns();
-  LOGI("MY elasitcfusion Ferns struct init start 1 ");
   random.seed(time(0));
   generateFerns();
-  check_gl_errorFerns();
-  LOGI("MY elasitcfusion Ferns struct init done 2 ");
 }
 
 Ferns::~Ferns() {
@@ -124,8 +52,6 @@ Ferns::~Ferns() {
 }
 
 void Ferns::generateFerns() {
-  check_gl_errorFerns();
-  LOGI("MY elasitcfusion generateFerns  start 1 ");
   for (int i = 0; i < num; i++) {
     Fern f;
 
@@ -139,26 +65,17 @@ void Ferns::generateFerns() {
 
     conservatory.push_back(f);
   }
-  check_gl_errorFerns();
-  LOGI("MY elasitcfusion generateFerns done");
 }
 
-//新输入的帧和以前帧进行比较，如果相似度小于一定阈值，则将当前帧插入作为回环检测的关键帧
 bool Ferns::addFrame(GPUTexture *imageTexture, GPUTexture *vertexTexture,
                      GPUTexture *normalTexture, const Eigen::Matrix4f &pose,
                      int srcTime, const float threshold) {
-  check_gl_errorFerns();
-  LOGI("MY elasitcfusion addFrame start1: height: %d, width: %d", height, width);
   Img<Eigen::Matrix<unsigned char, 4, 1>> img(height, width);
   Img<Eigen::Vector4f> verts(height, width);
   Img<Eigen::Vector4f> norms(height, width);
-  LOGI("MY elasitcfusion addFrame start 2");
   resize.image(imageTexture, img);
-  LOGI("MY elasitcfusion addFrame start 3");
   resize.vertex(vertexTexture, verts);
-  LOGI("MY elasitcfusion addFrame start 4");
   resize.vertex(normalTexture, norms);
-  LOGI("MY elasitcfusion addFrame start 5");
   Frame *frame =
       new Frame(num, frames.size(), pose, srcTime, width * height,
                 (unsigned char *)img.data, (Eigen::Vector4f *)verts.data,
@@ -176,7 +93,7 @@ bool Ferns::addFrame(GPUTexture *imageTexture, GPUTexture *vertexTexture,
       const Eigen::Matrix<unsigned char, 4, 1> &pix =
           img.at<Eigen::Matrix<unsigned char, 4, 1>>(conservatory.at(i).pos(1),
                                                      conservatory.at(i).pos(0));
-      //随机选取像素点处的编码
+
       code = (pix(0) > conservatory.at(i).rgbd(0)) << 3 |
              (pix(1) > conservatory.at(i).rgbd(1)) << 2 |
              (pix(2) > conservatory.at(i).rgbd(2)) << 1 |
@@ -213,8 +130,6 @@ bool Ferns::addFrame(GPUTexture *imageTexture, GPUTexture *vertexTexture,
   if ((minimum > threshold || frames.size() == 0) && frame->goodCodes > 0) {
     for (int i = 0; i < num; i++) {
       if (frame->codes[i] != badCode) {
-        // conservatory 存储关系：第一层 fern 的编号，第二层 code
-        // 的编号，第三层图像帧的编号
         conservatory.at(i).ids[frame->codes[i]].push_back(frame->id);
       }
     }
@@ -229,20 +144,19 @@ bool Ferns::addFrame(GPUTexture *imageTexture, GPUTexture *vertexTexture,
   }
 
 }
-// 对于输入的图像进行全局的回环检测，通过判断和以前存储的帧编码相似度，判断当前帧是否作为关键帧
+
 Eigen::Matrix4f Ferns::findFrame(std::vector<SurfaceConstraint> &constraints,
                                  const Eigen::Matrix4f &currPose,
                                  GPUTexture *vertexTexture,
                                  GPUTexture *normalTexture,
                                  GPUTexture *imageTexture, const int time,
                                  const bool lost) {
-LOGI("MY elasitcfusion findFrame start 1");
   lastClosest = -1;
 
   Img<Eigen::Matrix<unsigned char, 4, 1>> imgSmall(height, width);
   Img<Eigen::Vector4f> vertSmall(height, width);
   Img<Eigen::Vector4f> normSmall(height, width);
-  //对输入图像降采样 8X8 倍
+
   resize.image(imageTexture, imgSmall);
   resize.vertex(vertexTexture, vertSmall);
   resize.vertex(normalTexture, normSmall);
@@ -383,7 +297,7 @@ LOGI("MY elasitcfusion findFrame start 1");
   }
 
   delete frame;
-LOGI("MY elasitcfusion findFrame done");
+
   return estPose;
 }
 

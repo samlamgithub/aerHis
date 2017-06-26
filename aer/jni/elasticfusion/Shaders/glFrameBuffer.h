@@ -21,207 +21,77 @@
 #define GLFRAMEBUFFER_H_
 
 #include <GLES3/gl3.h>
-#define __gl2_h_ 
+#define __gl2_h_
 #include <GLES2/gl2ext.h>
 #include <GLES3/gl3platform.h>
-
 #include <EGL/egl.h>
 #include <EGL/eglext.h>
-
 #include <GLExtensions.h>
 #include <glRenderBuffer.h>
 #include <glTexture.h>
 
-inline const char *glCheckFramebufferStatusGlFramebuffer() {
-  GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-  if (status == GL_FRAMEBUFFER_COMPLETE) {
-    return "MY elasitcfusion  GL_FRAMEBUFFER_COMPLETE";
-  } else if (status == GL_FRAMEBUFFER_UNDEFINED) {
-    return "MY elasitcfusion   GL_FRAMEBUFFER_UNDEFINED";
-  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT) {
-    return "MY elasitcfusion  "
-           "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT";
-  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT) {
-    return "MY elasitcfusion  "
-           "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT";
-  } else if (status == GL_FRAMEBUFFER_UNSUPPORTED) {
-    return "MY elasitcfusion   GL_FRAMEBUFFER_UNSUPPORTED";
-  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE) {
-    return "MY elasitcfusion   "
-           "GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE";
-  } else if (status == GL_INVALID_ENUM) {
-    return "MY elasitcfusion  GL_INVALID_ENUM";
-  } else {
-    char integer_string[32];
-    int integer = status;
-    sprintf(integer_string, "%d", status);
-    char other_string[64] = "MY elasitcfusion glCheckFramebufferStatus else: ";
-    strcat(other_string, integer_string);
-    return other_string;
-  }
-}
-
-static const char *glErrorStringFB(GLenum err) {
-  switch (err) {
-  case GL_INVALID_ENUM:
-    return "Invalid Enum";
-  case GL_INVALID_VALUE:
-    return "Invalid Value";
-  case GL_INVALID_OPERATION:
-    return "Invalid Operation";
-  case GL_INVALID_FRAMEBUFFER_OPERATION:
-    return "GL_INVALID_FRAMEBUFFER_OPERATION";
-  // case GL_STACK_OVERFLOW: return "Stack Overflow";
-  // case GL_STACK_UNDERFLOW: return "Stack Underflow";
-  case GL_OUT_OF_MEMORY:
-    return "error Out of Memory";
-  //  case GL_TABLE_TOO_LARGE: return "Table too Large";
-  default:
-    return "Unknown Error";
-  }
-}
-
-inline void CheckGlDieOnErrorFB() {
-  if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
-      LOGI("frame buffer error: %s", glCheckFramebufferStatusGlFramebuffer());
-  }
-  for (GLint error = glGetError(); error; error = glGetError()) {
-    LOGI("GlFramebuffer.h CheckGlDieOnError after: %s, %s: glError (0x%x)\n", glCheckFramebufferStatusGlFramebuffer(),
-         glErrorStringFB(error), error);
-  }
-}
-
 struct GlFramebuffer {
-  GlFramebuffer() : fbid(0), attachments(0) {
-    CheckGlDieOnErrorFB();
-    LOGI("GlFramebuffer init 1");
-  }
+  GlFramebuffer() : fbid(0), attachments(0) {}
 
   ~GlFramebuffer() {
     if (fbid) {
-      // glDeleteFramebuffersEXT(1, &fbid);
       glDeleteFramebuffers(1, &fbid);
     }
   }
 
   GlFramebuffer(GlTexture &colour, GlRenderBuffer &depth) : attachments(0) {
-    // glGenFramebuffersEXT(1, &fbid);
-    CheckGlDieOnErrorFB();
-    LOGI("GlFramebuffer init 2 start 1 colour tid: %d, depth id: %d", colour.tid, depth.rbid);
     glGenFramebuffers(1, &fbid);
-    CheckGlDieOnErrorFB();
-    LOGI("GlFramebuffer init 2 2 glGenFramebuffers: %d", fbid);
     AttachColour(colour);
-    CheckGlDieOnErrorFB();
-    LOGI("GlFramebuffer init 2 3");
     AttachDepth(depth);
-    CheckGlDieOnErrorFB();
-    LOGI("GlFramebuffer init 2 done");
   }
 
   GlFramebuffer(GlTexture &colour0, GlTexture &colour1, GlRenderBuffer &depth)
       : attachments(0) {
-    // glGenFramebuffersEXT(1, &fbid);
-    CheckGlDieOnErrorFB();
-    LOGI("GlFramebuffer init 3 start 1 colour tid: %d, depth id: %d", colour0.tid, depth.rbid);
     glGenFramebuffers(1, &fbid);
-    CheckGlDieOnErrorFB();
-    LOGI("GlFramebuffer init 3 2 glGenFramebuffers: %d", fbid);
     AttachColour(colour0);
-    CheckGlDieOnErrorFB();
-    LOGI("GlFramebuffer init 3 3");
     AttachColour(colour1);
-    CheckGlDieOnErrorFB();
-    LOGI("GlFramebuffer init 3 4");
     AttachDepth(depth);
-    CheckGlDieOnErrorFB();
-    LOGI("GlFramebuffer init 3 done");
   }
 
   void Bind() const {
-    // glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fbid);
-    CheckGlDieOnErrorFB();
-    LOGI("GlFramebuffer Bind start fbid: %d", fbid);
     glBindFramebuffer(GL_FRAMEBUFFER, fbid);
-    CheckGlDieOnErrorFB();
-    LOGI("GlFramebuffer Bind done");
-    // glDrawBuffers( attachments, attachment_buffers );
   }
 
   void Reinitialise() {
-    CheckGlDieOnErrorFB();
-    LOGI("GlFramebuffer Reinitialise start");
     if (fbid) {
-      // glDeleteFramebuffersEXT(1, &fbid);
       glDeleteFramebuffers(1, &fbid);
-      LOGI("GlFramebuffer Reinitialise start 1.5");
     }
-    CheckGlDieOnErrorFB();
-    LOGI("GlFramebuffer Reinitialise start 1");
-    // glGenFramebuffersEXT(1, &fbid);
     glGenFramebuffers(1, &fbid);
-    CheckGlDieOnErrorFB();
-    LOGI("GlFramebuffer Reinitialise done 2 glGenFramebuffers: %d", fbid);
   }
 
   void Unbind() const {
-    CheckGlDieOnErrorFB();
-    LOGI("GlFramebuffer Unbind start");
-    // glDrawBuffers( 1, attachment_buffers );
-    // glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    CheckGlDieOnErrorFB();
-    LOGI("GlFramebuffer Unbind done ");
   }
 
   GLenum AttachColour(GlTexture &tex) {
-    CheckGlDieOnErrorFB();
-    LOGI("GlFramebuffer AttachColour start: attachments: %d, GlTexture tid: %d", attachments, tex.tid);
     if (!fbid)
       Reinitialise();
-    CheckGlDieOnErrorFB();
-    LOGI("GlFramebuffer AttachColour start  1");
-    // const GLenum color_attachment = GL_COLOR_ATTACHMENT0_EXT + attachments;
-    // glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fbid);
-    // glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, color_attachment,
-    // GL_TEXTURE_2D, tex.tid, 0); glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+
     const GLenum color_attachment = GL_COLOR_ATTACHMENT0 + attachments;
-    glBindFramebuffer(GL_FRAMEBUFFER, fbid); // GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT
-    CheckGlDieOnErrorFB();
-    LOGI("GlFramebuffer AttachColour start  2");
+    glBindFramebuffer(GL_FRAMEBUFFER, fbid);
+
     glFramebufferTexture2D(GL_FRAMEBUFFER, color_attachment, GL_TEXTURE_2D,
-                           tex.tid, 0); // GL_FRAMEBUFFER_UNSUPPORTED
-    CheckGlDieOnErrorFB();
-    LOGI("GlFramebuffer AttachColour start  3");
+                           tex.tid, 0);
+
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    CheckGlDieOnErrorFB();
-    LOGI("GlFramebuffer AttachColour start  4");
+
     attachments++;
-    CheckGlDieOnErrorFB();
-    LOGI("GlFramebuffer AttachColour done");
+
     return color_attachment;
   }
 
   void AttachDepth(GlRenderBuffer &rb) {
-    CheckGlDieOnErrorFB();
-    LOGI("GlFramebuffer AttachDepth start: attachments: %d, GlRenderBuffer rbid: %d", attachments, rb.rbid);
     if (!fbid)
       Reinitialise();
-    CheckGlDieOnErrorFB();
-    LOGI("GlFramebuffer AttachDepth 1");
-    // glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fbid);
-    // glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT,
-    // GL_TEXTURE_2D, rb.rbid, 0); glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
-    glBindFramebuffer(GL_FRAMEBUFFER, fbid); // GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT
-    CheckGlDieOnErrorFB();
-    LOGI("GlFramebuffer AttachDepth 2");
+    glBindFramebuffer(GL_FRAMEBUFFER, fbid);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D,
                            rb.rbid, 0);
-    CheckGlDieOnErrorFB();
-    LOGI("GlFramebuffer AttachDepth 3");
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    CheckGlDieOnErrorFB();
-    LOGI("GlFramebuffer AttachDepth done");
   }
 
   GLuint fbid;

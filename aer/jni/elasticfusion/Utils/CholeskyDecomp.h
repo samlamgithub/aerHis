@@ -21,7 +21,6 @@
 
 #include <cholmod/cholmod.h>
 #include <Eigen/Core>
-
 #include "Jacobian.h"
 #include "../../tango_interface/util.hpp"
 

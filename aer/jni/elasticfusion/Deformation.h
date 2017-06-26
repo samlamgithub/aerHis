@@ -28,9 +28,8 @@
 #include "Utils/DeformationGraph.h"
 #include "Utils/Intrinsics.h"
 #include "Utils/Resolution.h"
-
-// #include <pangolin/gl/gl.h>
 #include "../tango_interface/util.hpp"
+
 class Deformation {
 public:
   Deformation();

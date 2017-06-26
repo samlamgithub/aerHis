@@ -33,11 +33,9 @@
 #include "Utils/RGBDOdometry.h"
 #include "Utils/Resolution.h"
 #include "Utils/Stopwatch.h"
-
 #include "../tango_interface/util.hpp"
 
 #include <iomanip>
-// #include <pangolin/gl/glcuda.h>
 
 class ElasticFusion {
 public:

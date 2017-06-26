@@ -16,13 +16,6 @@ LOCAL_MODULE := libcudart_static
 LOCAL_SRC_FILES  := $(CUDA_TOOLKIT_ROOT)/targets/armv7-linux-androideabi/lib/libcudart_static.a
 LOCAL_EXPORT_C_INCLUDES := $(CUDA_TOOLKIT_ROOT)/targets/armv7-linux-androideabi/include
 include $(PREBUILT_STATIC_LIBRARY)
-#
-# include $(CLEAR_VARS)
-# LOCAL_MODULE := pangolin
-# LOCAL_SRC_FILES := /home/sam/pangolin_android/build/libs/armeabi-v7a/libpangolin.so
-# LOCAL_EXPORT_C_INCLUDES := /home/sam/pangolin_android/Pangolin/include
-# LOCAL_EXPORT_C_INCLUDES += /home/sam/pangolin_android/build/src/include
-# include $(PREBUILT_SHARED_LIBRARY)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := libsuitesparse_config
@@ -187,7 +180,6 @@ LOCAL_STATIC_LIBRARIES += opencv_calib3d opencv_features2d opencv_highgui \
 						  boost_filesystem \
 						  boost_date_time \
 						  boost_chrono  \
-						  CudatestLib  \
 							CudaLib  \
 						  cudart_static
 
@@ -202,7 +194,6 @@ LOCAL_SRC_FILES += jni_interface.cpp \
 													tango_interface/runTangoRGBDPoseData.cpp \
                           tango_interface/gui_interface.cpp \
                           tango_interface/myElasticFusion.cpp \
-                          tango_interface/imu_interface.cpp \
                           tango_interface/camera_interface.cpp \
                           aer/aer.cpp \
                           tango_interface/gl_util.cpp  \
@@ -276,9 +267,6 @@ LOCAL_NEON_CFLAGS := -mfloat-abi=softfp -mfpu=neon -march=armv7
 include $(BUILD_SHARED_LIBRARY)
 
 MAINDIR:= $(LOCAL_PATH)
-include $(LOCAL_PATH)/cudatest/Android.mk
-LOCAL_PATH := $(MAINDIR)
-include $(LOCAL_PATH)/elasticfusion/Cuda/Android.mk
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := IlmImf

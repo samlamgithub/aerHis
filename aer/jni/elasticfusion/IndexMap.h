@@ -26,7 +26,6 @@
 #include "Shaders/Vertex.h"
 #include "Utils/Intrinsics.h"
 #include "Utils/Resolution.h"
-// #include <pangolin/gl/gl.h>
 #include "../tango_interface/util.hpp"
 #include <Shaders/glFrameBuffer.h>
 
@@ -48,11 +47,6 @@ public:
                        const float depthCutoff, const float confThreshold,
                        const int time, const int maxTime, const int timeDelta,
                        IndexMap::Prediction predictionType);
-
-  // void synthesizeInfo(const Eigen::Matrix4f & pose,
-  //                     const std::pair<GLuint, GLuint> & model,
-  //                     const float depthCutoff,
-  //                     const float confThreshold);
 
   void synthesizeDepth(const Eigen::Matrix4f &pose,
                        const std::pair<GLuint, GLuint> &model,
@@ -97,8 +91,6 @@ public:
 
 private:
   std::shared_ptr<Shader> indexProgram;
-  // pangolin::GlFramebuffer indexFrameBuffer;
-  // pangolin::GlRenderBuffer indexRenderBuffer;
   GlFramebuffer indexFrameBuffer;
   GlRenderBuffer indexRenderBuffer;
   GPUTexture indexTexture;
@@ -107,22 +99,16 @@ private:
   GPUTexture normalRadTexture;
 
   std::shared_ptr<Shader> drawDepthProgram;
-  // pangolin::GlFramebuffer drawFrameBuffer;
-  // pangolin::GlRenderBuffer drawRenderBuffer;
   GlFramebuffer drawFrameBuffer;
   GlRenderBuffer drawRenderBuffer;
   GPUTexture drawTexture;
 
   std::shared_ptr<Shader> depthProgram;
-  // pangolin::GlFramebuffer depthFrameBuffer;
-  // pangolin::GlRenderBuffer depthRenderBuffer;
   GlFramebuffer depthFrameBuffer;
   GlRenderBuffer depthRenderBuffer;
   GPUTexture depthTexture;
 
   std::shared_ptr<Shader> combinedProgram;
-  // pangolin::GlFramebuffer combinedFrameBuffer;
-  // pangolin::GlRenderBuffer combinedRenderBuffer;
   GlFramebuffer combinedFrameBuffer;
   GlRenderBuffer combinedRenderBuffer;
   GPUTexture imageTexture;
@@ -130,8 +116,6 @@ private:
   GPUTexture normalTexture;
   GPUTexture timeTexture;
 
-  // pangolin::GlFramebuffer oldFrameBuffer;
-  // pangolin::GlRenderBuffer oldRenderBuffer;
   GlFramebuffer oldFrameBuffer;
   GlRenderBuffer oldRenderBuffer;
   GPUTexture oldImageTexture;
@@ -139,8 +123,6 @@ private:
   GPUTexture oldNormalTexture;
   GPUTexture oldTimeTexture;
 
-  // pangolin::GlFramebuffer infoFrameBuffer;
-  // pangolin::GlRenderBuffer infoRenderBuffer;
   GlFramebuffer infoFrameBuffer;
   GlRenderBuffer infoRenderBuffer;
   GPUTexture colorInfoTexture;

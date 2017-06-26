@@ -24,24 +24,14 @@
 #include <limits>
 #include <random>
 #include <vector>
-
-//#include <pangolin/pangolin.h>
-//#include <pangolin/gl/gl.h>
-//#include <pangolin/gl/gl.hpp>
-//#include <pangolin/gl/glpixformat.h>
-//#include <pangolin/gl/gldraw.h>
-//#include <pangolin/gl/glsl.h>
-
 #include <GLES3/gl3.h>
-#define __gl2_h_ 
+#define __gl2_h_
 #include <GLES2/gl2ext.h>
 #include <GLES3/gl3platform.h>
-
 #include "Shaders/Resize.h"
 #include "Utils/Intrinsics.h"
 #include "Utils/RGBDOdometry.h"
 #include "Utils/Resolution.h"
-
 #include "../tango_interface/util.hpp"
 
 class Ferns {

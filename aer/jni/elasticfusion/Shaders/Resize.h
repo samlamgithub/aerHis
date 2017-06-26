@@ -42,22 +42,16 @@ public:
   GPUTexture timeTexture;
 
   std::shared_ptr<Shader> imageProgram;
-  // pangolin::GlRenderBuffer imageRenderBuffer;
-  // pangolin::GlFramebuffer imageFrameBuffer;
   GlRenderBuffer imageRenderBuffer;
   GlFramebuffer imageFrameBuffer;
 
   std::shared_ptr<Shader> vertexProgram;
   GlRenderBuffer vertexRenderBuffer;
   GlFramebuffer vertexFrameBuffer;
-  // pangolin::GlRenderBuffer vertexRenderBuffer;
-  // pangolin::GlFramebuffer vertexFrameBuffer;
 
   std::shared_ptr<Shader> timeProgram;
   GlRenderBuffer timeRenderBuffer;
   GlFramebuffer timeFrameBuffer;
-  // pangolin::GlRenderBuffer timeRenderBuffer;
-  // pangolin::GlFramebuffer timeFrameBuffer;
 };
 
 #endif /* RESIZE_H_ */

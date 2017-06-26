@@ -500,7 +500,6 @@ __global__ void pyrDownKernelIntensityGauss(const PtrStepSz<unsigned char> src, 
 
 void pyrDownUcharGauss(const DeviceArray2D<unsigned char>& src, DeviceArray2D<unsigned char> & dst)
 {
-LOGI("My elasticfusion cuda pyrDownUcharGauss start 1");
     dst.create (src.rows () / 2, src.cols () / 2);
 
     dim3 block (32, 8);
@@ -513,16 +512,11 @@ LOGI("My elasticfusion cuda pyrDownUcharGauss start 1");
                     1, 4, 6, 4, 1};
 
     float * gauss_cuda;
-LOGI("My elasticfusion cuda pyrDownUcharGauss start 2");
     cudaMalloc((void**) &gauss_cuda, sizeof(float) * 25);
-LOGI("My elasticfusion cuda pyrDownUcharGauss start 3");
     cudaMemcpy(gauss_cuda, &gaussKernel[0], sizeof(float) * 25, cudaMemcpyHostToDevice);
-LOGI("My elasticfusion cuda pyrDownUcharGauss start 4");
     pyrDownKernelIntensityGauss<<<grid, block>>>(src, dst, gauss_cuda);
     cudaSafeCall ( cudaGetLastError () );
-LOGI("My elasticfusion cuda pyrDownUcharGauss start 5");
     cudaFree(gauss_cuda);
-LOGI("My elasticfusion cuda pyrDownUcharGauss done");
 };
 
 __global__ void verticesToDepthKernel(const float * vmap_src, PtrStepSz<float> dst, float cutOff)
@@ -566,33 +560,14 @@ __global__ void bgr2IntensityKernel(PtrStepSz<unsigned char> dst)
 
 void imageBGRToIntensity(cudaArray * cuArr, DeviceArray2D<unsigned char> & dst)
 {
-LOGI("My elasticfusion cuda imageBGRToIntensity 1");
     dim3 block (32, 8);
     dim3 grid (getGridDim (dst.cols (), block.x), getGridDim (dst.rows (), block.y));
-LOGI("My elasticfusion  cuda imageBGRToIntensity 2");
-if (cuArr) {
-	LOGI("My elasticfusion cuda imageBGRToIntensity cuArr is not NULL");
-} else {
-	LOGI("My elasticfusion cuda imageBGRToIntensity cuArr is NULL");
-}
-if (cuArr == NULL) {
-	LOGI("My elasticfusion cuda imageBGRToIntensity cuArr is NULL again ");
-} else {
-	LOGI("My elasticfusion cuda imageBGRToIntensity cuArr is not NULL again");
-}
 
-cudaError_t err = cudaBindTextureToArray(inTex, cuArr);
-if(cudaSuccess != err) {
-  LOGI("elasticfusion CUDA cudaBindTextureToArray error: %s", cudaGetErrorString(err));
-}
-    // cudaSafeCall(cudaBindTextureToArray(inTex, cuArr));
-LOGI("My elasticfusion cuda imageBGRToIntensity 3");
+    cudaSafeCall(cudaBindTextureToArray(inTex, cuArr));
     bgr2IntensityKernel<<<grid, block>>>(dst);
-LOGI("My elasticfusion cuda imageBGRToIntensity 4");
     cudaSafeCall(cudaGetLastError());
 
     cudaSafeCall(cudaUnbindTexture(inTex));
-    LOGI("My elasticfusion cuda imageBGRToIntensity 5");
 };
 
 __constant__ float gsobel_x3x3[9];

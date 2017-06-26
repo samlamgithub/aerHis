@@ -23,8 +23,6 @@
 #include "../GPUTexture.h"
 #include "../Cuda/cudafuncs.cuh"
 #include "OdometryProvider.h"
-//#include "GPUConfig.h"
-
 #include <vector>
 #include <vector_types.h>
 #include "../../tango_interface/util.hpp"

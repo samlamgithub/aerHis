@@ -19,11 +19,8 @@
 #include "CholeskyDecomp.h"
 
 CholeskyDecomp::CholeskyDecomp()
- : L(0)
-{
-LOGI("MY elasitcfusion CholeskyDecomp struct init 1 ");
+ : L(0) {
     cholmod_start(&Common);
-LOGI("MY elasitcfusion CholeskyDecomp struct init 2 ");
 }
 
 CholeskyDecomp::~CholeskyDecomp()

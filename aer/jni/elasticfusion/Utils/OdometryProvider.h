@@ -23,7 +23,6 @@
 #include <Eigen/Core>
 #include <Eigen/Geometry>
 #include <float.h>
-
 #include "../tango_interface/util.hpp"
 
 class OdometryProvider {
@@ -34,10 +33,6 @@ public:
 
   static inline Eigen::Matrix<double, 3, 3, Eigen::RowMajor>
   rodrigues(const Eigen::Vector3d &src) {
-    LOGI("ElasticFusion OdometryProvider rodrigues start 1");
-    LOGI("ElasticFusion OdometryProvider rodrigues src: %d, "
-         "%d, %d",
-         (src.data())[0], (src.data())[1], (src.data())[2]);
 
     Eigen::Matrix<double, 3, 3, Eigen::RowMajor> dst =
         Eigen::Matrix<double, 3, 3, Eigen::RowMajor>::Identity();
@@ -75,16 +70,6 @@ public:
              sizeof(Eigen::Matrix<double, 3, 3, Eigen::RowMajor>));
     }
 
-    LOGI("ElasticFusion OdometryProvider rodrigues done");
-    Eigen::IOFormat CleanFmt10(4, 0, ", ", "\n", "[", "]");
-
-    std::stringstream ss10;
-    ss10 << dst.format(CleanFmt10);
-    std::string str10(ss10.str());
-    LOGI("ElasticFusion OdometryProvider rodrigues dst is : "
-         "%s",
-         str10.c_str());
-
     return dst;
   }
 
@@ -93,7 +78,6 @@ public:
                    const Eigen::Matrix<double, 6, 1> &result,
                    Eigen::Isometry3f &rgbOdom) {
 
-    LOGI(" ElasticFusion OdometryProvider computeUpdateSE3 start 1");
     // for infinitesimal transformation
     Eigen::Matrix<double, 4, 4, Eigen::RowMajor> Rt =
         Eigen::Matrix<double, 4, 4, Eigen::RowMajor>::Identity();
@@ -107,48 +91,16 @@ public:
     Rt(1, 3) = result(1);
     Rt(2, 3) = result(2);
 
-    Eigen::IOFormat CleanFmt10(4, 0, ", ", "\n", "[", "]");
-
-    std::stringstream ss10;
-    ss10 << Rt.format(CleanFmt10);
-    std::string str10(ss10.str());
-    LOGI("ElasticFusion OdometryProvider computeUpdateSE3 Rt is : "
-         "%s",
-         str10.c_str());
-
     resultRt = Rt * resultRt;
-
-    std::stringstream ss;
-    ss << resultRt.format(CleanFmt10);
-    std::string str(ss.str());
-    LOGI("ElasticFusion OdometryProvider computeUpdateSE3 resultRt is : "
-         "%s",
-         str.c_str());
 
     Eigen::Matrix<double, 3, 3, Eigen::RowMajor> rotation =
         resultRt.topLeftCorner(3, 3);
 
-    std::stringstream ss1;
-    ss1 << rotation.format(CleanFmt10);
-    std::string str1(ss1.str());
-    LOGI("ElasticFusion OdometryProvider computeUpdateSE3 rotation is : "
-         "%s",
-         str1.c_str());
-
     rgbOdom.setIdentity();
     rgbOdom.rotate(rotation.cast<float>().eval());
 
-    Eigen::Matrix3f RR = rgbOdom.rotation();
-    std::stringstream ss2;
-    ss2 << RR.format(CleanFmt10);
-    std::string str2(ss2.str());
-    LOGI("ElasticFusion OdometryProvider computeUpdateSE3 rgbOdom RR is : "
-         "%s",
-         str2.c_str());
-
     rgbOdom.translation() = resultRt.cast<float>().eval().topRightCorner(3, 1);
 
-    LOGI(" ElasticFusion OdometryProvider computeUpdateSE3 done");
   }
 };
 

@@ -29,7 +29,7 @@
 #include "Utils/Resolution.h"
 #include "Utils/Stopwatch.h"
 #include <glRenderBuffer.h>
-// #include <pangolin/gl/gl.h>
+
 
 class GlobalModel {
 public:
@@ -43,17 +43,6 @@ public:
   static const int MAX_VERTICES;
   static const int NODE_TEXTURE_DIMENSION;
   static const int MAX_NODES;
-
-  // void renderPointCloud(pangolin::OpenGlMatrix mvp,
-  //                       const float threshold,
-  //                       const bool drawUnstable,
-  //                       const bool drawNormals,
-  //                       const bool drawColors,
-  //                       const bool drawPoints,
-  //                       const bool drawWindow,
-  //                       const bool drawTimes,
-  //                       const int time,
-  //                       const int timeDelta);
 
   const std::pair<GLuint, GLuint> &model();
 
@@ -92,7 +81,7 @@ private:
   std::shared_ptr<Shader> dataProgram;
   std::shared_ptr<Shader> updateProgram;
   std::shared_ptr<Shader> unstableProgram;
-  // pangolin::GlRenderBuffer renderBuffer;
+
   GlRenderBuffer renderBuffer;
 
   // We render updated vertices vec3 + confidences to one texture

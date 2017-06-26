@@ -28,8 +28,7 @@ DeformationGraph::DeformationGraph(int k, std::vector<Eigen::Vector3f> * sourceV
    sourceVertices(sourceVertices),
    graphCloud(new std::vector<Eigen::Vector3f>),
    lastPointCount(0),
-   cholesky(new CholeskyDecomp)
-{LOGI("MY elasitcfusion DeformationGraph struct init ");}
+   cholesky(new CholeskyDecomp) {}
 
 DeformationGraph::~DeformationGraph()
 {

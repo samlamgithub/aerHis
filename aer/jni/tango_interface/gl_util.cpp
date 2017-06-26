@@ -63,64 +63,6 @@ const GLfloat kFlipTextureCoords[] = {0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0.0};
 
 } // namespace shader
 
-inline void glCheckFramebufferStatusUtil(const char *operation) {
-  GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-  if (status == GL_FRAMEBUFFER_COMPLETE) {
-    LOGI("MY elasitcfusion gl Util GL_FRAMEBUFFER_COMPLETE, % s", operation);
-  } else if (status == GL_FRAMEBUFFER_UNDEFINED) {
-    LOGI("error MY elasitcfusion gl Util  GL_FRAMEBUFFER_UNDEFINED, % s", operation);
-  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT) {
-    LOGI("error MY elasitcfusion gl Util "
-         "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT, % s",
-         operation);
-  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT) {
-    LOGI("error MY elasitcfusion gl Util "
-         "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT, %s",
-         operation);
-  } else if (status == GL_FRAMEBUFFER_UNSUPPORTED) {
-    LOGI("error MY elasitcfusion gl Util  GL_FRAMEBUFFER_UNSUPPORTED, %s", operation);
-  } else if (status == GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE) {
-    LOGI("error MY elasitcfusion gl Util  "
-         "GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE, %s",
-         operation);
-  } else if (status == GL_INVALID_ENUM) {
-    LOGI("error MY elasitcfusion gl Util GL_INVALID_ENUM, %s", operation);
-  } else {
-    LOGI("error MY elasitcfusion gl Util  %d, %s", status, operation);
-  }
-}
-
-static const char *glErrorStringUtil(GLenum err) {
-  switch (err) {
-  case GL_INVALID_ENUM:
-    return "Invalid Enum";
-  case GL_INVALID_VALUE:
-    return "Invalid Value";
-  case GL_INVALID_OPERATION:
-    return "Invalid Operation";
-  case GL_INVALID_FRAMEBUFFER_OPERATION:
-    return "GL_INVALID_FRAMEBUFFER_OPERATION";
-  // case GL_STACK_OVERFLOW: return "Stack Overflow";
-  // case GL_STACK_UNDERFLOW: return "Stack Underflow";
-  case GL_OUT_OF_MEMORY:
-    return "error Out of Memory";
-  //  case GL_TABLE_TOO_LARGE: return "Table too Large";
-  default:
-    return "Unknown Error";
-  }
-}
-
-void check_gl_error(const char *operation) {
-// glCheckFramebufferStatusUtil(operation);
-  // if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
-  //     LOGI("frame buffer error: %s", glCheckFramebufferStatusUtil(""));
-  // }
-  for (GLint error = glGetError(); error; error = glGetError()) {
-    LOGI("glutil.cpp after %s() glError: %s, (0x%x)\n", operation,
-         glErrorStringUtil(error), error);
-  }
-}
-
 // Convenience function used in CreateProgram below.
 GLuint load_shader(GLenum shader_type, const char *shader_source) {
   GLuint shader = glCreateShader(shader_type);
@@ -162,9 +104,7 @@ GLuint create_program(const char *vertex_source, const char *fragment_source) {
   GLuint program = glCreateProgram();
   if (program) {
     glAttachShader(program, vertex_shader);
-    check_gl_error("glAttachShader util  1");
     glAttachShader(program, fragment_shader);
-    check_gl_error("glAttachShader util 2");
     glLinkProgram(program);
     GLint link_status = GL_FALSE;
     glGetProgramiv(program, GL_LINK_STATUS, &link_status);
@@ -244,35 +184,17 @@ GlCameraFrame::GlCameraFrame()
   attrib_texture_coords_ =
       glGetAttribLocation(shader_program_, "textureCoords");
   texture_handle_ = glGetUniformLocation(shader_program_, "colorTexture");
-  check_gl_error("glutil 1");
   // Setup frame buffer object
   glGenFramebuffers(1, &frame_buffer_object_);
-  check_gl_error("glutil 2");
   glGenTextures(1, &frame_texture_buffer_);
-  check_gl_error("glutil 3");
   glBindTexture(GL_TEXTURE_2D, frame_texture_buffer_);
-  check_gl_error("glutil 4");
-  //  glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE, 1280, 720, 0, GL_LUMINANCE,
-  //  GL_UNSIGNED_BYTE, NULL);
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 1280, 720, 0, GL_RGB, GL_UNSIGNED_BYTE,
                NULL);
-  check_gl_error("glutil 5");
-  glBindFramebuffer(
-      GL_FRAMEBUFFER,
-      frame_buffer_object_); // GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT
-  check_gl_error("glutil 6");
+  glBindFramebuffer(GL_FRAMEBUFFER, frame_buffer_object_);
   glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D,
                          frame_texture_buffer_, 0);
-  check_gl_error("glutil 7");
-  GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-  check_gl_error("glutil 8");
-  if (status != GL_FRAMEBUFFER_COMPLETE) {
-    LOGE("GlCameraFrame: Incomplete FrameBufferObject");
-  }
   glBindTexture(GL_TEXTURE_2D, 0);
-  check_gl_error("glutil 9");
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
-  check_gl_error("glutil 10");
 }
 
 GlCameraFrame::~GlCameraFrame() {
@@ -280,34 +202,22 @@ GlCameraFrame::~GlCameraFrame() {
 }
 
 void GlCameraFrame::render() {
-  check_gl_error("glutil render 1");
   glEnable(GL_DEPTH_TEST);
-  check_gl_error("glutil render 2");
   glEnable(GL_CULL_FACE);
-  check_gl_error("glutil render 3");
   glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-  check_gl_error("glutil render 4");
   glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
-  check_gl_error("glutil render 5");
   glDisable(GL_DEPTH_TEST);
-  check_gl_error("glutil render 6");
   glUseProgram(shader_program_);
-  check_gl_error("glutil render 7");
   glViewport(0, 0, display_width_, display_height_);
-  check_gl_error("glutil render 8");
   // This is used to allow on the fly updating of camera resolution within the
   // GL context
   if (frame_texture_size_dirty_) {
-    check_gl_error("glutil render 9");
     glBindTexture(GL_TEXTURE_2D, frame_texture_buffer_);
-    check_gl_error("glutil render 10");
     //    glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE, frame_width_,
     //    frame_height_, 0, GL_LUMINANCE, GL_UNSIGNED_BYTE, NULL);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, frame_width_, frame_height_, 0,
                  GL_RGB, GL_UNSIGNED_BYTE, NULL);
-    check_gl_error("glutil render 11");
     glBindTexture(GL_TEXTURE_2D, 0);
-    check_gl_error("glutil render 12");
     frame_texture_size_dirty_ = false;
   }
 
@@ -316,9 +226,7 @@ void GlCameraFrame::render() {
   // not getting any handle from shader neither binding any texture here.
   // Once this is fix, we will need to bind the texture to the correct sampler2D
   // handle.
-  check_gl_error("glutil render 13");
   glEnable(GL_TEXTURE_EXTERNAL_OES);
-  check_gl_error("glutil render 14");
   glUniform1i(texture_handle_, 0);
   glActiveTexture(GL_TEXTURE0);
   glBindTexture(GL_TEXTURE_EXTERNAL_OES, texture_id_);
@@ -349,26 +257,16 @@ void GlCameraFrame::render() {
 
   // Draw to the frame buffer object for reading out frame buffer
   if (frame_width_ && frame_height_) {
-    check_gl_error("glutil  2 1");
     glBindFramebuffer(GL_FRAMEBUFFER, frame_buffer_object_);
-    check_gl_error("glutil  2 2");
     glClearColor(0.0, 0.0, 0.0, 1.0);
-    check_gl_error("glutil  2 3");
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    check_gl_error("glutil  2 4");
     glViewport(0, 0, frame_width_, frame_height_);
-    check_gl_error("glutil  2 5");
     glUseProgram(buffer_program_);
-    check_gl_error("glutil  2 6");
     glBindBuffer(GL_ARRAY_BUFFER, render_buffers_[3]);
-    check_gl_error("glutil  2 7");
     glEnableVertexAttribArray(attrib_texture_coords_);
-    check_gl_error("glutil  2 8");
     glVertexAttribPointer(attrib_texture_coords_, 2, GL_FLOAT, GL_FALSE, 0,
                           nullptr);
-    check_gl_error("glutil  2 9");
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-    check_gl_error("glutil  2 10");
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, 0);
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     frame_buffer_dirty_ = true;
@@ -377,56 +275,15 @@ void GlCameraFrame::render() {
   glFinish();
 
   glUseProgram(0);
-  check_gl_error("CameraTextureDrawable::render");
 }
 
 std::shared_ptr<unsigned char> GlCameraFrame::get_frame(int rgb) {
   if (frame_buffer_ && frame_width_ && frame_height_) {
     if (frame_buffer_dirty_) {
-      check_gl_error("glutil get_frame 1");
       glBindFramebuffer(GL_FRAMEBUFFER, frame_buffer_object_);
-      check_gl_error("glutil get_frame 2");
-      //      LOGI("  frame_height_, frame_width: %d, %d ", frame_height_,
-      //      frame_width_);
-      //#define GL_DEPTH_COMPONENT                0x1902
-      //#define GL_ALPHA                          0x1906
-      //#define GL_RGB                            0x1907
-      //#define GL_RGBA                           0x1908
-      //#define GL_LUMINANCE                      0x1909
-      //#define GL_LUMINANCE_ALPHA                0x190A
-      if (rgb == 3) {
-        glReadPixels(0, 0, frame_width_, frame_height_, GL_RGB,
+      glReadPixels(0, 0, frame_width_, frame_height_, GL_RGB,
                      GL_UNSIGNED_BYTE, frame_buffer_.get());
-        check_gl_error("glutil get_frame 3 3");
-      } else {
-        glReadPixels(0, 0, frame_width_, frame_height_, GL_RGBA,
-                     GL_UNSIGNED_BYTE, frame_buffer_.get());
-        check_gl_error("glutil get_frame 3 4");
-      }
-
-      //      NSLog(@"%d", (int)pixels[0]);
-      //      LOGI("1: %d, 2: %d, 3: %d, 4: %d, 5:%d, 6: %d, === 1: %d, 2: %d,
-      //      3: %d, 4: %d, 5:%d, 6: %d, === 1: %d, 2: %d, 3: %d, 4: %d, 5:%d,
-      //      6: %d", (int)frame_buffer_.get()[0],
-      //    		  (int)frame_buffer_.get()[1],
-      //    		  (int)frame_buffer_.get()[2],
-      //    		  (int)frame_buffer_.get()[3],
-      //    		  (int)frame_buffer_.get()[4],
-      //    		  (int)frame_buffer_.get()[5],
-      //    		  (int)frame_buffer_.get()[921598],
-      //    		     		  (int)frame_buffer_.get()[921599],
-      //    		     		  (int)frame_buffer_.get()[921600],
-      //    		     		  (int)frame_buffer_.get()[921601],
-      //    		     		  (int)frame_buffer_.get()[921602],
-      //    		     		  (int)frame_buffer_.get()[921603],
-      //    		  (int)frame_buffer_.get()[2764000],
-      //    		     		  (int)frame_buffer_.get()[2764001],
-      //    		     		  (int)frame_buffer_.get()[2764002],
-      //    		     		  (int)frame_buffer_.get()[2764003],
-      //    		     		  (int)frame_buffer_.get()[2764004],
-      //    		     		  (int)frame_buffer_.get()[2764005]);
       glBindFramebuffer(GL_FRAMEBUFFER, 0);
-      check_gl_error("glutil get_frame 4");
       frame_buffer_dirty_ = false;
     }
     return std::shared_ptr<unsigned char>(frame_buffer_);

@@ -69,9 +69,6 @@ Eigen::Matrix4f GroundTruthOdometry::getTransformation(uint64_t timestamp)
             return pose;
         }
 
-        // Eigen::Isometry3f delta = camera_trajectory[last_utime].inverse() * camera_trajectory[timestamp];
-
-        //Poses are stored in the file in iSAM basis, undo it
         Eigen::Matrix4f M;
         M <<  1,  0, 0, 0,
               0,  1, 0, 0,

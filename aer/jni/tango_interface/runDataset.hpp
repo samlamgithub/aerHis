@@ -24,9 +24,7 @@
 #include <../elasticfusion/Utils/Img.h>
 #include <../elasticfusion/Utils/Resolution.h>
 #include <../elasticfusion/Utils/Stopwatch.h>
-
 #include <tango_interface/camera_interface.hpp>
-
 #include "ThreadMutexObject.hpp"
 #include "util.hpp"
 #include <GLES3/gl3.h>
@@ -58,7 +56,7 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/thread.hpp>
 #include <boost/thread/condition_variable.hpp>
-// #include "JPEGLoader.hpp"
+
 
 #include <EGL/egl.h>
 #include <EGL/eglext.h>
@@ -101,7 +99,6 @@ public:
 
   std::stack<int> filePointers;
 
-  // bool flipColors;
   int64_t timestamp;
 
   unsigned short *depth;
@@ -123,7 +120,6 @@ private:
   int height;
   int numPixels;
 
-  // JPEGLoader jpeg;
   void getCore();
 };
 }

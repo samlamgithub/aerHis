@@ -26,7 +26,6 @@
 #include "Shaders.h"
 #include "Uniform.h"
 #include <glFrameBuffer.h>
-
 #include "../../tango_interface/util.hpp"
 
 class FillIn {
@@ -45,20 +44,14 @@ public:
   GPUTexture normalTexture;
 
   std::shared_ptr<Shader> imageProgram;
-  // pangolin::GlRenderBuffer imageRenderBuffer;
-  // pangolin::GlFramebuffer imageFrameBuffer;
   GlRenderBuffer imageRenderBuffer;
   GlFramebuffer imageFrameBuffer;
 
   std::shared_ptr<Shader> vertexProgram;
-  // pangolin::GlRenderBuffer vertexRenderBuffer;
-  // pangolin::GlFramebuffer vertexFrameBuffer;
   GlRenderBuffer vertexRenderBuffer;
   GlFramebuffer vertexFrameBuffer;
 
   std::shared_ptr<Shader> normalProgram;
-  // pangolin::GlRenderBuffer normalRenderBuffer;
-  // pangolin::GlFramebuffer normalFrameBuffer;
   GlRenderBuffer normalRenderBuffer;
   GlFramebuffer normalFrameBuffer;
 };

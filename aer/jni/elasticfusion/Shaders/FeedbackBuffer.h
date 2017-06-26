@@ -25,8 +25,6 @@
 #include "Shaders.h"
 #include "Uniform.h"
 #include "Vertex.h"
-//#include <pangolin/gl/gl.h>
-//#include <pangolin/display/opengl_render_state.h>
 #include <glTexture.h>
 
 #include "../../tango_interface/util.hpp"
@@ -38,12 +36,8 @@ public:
 
   std::shared_ptr<Shader> program;
 
-  // void compute(pangolin::GlTexture * color, pangolin::GlTexture * depth,
   void compute(GlTexture *color, GlTexture *depth, const int &time,
                const float depthCutoff);
-
-  // void render(pangolin::OpenGlMatrix mvp, const Eigen::Matrix4f & pose, const
-  // bool drawNormals, const bool drawColors);
 
   static const std::string RAW, FILTERED;
 
