@@ -15,8 +15,6 @@
 
 namespace tango_interface {
 
-static void check_gl_error(const char *operation);
-
 static GLuint load_shader(GLenum shader_type, const char *shader_source);
 
 static GLuint create_program(const char *vertex_source,
